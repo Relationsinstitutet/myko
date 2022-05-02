@@ -28,6 +28,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@auth0/auth0-spa-js": "^1.21.0",
     "@portabletext/svelte": "^0.2.0",
     "@sanity/client": "^3.3.0",
     "@sanity/image-url": "^1.0.1"
