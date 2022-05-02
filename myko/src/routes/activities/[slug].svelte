@@ -1,5 +1,6 @@
 <script>
-  import Activity from '$lib/Activity.svelte';
+  import Activity from '$lib/components/Activity.svelte';
+  import BookingButton from '$lib/components/BookingButton.svelte';
 
   // populated with data from the endpoint
   export let activity;
@@ -15,7 +16,10 @@
   <h2>Tillfällen</h2>
   <ul>
     {#each activity.events as event}
-      <li>{event.date}</li>
+      <li>
+        {event.date}
+        <BookingButton eventId={event._id} />
+      </li>
     {/each}
   </ul>
 {/if}
