@@ -17,20 +17,20 @@
 
   async function handleClick() {
     console.log('Booking button pressed');
-    if (get(isAuthenticated)) {
-      console.log('Logged in, make booking');
+    // if (get(isAuthenticated)) {
+    console.log('Logged in, make booking');
 
-      const accessToken = await authClient.getUserAccessToken();
-      fetch(`/api/booking/${eventId}`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-    } else {
-      console.log('Not logged in, redirect to login');
-      authClient.login(currentPath);
-    }
+    // const accessToken = await authClient.getUserAccessToken();
+    fetch(`/api/booking/${eventId}`, {
+      method: 'POST',
+      headers: {
+        // Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    // } else {
+    // console.log('Not logged in, redirect to login');
+    // authClient.login(currentPath);
+    // }
   }
 
   /** @type {string} */
