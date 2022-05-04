@@ -5,13 +5,21 @@ import { client } from '$lib/sanityClient';
  * @returns string
  */
 function getActivity(slug) {
+  const eventsQuery = `*[
+    _type == "event" &&
+    activity._ref == ^._id &&
+    published == true] {
+      _id,
+      date
+  }`;
+
   return /* groq */ `*[
     _type == "activity" &&
     slug.current == "${slug}"
   ][0] {
     description,
     duration,
-    "events": *[ _type == "event" && activity._ref == ^._id && published == true]{date},
+    "events": ${eventsQuery},
     image,
     instant,
     name,
