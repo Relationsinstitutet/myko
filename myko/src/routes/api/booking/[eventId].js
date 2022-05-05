@@ -27,8 +27,12 @@ export async function post({ params: { eventId }, request }) {
 
   // TODO add user with id from `userinfo.sub` to event with id `eventId` in Sanity
   // here will sanity patch thing happen
-  const data = {};
+
+  const data = await writeClient.patch();
+
+  // const data = {};
   if (data) {
+    // console.log(data);
     return {
       status: 200,
       body: data,
