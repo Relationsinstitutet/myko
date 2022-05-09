@@ -10,6 +10,16 @@ export const client = sanityClient({
   useCdn: true,
 });
 
+export function createWriteClient(source) {
+  return sanityClient({
+    projectId,
+    dataset,
+    token: process.env.SANITY_WRITE_TOKEN,
+    useCdn: false,
+    apiVersion: '2021-10-21',
+  });
+}
+
 const builder = imageUrlBuilder(client);
 /**
  *
