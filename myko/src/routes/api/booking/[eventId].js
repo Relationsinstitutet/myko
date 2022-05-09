@@ -1,4 +1,3 @@
-import sanityClient from '@sanity/client';
 import { createWriteClient } from '$lib/sanityClient';
 import _ from '$lib/env';
 
@@ -18,21 +17,40 @@ export async function post({ params: { eventId }, request }) {
 
   // TODO add user with id from `userinfo.sub` to event with id `eventId` in Sanity
 
-  const data = await createWriteClient()
+  const writeClient = await createWriteClient();
+  const userId = '069ed43a-9670-4c1e-9abe-a2e0f6bd701f';
+
+  const event = await writeClient.getDocument(eventId); // TODO what eventId does not exist?
+  console.log(event);
+  const listOfAttendees = event.attendees ?? [];
+  console.log(`List of attendees: ${JSON.stringify(listOfAttendees)}`);
+
+  if (listOfAttendees.find(e => e['_ref'] == userId)) {
+    console.log('Already registered - doing nothing');
+    return {
+      status: 200,
+      body: {},
+    }
+  }
+
+  console.log('Registering user on event');
+
+  const data = await writeClient
     .patch(eventId)
     .setIfMissing({ attendees: [] })
     .insert('after', 'attendees[-1]', [
-      { _type: 'webusers', _ref: '069ed43a-9670-4c1e-9abe-a2e0f6bd701f' },
+      { _type: 'webusers', _ref: userId },
     ])
     .commit({
       autoGenerateArrayKeys: true,
+      visibility: 'sync',
     });
 
   if (data) {
     console.log(data);
     return {
       status: 200,
-      body: data,
+      body: {},
     };
   }
 

@@ -10,7 +10,7 @@ export const client = sanityClient({
   useCdn: true,
 });
 
-export function createWriteClient(source) {
+export function createWriteClient() {
   return sanityClient({
     projectId,
     dataset,
