@@ -1,17 +1,21 @@
 import { createWriteClient } from '$lib/sanityClient';
 import '$lib/env';
 import type { RequestHandler } from '@sveltejs/kit';
+import type { SanityClient } from '@sanity/client';
 
-async function checkIfRegisteredUser(eventId, userId, writeClient) {
+async function checkIfRegisteredUser(eventId: string, userId: string, writeClient: SanityClient) {
   const event = await writeClient.getDocument(eventId); // TODO what eventId does not exist?
   console.log(event);
-  const listOfAttendees = event.attendees ?? [];
+  const listOfAttendees = event?.attendees ?? [];
   console.log(`List of attendees: ${JSON.stringify(listOfAttendees)}`);
 
-  return !!listOfAttendees.find((e) => e['_ref'] == userId);
+  return !!listOfAttendees.find((e: {[key: string]: any}) => e['_ref'] == userId);
 }
 
-export async function get({ params: { eventId }, request }) {
+export const get: RequestHandler<{ eventId: string }, {}> = async ({
+  params: { eventId },
+  request,
+}) => {
   const userId = '069ed43a-9670-4c1e-9abe-a2e0f6bd701f';
   const writeClient = createWriteClient();
   const registered = await checkIfRegisteredUser(eventId, userId, writeClient);
@@ -19,7 +23,7 @@ export async function get({ params: { eventId }, request }) {
     status: 200,
     body: { registered },
   };
-}
+};
 
 // Register booking for user authenticated via Bearer token
 export const post: RequestHandler<{ eventId: string }, {}> = async ({
