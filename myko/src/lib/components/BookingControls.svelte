@@ -8,10 +8,27 @@
 
   /** @type {Client} */
   let authClient;
+  let isRegistered = false;
   onMount(async () => {
     authClient = await createClient();
     authClient.updateState();
+    // const userinfoResponse = await fetch('https://relationsinstitutet.eu.auth0.com/userinfo', {
+    // const userinfo = await userinfoResponse.json();
+
+    const registeredResponse = await fetch(`/api/booking/${eventId}`, {
+      method: 'GET',
+      headers: {
+        // Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    const registeredResponseJson = await registeredResponse.json();
+    console.log(registeredResponseJson);
+
+    isRegistered = registeredResponseJson.registered;
   });
+
+  // if user is logged in
+  // if user is registered
 
   const currentPath = get(page).url.pathname;
 
@@ -37,4 +54,8 @@
   export let eventId;
 </script>
 
-<button on:click={handleClick}>Boka</button>
+{#if isRegistered}
+  <button on:click={handleClick}>Avboka</button>
+{:else}
+  <button on:click={handleClick}>Boka</button>
+{/if}

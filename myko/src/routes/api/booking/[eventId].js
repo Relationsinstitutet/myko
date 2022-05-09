@@ -1,6 +1,25 @@
 import { createWriteClient } from '$lib/sanityClient';
 import _ from '$lib/env';
 
+async function checkIfRegisteredUser(eventId, userId, writeClient) {
+  const event = await writeClient.getDocument(eventId); // TODO what eventId does not exist?
+  console.log(event);
+  const listOfAttendees = event.attendees ?? [];
+  console.log(`List of attendees: ${JSON.stringify(listOfAttendees)}`);
+
+  return !!listOfAttendees.find((e) => e['_ref'] == userId);
+}
+
+export async function get({ params: { eventId }, request }) {
+  const userId = '069ed43a-9670-4c1e-9abe-a2e0f6bd701f';
+  const writeClient = createWriteClient();
+  const registered = await checkIfRegisteredUser(eventId, userId, writeClient);
+  return {
+    status: 200,
+    body: { registered },
+  };
+}
+
 // Register booking for user authenticated via Bearer token
 export async function post({ params: { eventId }, request }) {
   // const auth = request.headers.get('Authorization');
@@ -20,17 +39,12 @@ export async function post({ params: { eventId }, request }) {
   const writeClient = await createWriteClient();
   const userId = '069ed43a-9670-4c1e-9abe-a2e0f6bd701f';
 
-  const event = await writeClient.getDocument(eventId); // TODO what eventId does not exist?
-  console.log(event);
-  const listOfAttendees = event.attendees ?? [];
-  console.log(`List of attendees: ${JSON.stringify(listOfAttendees)}`);
-
-  if (listOfAttendees.find(e => e['_ref'] == userId)) {
+  if (await checkIfRegisteredUser(eventId, userId, writeClient)) {
     console.log('Already registered - doing nothing');
     return {
       status: 200,
       body: {},
-    }
+    };
   }
 
   console.log('Registering user on event');
@@ -38,9 +52,7 @@ export async function post({ params: { eventId }, request }) {
   const data = await writeClient
     .patch(eventId)
     .setIfMissing({ attendees: [] })
-    .insert('after', 'attendees[-1]', [
-      { _type: 'webusers', _ref: userId },
-    ])
+    .insert('after', 'attendees[-1]', [{ _type: 'webusers', _ref: userId }])
     .commit({
       autoGenerateArrayKeys: true,
       visibility: 'sync',
