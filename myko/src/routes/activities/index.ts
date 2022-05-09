@@ -1,4 +1,5 @@
 import { client } from '$lib/sanityClient';
+import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
 function getActivitiesQuery() {
   return /* groq */ `*[
@@ -10,7 +11,7 @@ function getActivitiesQuery() {
 }
 
 // Fetch all activities
-export async function get() {
+export const get: RequestHandler<{}, ResponseBody> = async () => {
   const data = await client.fetch(/* groq */ `{
 		"activities": ${getActivitiesQuery()},
   }`);

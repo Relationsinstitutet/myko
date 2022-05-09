@@ -1,15 +1,15 @@
 import createAuth0Client from '@auth0/auth0-spa-js';
+import type { Auth0Client } from '@auth0/auth0-spa-js';
 import { isAuthenticated, user } from './store';
 
 export class Client {
   #client;
 
-  /** @param client {import('@auth0/auth0-spa-js').Auth0Client>} */
-  constructor(client) {
+  constructor(client: Auth0Client) {
     this.#client = client;
   }
 
-  async login(returnTo) {
+  async login(returnTo: string) {
     await this.#client.loginWithRedirect({
       redirect_uri: `${window.location.origin}/login/callback`,
       appState: { returnTo },
@@ -32,17 +32,19 @@ export class Client {
 
   async updateState() {
     isAuthenticated.set(await this.#client.isAuthenticated());
-    user.set(await this.#client.getUser());
+    const userData = await this.#client.getUser();
+    if (userData) {
+      user.set(userData);
+    }
   }
 
-  async getUserAccessToken() {
+  async getUserAccessToken(): Promise<string> {
     return this.#client.getTokenSilently();
   }
 }
 
 // TODO add Callback URLs in Auth0 management console
-/** @type {() => Promise<Client>} */
-export default async function createClient() {
+export default async function createClient(): Promise<Client> {
   const client = await createAuth0Client({
     domain: 'relationsinstitutet.eu.auth0.com',
     client_id: '9eVpAJ2FxWu6SlSvk6ouXPNtGsZlWrtZ',
