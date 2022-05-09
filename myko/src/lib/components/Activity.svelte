@@ -1,8 +1,9 @@
-<script>
+<script lang="ts">
   import PortableText from '@portabletext/svelte';
   import { urlFor } from '$lib/sanityClient';
+  import type IActivity from '$lib/models/IActivity';
 
-  export let activity;
+  export let activity: IActivity;
 </script>
 
 <div class="activity">

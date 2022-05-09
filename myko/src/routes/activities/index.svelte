@@ -1,6 +1,11 @@
-<script>
+<script lang="ts">
   // populated with data from the endpoint
-  export let activities;
+  export let activities: [
+    {
+      name: string;
+      slug: { current: string };
+    }
+  ];
 </script>
 
 <svelte:head>

@@ -1,5 +1,6 @@
 import { createWriteClient } from '$lib/sanityClient';
-import _ from '$lib/env';
+import '$lib/env';
+import type { RequestHandler } from '@sveltejs/kit';
 
 async function checkIfRegisteredUser(eventId, userId, writeClient) {
   const event = await writeClient.getDocument(eventId); // TODO what eventId does not exist?
@@ -21,7 +22,10 @@ export async function get({ params: { eventId }, request }) {
 }
 
 // Register booking for user authenticated via Bearer token
-export async function post({ params: { eventId }, request }) {
+export const post: RequestHandler<{ eventId: string }, {}> = async ({
+  params: { eventId },
+  request,
+}) => {
   // const auth = request.headers.get('Authorization');
   //
   // // TODO can the userid be extracted directly from the access token?
@@ -70,4 +74,4 @@ export async function post({ params: { eventId }, request }) {
     status: 500,
     body: new Error('Internal Server Error'),
   };
-}
+};

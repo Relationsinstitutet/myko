@@ -1,10 +1,7 @@
 import { client } from '$lib/sanityClient';
+import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
-/**
- * @param {string} slug
- * @returns string
- */
-function getActivity(slug) {
+function getActivity(slug: string): string {
   const eventsQuery = `*[
     _type == "event" &&
     activity._ref == ^._id &&
@@ -28,9 +25,9 @@ function getActivity(slug) {
 }
 
 // Fetch activity details
-export async function get({ params: { slug } }) {
+export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({ params: { slug } }) => {
   const data = await client.fetch(/* groq */ `{
-		"activity": ${getActivity(slug)}
+    "activity": ${getActivity(slug)}
   }`);
 
   if (data) {
@@ -44,4 +41,4 @@ export async function get({ params: { slug } }) {
     status: 500,
     body: new Error('Internal Server Error'),
   };
-}
+};

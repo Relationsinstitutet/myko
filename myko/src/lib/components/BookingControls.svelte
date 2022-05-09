@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import createClient, { Client } from '$lib/auth/client';
   import { isAuthenticated } from '$lib/auth/store';
 
@@ -6,8 +6,7 @@
   import { get } from 'svelte/store';
   import { page } from '$app/stores';
 
-  /** @type {Client} */
-  let authClient;
+  let authClient: Client;
   let isRegistered = false;
   onMount(async () => {
     authClient = await createClient();
@@ -50,8 +49,7 @@
     // }
   }
 
-  /** @type {string} */
-  export let eventId;
+  export let eventId: string;
 </script>
 
 {#if isRegistered}
