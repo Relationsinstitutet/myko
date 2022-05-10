@@ -9,7 +9,7 @@ async function checkIfRegisteredUser(eventId: string, userId: string, writeClien
   const listOfAttendees = event?.attendees ?? [];
   console.log(`List of attendees: ${JSON.stringify(listOfAttendees)}`);
 
-  return !!listOfAttendees.find((e: {[key: string]: any}) => e['_ref'] == userId);
+  return !!listOfAttendees.find((e: { [key: string]: any }) => e['_ref'] == userId);
 }
 
 export const get: RequestHandler<{ eventId: string }, {}> = async ({
@@ -49,10 +49,25 @@ export const post: RequestHandler<{ eventId: string }, {}> = async ({
 
   if (await checkIfRegisteredUser(eventId, userId, writeClient)) {
     console.log('Already registered - doing nothing');
-    return {
-      status: 200,
-      body: {},
-    };
+
+    const data = await writeClient
+      .patch(eventId)
+      // .setIfMissing({ attendees: [] })
+      .unset(['attendees'])
+      .commit({
+        autoGenerateArrayKeys: true,
+        visibility: 'sync',
+      });
+
+    if (data) {
+      console.log('This is what came back after probable unset:');
+      console.log(data);
+
+      return {
+        status: 200,
+        body: {},
+      };
+    }
   }
 
   console.log('Registering user on event');
