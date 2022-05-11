@@ -48,29 +48,17 @@ export const post: RequestHandler<{ eventId: string }, {}> = async ({
   const userId = '069ed43a-9670-4c1e-9abe-a2e0f6bd701f';
 
   if (await checkIfRegisteredUser(eventId, userId, writeClient)) {
-    console.log('Already registered - doing nothing');
+    const attendeeToRemove = [`attendees[_ref=="${userId}"]`];
 
-    // const attendeeToRemove = ['attendees[_ref=="069ed43a-9670-4c1e-9abe-a2e0f6bd701f"]']; //This works
-    // const attendeeToRemove = [`attendees[_ref=="069ed43a-9670-4c1e-9abe-a2e0f6bd701f"]`]; // This works
-    // const attendeeToRemove = [`attendees[_ref==${userId}]`]; // the mutation(s) failed: Syntax error. (Illegal token "-")
-    // const attendeeToRemove = [`attendees[_ref=='${userId}']`]; // does not crash but does not remove attendee either
-    const attendeeToRemove = [`attendees[_ref=="${userId}"]`]; // Works
-
-    const data = await writeClient
-      .patch(eventId)
-      // .setIfMissing({ attendees: [] })
-      // .unset(['attendees']) // deletes entire array, works but not finegrained...
-      // .unset([`attendees[_ref=${userId}]`]) // equal sign does not work, not : either
-      // .unset([`attendees, attendees[_ref=${userId}]`]) // the mutation(s) failed: Syntax error, unable to parse entire expression
-      .unset(attendeeToRemove) // This works
-      .commit({
-        autoGenerateArrayKeys: true,
-        visibility: 'sync',
-      });
+    const data = await writeClient.patch(eventId).unset(attendeeToRemove).commit({
+      autoGenerateArrayKeys: true,
+      visibility: 'sync',
+    });
 
     if (data) {
-      console.log('This is what came back after unset:');
-      console.log(data);
+      // console.log('This is what came back after unset:');
+      // console.log(data);
+      console.log('Cancelling user from event');
 
       return {
         status: 200,
@@ -78,14 +66,6 @@ export const post: RequestHandler<{ eventId: string }, {}> = async ({
       };
     }
   }
-
-  // "attendees": [
-  //   {
-  //     "_key": "CIhIiuJe6OyNVYaAjWHjAK",
-  //     "_ref": "069ed43a-9670-4c1e-9abe-a2e0f6bd701f",
-  //     "_type": "webusers"
-  //   }
-  // ],
 
   console.log('Registering user on event');
 
