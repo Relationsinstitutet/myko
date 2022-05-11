@@ -51,7 +51,10 @@ export const post: RequestHandler<{ eventId: string }, {}> = async ({
     console.log('Already registered - doing nothing');
 
     // const attendeeToRemove = ['attendees[_ref=="069ed43a-9670-4c1e-9abe-a2e0f6bd701f"]']; //This works
-    const attendeeToRemove = [`attendees[_ref=="069ed43a-9670-4c1e-9abe-a2e0f6bd701f"]`]; // This works
+    // const attendeeToRemove = [`attendees[_ref=="069ed43a-9670-4c1e-9abe-a2e0f6bd701f"]`]; // This works
+    // const attendeeToRemove = [`attendees[_ref==${userId}]`]; // the mutation(s) failed: Syntax error. (Illegal token "-")
+    // const attendeeToRemove = [`attendees[_ref=='${userId}']`]; // does not crash but does not remove attendee either
+    const attendeeToRemove = [`attendees[_ref=="${userId}"]`]; // Works
 
     const data = await writeClient
       .patch(eventId)
