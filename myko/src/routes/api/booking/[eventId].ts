@@ -47,24 +47,6 @@ export const post: RequestHandler<{ eventId: string }, {}> = async ({
   const writeClient = await createWriteClient();
   const userId = '069ed43a-9670-4c1e-9abe-a2e0f6bd701f';
 
-  if (await checkIfRegisteredUser(eventId, userId, writeClient)) {
-    const attendeeToRemove = [`attendees[_ref=="${userId}"]`];
-
-    const data = await writeClient.patch(eventId).unset(attendeeToRemove).commit({
-      autoGenerateArrayKeys: true,
-      visibility: 'sync',
-    });
-
-    if (data) {
-      console.log('Cancelling user from event');
-
-      return {
-        status: 200,
-        body: {},
-      };
-    }
-  }
-
   console.log('Registering user on event');
 
   const data = await writeClient
@@ -75,6 +57,32 @@ export const post: RequestHandler<{ eventId: string }, {}> = async ({
       autoGenerateArrayKeys: true,
       visibility: 'sync',
     });
+
+  if (data) {
+    console.log(data);
+    return {
+      status: 200,
+      body: {},
+    };
+  }
+
+  return {
+    status: 500,
+    body: new Error('Internal Server Error'),
+  };
+};
+
+export const del: RequestHandler<{ eventId: string }, {}> = async ({
+  params: { eventId },
+  request,
+}) => {
+  const writeClient = await createWriteClient();
+  const userId = '069ed43a-9670-4c1e-9abe-a2e0f6bd701f';
+  const attendeeToRemove = [`attendees[_ref=="${userId}"]`];
+  const data = await writeClient.patch(eventId).unset(attendeeToRemove).commit({
+    autoGenerateArrayKeys: true,
+    visibility: 'sync',
+  });
 
   if (data) {
     console.log(data);

@@ -53,7 +53,7 @@
 
     // const accessToken = await authClient.getUserAccessToken();
     fetch(`/api/booking/${eventId}`, {
-      method: 'POST',
+      method: 'DELETE',
       headers: {
         // Authorization: `Bearer ${accessToken}`,
       },
