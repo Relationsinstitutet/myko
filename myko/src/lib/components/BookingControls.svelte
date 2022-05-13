@@ -28,7 +28,25 @@
 
   const currentPath = get(page).url.pathname;
 
-  async function handleClick() {
+  async function handleBookingClick() {
+    console.log('Booking button pressed');
+    // if (get(isAuthenticated)) {
+    console.log('Logged in, make booking');
+
+    // const accessToken = await authClient.getUserAccessToken();
+    fetch(`/api/booking/${eventId}`, {
+      method: 'POST',
+      headers: {
+        // Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    // } else {
+    // console.log('Not logged in, redirect to login');
+    // authClient.login(currentPath);
+    // }
+  }
+
+  async function handleCancelClick() {
     console.log('Booking button pressed');
     // if (get(isAuthenticated)) {
     console.log('Logged in, make booking');
@@ -50,7 +68,7 @@
 </script>
 
 {#if isRegistered}
-  <button on:click={handleClick}>Avboka</button>
+  <button on:click={handleCancelClick}>Avboka</button>
 {:else}
-  <button on:click={handleClick}>Boka</button>
+  <button on:click={handleBookingClick}>Boka</button>
 {/if}
