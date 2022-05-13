@@ -56,8 +56,6 @@ export const post: RequestHandler<{ eventId: string }, {}> = async ({
     });
 
     if (data) {
-      // console.log('This is what came back after unset:');
-      // console.log(data);
       console.log('Cancelling user from event');
 
       return {

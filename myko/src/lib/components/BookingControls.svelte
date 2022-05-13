@@ -11,8 +11,6 @@
   onMount(async () => {
     authClient = await createClient();
     authClient.updateState();
-    // const userinfoResponse = await fetch('https://relationsinstitutet.eu.auth0.com/userinfo', {
-    // const userinfo = await userinfoResponse.json();
 
     const registeredResponse = await fetch(`/api/booking/${eventId}`, {
       method: 'GET',
@@ -26,7 +24,6 @@
     isRegistered = registeredResponseJson.registered;
   });
 
-  // if user is logged in
   // if user is registered
 
   const currentPath = get(page).url.pathname;
