@@ -44,6 +44,7 @@
     // console.log('Not logged in, redirect to login');
     // authClient.login(currentPath);
     // }
+    isRegistered = true;
   }
 
   async function handleCancelClick() {
@@ -62,6 +63,7 @@
     // console.log('Not logged in, redirect to login');
     // authClient.login(currentPath);
     // }
+    isRegistered = false;
   }
 
   export let eventId: string;
