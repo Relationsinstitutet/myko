@@ -5,7 +5,7 @@ function getActivity(slug: string): string {
   const eventsQuery = `*[
     _type == "event" &&
     activity._ref == ^._id &&
-    published == true] {
+    visible == true] {
       _id,
       date
   }`;

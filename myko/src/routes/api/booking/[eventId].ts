@@ -2,6 +2,8 @@ import { createWriteClient } from '$lib/sanityClient';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 import type { SanityClient } from '@sanity/client';
 
+const userTypeSanity = 'webuser';
+
 async function checkIfRegisteredUser(eventId: string, userId: string, writeClient: SanityClient) {
   const event = await writeClient.getDocument(eventId); // TODO what eventId does not exist?
   const listOfAttendees = event?.attendees ?? [];
@@ -53,7 +55,7 @@ export const post: RequestHandler<{ eventId: string }, ResponseBody> = async ({
   }
 
   await writeClient.createOrReplace({
-    _type: 'webusers',
+    _type: userTypeSanity,
     _id: userdata.userId,
     email: userdata.email,
     nickname: userdata.nickname,
@@ -62,7 +64,7 @@ export const post: RequestHandler<{ eventId: string }, ResponseBody> = async ({
   const data = await writeClient
     .patch(eventId)
     .setIfMissing({ attendees: [] })
-    .insert('after', 'attendees[-1]', [{ _type: 'webusers', _ref: userdata.userId }])
+    .insert('after', 'attendees[-1]', [{ _type: userTypeSanity, _ref: userdata.userId }])
     .commit({ autoGenerateArrayKeys: true });
 
   if (data) {

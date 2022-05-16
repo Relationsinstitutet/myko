@@ -1,7 +1,7 @@
 export default {
-  name: 'webusers',
+  name: 'webuser',
   type: 'document',
-  title: 'Web users',
+  title: 'Web user',
   fields: [
     {
       name: 'email',
