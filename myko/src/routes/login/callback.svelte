@@ -12,8 +12,6 @@
     if (appStateFromBeforeLogin) {
       // successful login, update login state
       // TODO log something?
-      console.log('hello!');
-      console.log(appStateFromBeforeLogin);
       returnTo = appStateFromBeforeLogin.returnTo ?? returnTo;
     }
 

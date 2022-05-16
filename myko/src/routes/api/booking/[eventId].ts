@@ -4,20 +4,24 @@ import type { SanityClient } from '@sanity/client';
 
 async function checkIfRegisteredUser(eventId: string, userId: string, writeClient: SanityClient) {
   const event = await writeClient.getDocument(eventId); // TODO what eventId does not exist?
-  console.log(event);
   const listOfAttendees = event?.attendees ?? [];
-  console.log(`List of attendees: ${JSON.stringify(listOfAttendees)}`);
 
   return !!listOfAttendees.find((e: { [key: string]: any }) => e['_ref'] == userId);
 }
 
 export const get: RequestHandler<{ eventId: string }, {}> = async ({
   params: { eventId },
-  request,
+  locals,
 }) => {
-  const userId = '069ed43a-9670-4c1e-9abe-a2e0f6bd701f';
+  const userdata = locals.user;
+  if (!userdata) {
+    return {
+      status: 401,
+    };
+  }
+
   const writeClient = await createWriteClient();
-  const registered = await checkIfRegisteredUser(eventId, userId, writeClient);
+  const registered = await checkIfRegisteredUser(eventId, userdata.userId, writeClient);
   return {
     status: 200,
     body: { registered },
@@ -27,26 +31,20 @@ export const get: RequestHandler<{ eventId: string }, {}> = async ({
 // Register booking for user authenticated via Bearer token
 export const post: RequestHandler<{ eventId: string }, {}> = async ({
   params: { eventId },
-  request,
+  locals,
 }) => {
-  // const auth = request.headers.get('Authorization');
-  //
-  // // TODO can the userid be extracted directly from the access token?
-  // const userinfoResponse = await fetch('https://relationsinstitutet.eu.auth0.com/userinfo', {
-  //   headers: {
-  //     Authorization: auth,
-  //   },
-  // });
-  // const userinfo = await userinfoResponse.json();
-  // console.log(userinfo.sub);
   console.log(`eventId: ${eventId}`);
 
-  // TODO add user with id from `userinfo.sub` to event with id `eventId` in Sanity
+  const userdata = locals.user;
+  if (!userdata) {
+    return {
+      status: 401,
+    };
+  }
 
   const writeClient = await createWriteClient();
-  const userId = '069ed43a-9670-4c1e-9abe-a2e0f6bd701f';
 
-  if (await checkIfRegisteredUser(eventId, userId, writeClient)) {
+  if (await checkIfRegisteredUser(eventId, userdata.userId, writeClient)) {
     console.log('Already registered - doing nothing');
     return {
       status: 200,
@@ -54,17 +52,20 @@ export const post: RequestHandler<{ eventId: string }, {}> = async ({
     };
   }
 
+  await writeClient.createOrReplace({
+    _type: 'webusers',
+    _id: userdata.userId,
+    email: userdata.email,
+    nickname: userdata.nickname,
+  });
+
   const data = await writeClient
     .patch(eventId)
     .setIfMissing({ attendees: [] })
-    .insert('after', 'attendees[-1]', [{ _type: 'webusers', _ref: userId }])
-    .commit({
-      autoGenerateArrayKeys: true,
-      visibility: 'sync',
-    });
+    .insert('after', 'attendees[-1]', [{ _type: 'webusers', _ref: userdata.userId }])
+    .commit({ autoGenerateArrayKeys: true });
 
   if (data) {
-    console.log(data);
     return {
       status: 200,
       body: {},
@@ -79,18 +80,23 @@ export const post: RequestHandler<{ eventId: string }, {}> = async ({
 
 export const del: RequestHandler<{ eventId: string }, {}> = async ({
   params: { eventId },
-  request,
+  locals,
 }) => {
+  const userdata = locals.user;
+  if (!userdata) {
+    return {
+      status: 401,
+    };
+  }
+
   const writeClient = await createWriteClient();
-  const userId = '069ed43a-9670-4c1e-9abe-a2e0f6bd701f';
-  const attendeeToRemove = [`attendees[_ref=="${userId}"]`];
-  const data = await writeClient.patch(eventId).unset(attendeeToRemove).commit({
-    autoGenerateArrayKeys: true,
-    visibility: 'sync',
-  });
+  const attendeeToRemove = [`attendees[_ref=="${userdata.userId}"]`];
+  const data = await writeClient
+    .patch(eventId)
+    .unset(attendeeToRemove)
+    .commit({ autoGenerateArrayKeys: true });
 
   if (data) {
-    console.log(data);
     return {
       status: 200,
       body: {},
