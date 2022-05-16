@@ -21,9 +21,9 @@ export default {
       }
     },
     {
-      name: 'published',
+      name: 'visible',
       type: 'boolean',
-      title: 'Published'
+      title: 'Visible'
     },
     {
         name: 'attendees',
@@ -36,14 +36,14 @@ export default {
   preview: {
     select: {
       title: 'activity.name',
-      published: 'published',
+      visible: 'visible',
       date: 'date',
     },
-    prepare({ title, date, published }) {
+    prepare({ title, date, visible }) {
       return {
         title: title,
         subtitle: moment(date).format('YYYY-MM-DD hh:mm:ss'),
-        media: <span style={{fontSize: '1.5rem'}}>{published ? '✅' : '🚧'}</span>
+        media: <span style={{fontSize: '1.5rem'}}>{visible ? '✅' : '🚧'}</span>
       }
     }
   }
