@@ -6,7 +6,7 @@ import schemaTypes from 'all:part:@sanity/base/schema-type'
 
 import activity from './activity'
 import event from './event'
-import webusers from './webusers'
+import webuser from './webuser'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -17,6 +17,6 @@ export default createSchema({
   types: schemaTypes.concat([
     activity,
     event,
-    webusers
+    webuser
   ]),
 })

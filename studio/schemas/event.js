@@ -29,7 +29,7 @@ export default {
         name: 'attendees',
         type: 'array',
         title: 'Attendees',
-        of: [{type: 'webusers'}],
+        of: [{type: 'webuser'}],
     }
   ],
   preview: {
