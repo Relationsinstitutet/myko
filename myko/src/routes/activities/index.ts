@@ -11,7 +11,7 @@ function getActivitiesQuery() {
 }
 
 // Fetch all activities
-export const get: RequestHandler<{}, ResponseBody> = async () => {
+export const get: RequestHandler<Record<string, string>, ResponseBody> = async () => {
   const client = await createReadClient();
   const data = await client.fetch(/* groq */ `{
     "activities": ${getActivitiesQuery()},

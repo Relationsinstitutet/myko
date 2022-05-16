@@ -1,6 +1,4 @@
 <script>
-  // @ts-nocheck
-
   import { onMount } from 'svelte';
 
   function p5Sketch() {
@@ -32,6 +30,7 @@
       };
     };
 
+    /*global p5*/
     new p5(sketch);
   }
 
