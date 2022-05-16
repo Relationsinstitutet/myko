@@ -1,7 +1,7 @@
 <script lang="ts">
   import Activity from '$lib/components/Activity.svelte';
   import BookingControls from '$lib/components/BookingControls.svelte';
-  import type { IActivityWithEvents } from '$lib/models/IActivity';
+  import type { IActivityWithEvents } from '$lib/models/activity';
 
   // populated with data from the endpoint
   export let activity: IActivityWithEvents;

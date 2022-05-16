@@ -1,15 +1,15 @@
 import { createWriteClient } from '$lib/sanityClient';
-import type { RequestHandler } from '@sveltejs/kit';
+import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 import type { SanityClient } from '@sanity/client';
 
 async function checkIfRegisteredUser(eventId: string, userId: string, writeClient: SanityClient) {
   const event = await writeClient.getDocument(eventId); // TODO what eventId does not exist?
   const listOfAttendees = event?.attendees ?? [];
 
-  return !!listOfAttendees.find((e: { [key: string]: any }) => e['_ref'] == userId);
+  return !!listOfAttendees.find((e: Record<string, unknown>) => e['_ref'] === userId);
 }
 
-export const get: RequestHandler<{ eventId: string }, {}> = async ({
+export const get: RequestHandler<{ eventId: string }, ResponseBody> = async ({
   params: { eventId },
   locals,
 }) => {
@@ -29,7 +29,7 @@ export const get: RequestHandler<{ eventId: string }, {}> = async ({
 };
 
 // Register booking for user authenticated via Bearer token
-export const post: RequestHandler<{ eventId: string }, {}> = async ({
+export const post: RequestHandler<{ eventId: string }, ResponseBody> = async ({
   params: { eventId },
   locals,
 }) => {
@@ -74,11 +74,11 @@ export const post: RequestHandler<{ eventId: string }, {}> = async ({
 
   return {
     status: 500,
-    body: new Error('Internal Server Error'),
+    body: 'Internal Server Error',
   };
 };
 
-export const del: RequestHandler<{ eventId: string }, {}> = async ({
+export const del: RequestHandler<{ eventId: string }, ResponseBody> = async ({
   params: { eventId },
   locals,
 }) => {
@@ -105,6 +105,6 @@ export const del: RequestHandler<{ eventId: string }, {}> = async ({
 
   return {
     status: 500,
-    body: new Error('Internal Server Error'),
+    body: 'Internal Server Error',
   };
 };

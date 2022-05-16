@@ -1,6 +1,4 @@
 <script>
-  // @ts-nocheck
-
   import { onMount } from 'svelte';
 
   function p5Sketch() {
@@ -10,12 +8,12 @@
       let size = 15;
       let threshold = 0;
 
-      p.setup = function() {
+      p.setup = function () {
         const c = p.createCanvas(700, 410);
         c.parent('canvasContainer');
       };
 
-      p.draw = function() {
+      p.draw = function () {
         // TODO replace with 'art' visualization
         p.stroke(1);
         threshold = p.random(0.75);
@@ -32,6 +30,7 @@
       };
     };
 
+    /*global p5*/
     new p5(sketch);
   }
 
@@ -39,13 +38,14 @@
 </script>
 
 <svelte:head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"
-          integrity="sha512-NxocnqsXP3zm0Xb42zqVMvjQIktKEpTIbCXXyhBPxqGZHqhcOXHs4pXI/GoZ8lE+2NJONRifuBpi9DxC58L0Lw=="
-          crossorigin="anonymous"
-          referrerpolicy="no-referrer">
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"
+    integrity="sha512-NxocnqsXP3zm0Xb42zqVMvjQIktKEpTIbCXXyhBPxqGZHqhcOXHs4pXI/GoZ8lE+2NJONRifuBpi9DxC58L0Lw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer">
   </script>
 </svelte:head>
 
-<div id="canvasContainer"></div>
+<div id="canvasContainer" />
 
 <a href="/activities">Aktiviteter</a>

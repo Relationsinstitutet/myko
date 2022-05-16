@@ -1,5 +1,3 @@
-import Activity from '$lib/components/Activity.svelte';
-import type { IActivityWithEvents } from '$lib/models/IActivity';
 import { createReadClient, urlFor } from '$lib/sanityClient';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
