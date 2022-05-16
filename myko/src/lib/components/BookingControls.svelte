@@ -8,16 +8,32 @@
 
   let authClient: Client;
   let isRegistered: boolean | null = null;
+  let disabled = false;
+
+  /**
+   * Convience method that disables the button while making API request.
+   * @param request
+   */
+  async function makeRequest(request: Request): Promise<Response> {
+    disabled = true;
+    const response = await fetch(request);
+    disabled = false;
+
+    return response;
+  }
+
   onMount(async () => {
     authClient = await createClient();
     authClient.updateState();
 
-    const registeredResponse = await fetch(`/api/booking/${eventId}`, {
-      method: 'GET',
-      headers: {
-        // Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const registeredResponse = await makeRequest(
+      new Request(`/api/booking/${eventId}`, {
+        method: 'GET',
+        headers: {
+          // Authorization: `Bearer ${accessToken}`,
+        },
+      })
+    );
     const registeredResponseJson = await registeredResponse.json();
     console.log(registeredResponseJson);
 
@@ -34,12 +50,14 @@
     console.log('Logged in, make booking');
 
     // const accessToken = await authClient.getUserAccessToken();
-    const response = await fetch(`/api/booking/${eventId}`, {
-      method: 'POST',
-      headers: {
-        // Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await makeRequest(
+      new Request(`/api/booking/${eventId}`, {
+        method: 'POST',
+        headers: {
+          // Authorization: `Bearer ${accessToken}`,
+        },
+      })
+    );
     if (response.status === 200) {
       isRegistered = true;
     }
@@ -55,12 +73,14 @@
     console.log('Logged in, make booking');
 
     // const accessToken = await authClient.getUserAccessToken();
-    const response = await fetch(`/api/booking/${eventId}`, {
-      method: 'DELETE',
-      headers: {
-        // Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await makeRequest(
+      new Request(`/api/booking/${eventId}`, {
+        method: 'DELETE',
+        headers: {
+          // Authorization: `Bearer ${accessToken}`,
+        },
+      })
+    );
 
     if (response.status === 200) {
       isRegistered = false;
@@ -76,7 +96,7 @@
 </script>
 
 {#if isRegistered !== null}
-  <button on:click={isRegistered ? handleCancelClick : handleBookingClick}>
+  <button on:click={isRegistered ? handleCancelClick : handleBookingClick} {disabled}>
     {#if isRegistered}
       Avboka
     {:else}
