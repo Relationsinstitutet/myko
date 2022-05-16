@@ -30,6 +30,7 @@ export default {
         type: 'array',
         title: 'Attendees',
         of: [{type: 'webuser'}],
+        readOnly: true
     }
   ],
   preview: {
