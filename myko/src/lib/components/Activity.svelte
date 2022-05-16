@@ -1,6 +1,6 @@
 <script lang="ts">
   import PortableText from '@portabletext/svelte';
-  import type IActivity from '$lib/models/IActivity';
+  import type IActivity from '$lib/models/activity';
 
   export let activity: IActivity;
 </script>
