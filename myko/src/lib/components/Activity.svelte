@@ -1,6 +1,5 @@
 <script lang="ts">
   import PortableText from '@portabletext/svelte';
-  import { urlFor } from '$lib/sanityClient';
   import type IActivity from '$lib/models/IActivity';
 
   export let activity: IActivity;
@@ -18,7 +17,7 @@
   <PortableText blocks={activity.description} />
 
   {#if activity.image}
-    <img loading="lazy" src={urlFor(activity.image).url()} alt={activity.image.alt} />
+    <img loading="lazy" src={activity.image.url} alt={activity.image.alt} />
   {/if}
 </div>
 
