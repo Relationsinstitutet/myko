@@ -1,5 +1,4 @@
 import { createWriteClient } from '$lib/sanityClient';
-import '$lib/env';
 import type { RequestHandler } from '@sveltejs/kit';
 import type { SanityClient } from '@sanity/client';
 
@@ -17,7 +16,7 @@ export const get: RequestHandler<{ eventId: string }, {}> = async ({
   request,
 }) => {
   const userId = '069ed43a-9670-4c1e-9abe-a2e0f6bd701f';
-  const writeClient = createWriteClient();
+  const writeClient = await createWriteClient();
   const registered = await checkIfRegisteredUser(eventId, userId, writeClient);
   return {
     status: 200,

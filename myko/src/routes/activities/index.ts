@@ -1,4 +1,4 @@
-import { client } from '$lib/sanityClient';
+import { createReadClient } from '$lib/sanityClient';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
 function getActivitiesQuery() {
@@ -12,8 +12,9 @@ function getActivitiesQuery() {
 
 // Fetch all activities
 export const get: RequestHandler<{}, ResponseBody> = async () => {
+  const client = await createReadClient();
   const data = await client.fetch(/* groq */ `{
-		"activities": ${getActivitiesQuery()},
+    "activities": ${getActivitiesQuery()},
   }`);
 
   if (data) {
@@ -27,4 +28,4 @@ export const get: RequestHandler<{}, ResponseBody> = async () => {
     status: 500,
     body: new Error('Internal Server Error'),
   };
-}
+};

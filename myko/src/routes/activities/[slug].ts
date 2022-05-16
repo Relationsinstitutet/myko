@@ -1,4 +1,6 @@
-import { client } from '$lib/sanityClient';
+import Activity from '$lib/components/Activity.svelte';
+import type { IActivityWithEvents } from '$lib/models/IActivity';
+import { createReadClient, urlFor } from '$lib/sanityClient';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
 function getActivity(slug: string): string {
@@ -26,11 +28,20 @@ function getActivity(slug: string): string {
 
 // Fetch activity details
 export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({ params: { slug } }) => {
+  const client = await createReadClient();
   const data = await client.fetch(/* groq */ `{
     "activity": ${getActivity(slug)}
   }`);
 
   if (data) {
+    if (data.activity.image) {
+      const imageUrl = urlFor(client, data.activity.image).url();
+      data.activity.image = {
+        url: imageUrl,
+        alt: data.activity.image.alt,
+      };
+    }
+
     return {
       status: 200,
       body: data,

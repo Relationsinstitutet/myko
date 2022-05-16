@@ -6,7 +6,7 @@ export default interface IActivity {
   description: PortableTextBlocks;
   duration: string;
   prerequisites: [string];
-  image: SanityImageSource & { alt: string };
+  image: { url: string; alt: string };
 }
 
 export type IActivityWithEvents = IActivity & { events: [{ _id: string; date: string }] };
