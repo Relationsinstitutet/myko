@@ -7,17 +7,33 @@
   import { page } from '$app/stores';
 
   let authClient: Client;
-  let isRegistered = false;
+  let isRegistered: boolean | null = null;
+  let disabled = false;
+
+  /**
+   * Convience method that disables the button while making API request.
+   * @param request
+   */
+  async function makeRequest(request: Request): Promise<Response> {
+    disabled = true;
+    const response = await fetch(request);
+    disabled = false;
+
+    return response;
+  }
+
   onMount(async () => {
     authClient = await createClient();
     authClient.updateState();
 
-    const registeredResponse = await fetch(`/api/booking/${eventId}`, {
-      method: 'GET',
-      headers: {
-        // Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const registeredResponse = await makeRequest(
+      new Request(`/api/booking/${eventId}`, {
+        method: 'GET',
+        headers: {
+          // Authorization: `Bearer ${accessToken}`,
+        },
+      })
+    );
     const registeredResponseJson = await registeredResponse.json();
     console.log(registeredResponseJson);
 
@@ -34,17 +50,21 @@
     console.log('Logged in, make booking');
 
     // const accessToken = await authClient.getUserAccessToken();
-    fetch(`/api/booking/${eventId}`, {
-      method: 'POST',
-      headers: {
-        // Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await makeRequest(
+      new Request(`/api/booking/${eventId}`, {
+        method: 'POST',
+        headers: {
+          // Authorization: `Bearer ${accessToken}`,
+        },
+      })
+    );
+    if (response.status === 200) {
+      isRegistered = true;
+    }
     // } else {
     // console.log('Not logged in, redirect to login');
     // authClient.login(currentPath);
     // }
-    isRegistered = true;
   }
 
   async function handleCancelClick() {
@@ -53,24 +73,54 @@
     console.log('Logged in, make booking');
 
     // const accessToken = await authClient.getUserAccessToken();
-    fetch(`/api/booking/${eventId}`, {
-      method: 'DELETE',
-      headers: {
-        // Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await makeRequest(
+      new Request(`/api/booking/${eventId}`, {
+        method: 'DELETE',
+        headers: {
+          // Authorization: `Bearer ${accessToken}`,
+        },
+      })
+    );
+
+    if (response.status === 200) {
+      isRegistered = false;
+    }
+
     // } else {
     // console.log('Not logged in, redirect to login');
     // authClient.login(currentPath);
     // }
-    isRegistered = false;
   }
 
   export let eventId: string;
 </script>
 
-{#if isRegistered}
-  <button on:click={handleCancelClick}>Avboka</button>
+{#if isRegistered !== null}
+  <button on:click={isRegistered ? handleCancelClick : handleBookingClick} {disabled}>
+    {#if isRegistered}
+      Avboka
+    {:else}
+      Boka
+    {/if}
+  </button>
 {:else}
-  <button on:click={handleBookingClick}>Boka</button>
+  <div class="loader" />
 {/if}
+
+<style>
+  .loader {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 3px solid rgba(136, 136, 255, 0.3);
+    border-top-color: grey;
+    border-radius: 50%;
+    animation: spin 1s ease-in-out infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>
