@@ -45,6 +45,15 @@ export const post: RequestHandler<{ eventId: string }, {}> = async ({
 
   const writeClient = await createWriteClient();
   const userId = '069ed43a-9670-4c1e-9abe-a2e0f6bd701f';
+
+  if (await checkIfRegisteredUser(eventId, userId, writeClient)) {
+    console.log('Already registered - doing nothing');
+    return {
+      status: 200,
+      body: {},
+    };
+  }
+
   const data = await writeClient
     .patch(eventId)
     .setIfMissing({ attendees: [] })
