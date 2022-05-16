@@ -34,17 +34,19 @@
     console.log('Logged in, make booking');
 
     // const accessToken = await authClient.getUserAccessToken();
-    fetch(`/api/booking/${eventId}`, {
+    const response = await fetch(`/api/booking/${eventId}`, {
       method: 'POST',
       headers: {
         // Authorization: `Bearer ${accessToken}`,
       },
     });
+    if (response.status === 200) {
+      isRegistered = true;
+    }
     // } else {
     // console.log('Not logged in, redirect to login');
     // authClient.login(currentPath);
     // }
-    isRegistered = true;
   }
 
   async function handleCancelClick() {
@@ -53,17 +55,21 @@
     console.log('Logged in, make booking');
 
     // const accessToken = await authClient.getUserAccessToken();
-    fetch(`/api/booking/${eventId}`, {
+    const response = await fetch(`/api/booking/${eventId}`, {
       method: 'DELETE',
       headers: {
         // Authorization: `Bearer ${accessToken}`,
       },
     });
+
+    if (response.status === 200) {
+      isRegistered = false;
+    }
+
     // } else {
     // console.log('Not logged in, redirect to login');
     // authClient.login(currentPath);
     // }
-    isRegistered = false;
   }
 
   export let eventId: string;
