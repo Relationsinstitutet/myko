@@ -7,7 +7,7 @@
   import { page } from '$app/stores';
 
   let authClient: Client;
-  let isRegistered = false;
+  let isRegistered: boolean | null = null;
   onMount(async () => {
     authClient = await createClient();
     authClient.updateState();
@@ -69,8 +69,32 @@
   export let eventId: string;
 </script>
 
-{#if isRegistered}
-  <button on:click={handleCancelClick}>Avboka</button>
+{#if isRegistered !== null}
+  <button on:click={isRegistered ? handleCancelClick : handleBookingClick}>
+    {#if isRegistered}
+      Avboka
+    {:else}
+      Boka
+    {/if}
+  </button>
 {:else}
-  <button on:click={handleBookingClick}>Boka</button>
+  <div class="loader" />
 {/if}
+
+<style>
+  .loader {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 3px solid rgba(136, 136, 255, 0.3);
+    border-top-color: grey;
+    border-radius: 50%;
+    animation: spin 1s ease-in-out infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>
