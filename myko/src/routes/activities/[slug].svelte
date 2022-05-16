@@ -1,6 +1,6 @@
 <script lang="ts">
   import Activity from '$lib/components/Activity.svelte';
-  import BookingButton from '$lib/components/BookingButton.svelte';
+  import BookingControls from '$lib/components/BookingControls.svelte';
   import type { IActivityWithEvents } from '$lib/models/IActivity';
 
   // populated with data from the endpoint
@@ -19,7 +19,7 @@
     {#each activity.events as event}
       <li>
         {event.date}
-        <BookingButton eventId={event._id} />
+        <BookingControls eventId={event._id} />
       </li>
     {/each}
   </ul>
