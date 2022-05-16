@@ -34,6 +34,12 @@ export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({ para
   }`);
 
   if (data) {
+    if (!data.activity) {
+      return {
+        status: 404,
+      };
+    }
+
     if (data.activity.image) {
       const imageUrl = urlFor(client, data.activity.image).url();
       data.activity.image = {
