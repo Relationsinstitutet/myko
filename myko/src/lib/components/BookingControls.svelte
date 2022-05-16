@@ -6,6 +6,8 @@
   import { get } from 'svelte/store';
   import { page } from '$app/stores';
 
+  const currentPath = get(page).url.pathname;
+
   let authClient: Client;
   let isRegistered: boolean | null = null;
   let disabled = false;
@@ -24,72 +26,68 @@
 
   onMount(async () => {
     authClient = await createClient();
-    authClient.updateState();
+    await authClient.updateState();
 
-    const registeredResponse = await makeRequest(
-      new Request(`/api/booking/${eventId}`, {
-        method: 'GET',
-        headers: {
-          // Authorization: `Bearer ${accessToken}`,
-        },
-      })
-    );
-    const registeredResponseJson = await registeredResponse.json();
-    console.log(registeredResponseJson);
-
-    isRegistered = registeredResponseJson.registered;
+    if (get(isAuthenticated)) {
+      const accessToken = await authClient.getUserAccessToken();
+      const registeredResponse = await makeRequest(
+        new Request(`/api/booking/${eventId}`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+      );
+      const registeredResponseJson = await registeredResponse.json();
+      isRegistered = registeredResponseJson.registered;
+    } else {
+      isRegistered = false;
+    }
   });
 
-  // if user is registered
-
-  const currentPath = get(page).url.pathname;
-
   async function handleBookingClick() {
-    console.log('Booking button pressed');
-    // if (get(isAuthenticated)) {
-    console.log('Logged in, make booking');
+    if (get(isAuthenticated)) {
+      console.log('Logged in, make booking');
 
-    // const accessToken = await authClient.getUserAccessToken();
-    const response = await makeRequest(
-      new Request(`/api/booking/${eventId}`, {
-        method: 'POST',
-        headers: {
-          // Authorization: `Bearer ${accessToken}`,
-        },
-      })
-    );
-    if (response.status === 200) {
-      isRegistered = true;
+      const accessToken = await authClient.getUserAccessToken();
+      const response = await makeRequest(
+        new Request(`/api/booking/${eventId}`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+      );
+      if (response.status === 200) {
+        isRegistered = true;
+      }
+    } else {
+      console.log('Not logged in, redirect to login');
+      authClient.login(currentPath);
     }
-    // } else {
-    // console.log('Not logged in, redirect to login');
-    // authClient.login(currentPath);
-    // }
   }
 
   async function handleCancelClick() {
-    console.log('Booking button pressed');
-    // if (get(isAuthenticated)) {
-    console.log('Logged in, make booking');
+    if (get(isAuthenticated)) {
+      console.log('Logged in, cancel booking');
 
-    // const accessToken = await authClient.getUserAccessToken();
-    const response = await makeRequest(
-      new Request(`/api/booking/${eventId}`, {
-        method: 'DELETE',
-        headers: {
-          // Authorization: `Bearer ${accessToken}`,
-        },
-      })
-    );
+      const accessToken = await authClient.getUserAccessToken();
+      const response = await makeRequest(
+        new Request(`/api/booking/${eventId}`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+      );
 
-    if (response.status === 200) {
-      isRegistered = false;
+      if (response.status === 200) {
+        isRegistered = false;
+      }
+    } else {
+      console.log('Not logged in, redirect to login');
+      authClient.login(currentPath);
     }
-
-    // } else {
-    // console.log('Not logged in, redirect to login');
-    // authClient.login(currentPath);
-    // }
   }
 
   export let eventId: string;
