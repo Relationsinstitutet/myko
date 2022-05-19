@@ -1,8 +1,13 @@
-<script>
-  const submitForm = (data) => {
-    const formData = new FormData(data.currentTarget);
-    // console.log(formData.get('name'));
-  };
+<script lang="ts">
+  // const submitForm = async (data: any) => {
+  //   const formData = new FormData(data.currentTarget);
+  //   const res = await fetch('diy.ts', {
+  //     method: 'POST',
+  //     body: formData,
+  //   });
+  //
+  //   // const { message } = await res.json();
+  // };
 </script>
 
 <svelte:head>
@@ -11,7 +16,9 @@
 
 <h1>Tillverka aktivitet</h1>
 
-<form on:submit|preventDefault={submitForm}>
+<!-- <form on:submit|preventDefault={submitForm}> -->
+<!-- <form action="/activities/diy"> -->
+<form method="post">
   <div>
     <label for="">
       Name
