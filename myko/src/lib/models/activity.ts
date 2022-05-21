@@ -23,6 +23,6 @@ export interface IActivitySummary {
 }
 
 export interface IEventSummary {
-  readonly userIsRegistered?: boolean;
+  readonly userIsAttending?: boolean;
   readonly numAttendees: number;
 }

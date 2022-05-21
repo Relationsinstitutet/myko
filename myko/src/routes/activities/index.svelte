@@ -40,7 +40,7 @@
 <ul>
   {#each activities as activity}
     <li>
-      {#if activity.eventSummaries.find((event) => event.userIsRegistered)}
+      {#if activity.eventSummaries.find((event) => event.userIsAttending)}
         <span class="dot" />
       {/if}
       <a href="/activities/{activity.slug}">{activity.name}</a>

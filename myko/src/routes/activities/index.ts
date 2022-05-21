@@ -2,6 +2,7 @@ import { getUserDataFromToken } from '$lib/auth/client';
 import parseBearerToken from '$lib/auth/util';
 import type { IActivitySummary } from '$lib/models/activity';
 import { createReadClient } from '$lib/sanityClient';
+import { userIsAttendee } from '$lib/util';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
 type SanityResultType = {
@@ -42,6 +43,7 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
     const token = parseBearerToken(request.headers.get('Authorization'));
     let userId: string | undefined;
     if (token) {
+      // grab user id from token to return booking status for specific user
       const userdata = await getUserDataFromToken(token);
       userId = userdata?.userId;
     }
@@ -52,10 +54,7 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
         eventSummaries: activity.events.map((event) => {
           return {
             numAttendees: event.attendees.length,
-            ...(userId && {
-              userIsRegistered:
-                event.attendees.find((attendee) => attendee._ref == userId) !== undefined,
-            }),
+            ...(userId && { userIsAttending: userIsAttendee(userId, event.attendees) }),
           };
         }),
         slug: activity.slug.current,
