@@ -1,5 +1,27 @@
+import { getUserDataFromToken } from '$lib/auth/client';
+import parseBearerToken from '$lib/auth/util';
 import { createReadClient, urlFor } from '$lib/sanityClient';
+import { userIsAttendee } from '$lib/util';
+import type { IActivityWithEvents } from '$lib/models/activity';
+import type { PortableTextBlocks } from '@portabletext/svelte/ptTypes';
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
+
+type SanityResultType = {
+  activity: {
+    description: PortableTextBlocks;
+    duration: string;
+    events: {
+      _id: string;
+      attendees: { _ref: string }[];
+      date: string;
+    }[];
+    image?: SanityImageSource & { alt: string };
+    instant: boolean;
+    name: string;
+    prerequisites: string[];
+  };
+};
 
 function getActivity(slug: string): string {
   const eventsQuery = `*[
@@ -7,6 +29,7 @@ function getActivity(slug: string): string {
     activity._ref == ^._id &&
     visible == true] {
       _id,
+      attendees,
       date
   }`;
 
@@ -25,9 +48,12 @@ function getActivity(slug: string): string {
 }
 
 // Fetch activity details
-export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({ params: { slug } }) => {
+export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({
+  params: { slug },
+  request,
+}) => {
   const client = await createReadClient();
-  const data = await client.fetch(/* groq */ `{
+  const data: SanityResultType = await client.fetch(/* groq */ `{
     "activity": ${getActivity(slug)}
   }`);
 
@@ -38,17 +64,36 @@ export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({ para
       };
     }
 
-    if (data.activity.image) {
-      const imageUrl = urlFor(client, data.activity.image).url();
-      data.activity.image = {
-        url: imageUrl,
-        alt: data.activity.image.alt,
-      };
+    const token = parseBearerToken(request.headers.get('Authorization'));
+    let userId: string | undefined;
+    if (token) {
+      // grab user id from token to return booking status for specific user
+      const userdata = await getUserDataFromToken(token);
+      userId = userdata?.userId;
     }
 
+    const activity: IActivityWithEvents = {
+      description: data.activity.description,
+      duration: data.activity.duration,
+      ...(data.activity.image && {
+        image: {
+          url: urlFor(client, data.activity.image).url(),
+          alt: data.activity.image.alt,
+        },
+      }),
+      events: data.activity.events.map((event) => {
+        return {
+          id: event._id,
+          date: event.date,
+          ...(userId && { userIsAttending: userIsAttendee(userId, event.attendees) }),
+        };
+      }),
+      name: data.activity.name,
+      prerequisites: data.activity.prerequisites,
+    };
     return {
       status: 200,
-      body: data,
+      body: { activity },
     };
   }
 
