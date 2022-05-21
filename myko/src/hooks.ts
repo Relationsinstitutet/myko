@@ -1,18 +1,6 @@
 import { getUserDataFromToken } from '$lib/auth/client';
+import parseBearerToken from '$lib/auth/util';
 import type { Handle } from '@sveltejs/kit';
-
-function parseBearerToken(authHeader: string | null): string | null {
-  if (!authHeader) {
-    return null;
-  }
-
-  if (authHeader.startsWith('Bearer ')) {
-    const token = authHeader.substring('Bearer '.length);
-    return token;
-  }
-
-  return null;
-}
 
 export const handle: Handle = async ({ event, resolve }) => {
   const token = parseBearerToken(event.request.headers.get('Authorization'));
