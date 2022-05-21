@@ -9,3 +9,14 @@ export default interface IActivity {
 }
 
 export type IActivityWithEvents = IActivity & { events: [{ _id: string; date: string }] };
+
+export interface IActivitySummary {
+  readonly name: string;
+  readonly eventSummaries: IEventSummary[];
+  readonly slug: string;
+}
+
+export interface IEventSummary {
+  readonly userIsRegistered?: boolean;
+  readonly numAttendees: number;
+}

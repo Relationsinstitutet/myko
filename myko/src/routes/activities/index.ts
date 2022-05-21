@@ -1,26 +1,70 @@
+import { getUserDataFromToken } from '$lib/auth/client';
+import parseBearerToken from '$lib/auth/util';
+import type { IActivitySummary } from '$lib/models/activity';
 import { createReadClient } from '$lib/sanityClient';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
+type SanityResultType = {
+  activities: [
+    {
+      name: string;
+      events: [{ attendees: [{ _ref: string }] }];
+      slug: { current: string };
+    }
+  ];
+};
+
 function getActivitiesQuery() {
+  const eventAttendeesQuery = `*[
+        _type == "event" &&
+        activity._ref == ^._id &&
+        visible == true] {
+          attendees
+      }`;
+
   return /* groq */ `*[
     _type == "activity"
   ] {
     name,
+    "events": ${eventAttendeesQuery},
     slug
   }`;
 }
 
 // Fetch all activities
-export const get: RequestHandler<Record<string, string>, ResponseBody> = async () => {
+export const get: RequestHandler<Record<string, string>, ResponseBody> = async ({ request }) => {
   const client = await createReadClient();
-  const data = await client.fetch(/* groq */ `{
+  const data: SanityResultType = await client.fetch(/* groq */ `{
     "activities": ${getActivitiesQuery()},
   }`);
 
   if (data) {
+    const token = parseBearerToken(request.headers.get('Authorization'));
+    let userId: string | undefined;
+    if (token) {
+      const userdata = await getUserDataFromToken(token);
+      userId = userdata?.userId;
+    }
+
+    const activitySummaries: IActivitySummary[] = data.activities.map((activity) => {
+      return {
+        name: activity.name,
+        eventSummaries: activity.events.map((event) => {
+          return {
+            numAttendees: event.attendees.length,
+            ...(userId && {
+              userIsRegistered:
+                event.attendees.find((attendee) => attendee._ref == userId) !== undefined,
+            }),
+          };
+        }),
+        slug: activity.slug.current,
+      };
+    });
+
     return {
       status: 200,
-      body: data,
+      body: { activities: activitySummaries },
     };
   }
 
