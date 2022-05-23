@@ -27,7 +27,7 @@
         det skulle kunna bli en aktivitet som alla kan göra samt kanske vad den skulle kunna ha för
         arbetsnamn.
       </span>
-      <input type="activity-description" name="activity-description" />
+      <input type="text" name="activity-description" required />
     </label>
   </div>
 
@@ -35,10 +35,9 @@
     <label for="">
       Vem är du/ni som gör aktiviteten?
       <span>
-        Valfritt. Bra att veta om det är en aktivitet för flera och om vi har frågor eller vill
-        följa upp.
+        Bra att veta om det är en aktivitet för flera och om vi har frågor eller vill följa upp.
       </span>
-      <input type="text" name="name" />
+      <input type="text" name="name" required />
     </label>
   </div>
 
