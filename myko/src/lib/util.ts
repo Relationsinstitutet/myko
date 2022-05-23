@@ -4,7 +4,10 @@ export enum sanitySchemaNames {
   reference = 'reference',
 }
 
-export function userIsAttendee(userId: string, attendees: { _ref: string }[]): boolean {
+export function userIsAttendee(userId: string, attendees: { _ref: string }[] | null): boolean {
+  if (!userId || !attendees) {
+    return false;
+  }
   return attendees.find((attendee) => attendee._ref == userId) !== undefined;
 }
 

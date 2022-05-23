@@ -7,7 +7,7 @@ type SanityResultType = {
   activities: [
     {
       name: string;
-      events: [{ attendees: [{ _ref: string }] }];
+      events: [{ attendees: { _ref: string }[] | null }];
       slug: { current: string };
     }
   ];
@@ -49,7 +49,7 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
         name: activity.name,
         eventSummaries: activity.events.map((event) => {
           return {
-            numAttendees: event.attendees.length,
+            numAttendees: event.attendees?.length ?? 0,
             ...(userId && { userIsAttending: userIsAttendee(userId, event.attendees) }),
           };
         }),
