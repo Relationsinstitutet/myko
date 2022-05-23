@@ -9,6 +9,7 @@ type SanityActivityType = {
   _id: string;
   instant: boolean;
   startedInstructions: PortableTextBlocks;
+  audioFile: string;
 };
 
 type SanityEventType = {
@@ -16,10 +17,15 @@ type SanityEventType = {
   videoconferencing: string;
   activity: {
     _id: string;
-    slug: string;
     startedInstructions: PortableTextBlocks;
+    audioFile: string;
   };
 };
+const startedActivityProjection = `
+  _id,
+  startedInstructions,
+  "audioFile": audioFile.asset->url
+`;
 
 async function createActivityLogEntry(
   writeClient: SanityClient,
@@ -42,9 +48,7 @@ async function startEvent(writeClient: SanityClient, userId: string, eventId: st
     date,
     videoconferencing,
     activity->{
-      _id,
-      "slug": slug.current,
-      startedInstructions
+      ${startedActivityProjection}
     }
   }`;
   const event = await writeClient.fetch<SanityEventType>(eventQuery);
@@ -63,9 +67,9 @@ async function startEvent(writeClient: SanityClient, userId: string, eventId: st
 
   await createActivityLogEntry(writeClient, userId, event.activity._id, eventId);
 
-  // TODO return zoom link if exists or sound link if exists
   const body: StartedActivityData = {
     instructions: event.activity.startedInstructions,
+    ...(event.activity.audioFile && { audioFile: event.activity.audioFile }),
     ...(event.videoconferencing && { videoConferencingLink: event.videoconferencing }),
   };
 
@@ -77,9 +81,8 @@ async function startEvent(writeClient: SanityClient, userId: string, eventId: st
 
 async function startActivity(writeClient: SanityClient, userId: string, activityId: string) {
   const activityQuery = `*[_type == "activity" && _id == "${activityId}"][0] {
-    _id,
     instant,
-    startedInstructions
+    ${startedActivityProjection}
   }`;
   const activity = await writeClient.fetch<SanityActivityType>(activityQuery);
 
@@ -98,9 +101,9 @@ async function startActivity(writeClient: SanityClient, userId: string, activity
 
   await createActivityLogEntry(writeClient, userId, activity._id);
 
-  // TODO sound link if exists
   const body: StartedActivityData = {
     instructions: activity.startedInstructions,
+    ...(activity.audioFile && { audioFile: activity.audioFile }),
   };
   return {
     status: 200,
