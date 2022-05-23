@@ -9,11 +9,10 @@
   });
 
   async function startActivity() {
-    const body = { eventId };
     const accessToken = await authClient.getUserAccessToken();
     const response = await fetch('/api/activities/start', {
       method: 'POST',
-      body: JSON.stringify(body),
+      body: JSON.stringify(data),
       headers: {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
@@ -27,7 +26,7 @@
   }
 
   export let enabled: boolean = false;
-  export let eventId: string;
+  export let data: { eventId: string } | { activityId: string };
 </script>
 
-<button on:click={startActivity} disabled={!enabled}>Starta!</button>
+<button on:click={startActivity} disabled={!enabled}><slot /></button>

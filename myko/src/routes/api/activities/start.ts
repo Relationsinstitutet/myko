@@ -3,10 +3,14 @@ import { eventIsStartable, sanitySchemaNames } from '$lib/util';
 import type { SanityClient } from '@sanity/client';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
-type SanityActivity = { _id: string; slug: string };
+type SanityActivityType = {
+  _id: string;
+  instant: boolean;
+};
+
 type SanityEventType = {
   date: string;
-  activity: SanityActivity;
+  activity: { _id: string; slug: string };
 };
 
 async function createActivityLogEntry(
@@ -27,7 +31,7 @@ async function createActivityLogEntry(
 }
 
 async function startEvent(writeClient: SanityClient, userId: string, eventId: string) {
-  const eventQuery = `*[_id == "${eventId}"][0] {
+  const eventQuery = `*[_type == "event" && _id == "${eventId}"][0] {
     date,
     activity->{
       _id,
@@ -56,6 +60,34 @@ async function startEvent(writeClient: SanityClient, userId: string, eventId: st
   };
 }
 
+async function startActivity(writeClient: SanityClient, userId: string, activityId: string) {
+  const activityQuery = `*[_type == "activity" && _id == "${activityId}"][0] {
+    _id,
+    instant
+  }`;
+  const activity = await writeClient.fetch<SanityActivityType>(activityQuery);
+
+  if (!activity) {
+    return {
+      status: 404,
+    };
+  }
+
+  if (!activity.instant) {
+    return {
+      status: 400,
+      body: { message: "Activity can't be started." },
+    };
+  }
+
+  await createActivityLogEntry(writeClient, userId, activity._id);
+
+  return {
+    status: 200,
+    body: {}, // TODO return zoom link if exists or sound link if exists
+  };
+}
+
 // Start event for user authenticated via Bearer token
 export const post: RequestHandler<Record<string, string>, ResponseBody> = async ({
   request,
@@ -73,9 +105,9 @@ export const post: RequestHandler<Record<string, string>, ResponseBody> = async 
 
   if ('eventId' in body) {
     return await startEvent(client, userId, body.eventId);
+  } else if ('activityId' in body) {
+    return await startActivity(client, userId, body.activityId);
   }
-
-  // TODO handle activityId in request
 
   return {
     status: 400,

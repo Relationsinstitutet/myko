@@ -7,6 +7,7 @@ import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
 type SanityResultType = {
   activity: {
+    _id: string;
     description: PortableTextBlocks;
     duration: string;
     events: {
@@ -35,6 +36,7 @@ function getActivity(slug: string): string {
     _type == "activity" &&
     slug.current == "${slug}"
   ][0] {
+    _id,
     description,
     duration,
     "events": ${eventsQuery},
@@ -69,6 +71,7 @@ export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({
     }
 
     const activity: IActivityWithEvents = {
+      id: data.activity._id,
       description: data.activity.description,
       duration: data.activity.duration,
       ...(data.activity.image && {
@@ -87,6 +90,7 @@ export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({
       }),
       name: data.activity.name,
       prerequisites: data.activity.prerequisites,
+      instant: data.activity.instant,
     };
     return {
       status: 200,
