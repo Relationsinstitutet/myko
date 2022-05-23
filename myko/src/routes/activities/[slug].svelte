@@ -48,12 +48,14 @@
 
 <Activity {activity} />
 
-{#if $isAuthenticated}
-  <StartActivityButton data={{ activityId: activity.id }} enabled={activity.instant}>
-    Gör direkt
-  </StartActivityButton>
-{:else}
-  <button on:click={login}> Logga in </button> för att göra aktiviteten direkt.
+{#if activity.instant}
+  {#if $isAuthenticated}
+    <StartActivityButton data={{ activityId: activity.id }} enabled={true}>
+      Gör direkt
+    </StartActivityButton>
+  {:else}
+    <button on:click={login}> Logga in </button> för att göra aktiviteten direkt.
+  {/if}
 {/if}
 
 {#if activity.events.length > 0}
