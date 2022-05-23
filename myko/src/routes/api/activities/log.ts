@@ -12,10 +12,9 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
   const limit = 10;
   const client = await createReadClient();
   const activityLogQuery = `*[_type == "${sanitySchemaNames.activitylog}"] |
-    order(_createdAt desc) [0..${limit - 1}]
-    {
-        _createdAt,
-        "activitySlug": activity->slug.current
+    order(_createdAt desc) [0..${limit - 1}] {
+      _createdAt,
+      "activitySlug": activity->slug.current
     }`;
 
   const entries = await client.fetch<SanityResultType[]>(activityLogQuery);

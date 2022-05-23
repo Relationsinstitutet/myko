@@ -25,7 +25,7 @@
     }
   }
 
-  export let enabled: boolean = false;
+  export let enabled = false;
   export let data: { eventId: string } | { activityId: string };
 </script>
 
