@@ -31,6 +31,13 @@ export default {
       of: [{type: 'block'}]
     },
     {
+      name: 'startedInstructions',
+      type: 'array',
+      title: 'Started instructions',
+      description: 'shown after the user has started the activity',
+      of: [{type: 'block'}]
+    },
+    {
       name: 'image',
       type: 'image',
       title: 'Image',
