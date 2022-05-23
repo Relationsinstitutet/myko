@@ -13,6 +13,7 @@ type SanityActivityType = {
 
 type SanityEventType = {
   date: string;
+  videoconferencing: string;
   activity: {
     _id: string;
     slug: string;
@@ -32,7 +33,6 @@ async function createActivityLogEntry(
     activity: { _type: sanitySchemaNames.reference, _ref: activityId },
     ...(eventId && { event: { _type: sanitySchemaNames.reference, _ref: eventId } }),
   };
-  console.log(JSON.stringify(document));
   // TODO don't create multiple records if the user tries to start the same event multiple times?
   await writeClient.create(document);
 }
@@ -40,6 +40,7 @@ async function createActivityLogEntry(
 async function startEvent(writeClient: SanityClient, userId: string, eventId: string) {
   const eventQuery = `*[_type == "event" && _id == "${eventId}"][0] {
     date,
+    videoconferencing,
     activity->{
       _id,
       "slug": slug.current,
@@ -65,6 +66,7 @@ async function startEvent(writeClient: SanityClient, userId: string, eventId: st
   // TODO return zoom link if exists or sound link if exists
   const body: StartedActivityData = {
     instructions: event.activity.startedInstructions,
+    ...(event.videoconferencing && { videoConferencingLink: event.videoconferencing }),
   };
 
   return {
