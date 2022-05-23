@@ -66,6 +66,7 @@ export default async function createClient(): Promise<Client> {
   const client = await createAuth0Client({
     domain: auth0Domain,
     client_id: '9eVpAJ2FxWu6SlSvk6ouXPNtGsZlWrtZ',
+    useRefreshTokens: true,
     cacheLocation: 'localstorage',
   });
 
