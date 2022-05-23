@@ -16,6 +16,14 @@
 
     <h1>Jippi! 🎉</h1>
     <PortableText blocks={data.instructions} />
+
+    {#if data.videoConferencingLink}
+      <p>
+        Klicka här för att joina mötet: <a href={data.videoConferencingLink}
+          >{data.videoConferencingLink}</a
+        >
+      </p>
+    {/if}
   </div>
 </div>
 

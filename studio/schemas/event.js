@@ -21,6 +21,12 @@ export default {
       }
     },
     {
+      name: 'videoconferencing',
+      type: 'url',
+      title: 'Video conference link',
+      description: 'e.g. Zoom meeting link'
+    },
+    {
       name: 'visible',
       type: 'boolean',
       title: 'Visible'
