@@ -9,6 +9,10 @@ export default {
       title: 'Activity name'
     },
     {
+      name: 'slug',
+      type: 'slug',
+    },
+    {
       name: 'duration',
       type: 'string',
       title: 'Duration'
@@ -31,13 +35,6 @@ export default {
       of: [{type: 'block'}]
     },
     {
-      name: 'startedInstructions',
-      type: 'array',
-      title: 'Started instructions',
-      description: 'shown after the user has started the activity',
-      of: [{type: 'block'}]
-    },
-    {
       name: 'image',
       type: 'image',
       title: 'Image',
@@ -53,8 +50,19 @@ export default {
       ]
     },
     {
-      name: 'slug',
-      type: 'slug',
-    }
+      name: 'startedInstructions',
+      type: 'array',
+      title: 'Started instructions',
+      description: 'shown after the user has started the activity',
+      of: [{type: 'block'}]
+    },
+    {
+      name: 'audioFile',
+      type: 'file',
+      title: 'Audio file',
+      options: {
+        accept: 'audio/*'
+      }
+    },
   ],
 }

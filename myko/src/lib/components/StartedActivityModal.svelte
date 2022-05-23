@@ -19,10 +19,13 @@
 
     {#if data.videoConferencingLink}
       <p>
-        Klicka här för att joina mötet: <a href={data.videoConferencingLink}
-          >{data.videoConferencingLink}</a
-        >
+        Klicka här för att joina mötet:
+        <a href={data.videoConferencingLink}>{data.videoConferencingLink}</a>
       </p>
+    {/if}
+
+    {#if data.audioFile}
+      <audio src={data.audioFile} controls />
     {/if}
   </div>
 </div>
