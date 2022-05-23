@@ -1,5 +1,5 @@
 import { createReadClient, urlFor } from '$lib/sanityClient';
-import { userIsAttendee } from '$lib/util';
+import { eventIsStartable, userIsAttendee } from '$lib/util';
 import type { IActivityWithEvents } from '$lib/models/activity';
 import type { PortableTextBlocks } from '@portabletext/svelte/ptTypes';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
@@ -7,6 +7,7 @@ import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
 type SanityResultType = {
   activity: {
+    _id: string;
     description: PortableTextBlocks;
     duration: string;
     events: {
@@ -35,6 +36,7 @@ function getActivity(slug: string): string {
     _type == "activity" &&
     slug.current == "${slug}"
   ][0] {
+    _id,
     description,
     duration,
     "events": ${eventsQuery},
@@ -69,6 +71,7 @@ export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({
     }
 
     const activity: IActivityWithEvents = {
+      id: data.activity._id,
       description: data.activity.description,
       duration: data.activity.duration,
       ...(data.activity.image && {
@@ -82,10 +85,12 @@ export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({
           id: event._id,
           date: event.date,
           ...(userId && { userIsAttending: userIsAttendee(userId, event.attendees) }),
+          isStartable: eventIsStartable(userId, event.date),
         };
       }),
       name: data.activity.name,
       prerequisites: data.activity.prerequisites,
+      instant: data.activity.instant,
     };
     return {
       status: 200,
