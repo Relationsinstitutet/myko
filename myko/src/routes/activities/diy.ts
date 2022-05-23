@@ -2,7 +2,21 @@ export async function post({ request }) {
   const data = await request.formData(); // or .json(), or .text(), etc
 
   const name = data.get('name');
+  if (!name.trim()) {
+    return {
+      status: 400,
+      body: { message: "Missing required field 'name'" },
+    };
+  }
+
   const activityDesc = data.get('activity-description');
+  if (!activityDesc.trim()) {
+    return {
+      status: 400,
+      body: { message: "Missing required field 'activityDesc'" },
+    };
+  }
+
   const url = `https://docs.google.com/forms/d/e/1FAIpQLSdS9DRucqH91-yj6Ntf2G15ubI0G8kIMNwY07qyye8kZcsacA/formResponse?usp=pp_url&entry.1469164367=${activityDesc}&entry.1714084245=${name}&submit=Submit`;
 
   const res = await fetch(url);
