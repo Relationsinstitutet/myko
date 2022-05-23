@@ -1,16 +1,23 @@
+import type StartedActivityData from '$lib/models/startedActivity';
 import { createWriteClient } from '$lib/sanityClient';
 import { eventIsStartable, sanitySchemaNames } from '$lib/util';
+import type { PortableTextBlocks } from '@portabletext/svelte/ptTypes';
 import type { SanityClient } from '@sanity/client';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
 type SanityActivityType = {
   _id: string;
   instant: boolean;
+  startedInstructions: PortableTextBlocks;
 };
 
 type SanityEventType = {
   date: string;
-  activity: { _id: string; slug: string };
+  activity: {
+    _id: string;
+    slug: string;
+    startedInstructions: PortableTextBlocks;
+  };
 };
 
 async function createActivityLogEntry(
@@ -35,7 +42,8 @@ async function startEvent(writeClient: SanityClient, userId: string, eventId: st
     date,
     activity->{
       _id,
-      "slug": slug.current
+      "slug": slug.current,
+      startedInstructions
     }
   }`;
   const event = await writeClient.fetch<SanityEventType>(eventQuery);
@@ -54,16 +62,22 @@ async function startEvent(writeClient: SanityClient, userId: string, eventId: st
 
   await createActivityLogEntry(writeClient, userId, event.activity._id, eventId);
 
+  // TODO return zoom link if exists or sound link if exists
+  const body: StartedActivityData = {
+    instructions: event.activity.startedInstructions,
+  };
+
   return {
     status: 200,
-    body: {}, // TODO return zoom link if exists or sound link if exists
+    body,
   };
 }
 
 async function startActivity(writeClient: SanityClient, userId: string, activityId: string) {
   const activityQuery = `*[_type == "activity" && _id == "${activityId}"][0] {
     _id,
-    instant
+    instant,
+    startedInstructions
   }`;
   const activity = await writeClient.fetch<SanityActivityType>(activityQuery);
 
@@ -82,9 +96,13 @@ async function startActivity(writeClient: SanityClient, userId: string, activity
 
   await createActivityLogEntry(writeClient, userId, activity._id);
 
+  // TODO sound link if exists
+  const body: StartedActivityData = {
+    instructions: activity.startedInstructions,
+  };
   return {
     status: 200,
-    body: {}, // TODO return zoom link if exists or sound link if exists
+    body,
   };
 }
 
