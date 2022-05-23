@@ -13,6 +13,7 @@ export type IActivityWithEvents = IActivity & {
     readonly id: string;
     readonly userIsAttending?: boolean;
     readonly date: string;
+    readonly isStartable: boolean;
   }[];
 };
 

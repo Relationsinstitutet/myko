@@ -4,6 +4,7 @@
 
   import Activity from '$lib/components/Activity.svelte';
   import BookingControls from '$lib/components/BookingControls.svelte';
+  import StartActivityButton from '$lib/components/StartActivityButton.svelte';
   import type { IActivityWithEvents } from '$lib/models/activity';
   import { onMount } from 'svelte';
   import { get } from 'svelte/store';
@@ -48,6 +49,9 @@
       <li>
         {event.date}
         <BookingControls eventId={event.id} userIsAttending={event.userIsAttending} />
+        {#if $isAuthenticated}
+          <StartActivityButton eventId={event.id} enabled={event.isStartable} />
+        {/if}
       </li>
     {/each}
   </ul>

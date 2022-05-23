@@ -5,6 +5,7 @@ import createSchema from 'part:@sanity/base/schema-creator'
 import schemaTypes from 'all:part:@sanity/base/schema-type'
 
 import activity from './activity'
+import activitylog from './activitylog'
 import event from './event'
 import webuser from './webuser'
 
@@ -16,6 +17,7 @@ export default createSchema({
   // to the ones provided by any plugins that are installed
   types: schemaTypes.concat([
     activity,
+    activitylog,
     event,
     webuser
   ]),
