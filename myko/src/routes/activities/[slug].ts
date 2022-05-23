@@ -1,5 +1,3 @@
-import { getUserDataFromToken } from '$lib/auth/client';
-import parseBearerToken from '$lib/auth/util';
 import { createReadClient, urlFor } from '$lib/sanityClient';
 import { userIsAttendee } from '$lib/util';
 import type { IActivityWithEvents } from '$lib/models/activity';
@@ -50,7 +48,7 @@ function getActivity(slug: string): string {
 // Fetch activity details
 export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({
   params: { slug },
-  request,
+  locals,
 }) => {
   const client = await createReadClient();
   const data: SanityResultType = await client.fetch(/* groq */ `{
@@ -64,12 +62,10 @@ export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({
       };
     }
 
-    const token = parseBearerToken(request.headers.get('Authorization'));
     let userId: string | undefined;
-    if (token) {
+    if (locals.user) {
       // grab user id from token to return booking status for specific user
-      const userdata = await getUserDataFromToken(token);
-      userId = userdata?.userId;
+      userId = locals.user.userId;
     }
 
     const activity: IActivityWithEvents = {

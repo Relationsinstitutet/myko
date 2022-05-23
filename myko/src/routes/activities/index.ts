@@ -1,5 +1,3 @@
-import { getUserDataFromToken } from '$lib/auth/client';
-import parseBearerToken from '$lib/auth/util';
 import type { IActivitySummary } from '$lib/models/activity';
 import { createReadClient } from '$lib/sanityClient';
 import { userIsAttendee } from '$lib/util';
@@ -33,19 +31,17 @@ function getActivitiesQuery() {
 }
 
 // Fetch all activities
-export const get: RequestHandler<Record<string, string>, ResponseBody> = async ({ request }) => {
+export const get: RequestHandler<Record<string, string>, ResponseBody> = async ({ locals }) => {
   const client = await createReadClient();
   const data: SanityResultType = await client.fetch(/* groq */ `{
     "activities": ${getActivitiesQuery()},
   }`);
 
   if (data) {
-    const token = parseBearerToken(request.headers.get('Authorization'));
     let userId: string | undefined;
-    if (token) {
+    if (locals.user) {
       // grab user id from token to return booking status for specific user
-      const userdata = await getUserDataFromToken(token);
-      userId = userdata?.userId;
+      userId = locals.user.userId;
     }
 
     const activitySummaries: IActivitySummary[] = data.activities.map((activity) => {
