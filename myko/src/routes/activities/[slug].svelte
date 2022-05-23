@@ -11,7 +11,9 @@
   import { page } from '$app/stores';
 
   const currentSlug = get(page).params.slug;
+  const currentPage = get(page).url.pathname;
 
+  let authClient: Client;
   onMount(async () => {
     authClient = await createClient();
     await authClient.updateState();
@@ -32,9 +34,12 @@
     }
   });
 
+  function login() {
+    authClient.login(currentPage);
+  }
+
   // populated with data from the endpoint
   export let activity: IActivityWithEvents;
-  export let authClient: Client | undefined = undefined;
 </script>
 
 <svelte:head>
@@ -48,8 +53,7 @@
     Gör direkt
   </StartActivityButton>
 {:else}
-  <button on:click={() => authClient?.login($page.url.pathname)}> Logga in </button> för att göra aktiviteten
-  direkt.
+  <button on:click={login}> Logga in </button> för att göra aktiviteten direkt.
 {/if}
 
 {#if activity.events.length > 0}
