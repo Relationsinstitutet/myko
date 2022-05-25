@@ -1,16 +1,16 @@
+/* eslint-disable no-undef */
 let noiseScale = 300;
 //let noiseStr = 350;
 
-
 class Particle {
-  constructor(x,y,c,a,n,s) {
-    this.pos = createVector(x,y);
+  constructor(x, y, c, a, n, s) {
+    this.pos = createVector(x, y);
     this.changePos = this.pos.copy();
-    this.vel = createVector(0,0);
-    this.dir = createVector(0,0);
-    this.speed = s;//random(0.3, 1.3)
+    this.vel = createVector(0, 0);
+    this.dir = createVector(0, 0);
+    this.speed = s; //random(0.3, 1.3)
     this.c = color(c);
-    this.c.setAlpha(random(a, a*2));
+    this.c.setAlpha(random(a, a * 2));
     this.noiseStr = n;
   }
 
@@ -34,36 +34,39 @@ class Particle {
 
   limit() {
     this.changePos = this.pos.copy();
-    strokeWeight(w += 3);
+    strokeWeight((w += 3));
   }
 
   edge() {
-    if(this.changePos.x > width * 1.11 || this.changePos.x < width * -0.11 || this.changePos.y > height * 1.11 || this.changePos.y < height * -0.11) {
-
-      this.changePos.x= random(width/6, width);
-      this.changePos.y= random(height/6, height);
+    if (
+      this.changePos.x > width * 1.11 ||
+      this.changePos.x < width * -0.11 ||
+      this.changePos.y > height * 1.11 ||
+      this.changePos.y < height * -0.11
+    ) {
+      this.changePos.x = random(width / 6, width);
+      this.changePos.y = random(height / 6, height);
     }
   }
 
-    follow() {
+  follow() {
     let history = [];
     history.push(this.pos.copy());
-    for(let hist of history) {
+    for (let hist of history) {
       let prevPos = hist;
-      strokeWeight(w += 0.05);
+      strokeWeight((w += 0.05));
 
-      point(prevPos.x,prevPos.y);
+      point(prevPos.x, prevPos.y);
     }
 
-    if(history.length > 50) {
+    if (history.length > 50) {
       let reStart = history[0];
       //this.a = 0;
-      history.splice(0,1);
+      history.splice(0, 1);
       //this.pos = reStart;
       //console.log(reStart.x);
     }
   }
 
   //setForce(force) {this.dir.add(force);}
-
 } //end of Particle class!
