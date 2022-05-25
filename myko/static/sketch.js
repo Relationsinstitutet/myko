@@ -9,7 +9,7 @@ let meditate = 0,
   tea = 0, talk = 0;
 let fr;
 
-function setup() {
+async function setup() {
   const c = createCanvas(300, 450);
   c.parent('canvasContainer');
 
@@ -19,10 +19,6 @@ function setup() {
   noStroke();
   noiseSeed(0);
 
-
-  //!Rensa local storage -> kör denna 1x!
-  //clearLoStore();
-
   for (let i = 0; i < 300; i++) {
     particles[i] = new Particle(
       random(width * xSpace),
@@ -30,7 +26,9 @@ function setup() {
       colours[floor(random(2, 4))], 40, 2, 0.5
     );
   }
-  checkForAdds();
+
+  const data = await fetchActivityLog();
+  checkForAdds(data);
 }
 
 function draw() {
@@ -58,27 +56,37 @@ function draw() {
   fr.html(floor(frameRate()));
 }
 
-  function checkForAdds() {
-  const addedActivs = JSON.parse(localStorage.getItem("prevActivsTr"));
+async function fetchActivityLog() {
+  const response = await fetch('/api/activities/log');
+  if (!response.ok) {
+    console.log('Could not get activity data');
+    return null;
+  }
+
+  const logEntries = await response.json();
+  // count the number of each activity
+  return logEntries.reduce((result, entry) => {
+    if (!(entry.activity in result)) {
+      result[entry.activity] = 0;
+    }
+    result[entry.activity] += 1
+    return result;
+  }, {});
+}
+
+function checkForAdds(addedActivs) {
   console.log(addedActivs);
 
   if (!addedActivs) {
     console.log("no activities yet");
   } else {
-    if (addedActivs.med) {
-      meditate = addedActivs.med;
+    if ('say-hello-to-nasims-cat' in addedActivs) {
       //walkers(meditate, 0);
-      walking(30, 1, 65, 0.55, meditate);
+      walking(30, 1, 65, 0.55, addedActivs['say-hello-to-nasims-cat']);
     }
-    if (addedActivs.tea) {
-      tea = addedActivs.tea;
+    if ('te-ritual' in addedActivs) {
       //walkers(tea, 4, 1.5, 200);
-      walking(60, 4, 65, 0.65, tea);
-    }
-    if (addedActivs.tal) {
-      tea = addedActivs.tal;
-      //walkers(tea, 4, 1.5, 200);
-      trailing(50, 4, 65, 0.7, talk);
+      walking(60, 4, 65, 0.65, addedActivs['te-ritual']);
     }
   }
 }
@@ -105,17 +113,6 @@ function parseAct(e) {
 }
 
 
-//send changed vars to localstorage
-function sendAction(meditate, tea, talk) {
-  let activity = {
-    med: meditate,
-    tea: tea,
-    tal: talk
-  };
-  localStorage.setItem("prevActivsTr", JSON.stringify(activity));
-}
-
-
 //walker animation for both just added and added in the past, just send less vibrant color for the past ones + less different path?
 function walking(ns, c, a, s, nr = 1) {
   //maybe its own array instead, but should be in draw() in that case
@@ -129,11 +126,6 @@ function trailing(ns, c, a, s, nr = 1) {
   for(let i = 0; i < nr; i++) {
     shortParts.push(new Particle(random(width), random(height), colours[c], a, ns, s));
   }
-}
-
-
-function clearLoStore() {
-  localStorage.clear();
 }
 
 /*
