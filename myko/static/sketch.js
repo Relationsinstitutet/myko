@@ -10,7 +10,9 @@ let meditate = 0,
 let fr;
 
 function setup() {
-  createCanvas(300, 450);
+  const c = createCanvas(300, 450);
+  c.parent('canvasContainer');
+
   frameRate(20);
   fr = createP("");
   fr.style("color", colours[2]);
