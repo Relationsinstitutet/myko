@@ -10,7 +10,6 @@
     });
 
     if (response.status !== 201) {
-      console.log('Oops very wronggggg');
       const { message } = await response.json();
       console.log(message);
     }
