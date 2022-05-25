@@ -1,13 +1,20 @@
 <script lang="ts">
-  // const submitForm = async (data: any) => {
-  //   const formData = new FormData(data.currentTarget);
-  //   const res = await fetch('diy.ts', {
-  //     method: 'POST',
-  //     body: formData,
-  //   });
-  //
-  //   // const { message } = await res.json();
-  // };
+  async function submitForm(e: Event) {
+    const form = e.currentTarget as HTMLFormElement;
+    const response = await fetch('/activities/diy', {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+      },
+      body: new FormData(form),
+    });
+
+    if (response.status !== 201) {
+      console.log('Oops very wronggggg');
+      const { message } = await response.json();
+      console.log(message);
+    }
+  }
 </script>
 
 <svelte:head>
@@ -16,9 +23,7 @@
 
 <h1>Tillverka aktivitet</h1>
 
-<!-- <form on:submit|preventDefault={submitForm}> -->
-<!-- <form action="/activities/diy"> -->
-<form method="post">
+<form on:submit|preventDefault={submitForm}>
   <div>
     <label for="activity-description">
       Hur går aktiviteten till?
@@ -27,7 +32,7 @@
         det skulle kunna bli en aktivitet som alla kan göra samt kanske vad den skulle kunna ha för
         arbetsnamn.
       </span>
-      <input type="text" name="activity-description" required />
+      <input type="text" name="activity-description" />
     </label>
   </div>
 
@@ -37,7 +42,7 @@
       <span>
         Bra att veta om det är en aktivitet för flera och om vi har frågor eller vill följa upp.
       </span>
-      <input type="text" name="name" required />
+      <input type="text" name="name" />
     </label>
   </div>
 

@@ -5,7 +5,9 @@ export async function post({ request }) {
   if (!name.trim()) {
     return {
       status: 400,
-      body: { message: "Missing required field 'name'" },
+      body: {
+        message: 'Vi saknar vem du/ni är, fyll i den rutan för att kunna skicka in.',
+      },
     };
   }
 
@@ -13,36 +15,20 @@ export async function post({ request }) {
   if (!activityDesc.trim()) {
     return {
       status: 400,
-      body: { message: "Missing required field 'activityDesc'" },
+      body: {
+        message:
+          'Vi saknar beskrivningen av aktiviteten, fyll i den rutan för att kunna skicka in.',
+      },
     };
   }
 
   const url = `https://docs.google.com/forms/d/e/1FAIpQLSdS9DRucqH91-yj6Ntf2G15ubI0G8kIMNwY07qyye8kZcsacA/formResponse?usp=pp_url&entry.1469164367=${activityDesc}&entry.1714084245=${name}&submit=Submit`;
+  const response = await fetch(url);
 
-  const res = await fetch(url);
-
-  // console.log(await res.json());
+  // console.log(await response.json());
 
   return { status: 201 };
 }
-
-//   // const submitForm = async (data: any) => {
-//   //   const formData = new FormData(data.currentTarget);
-//   //   const res = await fetch('diy.ts', {
-//   //     method: 'POST',
-//   //     body: formData,
-//   //   });
-//   //
-//   //   // const { message } = await res.json();
-//   // };
-// };
-//
-
-// export const post = async ({ request }) => {
-//   const body = await request.formData();
-//   const name = body.get('name');
-//   const email = body.get('email');
-//
 
 //   // console.log(res);
 //   if (response.status === 200) {
@@ -59,7 +45,3 @@ export async function post({ request }) {
 //
 //   // https: return {};
 // };
-
-// console.log('hej');
-// const formData = new FormData(data.currentTarget);
-// console.log(formData);
