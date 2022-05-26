@@ -6,20 +6,18 @@ import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
 type SanityResultType = {
-  activity: {
+  _id: string;
+  description: PortableTextBlocks;
+  duration: string;
+  events: {
     _id: string;
-    description: PortableTextBlocks;
-    duration: string;
-    events: {
-      _id: string;
-      attendees: { _ref: string }[];
-      date: string;
-    }[];
-    image?: SanityImageSource & { alt: string };
-    instant: boolean;
-    name: string;
-    prerequisites: string[];
-  };
+    attendees: { _ref: string }[];
+    date: string;
+  }[];
+  image?: SanityImageSource & { alt: string };
+  instant: boolean;
+  name: string;
+  prerequisites: string[];
 };
 
 function getActivity(slug: string): string {
@@ -35,8 +33,8 @@ function getActivity(slug: string): string {
 
   return /* groq */ `*[
     _type == "activity" &&
-    slug.current == "${slug}"
-  ][0] {
+    slug.current == "${slug}" &&
+    ${notDraft}][0] {
     _id,
     description,
     duration,
@@ -54,34 +52,26 @@ export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({
   locals,
 }) => {
   const client = await createReadClient();
-  const data: SanityResultType = await client.fetch(/* groq */ `{
-    "activity": ${getActivity(slug)}
-  }`);
+  const activity: SanityResultType = await client.fetch(getActivity(slug));
 
-  if (data) {
-    if (!data.activity) {
-      return {
-        status: 404,
-      };
-    }
-
+  if (activity) {
     let userId: string | undefined;
     if (locals.user) {
       // grab user id from token to return booking status for specific user
       userId = locals.user.userId;
     }
 
-    const activity: IActivityWithEvents = {
-      id: data.activity._id,
-      description: data.activity.description,
-      duration: data.activity.duration,
-      ...(data.activity.image && {
+    const activityData: IActivityWithEvents = {
+      id: activity._id,
+      description: activity.description,
+      duration: activity.duration,
+      ...(activity.image && {
         image: {
-          url: urlFor(client, data.activity.image).url(),
-          alt: data.activity.image.alt,
+          url: urlFor(client, activity.image).url(),
+          alt: activity.image.alt,
         },
       }),
-      events: data.activity.events.map((event) => {
+      events: activity.events.map((event) => {
         return {
           id: event._id,
           date: event.date,
@@ -89,18 +79,17 @@ export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({
           isStartable: eventIsStartable(userId, event.date),
         };
       }),
-      name: data.activity.name,
-      prerequisites: data.activity.prerequisites,
-      instant: data.activity.instant,
+      name: activity.name,
+      prerequisites: activity.prerequisites,
+      instant: activity.instant,
     };
     return {
       status: 200,
-      body: { activity },
+      body: {activity: activityData},
     };
   }
 
   return {
-    status: 500,
-    body: new Error('Internal Server Error'),
+    status: 404,
   };
 };
