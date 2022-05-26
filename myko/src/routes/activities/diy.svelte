@@ -36,10 +36,7 @@
 <h1>Tillverka aktivitet</h1>
 
 <div>
-  <!-- <p>{$errorMessage}</p>
-  {#await promise catch error}
-	<p>The error is {error}</p>
-{/await} -->
+  <p>{$errorMessage}</p>
 </div>
 
 <form on:submit|preventDefault={submitForm}>
