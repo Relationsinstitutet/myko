@@ -1,4 +1,4 @@
-import { createReadClient, urlFor } from '$lib/sanityClient';
+import { createReadClient, notDraft, urlFor } from '$lib/sanityClient';
 import { eventIsStartable, userIsAttendee } from '$lib/util';
 import type { IActivityWithEvents } from '$lib/models/activity';
 import type { PortableTextBlocks } from '@portabletext/svelte/ptTypes';
@@ -26,7 +26,8 @@ function getActivity(slug: string): string {
   const eventsQuery = `*[
     _type == "event" &&
     activity._ref == ^._id &&
-    visible == true] {
+    visible == true &&
+    ${notDraft}] | order(date asc) {
       _id,
       attendees,
       date
