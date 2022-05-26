@@ -32,3 +32,15 @@ export function urlFor(client: SanityClientLike, source: SanityImageSource) {
 }
 
 export const notDraft = `!(_id in path('drafts.**'))`;
+
+// Get all events for an activity that are active:
+//  * not a Sanity draft document,
+//  * 'visible'=true,
+//  * and with a date not passed by more than 10 minutes
+export const eventsForActivityFilter = `
+  _type == "event" &&
+  activity._ref == ^._id &&
+  visible == true &&
+  ${notDraft} &&
+  dateTime(date) > dateTime(now()) - 60*10
+`;
