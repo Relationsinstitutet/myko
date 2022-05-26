@@ -1,5 +1,5 @@
 import type { IActivitySummary } from '$lib/models/activity';
-import { createReadClient, notDraft } from '$lib/sanityClient';
+import { createReadClient, eventsForActivityFilter, notDraft } from '$lib/sanityClient';
 import { userIsAttendee } from '$lib/util';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
@@ -20,10 +20,7 @@ type SanityResultType = {
 
 function getActivitiesQuery() {
   const eventAttendeesQuery = `*[
-    _type == "event" &&
-    activity._ref == ^._id &&
-    visible == true &&
-    ${notDraft}
+    ${eventsForActivityFilter}
   ] {
       attendees,
       "numAttendees": coalesce(count(attendees), 0)
