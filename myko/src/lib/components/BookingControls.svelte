@@ -74,7 +74,7 @@
   }
 
   export let eventId: string;
-  export let userIsAttending: boolean | undefined;
+  export let userIsAttending: boolean | undefined = undefined;
 </script>
 
 <button on:click={userIsAttending === true ? handleCancelClick : handleBookingClick} {disabled}>

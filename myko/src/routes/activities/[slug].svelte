@@ -82,8 +82,8 @@
     {#each activity.events as event}
       <li>
         {event.date}
-        <BookingControls eventId={event.id} userIsAttending={event.userIsAttending} />
-        {#if $isAuthenticated}
+        <BookingControls eventId={event.id} bind:userIsAttending={event.userIsAttending} />
+        {#if $isAuthenticated && event.userIsAttending}
           <StartActivityButton
             on:activityStarted={activityStarted}
             data={{ eventId: event.id }}
