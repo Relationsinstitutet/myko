@@ -1,4 +1,15 @@
 <script lang="ts">
+  // import { createEventDispatcher } from 'svelte';
+
+  // const dispatch = createEventDispatcher();
+  const errorMessage = 'hello';
+  // function handleMessage(message: any) {
+  //   // dispatch('message', {
+  //   //   text: 'Hello!',
+  //   // });
+  //   alert(message);
+  // }
+
   async function submitForm(e: Event) {
     const form = e.currentTarget as HTMLFormElement;
     const response = await fetch('/activities/diy', {
@@ -12,8 +23,10 @@
     if (response.status !== 201) {
       const { message } = await response.json();
       console.log(message);
+      // handleMessage(message);
     }
   }
+  // Don't forget to readd required below!!!
 </script>
 
 <svelte:head>
@@ -21,6 +34,10 @@
 </svelte:head>
 
 <h1>Tillverka aktivitet</h1>
+
+<div>
+  <p>{$errorMessage}</p>
+</div>
 
 <form on:submit|preventDefault={submitForm}>
   <div>
