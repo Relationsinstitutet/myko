@@ -25,16 +25,18 @@ function getActivity(slug: string): string {
     _type == "event" &&
     activity._ref == ^._id &&
     visible == true &&
-    ${notDraft}] | order(date asc) {
-      _id,
-      attendees,
-      date
+    ${notDraft}
+  ] | order(date asc) {
+    _id,
+    attendees,
+    date
   }`;
 
-  return /* groq */ `*[
+  return `*[
     _type == "activity" &&
     slug.current == "${slug}" &&
-    ${notDraft}][0] {
+    ${notDraft}
+  ][0] {
     _id,
     description,
     duration,
@@ -52,7 +54,7 @@ export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({
   locals,
 }) => {
   const client = await createReadClient();
-  const activity: SanityResultType = await client.fetch(getActivity(slug));
+  const activity = await client.fetch<SanityResultType>(getActivity(slug));
 
   if (activity) {
     let userId: string | undefined;

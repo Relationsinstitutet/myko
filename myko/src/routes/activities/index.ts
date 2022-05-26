@@ -24,9 +24,8 @@ function getActivitiesQuery() {
       "numAttendees": coalesce(count(attendees), 0)
   }`;
 
-  return /* groq */ `*[
-    _type == "activity" &&
-    ${notDraft}
+  return `*[
+    _type == "activity" && ${notDraft}
   ] | order(name asc) {
     name,
     "events": ${eventAttendeesQuery},
@@ -37,7 +36,7 @@ function getActivitiesQuery() {
 // Fetch all activities
 export const get: RequestHandler<Record<string, string>, ResponseBody> = async ({ locals }) => {
   const client = await createReadClient();
-  const data: SanityResultType = await client.fetch(/* groq */ `{
+  const data = await client.fetch<SanityResultType>(`{
     "activities": ${getActivitiesQuery()},
   }`);
 
