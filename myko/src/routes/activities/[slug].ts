@@ -87,7 +87,7 @@ export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({
     };
     return {
       status: 200,
-      body: {activity: activityData},
+      body: { activity: activityData },
     };
   }
 

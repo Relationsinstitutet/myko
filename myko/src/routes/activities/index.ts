@@ -7,7 +7,12 @@ type SanityResultType = {
   activities: [
     {
       name: string;
-      events: [{ attendees: { _ref: string }[] | null, numAttendees: number }];
+      events: [
+        {
+          attendees: { _ref: string }[] | null;
+          numAttendees: number;
+        }
+      ];
       slug: { current: string };
     }
   ];
