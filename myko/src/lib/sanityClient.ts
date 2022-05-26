@@ -30,3 +30,5 @@ export function urlFor(client: SanityClientLike, source: SanityImageSource) {
   const builder = imageUrlBuilder(client);
   return builder.image(source);
 }
+
+export const notDraft = `!(_id in path('drafts.**'))`;
