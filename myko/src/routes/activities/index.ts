@@ -1,5 +1,5 @@
 import type { IActivitySummary } from '$lib/models/activity';
-import { createReadClient } from '$lib/sanityClient';
+import { createReadClient, notDraft } from '$lib/sanityClient';
 import { userIsAttendee } from '$lib/util';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
@@ -7,7 +7,7 @@ type SanityResultType = {
   activities: [
     {
       name: string;
-      events: [{ attendees: { _ref: string }[] | null }];
+      events: [{ attendees: { _ref: string }[] | null, numAttendees: number }];
       slug: { current: string };
     }
   ];
@@ -15,15 +15,19 @@ type SanityResultType = {
 
 function getActivitiesQuery() {
   const eventAttendeesQuery = `*[
-        _type == "event" &&
-        activity._ref == ^._id &&
-        visible == true] {
-          attendees
-      }`;
+    _type == "event" &&
+    activity._ref == ^._id &&
+    visible == true &&
+    ${notDraft}
+  ] {
+      attendees,
+      "numAttendees": coalesce(count(attendees), 0)
+  }`;
 
   return /* groq */ `*[
-    _type == "activity"
-  ] {
+    _type == "activity" &&
+    ${notDraft}
+  ] | order(name asc) {
     name,
     "events": ${eventAttendeesQuery},
     slug
@@ -49,7 +53,7 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
         name: activity.name,
         eventSummaries: activity.events.map((event) => {
           return {
-            numAttendees: event.attendees?.length ?? 0,
+            numAttendees: event.numAttendees,
             ...(userId && { userIsAttending: userIsAttendee(userId, event.attendees) }),
           };
         }),
