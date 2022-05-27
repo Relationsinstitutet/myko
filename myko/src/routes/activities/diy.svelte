@@ -1,14 +1,5 @@
 <script lang="ts">
-  // import { createEventDispatcher } from 'svelte';
-
-  // const dispatch = createEventDispatcher();
-  // const errorMessage = 'hello';
-  // function handleMessage(message: any) {
-  //   // dispatch('message', {
-  //   //   text: 'Hello!',
-  //   // });
-  //   alert(message);
-  // }
+  let errorMessage: string | null = null;
 
   async function submitForm(e: Event) {
     const form = e.currentTarget as HTMLFormElement;
@@ -22,11 +13,9 @@
 
     if (response.status !== 201) {
       const { message } = await response.json();
-      console.log(message);
-      // handleMessage(message);
+      errorMessage = message;
     }
   }
-  // Don't forget to readd required below!!!
 </script>
 
 <svelte:head>
@@ -35,9 +24,11 @@
 
 <h1>Tillverka aktivitet</h1>
 
-<div>
-  <p>{$errorMessage}</p>
-</div>
+{#if errorMessage}
+  <div>
+    <p>{errorMessage}</p>
+  </div>
+{/if}
 
 <form on:submit|preventDefault={submitForm}>
   <div>
@@ -48,7 +39,7 @@
         det skulle kunna bli en aktivitet som alla kan göra samt kanske vad den skulle kunna ha för
         arbetsnamn.
       </span>
-      <input type="text" name="activity-description" />
+      <input type="text" name="activity-description" required />
     </label>
   </div>
 
@@ -63,6 +54,12 @@
   </div>
 
   <div>
-    <input type="submit" value="Notera aktiviteten" />
+    <input type="submit" value="Notera aktiviteten" required />
   </div>
 </form>
+
+<style>
+  p {
+    color: red;
+  }
+</style>
