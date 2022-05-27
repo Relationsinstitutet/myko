@@ -77,10 +77,16 @@
   export let userIsAttending: boolean | undefined = undefined;
 </script>
 
-<button on:click={userIsAttending === true ? handleCancelClick : handleBookingClick} {disabled}>
-  {#if userIsAttending}
-    Avboka
-  {:else}
-    Boka
-  {/if}
+<button
+  class:attending={userIsAttending === true}
+  on:click={userIsAttending === true ? handleCancelClick : handleBookingClick}
+  {disabled}
+>
+  <slot />
 </button>
+
+<style>
+  .attending {
+    background-color: greenyellow;
+  }
+</style>
