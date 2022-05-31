@@ -11,4 +11,4 @@
 
 <div id="canvasContainer" />
 
-<a href="/activities">Aktiviteter</a>
+<!-- <a href="/activities">Aktiviteter</a> -->

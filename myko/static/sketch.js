@@ -58,7 +58,7 @@ function draw() {
     sp.edge();
   }
 
-  fr.html(floor(frameRate()));
+  // fr.html(floor(frameRate()));
 }
 
 async function fetchActivityLog() {
