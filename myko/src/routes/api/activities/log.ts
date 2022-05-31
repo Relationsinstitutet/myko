@@ -9,7 +9,7 @@ type SanityResultType = {
 
 // Fetch activity log
 export const get: RequestHandler<Record<string, string>, ResponseBody> = async () => {
-  const limit = 10;
+  const limit = 20;
   const client = await createReadClient();
   const activityLogQuery = `*[
     _type == "${sanitySchemaNames.activitylog}"
@@ -28,6 +28,6 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
   });
   return {
     status: 200,
-    body: { body },
+    body,
   };
 };
