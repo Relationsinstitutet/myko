@@ -42,6 +42,7 @@
     align-items: center;
 
     font-family: 'Roboto Mono', monospace;
+    font-weight: 700;
   }
 
   .nav-bottom a {
@@ -52,9 +53,9 @@
   [aria-current] .navbottom a {
     color: red;
   } */
-  nav [aria-current='page'] {
+  /* nav [aria-current='page'] {
     color: red;
-  }
+  } */
 
   .nav-left {
     /* display: flex;
