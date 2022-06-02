@@ -35,28 +35,34 @@
   <title>Aktiviteter</title>
 </svelte:head>
 
-<h1>Aktivititer</h1>
+<main>
+  <h1>Aktivititer</h1>
 
-<ul>
-  {#each activities as activity}
-    <li>
-      {#if activity.eventSummaries.find((event) => event.userIsAttending)}
-        <span class="dot" />
-      {/if}
-      <a href="/activities/{activity.slug}">{activity.name}</a>
-      <span>
-        {#if activity.eventSummaries.length > 0}
-          ({activity.eventSummaries.reduce(
-            (totalEventAttendees, event) => totalEventAttendees + event.numAttendees,
-            0
-          )})
+  <ul>
+    {#each activities as activity}
+      <li>
+        {#if activity.eventSummaries.find((event) => event.userIsAttending)}
+          <span class="dot" />
         {/if}
-      </span>
-    </li>
-  {/each}
-</ul>
+        <a href="/activities/{activity.slug}">{activity.name}</a>
+        <span>
+          {#if activity.eventSummaries.length > 0}
+            ({activity.eventSummaries.reduce(
+              (totalEventAttendees, event) => totalEventAttendees + event.numAttendees,
+              0
+            )})
+          {/if}
+        </span>
+      </li>
+    {/each}
+  </ul>
+</main>
 
 <style>
+  main {
+    background-color: hsla(152, 43%, 93%, 1);
+    height: 100vh;
+  }
   ul {
     list-style: none;
   }
