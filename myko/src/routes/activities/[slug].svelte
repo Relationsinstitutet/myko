@@ -11,6 +11,7 @@
   import StartedActivityModal from '$lib/components/StartedActivityModal.svelte';
   import type StartedActivityData from '$lib/models/startedActivity';
   import CotimeInfo from '$lib/components/CotimeInfo.svelte';
+  import CotimeActions from '$lib/components/CotimeActions.svelte';
 
   const currentSlug = get(page).params.slug;
   const currentPage = get(page).url.pathname;
@@ -78,4 +79,8 @@
   {:else}
     <button on:click={login}> Logga in </button> för att göra aktiviteten direkt.
   {/if}
+{/if}
+
+{#if activity.cotime}
+  <CotimeActions cotime={activity.cotime} onActivityStarted={activityStarted} />
 {/if}
