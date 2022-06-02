@@ -1,8 +1,8 @@
 <nav>
   <div class="nav-bottom">
     <div class="nav-left">
-      <a href="/activities">göra</a>
       <a href="/">vi</a>
+      <a href="/activities">göra</a>
       <a href="/settings">jag</a>
     </div>
     <div class="nav-right">
