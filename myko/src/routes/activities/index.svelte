@@ -104,7 +104,7 @@
     --purple-400: hsla(332, 49%, 70%, 1);
     --purple-200: hsla(341, 50%, 85%, 1);
 
-    background-color: var(--ocean-100);
+    background-color: var(--peach-300);
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -112,16 +112,6 @@
     align-items: center;
     padding-top: 48px;
   }
-
-  /* h1 {
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 400;
-    text-transform: uppercase;
-    font-size: var(--20px); */
-
-  /* grey-700 */
-  /* color: hsla(0, 0%, 32%, 1); */
-  /* } */
 
   ul {
     list-style: none;
