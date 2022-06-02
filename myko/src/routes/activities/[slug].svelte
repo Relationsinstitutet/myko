@@ -10,7 +10,7 @@
   import { page } from '$app/stores';
   import StartedActivityModal from '$lib/components/StartedActivityModal.svelte';
   import type StartedActivityData from '$lib/models/startedActivity';
-  import Cotime from '$lib/components/Cotime.svelte';
+  import CotimeInfo from '$lib/components/CotimeInfo.svelte';
 
   const currentSlug = get(page).params.slug;
   const currentPage = get(page).url.pathname;
@@ -61,7 +61,7 @@
 {/if}
 
 {#if activity.cotime}
-  <Cotime cotime={activity.cotime} onActivityStarted={activityStarted} />
+  <CotimeInfo cotime={activity.cotime} />
 {/if}
 
 <Activity {activity} />
