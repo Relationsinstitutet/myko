@@ -83,10 +83,10 @@
     --72px: 4.5rem;
 
     /* Grey colors */
-    --grey-900: hsla(0, 0%, 13%, 1);
-    --grey-800: hsla(0, 0%, 23%, 1);
+    --grey-900: hsla(0, 0%, 13%, 1); /* Typography */
+    --grey-800: hsla(0, 0%, 23%, 1); /* Typography */
     --grey-700: hsla(0, 0%, 32%, 1);
-    --grey-600: hsla(0, 0%, 38%, 1);
+    --grey-600: hsla(0, 0%, 38%, 1); /* Typography */
     --grey-500: hsla(0, 0%, 49%, 1);
     --grey-400: hsla(0, 0%, 62%, 1);
     --grey-300: hsla(0, 0%, 69%, 1);
