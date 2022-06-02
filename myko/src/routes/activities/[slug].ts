@@ -1,21 +1,16 @@
 import { createReadClient, eventsForActivityFilter, notDraft, urlFor } from '$lib/sanityClient';
-import { eventIsStartable, userIsAttendee } from '$lib/util';
+import { computeNextCotime, eventIsStartable, userIsAttendee } from '$lib/util';
 import type { Cotime, IActivityWithCotime } from '$lib/models/activity';
 import type { PortableTextBlocks } from '@portabletext/svelte/ptTypes';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
-
-type EventType = {
-  _id: string;
-  attendees: { _ref: string }[];
-  date: string;
-};
+import type { SanityEventType } from '$lib/models/event';
 
 type SanityResultType = {
   _id: string;
   description: PortableTextBlocks;
   duration: string;
-  events: EventType[];
+  events: SanityEventType[];
   image?: SanityImageSource & { alt: string };
   instant: boolean;
   name: string;
@@ -45,24 +40,6 @@ function getActivity(slug: string): string {
     name,
     prerequisites
   }`;
-}
-
-function computeNextCotime(events: EventType[], userId: string | undefined): Cotime {
-  // group all events on the same day as the next upcoming event
-  const nextDate = events[0].date.split('T')[0];
-  const upcomingEvents = events.filter((event) => event.date.startsWith(nextDate));
-
-  return {
-    date: nextDate,
-    events: upcomingEvents.map((event) => {
-      return {
-        id: event._id,
-        time: event.date.split('T')[1],
-        ...(userId && { userIsAttending: userIsAttendee(userId, event.attendees) }),
-        isStartable: eventIsStartable(userId, event.date),
-      };
-    }),
-  };
 }
 
 // Fetch activity details
