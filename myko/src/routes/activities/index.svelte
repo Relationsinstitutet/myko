@@ -62,14 +62,6 @@
   @import url('https://fonts.googleapis.com/css2?family=Lato&family=Roboto+Mono:wght@400;700&display=swap');
 
   main {
-    background-color: hsla(152, 43%, 93%, 1);
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-items: center;
-    padding-top: 48px;
-
     /* Font sizes */
     --14px: 0.875rem;
     --16px: 1rem;
@@ -111,6 +103,14 @@
     --purple-500: hsla(314, 23%, 59%, 1);
     --purple-400: hsla(332, 49%, 70%, 1);
     --purple-200: hsla(341, 50%, 85%, 1);
+
+    background-color: var(--ocean-100);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-top: 48px;
   }
 
   /* h1 {
@@ -140,7 +140,7 @@
     display: inline-block;
     height: 15px;
     width: 15px;
-    background-color: #bbb;
+    background-color: var(--ocean-800);
     border-radius: 50%;
   }
 </style>
