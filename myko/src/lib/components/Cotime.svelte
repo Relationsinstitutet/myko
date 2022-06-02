@@ -10,6 +10,8 @@
   export let onActivityStarted: (event: CustomEvent<StartedActivityData>) => void;
 </script>
 
+<!-- TODO: only info about cotime at top, add "floating" buttons at bottom, show next upcoming cotime on index page -->
+
 <div class="cotime">
   Nästa samtid
   <div>
