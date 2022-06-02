@@ -1,6 +1,6 @@
 import { createReadClient, eventsForActivityFilter, notDraft, urlFor } from '$lib/sanityClient';
-import { computeNextCotime, eventIsStartable, userIsAttendee } from '$lib/util';
-import type { Cotime, IActivityWithCotime } from '$lib/models/activity';
+import { computeNextCotime } from '$lib/util';
+import type { IActivityWithCotime } from '$lib/models/activity';
 import type { PortableTextBlocks } from '@portabletext/svelte/ptTypes';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
