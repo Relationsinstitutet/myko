@@ -10,11 +10,16 @@ export default interface IActivity {
   readonly instant: boolean;
 }
 
-export type IActivityWithEvents = IActivity & {
+export type IActivityWithCotime = IActivity & {
+  readonly cotime?: Cotime;
+};
+
+export type Cotime = {
+  readonly date: string;
   readonly events: {
     readonly id: string;
     readonly userIsAttending?: boolean;
-    readonly date: string;
+    readonly time: string;
     readonly isStartable: boolean;
   }[];
 };

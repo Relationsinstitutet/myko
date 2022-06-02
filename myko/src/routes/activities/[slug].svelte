@@ -3,14 +3,15 @@
   import { isAuthenticated } from '$lib/auth/store';
 
   import Activity from '$lib/components/Activity.svelte';
-  import BookingControls from '$lib/components/BookingControls.svelte';
   import StartActivityButton from '$lib/components/StartActivityButton.svelte';
-  import type { IActivityWithEvents } from '$lib/models/activity';
+  import type { IActivityWithCotime } from '$lib/models/activity';
   import { onMount } from 'svelte';
   import { get } from 'svelte/store';
   import { page } from '$app/stores';
   import StartedActivityModal from '$lib/components/StartedActivityModal.svelte';
   import type StartedActivityData from '$lib/models/startedActivity';
+  import CotimeInfo from '$lib/components/CotimeInfo.svelte';
+  import CotimeActions from '$lib/components/CotimeActions.svelte';
 
   const currentSlug = get(page).params.slug;
   const currentPage = get(page).url.pathname;
@@ -49,7 +50,7 @@
   }
 
   // populated with data from the endpoint
-  export let activity: IActivityWithEvents;
+  export let activity: IActivityWithCotime;
 </script>
 
 <svelte:head>
@@ -58,6 +59,10 @@
 
 {#if showStartedActivityModal}
   <StartedActivityModal data={startedActivityData} bind:shown={showStartedActivityModal} />
+{/if}
+
+{#if activity.cotime}
+  <CotimeInfo cotime={activity.cotime} />
 {/if}
 
 <Activity {activity} />
@@ -76,23 +81,6 @@
   {/if}
 {/if}
 
-{#if activity.events.length > 0}
-  <h2>Tillfällen</h2>
-  <ul>
-    {#each activity.events as event}
-      <li>
-        {event.date}
-        <BookingControls eventId={event.id} bind:userIsAttending={event.userIsAttending} />
-        {#if $isAuthenticated && event.userIsAttending}
-          <StartActivityButton
-            on:activityStarted={activityStarted}
-            data={{ eventId: event.id }}
-            enabled={event.isStartable}
-          >
-            Starta
-          </StartActivityButton>
-        {/if}
-      </li>
-    {/each}
-  </ul>
+{#if activity.cotime}
+  <CotimeActions cotime={activity.cotime} onActivityStarted={activityStarted} />
 {/if}

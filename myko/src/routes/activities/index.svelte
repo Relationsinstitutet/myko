@@ -1,8 +1,9 @@
 <script lang="ts">
   import createClient from '$lib/auth/client';
   import { isAuthenticated } from '$lib/auth/store';
+  import CotimeInfo from '$lib/components/CotimeInfo.svelte';
 
-  import type { IActivitySummary } from '$lib/models/activity';
+  import type { Cotime, IActivitySummary } from '$lib/models/activity';
   import { onMount } from 'svelte';
   import { get } from 'svelte/store';
 
@@ -29,11 +30,16 @@
 
   // populated with data from the endpoint
   export let activities: IActivitySummary[];
+  export let nextUpcomingCotime: Cotime | undefined = undefined;
 </script>
 
 <svelte:head>
   <title>Aktiviteter</title>
 </svelte:head>
+
+{#if nextUpcomingCotime}
+  <CotimeInfo cotime={nextUpcomingCotime} />
+{/if}
 
 <h1>Aktivititer</h1>
 
