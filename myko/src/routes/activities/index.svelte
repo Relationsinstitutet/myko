@@ -83,22 +83,34 @@
     --72px: 4.5rem;
 
     /* Grey colors */
-    --grey-900: hsl(0 0% 13%);
-    --grey-800: hsl(0 0% 23%);
-    --grey-700: hsl(0 0% 23%);
-    --grey-600: hsl(0 0% 23%);
-    --grey-500: hsl(0 0% 23%);
-    --grey-400: hsl(0 0% 23%);
-    --grey-300: hsl(0 0% 23%);
-    --grey-200: hsl(0 0% 23%);
-    --grey-100: hsl(0 0% 23%);
-    --grey-050: hsl(0 0% 23%);
+    --grey-900: hsla(0, 0%, 13%, 1);
+    --grey-800: hsla(0, 0%, 23%, 1);
+    --grey-700: hsla(0, 0%, 32%, 1);
+    --grey-600: hsla(0, 0%, 38%, 1);
+    --grey-500: hsla(0, 0%, 49%, 1);
+    --grey-400: hsla(0, 0%, 62%, 1);
+    --grey-300: hsla(0, 0%, 69%, 1);
+    --grey-200: hsla(0, 0%, 81%, 1);
+    --grey-100: hsla(0, 0%, 88%, 1);
+    --grey-050: hsla(0, 0%, 97%, 1);
 
     /* Ocean colors */
     --ocean-800: hsla(185, 97%, 23%, 1);
     --ocean-600: hsla(185, 99%, 29%, 1);
     --ocean-400: hsla(187, 54%, 51%, 1);
     --ocean-100: hsla(152, 43%, 93%, 1);
+
+    /* Peach colors */
+    --peach-700: hsla(358, 93%, 79%, 1);
+    --peach-500: hsla(30, 100%, 85%, 1);
+    --peach-300: hsla(28, 100%, 90%, 1);
+    --peach-100: hsla(49, 100%, 96%, 1);
+
+    /* Purple colors */
+    --purple-700: hsla(311, 26%, 49%, 1);
+    --purple-500: hsla(314, 23%, 59%, 1);
+    --purple-400: hsla(332, 49%, 70%, 1);
+    --purple-200: hsla(341, 50%, 85%, 1);
   }
 
   /* h1 {
