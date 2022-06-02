@@ -36,7 +36,7 @@
 </svelte:head>
 
 <main>
-  <h1>Aktivititer</h1>
+  <!-- <h1>Aktivititer</h1> -->
 
   <ul>
     {#each activities as activity}
@@ -59,12 +59,63 @@
 </main>
 
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Lato&family=Roboto+Mono:wght@400;700&display=swap');
+
   main {
     background-color: hsla(152, 43%, 93%, 1);
     height: 100vh;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-top: 48px;
+
+    /* Font sizes */
+    --14px: 0.875rem;
+    --16px: 1rem;
+    --18px: 1.125rem;
+    --20px: 1.25rem;
+    --24px: 1.5rem;
+    --30px: 1.875rem;
+    --36px: 2.25rem;
+    --48px: 3rem;
+    --60px: 3.75rem;
+    --72px: 4.5rem;
+
+    /* Grey colors */
+    --grey-900: hsl(0 0% 13%);
+    --grey-800: hsl(0 0% 23%);
+    --grey-700: hsl(0 0% 23%);
+    --grey-600: hsl(0 0% 23%);
+    --grey-500: hsl(0 0% 23%);
+    --grey-400: hsl(0 0% 23%);
+    --grey-300: hsl(0 0% 23%);
+    --grey-200: hsl(0 0% 23%);
+    --grey-100: hsl(0 0% 23%);
+    --grey-050: hsl(0 0% 23%);
   }
+
+  /* h1 {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: var(--20px); */
+
+  /* grey-700 */
+  /* color: hsla(0, 0%, 32%, 1); */
+  /* } */
+
   ul {
     list-style: none;
+  }
+
+  li {
+    font-family: 'Roboto Mono', monospace;
+    line-height: var(--48px);
+  }
+
+  li a {
+    color: var(--grey-700);
   }
 
   .dot {
