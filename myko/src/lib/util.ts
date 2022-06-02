@@ -19,7 +19,7 @@ export function eventIsStartable(userId: string | undefined, startDate: string):
   // event is "startable" if user is logged in and it's less than the specified time left before the event start time
   const gracePeriodSeconds = 60 * 10;
   const parsedStartDate = Date.parse(startDate);
-  const now = new Date();
+  const now = new Date().valueOf();
   const diffSeconds = (parsedStartDate - now) / 1000;
   return diffSeconds < gracePeriodSeconds;
 }
