@@ -61,11 +61,12 @@
   <StartedActivityModal data={startedActivityData} bind:shown={showStartedActivityModal} />
 {/if}
 
-{#if activity.cotime}
-  <CotimeInfo cotime={activity.cotime} />
-{/if}
+<main>
+  {#if activity.cotime}
+    <CotimeInfo cotime={activity.cotime} />
+  {/if}
 
-<div class="wrapper">
+  <!-- <div class="wrapper"> -->
   <Activity {activity} />
 
   {#if activity.instant}
@@ -85,15 +86,20 @@
   {#if activity.cotime}
     <CotimeActions cotime={activity.cotime} onActivityStarted={activityStarted} />
   {/if}
-</div>
+  <!-- </div> -->
+</main>
 
 <style>
-  .wrapper {
+  main {
     background-color: var(--peach-300);
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    align-items: center;
+    padding-top: 48px;
+    padding-left: 48px;
+    padding-right: 48px;
     padding-bottom: 64px;
+    font-family: 'Lato', sans-serif;
+    color: var(--grey-800);
   }
 </style>

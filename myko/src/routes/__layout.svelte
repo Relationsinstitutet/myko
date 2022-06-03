@@ -14,10 +14,11 @@
 <slot />
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Roboto+Mono:wght@300;400;500;700&display=swap');
 
   :global(:root) {
     /* Font sizes */
+    --12px: 0.75rem;
     --14px: 0.875rem;
     --16px: 1rem;
     --18px: 1.125rem;
