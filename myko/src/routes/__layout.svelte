@@ -16,7 +16,7 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap');
 
-  nav {
+  :global(:root) {
     /* Font sizes */
     --14px: 0.875rem;
     --16px: 1rem;
@@ -58,14 +58,15 @@
     --purple-500: hsla(314, 23%, 59%, 1);
     --purple-400: hsla(332, 49%, 70%, 1);
     --purple-200: hsla(341, 50%, 85%, 1);
+
+    background-color: var(-peach-300);
   }
 
   .nav-bottom {
     background-color: var(--peach-100);
-    /* border-top: 0.5px solid #ccc; */
+    /* border-top: 0.5px solid #ccc; */ /* TODO test with color and/or shadow*/
     border-bottom: 2px solid var(--ocean-600);
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
-
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25); /* TODO test with colored shadow*/
     position: fixed;
     bottom: 0;
     overflow: hidden;
@@ -75,10 +76,8 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-
     justify-content: space-between;
     align-items: center;
-
     font-family: 'Roboto Mono', monospace;
     font-weight: 700;
   }
@@ -87,17 +86,8 @@
     text-decoration: none;
     color: var(--grey-800);
   }
-  /*
-  [aria-current] .navbottom a {
-    color: red;
-  } */
-  /* nav [aria-current='page'] {
-    color: red;
-  } */
 
   .nav-left {
-    /* display: flex;
-    justify-content: space-evenly; */
     margin-left: 24px;
   }
 

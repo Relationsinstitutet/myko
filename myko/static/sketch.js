@@ -57,8 +57,6 @@ function draw() {
     sp.follow();
     sp.edge();
   }
-
-  // fr.html(floor(frameRate()));
 }
 
 async function fetchActivityLog() {
