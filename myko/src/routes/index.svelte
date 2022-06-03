@@ -1,14 +1,18 @@
-<svelte:head>
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"
-    integrity="sha512-NxocnqsXP3zm0Xb42zqVMvjQIktKEpTIbCXXyhBPxqGZHqhcOXHs4pXI/GoZ8lE+2NJONRifuBpi9DxC58L0Lw=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer">
-  </script>
-  <script src="/sketch.js"></script>
-  <script src="/class.js"></script>
-</svelte:head>
+<script lang="ts">
+  import P5 from 'p5-svelte';
+  import type { Sketch, p5 } from 'p5-svelte';
+  import { setup, draw } from '$lib/visualisation/sketch';
 
-<div id="canvasContainer" />
+  const sketch: Sketch = (p5: p5) => {
+    p5.setup = () => {
+      setup(p5);
+    };
+    p5.draw = () => {
+      draw(p5);
+    };
+  };
+</script>
+
+<P5 {sketch} />
 
 <a href="/activities">Aktiviteter</a>
