@@ -65,22 +65,35 @@
   <CotimeInfo cotime={activity.cotime} />
 {/if}
 
-<Activity {activity} />
+<div class="wrapper">
+  <Activity {activity} />
 
-{#if activity.instant}
-  {#if $isAuthenticated}
-    <StartActivityButton
-      on:activityStarted={activityStarted}
-      data={{ activityId: activity.id }}
-      enabled
-    >
-      Gör direkt
-    </StartActivityButton>
-  {:else}
-    <button on:click={login}> Logga in </button> för att göra aktiviteten direkt.
+  {#if activity.instant}
+    {#if $isAuthenticated}
+      <StartActivityButton
+        on:activityStarted={activityStarted}
+        data={{ activityId: activity.id }}
+        enabled
+      >
+        Gör direkt
+      </StartActivityButton>
+    {:else}
+      <button on:click={login}> Logga in </button> för att göra aktiviteten direkt.
+    {/if}
   {/if}
-{/if}
 
-{#if activity.cotime}
-  <CotimeActions cotime={activity.cotime} onActivityStarted={activityStarted} />
-{/if}
+  {#if activity.cotime}
+    <CotimeActions cotime={activity.cotime} onActivityStarted={activityStarted} />
+  {/if}
+</div>
+
+<style>
+  .wrapper {
+    background-color: var(--peach-300);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-bottom: 64px;
+  }
+</style>

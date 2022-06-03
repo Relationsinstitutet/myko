@@ -5,8 +5,11 @@
   export let activity: IActivity;
 </script>
 
-<div class="activity">
-  <h2>{activity.name}</h2>
+<main>
+  <h1>{activity.name}</h1>
+
+  <PortableText blocks={activity.description} />
+
   <div>{activity.duration}</div>
 
   <ul>
@@ -14,15 +17,33 @@
       <li>{prereq}</li>
     {/each}
   </ul>
-  <PortableText blocks={activity.description} />
-
   {#if activity.image}
     <img loading="lazy" src={activity.image.url} alt={activity.image.alt} />
   {/if}
-</div>
+</main>
 
 <style>
-  .activity {
-    border: 1px solid grey;
+  main {
+    background-color: var(--peach-300);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding-top: 48px;
+    padding-left: 48px;
+    padding-right: 48px;
+    font-family: 'Lato', sans-serif;
+    color: var(--grey-800);
   }
+
+  h1 {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: var(--24px);
+    color: var(--grey-800);
+    margin-top: 2em;
+    margin-bottom: var(--30px);
+  }
+
+  /* the h2's in the portabletext blocks are styled in app.html */
 </style>
