@@ -58,8 +58,6 @@
     --purple-500: hsla(314, 23%, 59%, 1);
     --purple-400: hsla(332, 49%, 70%, 1);
     --purple-200: hsla(341, 50%, 85%, 1);
-
-    background-color: var(-peach-300);
   }
 
   .nav-bottom {

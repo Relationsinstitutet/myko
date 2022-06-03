@@ -33,7 +33,6 @@
     padding-right: 48px;
     font-family: 'Lato', sans-serif;
     color: var(--grey-800);
-    margin-block-end: var(--36px);
   }
 
   h1 {
