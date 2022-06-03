@@ -25,10 +25,6 @@
 </main>
 
 <style>
-  /* .activity {
-    border: 1px solid grey;
-  } */
-
   @import url('https://fonts.googleapis.com/css2?family=Lato&family=Roboto+Mono:wght@400;700&display=swap');
 
   main {
