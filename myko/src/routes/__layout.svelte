@@ -1,4 +1,5 @@
 <nav>
+<div class="bottom-gradient">
   <div class="nav-bottom">
     <div class="nav-left">
       <a href="/">vi</a>
@@ -8,6 +9,7 @@
     <div class="nav-right">
       <a href="/faq">?</a>
     </div>
+  </div>
   </div>
 </nav>
 
@@ -60,6 +62,21 @@
     --purple-400: hsla(332, 49%, 70%, 1);
     --purple-200: hsla(341, 50%, 85%, 1);
   }
+
+.bottom-gradient {
+    position: fixed;
+    bottom: 0;
+    /* margin-bottom: 8px; */
+    height: 236px;
+    width: 100%;
+    /* height: 236.99998474121978px;
+width: 326.0000610351564px;
+left: 323px;
+top: 482px; */
+border-radius: 0px;
+background: linear-gradient(3deg, #3FB6C6 -2.94%, #C1C6E0 8.67%, #349DAB 19.14%, rgba(200, 131, 180, 0.83) 33.09%, rgba(216, 160, 193, 0.57678) 54.02%, rgba(236, 198, 210, 0.25322) 80.76%, rgba(252, 228, 223, 0) 101.68%);
+
+}
 
   .nav-bottom {
     background-color: var(--peach-100);
