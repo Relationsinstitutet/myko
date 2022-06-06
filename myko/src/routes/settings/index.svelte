@@ -20,6 +20,11 @@
     readonly activityName: string;
     userIsAttending: boolean;
   }[] = [];
+  let completedActivities: {
+    readonly date: string;
+    readonly time: string;
+    readonly activityName: string;
+  }[] = [];
 
   onMount(async () => {
     authClient = await createClient();
@@ -34,7 +39,7 @@
 
     if (response.ok) {
       const data = await response.json();
-      ({ eventsUserIsAttending } = data);
+      ({ eventsUserIsAttending, completedActivities } = data);
     }
   });
 
@@ -60,9 +65,9 @@
 
 {#if $isAuthenticated}
   <h1>Bokade aktiviteter</h1>
-  <ul class="event-list">
+  <ul class="plain-list">
     {#if eventsUserIsAttending.length < 1}
-      Inget inbokat.
+      Inget inbokat än.
     {/if}
     {#each eventsUserIsAttending as event}
       <li>
@@ -74,6 +79,19 @@
       </li>
     {/each}
   </ul>
+
+  <h1>Genomförda aktiviteter</h1>
+    {#if completedActivities.length < 1}
+      Inga genomförda aktiviteter än.
+    {/if}
+    <ul class="plain-list">
+    {#each completedActivities as activity}
+      <li>
+        {formatDate(activity.date, { day: 'numeric', month: 'numeric' })}
+        {activity.activityName}
+      </li>
+    {/each}
+    </ul>
 {:else}
   <div class="unauthenticated">Logga in för att se dina bokade aktiviteter</div>
 {/if}
@@ -95,7 +113,7 @@
     font-size: var(--24px);
   }
 
-  .event-list {
+  .plain-list {
     list-style: none;
   }
 </style>

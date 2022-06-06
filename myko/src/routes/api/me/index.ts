@@ -2,15 +2,17 @@ import { createReadClient } from '$lib/sanityClient';
 import { sanitySchemaNames } from '$lib/util';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
-type Event = {
-  _id: string;
-  date: string;
-  activityName: string;
-};
-
 type SanityResultType = {
-    eventsForUser: Event[];
-}
+  eventsForUser: {
+    _id: string;
+    date: string;
+    activityName: string;
+  }[];
+  completedActivities: {
+    _createdAt: string;
+    activityName: string;
+  }[];
+};
 
 // Fetch user data summary
 export const get: RequestHandler<Record<string, string>, ResponseBody> = async ({ locals }) => {
@@ -23,16 +25,24 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
   const userId = locals.user.userId;
   const client = await createReadClient();
   const eventsForUserQuery = `*[
-      _type == "${sanitySchemaNames.event}" &&
-      references("${userId}")
-    ] | order(date asc) {
-      _id,
-      date,
-      "activityName": activity->name
-    }`;
+    _type == "${sanitySchemaNames.event}" &&
+    references("${userId}")
+  ] | order(date asc) {
+    _id,
+    date,
+    "activityName": activity->name
+  }`;
+  const completedActivitiesForUserQuery = `*[
+    _type == "${sanitySchemaNames.activitylog}" &&
+    references("${userId}")
+  ] | order(_createdAt desc) {
+    _createdAt,
+    "activityName": activity->name
+  }`;
 
   const result = await client.fetch<SanityResultType>(`{
-      "eventsForUser": ${eventsForUserQuery}
+      "eventsForUser": ${eventsForUserQuery},
+      "completedActivities": ${completedActivitiesForUserQuery}
   }`);
 
   const eventsUserIsAttending = result.eventsForUser.map((e) => {
@@ -45,8 +55,16 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
       userIsAttending: true,
     };
   });
+  const completedActivities = result.completedActivities.map((e) => {
+    const [date, time] = e._createdAt.split('T');
+    return {
+      date,
+      time,
+      activityName: e.activityName,
+    };
+  });
   return {
     status: 200,
-    body: { eventsUserIsAttending },
+    body: { eventsUserIsAttending, completedActivities },
   };
 };
