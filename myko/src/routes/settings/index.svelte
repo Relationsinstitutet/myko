@@ -5,10 +5,17 @@
   import createClient from '$lib/auth/client';
   import { isAuthenticated, user } from '$lib/auth/store';
   import BookingControls from '$lib/components/BookingControls.svelte';
+  import Paginated from '$lib/components/Paginated.svelte';
   import { formatDate, formatTime } from '$lib/dateFormat';
 
   import { onMount } from 'svelte';
   import { get } from 'svelte/store';
+
+  type CompletedActivity = {
+    readonly date: string;
+    readonly time: string;
+    readonly activityName: string;
+  };
 
   const currentPath = get(page).url.pathname;
 
@@ -20,11 +27,7 @@
     readonly activityName: string;
     userIsAttending: boolean;
   }[] = [];
-  let completedActivities: {
-    readonly date: string;
-    readonly time: string;
-    readonly activityName: string;
-  }[] = [];
+  let completedActivities: CompletedActivity[] = [];
 
   onMount(async () => {
     authClient = await createClient();
@@ -49,6 +52,13 @@
 
   function login() {
     authClient.login(currentPath);
+  }
+
+  function renderCompletedActivity(activity: CompletedActivity): string {
+    const date = formatDate(activity.date, { day: 'numeric', month: 'numeric' });
+    const time = formatTime(activity.date, activity.time);
+
+    return `<li>${date} ${time}: ${activity.activityName}</li>`;
   }
 </script>
 
@@ -81,17 +91,12 @@
   </ul>
 
   <h1>Genomförda aktiviteter</h1>
-    {#if completedActivities.length < 1}
-      Inga genomförda aktiviteter än.
-    {/if}
-    <ul class="plain-list">
-    {#each completedActivities as activity}
-      <li>
-        {formatDate(activity.date, { day: 'numeric', month: 'numeric' })}
-        {activity.activityName}
-      </li>
-    {/each}
-    </ul>
+  {#if completedActivities.length < 1}
+    Inga genomförda aktiviteter än.
+  {/if}
+  <ul>
+    <Paginated data={completedActivities} render={renderCompletedActivity} />
+  </ul>
 {:else}
   <div class="unauthenticated">Logga in för att se dina bokade aktiviteter</div>
 {/if}
