@@ -23,6 +23,8 @@ An `.editorconfig` exists in the directory and the code style is automatically e
 The app is currently hosted on Netlify which automatically builds the app
 with the config specified in [`netlify.toml`](./netlify.toml).
 
+The Sanity tokens used in production are added as environment variables in Netlify and stored in RI:s password vault.
+
 ### Production preview
 
 To create a production version of your app:
