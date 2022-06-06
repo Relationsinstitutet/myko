@@ -1,6 +1,6 @@
 import type { Cotime, IActivitySummary } from '$lib/models/activity';
 import { createReadClient, eventsForActivityFilter, notDraft } from '$lib/sanityClient';
-import { computeNextCotime, userIsAttendee } from '$lib/util';
+import { computeNextCotime, sanitySchemaNames, userIsAttendee } from '$lib/util';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
 type Activity = {
@@ -48,7 +48,7 @@ function getActivitiesQuery() {
   }`;
 
   return `*[
-    _type == "activity" && ${notDraft}
+    _type == "${sanitySchemaNames.activity}" && ${notDraft}
   ] | order(name asc) {
     name,
     "events": ${eventAttendeesQuery},
