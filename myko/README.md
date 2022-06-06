@@ -12,6 +12,10 @@ npm run dev
 npm run dev -- --open
 ```
 
+To make sure you can test all functionality of the app you need to generate ["Robot tokens" for Sanity](https://www.sanity.io/docs/http-auth#4c21d7b829fe).
+One token with only read permission and one token with writer permission should be added to your local `.env` file,
+as `SANITY_READ_TOKEN` and `SANITY_WRITE_TOKEN` respectively.
+
 An `.editorconfig` exists in the directory and the code style is automatically enforced via `prettier` (`npm run format`).
 
 ## Deploying
