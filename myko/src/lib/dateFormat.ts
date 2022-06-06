@@ -5,7 +5,7 @@ export function formatDate(
     month: 'numeric',
     weekday: 'short',
   },
-  locale: string = 'sv-SE'
+  locale = 'sv-SE'
 ): string {
   return new Date(Date.parse(d)).toLocaleDateString(locale, formatOptions);
 }

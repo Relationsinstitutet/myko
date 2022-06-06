@@ -19,7 +19,7 @@
   type T = $$Generic;
   export let data: T[];
   export let render: (item: T) => string;
-  export let itemsPerPage: number = 10;
+  export let itemsPerPage = 10;
 </script>
 
 {#each data.slice(currentPageIndex * itemsPerPage, (currentPageIndex + 1) * itemsPerPage) as item}

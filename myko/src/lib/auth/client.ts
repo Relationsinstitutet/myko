@@ -20,7 +20,7 @@ export class Client {
     });
   }
 
-  async logout(returnTo: string = '/') {
+  async logout(returnTo = '/') {
     await this.client.logout({ returnTo: this.absoluteUrl(returnTo) });
   }
 
