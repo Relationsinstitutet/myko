@@ -1,5 +1,5 @@
 import { createReadClient, eventsForActivityFilter, notDraft, urlFor } from '$lib/sanityClient';
-import { computeNextCotime } from '$lib/util';
+import { computeNextCotime, sanitySchemaNames } from '$lib/util';
 import type { IActivityWithCotime } from '$lib/models/activity';
 import type { PortableTextBlocks } from '@portabletext/svelte/ptTypes';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
@@ -27,7 +27,7 @@ function getActivity(slug: string): string {
   }`;
 
   return `*[
-    _type == "activity" &&
+    _type == "${sanitySchemaNames.activity}" &&
     slug.current == "${slug}" &&
     ${notDraft}
   ][0] {

@@ -2,7 +2,9 @@ import type { Cotime } from './models/activity';
 import type { SanityEventType } from './models/event';
 
 export enum sanitySchemaNames {
+  activity = 'activity',
   activitylog = 'activitylog',
+  event = 'event',
   webuser = 'webuser',
   reference = 'reference',
 }
