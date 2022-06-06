@@ -1,28 +1,49 @@
-import type { IActivitySummary } from '$lib/models/activity';
+import type { Cotime, IActivitySummary } from '$lib/models/activity';
 import { createReadClient, eventsForActivityFilter, notDraft } from '$lib/sanityClient';
-import { userIsAttendee } from '$lib/util';
+import { computeNextCotime, userIsAttendee } from '$lib/util';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
-type SanityResultType = {
-  activities: [
-    {
-      name: string;
-      events: [
-        {
-          attendees: { _ref: string }[] | null;
-          numAttendees: number;
-        }
-      ];
-      slug: { current: string };
-    }
-  ];
+type Activity = {
+  name: string;
+  events: {
+    _id: string;
+    attendees: { _ref: string }[];
+    date: string;
+    numAttendees: number;
+  }[];
+  slug: { current: string };
 };
+
+type SanityResultType = {
+  activities: Activity[];
+};
+
+type Response = {
+  activities: IActivitySummary[];
+  nextUpcomingCotime?: Cotime;
+};
+
+function sortActivitiesByEventDate(activities: Activity[]) {
+  return activities.sort((a, b) => {
+    if (a.events.length > 0) {
+      if (b.events.length > 0) {
+        return a.events[0].date.localeCompare(b.events[0].date);
+      }
+
+      return -1;
+    }
+
+    return 0;
+  });
+}
 
 function getActivitiesQuery() {
   const eventAttendeesQuery = `*[
     ${eventsForActivityFilter}
-  ] {
+  ] | order(date asc) {
+      _id,
       attendees,
+      date,
       "numAttendees": coalesce(count(attendees), 0)
   }`;
 
@@ -61,10 +82,18 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
         slug: activity.slug.current,
       };
     });
+    const sortedActivities = sortActivitiesByEventDate(data.activities);
+    const activityWithNearestEvents = sortedActivities[0];
 
+    const body: Response = {
+      activities: activitySummaries,
+      ...(activityWithNearestEvents.events.length > 0 && {
+        nextUpcomingCotime: computeNextCotime(activityWithNearestEvents.events, userId),
+      }),
+    };
     return {
       status: 200,
-      body: { activities: activitySummaries },
+      body,
     };
   }
 

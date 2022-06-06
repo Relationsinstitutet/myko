@@ -11,3 +11,63 @@
     <div>%svelte.body%</div>
   </body>
 </html>
+
+<style>
+  /*
+   Josh's Custom CSS Reset
+   https://www.joshwcomeau.com/css/custom-css-reset/
+ */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  * {
+    margin: 0;
+  }
+  html,
+  body,
+  #__next {
+    height: 100%;
+  }
+  body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+  }
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    overflow-wrap: break-word;
+  }
+  #root,
+  #__next {
+    isolation: isolate;
+  }
+
+  /* Extra settings for targeting within portabletext blocks */
+  h2 {
+    --grey-800: hsla(0, 0%, 23%, 1); /* Typography */
+
+    font-size: 1rem;
+    color: var(--grey-800);
+    margin-top: 2em;
+  }
+</style>

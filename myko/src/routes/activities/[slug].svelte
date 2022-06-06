@@ -3,14 +3,15 @@
   import { isAuthenticated } from '$lib/auth/store';
 
   import Activity from '$lib/components/Activity.svelte';
-  import BookingControls from '$lib/components/BookingControls.svelte';
   import StartActivityButton from '$lib/components/StartActivityButton.svelte';
-  import type { IActivityWithEvents } from '$lib/models/activity';
+  import type { IActivityWithCotime } from '$lib/models/activity';
   import { onMount } from 'svelte';
   import { get } from 'svelte/store';
   import { page } from '$app/stores';
   import StartedActivityModal from '$lib/components/StartedActivityModal.svelte';
   import type StartedActivityData from '$lib/models/startedActivity';
+  import CotimeInfo from '$lib/components/CotimeInfo.svelte';
+  import CotimeActions from '$lib/components/CotimeActions.svelte';
 
   const currentSlug = get(page).params.slug;
   const currentPage = get(page).url.pathname;
@@ -49,7 +50,7 @@
   }
 
   // populated with data from the endpoint
-  export let activity: IActivityWithEvents;
+  export let activity: IActivityWithCotime;
 </script>
 
 <svelte:head>
@@ -60,39 +61,45 @@
   <StartedActivityModal data={startedActivityData} bind:shown={showStartedActivityModal} />
 {/if}
 
-<Activity {activity} />
-
-{#if activity.instant}
-  {#if $isAuthenticated}
-    <StartActivityButton
-      on:activityStarted={activityStarted}
-      data={{ activityId: activity.id }}
-      enabled
-    >
-      Gör direkt
-    </StartActivityButton>
-  {:else}
-    <button on:click={login}> Logga in </button> för att göra aktiviteten direkt.
+<main>
+  {#if activity.cotime}
+    <CotimeInfo cotime={activity.cotime} />
   {/if}
-{/if}
 
-{#if activity.events.length > 0}
-  <h2>Tillfällen</h2>
-  <ul>
-    {#each activity.events as event}
-      <li>
-        {event.date}
-        <BookingControls eventId={event.id} bind:userIsAttending={event.userIsAttending} />
-        {#if $isAuthenticated && event.userIsAttending}
-          <StartActivityButton
-            on:activityStarted={activityStarted}
-            data={{ eventId: event.id }}
-            enabled={event.isStartable}
-          >
-            Starta
-          </StartActivityButton>
-        {/if}
-      </li>
-    {/each}
-  </ul>
-{/if}
+  <!-- <div class="wrapper"> -->
+  <Activity {activity} />
+
+  {#if activity.instant}
+    {#if $isAuthenticated}
+      <StartActivityButton
+        on:activityStarted={activityStarted}
+        data={{ activityId: activity.id }}
+        enabled
+      >
+        Gör direkt
+      </StartActivityButton>
+    {:else}
+      <button on:click={login}> Logga in </button> för att göra aktiviteten direkt.
+    {/if}
+  {/if}
+
+  {#if activity.cotime}
+    <CotimeActions cotime={activity.cotime} onActivityStarted={activityStarted} />
+  {/if}
+  <!-- </div> -->
+</main>
+
+<style>
+  main {
+    background-color: var(--peach-300);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding-top: 48px;
+    padding-left: 48px;
+    padding-right: 48px;
+    padding-bottom: 64px;
+    font-family: 'Lato', sans-serif;
+    color: var(--grey-800);
+  }
+</style>

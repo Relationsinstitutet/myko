@@ -1,19 +1,16 @@
 import { createReadClient, eventsForActivityFilter, notDraft, urlFor } from '$lib/sanityClient';
-import { eventIsStartable, userIsAttendee } from '$lib/util';
-import type { IActivityWithEvents } from '$lib/models/activity';
+import { computeNextCotime } from '$lib/util';
+import type { IActivityWithCotime } from '$lib/models/activity';
 import type { PortableTextBlocks } from '@portabletext/svelte/ptTypes';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
+import type { SanityEventType } from '$lib/models/event';
 
 type SanityResultType = {
   _id: string;
   description: PortableTextBlocks;
   duration: string;
-  events: {
-    _id: string;
-    attendees: { _ref: string }[];
-    date: string;
-  }[];
+  events: SanityEventType[];
   image?: SanityImageSource & { alt: string };
   instant: boolean;
   name: string;
@@ -60,7 +57,7 @@ export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({
       userId = locals.user.userId;
     }
 
-    const activityData: IActivityWithEvents = {
+    const activityData: IActivityWithCotime = {
       id: activity._id,
       description: activity.description,
       duration: activity.duration,
@@ -70,14 +67,7 @@ export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({
           alt: activity.image.alt,
         },
       }),
-      events: activity.events.map((event) => {
-        return {
-          id: event._id,
-          date: event.date,
-          ...(userId && { userIsAttending: userIsAttendee(userId, event.attendees) }),
-          isStartable: eventIsStartable(userId, event.date),
-        };
-      }),
+      ...(activity.events.length > 0 && { cotime: computeNextCotime(activity.events, userId) }),
       name: activity.name,
       prerequisites: activity.prerequisites,
       instant: activity.instant,

@@ -5,24 +5,31 @@
   export let activity: IActivity;
 </script>
 
-<div class="activity">
-  <h2>{activity.name}</h2>
-  <div>{activity.duration}</div>
+<h1>{activity.name}</h1>
 
-  <ul>
-    {#each activity.prerequisites as prereq}
-      <li>{prereq}</li>
-    {/each}
-  </ul>
-  <PortableText blocks={activity.description} />
+<PortableText blocks={activity.description} />
 
-  {#if activity.image}
-    <img loading="lazy" src={activity.image.url} alt={activity.image.alt} />
-  {/if}
-</div>
+<div>{activity.duration}</div>
+
+<ul>
+  {#each activity.prerequisites as prereq}
+    <li>{prereq}</li>
+  {/each}
+</ul>
+{#if activity.image}
+  <img loading="lazy" src={activity.image.url} alt={activity.image.alt} />
+{/if}
 
 <style>
-  .activity {
-    border: 1px solid grey;
+  h1 {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: var(--24px);
+    color: var(--grey-800);
+    margin-top: 1em;
+    margin-bottom: var(--30px);
   }
+
+  /* the h2's in the portabletext blocks are styled in app.html */
 </style>

@@ -1,8 +1,9 @@
 <script lang="ts">
   import createClient from '$lib/auth/client';
   import { isAuthenticated } from '$lib/auth/store';
+  import CotimeInfo from '$lib/components/CotimeInfo.svelte';
 
-  import type { IActivitySummary } from '$lib/models/activity';
+  import type { Cotime, IActivitySummary } from '$lib/models/activity';
   import { onMount } from 'svelte';
   import { get } from 'svelte/store';
 
@@ -29,43 +30,67 @@
 
   // populated with data from the endpoint
   export let activities: IActivitySummary[];
+  export let nextUpcomingCotime: Cotime | undefined = undefined;
 </script>
 
 <svelte:head>
   <title>Aktiviteter</title>
 </svelte:head>
+<main>
+  {#if nextUpcomingCotime}
+    <CotimeInfo cotime={nextUpcomingCotime} />
+  {/if}
 
-<h1>Aktivititer</h1>
-
-<ul>
-  {#each activities as activity}
-    <li>
-      {#if activity.eventSummaries.find((event) => event.userIsAttending)}
-        <span class="dot" />
-      {/if}
-      <a href="/activities/{activity.slug}">{activity.name}</a>
-      <span>
-        {#if activity.eventSummaries.length > 0}
-          ({activity.eventSummaries.reduce(
-            (totalEventAttendees, event) => totalEventAttendees + event.numAttendees,
-            0
-          )})
+  <ul>
+    {#each activities as activity}
+      <li>
+        {#if activity.eventSummaries.find((event) => event.userIsAttending)}
+          <span class="dot" />
         {/if}
-      </span>
-    </li>
-  {/each}
-</ul>
+        <a href="/activities/{activity.slug}">{activity.name}</a>
+        <span>
+          {#if activity.eventSummaries.length > 0}
+            ({activity.eventSummaries.reduce(
+              (totalEventAttendees, event) => totalEventAttendees + event.numAttendees,
+              0
+            )})
+          {/if}
+        </span>
+      </li>
+    {/each}
+  </ul>
+</main>
 
 <style>
+  main {
+    background-color: var(--peach-300);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-top: 48px;
+  }
+
   ul {
     list-style: none;
+    padding-inline-start: 0;
+  }
+
+  li {
+    font-family: 'Roboto Mono', monospace;
+    line-height: var(--48px);
+  }
+
+  li a {
+    color: var(--grey-700);
   }
 
   .dot {
     display: inline-block;
     height: 15px;
     width: 15px;
-    background-color: #bbb;
+    background-color: var(--ocean-800);
     border-radius: 50%;
   }
 </style>
