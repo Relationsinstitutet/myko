@@ -116,12 +116,13 @@
     color: var(--ocean-800);
     padding: 8px;
     border: 0;
-    position: fixed;
-    bottom: 0;
-    margin-bottom: 72px;
+
   }
 
   .wrapper {
+      position: fixed;
+      bottom: 0;
+      margin-bottom: 72px;
      display: flex;
      justify-content: flex-end;
   }

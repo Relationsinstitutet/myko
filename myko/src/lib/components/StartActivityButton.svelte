@@ -41,10 +41,32 @@
 {#if loading}
   <div class="loader" />
 {:else}
+<div class="wrapper">
   <button on:click={startActivity} disabled={!enabled}><slot /></button>
+  </div>
 {/if}
 
 <style>
+
+button {
+    background: var(--grey-050);
+    box-shadow: 2px 2px 9px -2px rgb(108 97 97 / 50%);
+    border-radius: 4px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 800;
+    text-align: center;
+    color: var(--ocean-800);
+    padding: 8px;
+    border: 0;
+    /* max-width: fit-content; */
+}
+.wrapper {
+    /* position: fixed;
+    bottom: 0;
+    margin-bottom: 72px;
+   display: flex;
+   justify-content: flex-end; */
+}
   .loader {
     display: inline-block;
     width: 1em;

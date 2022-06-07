@@ -103,9 +103,9 @@
   }
 
   .wrapper {
-      display: flex;
+      /* display: flex;
       margin-bottom: 72px;
       position: fixed;
-      bottom: 0;
+      bottom: 0; */
   }
 </style>
