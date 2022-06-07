@@ -45,7 +45,7 @@ async function createActivityLogEntry(
 
 async function startEvent(writeClient: SanityClient, userId: string, eventId: string) {
   const eventQuery = `*[
-    _type == "event" && _id == "${eventId}"
+    _type == "${sanitySchemaNames.event}" && _id == "${eventId}"
   ][0] {
     date,
     videoconferencing,
@@ -83,7 +83,7 @@ async function startEvent(writeClient: SanityClient, userId: string, eventId: st
 
 async function startActivity(writeClient: SanityClient, userId: string, activityId: string) {
   const activityQuery = `*[
-    _type == "activity" && _id == "${activityId}"
+    _type == "${sanitySchemaNames.activity}" && _id == "${activityId}"
   ][0] {
     instant,
     ${startedActivityProjection}
