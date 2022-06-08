@@ -15,9 +15,13 @@ export class Client {
 
   async login(returnTo: string) {
     await this.client.loginWithRedirect({
-      redirect_uri: `${window.location.origin}/login/callback`,
+      redirect_uri: this.absoluteUrl(`/login/callback`),
       appState: { returnTo },
     });
+  }
+
+  async logout(returnTo = '/') {
+    await this.client.logout({ returnTo: this.absoluteUrl(returnTo) });
   }
 
   async handleLoginCallback() {
@@ -44,6 +48,10 @@ export class Client {
 
   async getUserAccessToken(): Promise<string> {
     return this.client.getTokenSilently();
+  }
+
+  private absoluteUrl(path: string): string {
+    return `${window.location.origin}${path}`;
   }
 }
 

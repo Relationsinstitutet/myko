@@ -1,22 +1,7 @@
 <script lang="ts">
+  import { formatDate, formatTime } from '$lib/dateFormat';
+
   import type { Cotime } from '$lib/models/activity';
-
-  const locale = 'sv-SE';
-
-  function formatDate(d: string): string {
-    return new Date(Date.parse(d)).toLocaleDateString(locale, {
-      day: 'numeric',
-      month: 'numeric',
-      weekday: 'short',
-    });
-  }
-
-  function formatTime(date: string, time: string): string {
-    return new Date(Date.parse(`${date}T${time}`)).toLocaleTimeString(locale, {
-      hour: 'numeric',
-      minute: 'numeric',
-    });
-  }
 
   export let cotime: Cotime;
 </script>

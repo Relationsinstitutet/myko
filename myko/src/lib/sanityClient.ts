@@ -2,6 +2,7 @@ import sanityClient from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 import type { SanityClientLike, SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { api } from '../../../studio/sanity.json';
+import { sanitySchemaNames } from './util';
 const { projectId, dataset } = api;
 
 export async function createReadClient() {
@@ -38,7 +39,7 @@ export const notDraft = `!(_id in path('drafts.**'))`;
 //  * 'visible'=true,
 //  * and with a date not passed by more than 10 minutes
 export const eventsForActivityFilter = `
-  _type == "event" &&
+  _type == "${sanitySchemaNames.event}" &&
   activity._ref == ^._id &&
   visible == true &&
   ${notDraft} &&
