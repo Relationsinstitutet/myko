@@ -29,3 +29,7 @@
 <button on:click={previous} disabled={!hasPrevious}>&#60;</button>
 {currentPageIndex + 1} / {Math.ceil(data.length / itemsPerPage)}
 <button on:click={next} disabled={!hasNext}>&#62;</button>
+
+<style>
+
+</style>
