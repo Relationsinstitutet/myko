@@ -78,11 +78,9 @@
         Gör nu
       </StartActivityButton>
     {:else}
-    <div class="wrapper">
-
-      <button on:click={login}> Gör nu </button>
+      <div class="wrapper">
+        <button on:click={login}> Gör nu </button>
       </div>
-
     {/if}
   {/if}
 
@@ -116,14 +114,13 @@
     color: var(--ocean-800);
     padding: 8px;
     border: 0;
-
   }
 
   .wrapper {
-      position: fixed;
-      bottom: 0;
-      margin-bottom: 72px;
-     display: flex;
-     justify-content: flex-end;
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 72px;
+    display: flex;
+    justify-content: flex-end;
   }
 </style>

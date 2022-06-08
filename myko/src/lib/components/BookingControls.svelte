@@ -76,15 +76,17 @@
   export let eventId: string;
   export let userIsAttending: boolean | undefined = undefined;
 </script>
+
 <div class="wrapper">
-<button
-  class:attending={userIsAttending === true}
-  on:click={userIsAttending === true ? handleCancelClick : handleBookingClick}
-  {disabled}
->
-  <slot />
-</button>
+  <button
+    class:attending={userIsAttending === true}
+    on:click={userIsAttending === true ? handleCancelClick : handleBookingClick}
+    {disabled}
+  >
+    <slot />
+  </button>
 </div>
+
 <style>
   .attending {
     border: 2px solid var(--ocean-800);
@@ -103,7 +105,7 @@
   }
 
   .wrapper {
-      /* display: flex;
+    /* display: flex;
       margin-bottom: 72px;
       position: fixed;
       bottom: 0; */

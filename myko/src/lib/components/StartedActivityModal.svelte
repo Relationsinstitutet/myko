@@ -43,8 +43,8 @@
   }
 
   audio {
-      max-width: 100%;
-      margin-top: 32px;
+    max-width: 100%;
+    margin-top: 32px;
   }
 
   .modal {
