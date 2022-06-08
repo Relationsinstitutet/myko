@@ -67,26 +67,25 @@
   {/if}
 
   <Activity {activity} />
-
-  {#if activity.instant}
-    {#if $isAuthenticated}
-      <StartActivityButton
-        on:activityStarted={activityStarted}
-        data={{ activityId: activity.id }}
-        enabled
-      >
-        Gör nu
-      </StartActivityButton>
-    {:else}
-      <div class="wrapper">
-        <button on:click={login}> Gör nu </button>
-      </div>
+  <div class="wrapper">
+    {#if activity.cotime}
+      <CotimeActions cotime={activity.cotime} onActivityStarted={activityStarted} />
     {/if}
-  {/if}
 
-  {#if activity.cotime}
-    <CotimeActions cotime={activity.cotime} onActivityStarted={activityStarted} />
-  {/if}
+    {#if activity.instant}
+      {#if $isAuthenticated}
+        <StartActivityButton
+          on:activityStarted={activityStarted}
+          data={{ activityId: activity.id }}
+          enabled
+        >
+          Gör nu
+        </StartActivityButton>
+      {:else}
+        <button on:click={login}> Gör nu </button>
+      {/if}
+    {/if}
+  </div>
 </main>
 
 <style>
@@ -121,6 +120,9 @@
     bottom: 0;
     margin-bottom: 72px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    width: 100%;
+    left: 0;
+    padding: 24px;
   }
 </style>

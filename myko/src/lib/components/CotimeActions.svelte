@@ -1,5 +1,5 @@
 <script lang="ts">
-import { isAuthenticated } from '$lib/auth/store';
+  import { isAuthenticated } from '$lib/auth/store';
   import { formatTime } from '$lib/dateFormat';
   import type { Cotime } from '$lib/models/activity';
   import type StartedActivityData from '$lib/models/startedActivity';

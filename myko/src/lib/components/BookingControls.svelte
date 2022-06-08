@@ -77,15 +77,13 @@
   export let userIsAttending: boolean | undefined = undefined;
 </script>
 
-<div class="wrapper">
-  <button
-    class:attending={userIsAttending === true}
-    on:click={userIsAttending === true ? handleCancelClick : handleBookingClick}
-    {disabled}
-  >
-    <slot />
-  </button>
-</div>
+<button
+  class:attending={userIsAttending === true}
+  on:click={userIsAttending === true ? handleCancelClick : handleBookingClick}
+  {disabled}
+>
+  <slot />
+</button>
 
 <style>
   .attending {
@@ -102,12 +100,5 @@
     color: var(--ocean-800);
     padding: 8px;
     border: 0;
-  }
-
-  .wrapper {
-    /* display: flex;
-      margin-bottom: 72px;
-      position: fixed;
-      bottom: 0; */
   }
 </style>
