@@ -113,7 +113,7 @@ main {
   padding-top: 48px;
   padding-left: 48px;
   padding-right: 48px;
-  padding-bottom: 200px;
+  padding-bottom: 256px;
   font-family: 'Lato', sans-serif;
   color: var(--grey-800);
 }
@@ -128,7 +128,7 @@ h1 {
   margin-bottom: var(--30px);
 }
 
-li {
+ul {
     list-style: none;
     padding-left: unset;
 }
@@ -154,6 +154,8 @@ li {
     position: absolute;
     top: 10px;
     right: 10px;
+    font-family: 'Roboto Mono', monospace;
+    color: var(--grey-800);
   }
 
   .unauthenticated {
