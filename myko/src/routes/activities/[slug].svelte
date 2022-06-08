@@ -100,7 +100,7 @@
     padding-top: 48px;
     padding-left: 48px;
     padding-right: 48px;
-    padding-bottom: 200px;
+    padding-bottom: 256px;
     font-family: 'Lato', sans-serif;
     color: var(--grey-800);
   }
