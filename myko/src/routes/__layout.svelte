@@ -1,12 +1,14 @@
 <nav>
-  <div class="nav-bottom">
-    <div class="nav-left">
-      <a href="/">vi</a>
-      <a href="/activities">göra</a>
-      <a href="/settings">jag</a>
-    </div>
-    <div class="nav-right">
-      <a href="/faq">?</a>
+  <div class="bottom-gradient">
+    <div class="nav-bottom">
+      <div class="nav-left">
+        <a href="/">vi</a>
+        <a href="/activities">göra</a>
+        <a href="/settings">jag</a>
+      </div>
+      <div class="nav-right">
+        <a href="/faq">?</a>
+      </div>
     </div>
   </div>
 </nav>
@@ -59,6 +61,23 @@
     --purple-500: hsla(314, 23%, 59%, 1);
     --purple-400: hsla(332, 49%, 70%, 1);
     --purple-200: hsla(341, 50%, 85%, 1);
+  }
+
+  .bottom-gradient {
+    position: fixed;
+    bottom: 0;
+    height: 236px;
+    width: 100%;
+    background: linear-gradient(
+      3deg,
+      #3fb6c6 -2.94%,
+      #c1c6e0 8.67%,
+      #349dab 19.14%,
+      rgba(200, 131, 180, 0.83) 33.09%,
+      rgba(216, 160, 193, 0.57678) 54.02%,
+      rgba(236, 198, 210, 0.25322) 80.76%,
+      rgba(252, 228, 223, 0) 101.68%
+    );
   }
 
   .nav-bottom {

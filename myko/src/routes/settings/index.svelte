@@ -73,44 +73,88 @@
   </div>
 </div>
 
-{#if $isAuthenticated}
-  <h1>Bokade aktiviteter</h1>
-  <ul class="plain-list">
-    {#if eventsUserIsAttending.length < 1}
-      Inget inbokat än.
-    {/if}
-    {#each eventsUserIsAttending as event}
-      <li>
-        {formatDate(event.date, { day: 'numeric', month: 'numeric' })}
-        {event.activityName}:
-        <BookingControls eventId={event.id} bind:userIsAttending={event.userIsAttending}>
-          {formatTime(event.date, event.time)}
-        </BookingControls>
-      </li>
-    {/each}
-  </ul>
+<main>
+  {#if $isAuthenticated}
+    <h1>Bokade aktiviteter</h1>
+    <ul class="plain-list">
+      {#if eventsUserIsAttending.length < 1}
+        Inget inbokat än.
+      {/if}
+      {#each eventsUserIsAttending as event}
+        <li>
+          {formatDate(event.date, { day: 'numeric', month: 'numeric' })}
+          {event.activityName}:
+          <BookingControls eventId={event.id} bind:userIsAttending={event.userIsAttending}>
+            {formatTime(event.date, event.time)}
+          </BookingControls>
+        </li>
+      {/each}
+    </ul>
 
-  <h1>Genomförda aktiviteter</h1>
-  {#if completedActivities.length < 1}
-    Inga genomförda aktiviteter än.
+    <h1>Genomförda aktiviteter</h1>
+    {#if completedActivities.length < 1}
+      Inga genomförda aktiviteter än.
+    {/if}
+    <ul>
+      <Paginated data={completedActivities} render={renderCompletedActivity} />
+    </ul>
+  {:else}
+    <div class="unauthenticated">Logga in för att se dina bokade aktiviteter</div>
   {/if}
-  <ul>
-    <Paginated data={completedActivities} render={renderCompletedActivity} />
-  </ul>
-{:else}
-  <div class="unauthenticated">Logga in för att se dina bokade aktiviteter</div>
-{/if}
+</main>
 
 <style>
+  main {
+    background-color: var(--ocean-100);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding-top: 48px;
+    padding-left: 48px;
+    padding-right: 48px;
+    padding-bottom: 256px;
+    font-family: 'Lato', sans-serif;
+    color: var(--grey-800);
+  }
+
+  h1 {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: var(--24px);
+    color: var(--grey-800);
+    margin-top: 1em;
+    margin-bottom: var(--30px);
+  }
+
+  ul {
+    list-style: none;
+    padding-left: unset;
+  }
+
   .top-menu {
     background-color: var(--ocean-100);
     height: 3em;
+  }
+
+  .top-menu button {
+    background: var(--grey-050);
+    box-shadow: 2px 2px 9px -2px rgb(108 97 97 / 50%);
+    border-radius: 4px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 800;
+    text-align: center;
+    color: var(--ocean-800);
+    padding: 8px;
+    border: 0;
   }
 
   .user-menu {
     position: absolute;
     top: 10px;
     right: 10px;
+    font-family: 'Roboto Mono', monospace;
+    color: var(--grey-800);
   }
 
   .unauthenticated {
@@ -120,5 +164,6 @@
 
   .plain-list {
     list-style: none;
+    padding-left: unset;
   }
 </style>

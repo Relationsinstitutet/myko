@@ -1,5 +1,6 @@
 <script lang="ts">
   import { isAuthenticated } from '$lib/auth/store';
+  import { formatTime } from '$lib/dateFormat';
   import type { Cotime } from '$lib/models/activity';
   import type StartedActivityData from '$lib/models/startedActivity';
 
@@ -14,7 +15,7 @@
   {#each cotime.events as event}
     <div>
       <BookingControls eventId={event.id} bind:userIsAttending={event.userIsAttending}
-        >{event.time}</BookingControls
+        >{formatTime(cotime.date, event.time)}</BookingControls
       >
       {#if $isAuthenticated && event.userIsAttending}
         <StartActivityButton

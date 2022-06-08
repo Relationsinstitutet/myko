@@ -66,27 +66,26 @@
     <CotimeInfo cotime={activity.cotime} />
   {/if}
 
-  <!-- <div class="wrapper"> -->
   <Activity {activity} />
-
-  {#if activity.instant}
-    {#if $isAuthenticated}
-      <StartActivityButton
-        on:activityStarted={activityStarted}
-        data={{ activityId: activity.id }}
-        enabled
-      >
-        Gör direkt
-      </StartActivityButton>
-    {:else}
-      <button on:click={login}> Logga in </button> för att göra aktiviteten direkt.
+  <div class="wrapper">
+    {#if activity.cotime}
+      <CotimeActions cotime={activity.cotime} onActivityStarted={activityStarted} />
     {/if}
-  {/if}
 
-  {#if activity.cotime}
-    <CotimeActions cotime={activity.cotime} onActivityStarted={activityStarted} />
-  {/if}
-  <!-- </div> -->
+    {#if activity.instant}
+      {#if $isAuthenticated}
+        <StartActivityButton
+          on:activityStarted={activityStarted}
+          data={{ activityId: activity.id }}
+          enabled
+        >
+          Gör nu
+        </StartActivityButton>
+      {:else}
+        <button on:click={login}> Gör nu </button>
+      {/if}
+    {/if}
+  </div>
 </main>
 
 <style>
@@ -98,8 +97,32 @@
     padding-top: 48px;
     padding-left: 48px;
     padding-right: 48px;
-    padding-bottom: 64px;
+    padding-bottom: 256px;
     font-family: 'Lato', sans-serif;
     color: var(--grey-800);
+  }
+
+  button {
+    background: var(--grey-050);
+    box-shadow: 2px 2px 9px -2px rgb(108 97 97 / 50%);
+    width: fit-content;
+    border-radius: 4px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 800;
+    text-align: center;
+    color: var(--ocean-800);
+    padding: 8px;
+    border: 0;
+  }
+
+  .wrapper {
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 72px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    left: 0;
+    padding: 24px;
   }
 </style>
