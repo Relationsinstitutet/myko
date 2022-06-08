@@ -14,7 +14,7 @@
   <div class="modal-content">
     <span class="close" on:click={close}>&times;</span>
 
-    <h1>Jippi! 🎉</h1>
+    <h1>Välkommen</h1>
     <PortableText blocks={data.instructions} />
 
     {#if data.videoConferencingLink}
@@ -32,11 +32,25 @@
 
 <style>
   h1 {
-    text-align: center;
+    text-align: left;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: var(--24px);
+    color: var(--grey-800);
+    margin-top: 1em;
+    margin-bottom: var(--30px);
+  }
+
+  audio {
+      max-width: 100%;
+      margin-top: 32px;
   }
 
   .modal {
-    font-family: Arial, sans-serif;
+    font-family: 'Lato', sans-serif;
+    color: var(--grey-800);
+    background-color: rgba(0, 0, 0, 0.4);
     position: fixed;
     z-index: 1;
     left: 0;
@@ -44,7 +58,6 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
   }
 
   .modal-content {
@@ -52,7 +65,9 @@
     margin: 5% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 30%;
+    border-radius: 4px;
+    width: 80%;
+    height: 80%;
   }
 
   .close {
