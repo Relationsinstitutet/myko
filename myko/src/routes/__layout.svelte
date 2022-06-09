@@ -2,7 +2,7 @@
   import { get } from 'svelte/store';
   import { page } from '$app/stores';
 
-  const currentSlug = get(page).params.slug;
+  // const currentSlug = get(page).params.slug;
   const currentPage = get(page).url.pathname;
 
   // console.log(currentSlug);
