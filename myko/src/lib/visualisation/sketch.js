@@ -4,7 +4,7 @@ import ActivityP from './activityParticle';
 let h = 185,
   s = 90,
   l = 8;
-let hues = [5, 300, 245, 185, 125]; //[2], #756F60
+let hues = [5, 300, 245, 185, 125];
 let w;
 let prob;
 let particles = [];
@@ -18,9 +18,6 @@ export async function setup(p5) {
   p5.colorMode(p5.HSL, 360, 100, 100, 1.0);
   p5.noiseSeed(0);
 
-  const data = await fetchActivityLog();
-  checkForAdds(p5, data);
-
   hues[0] = h - 180;
   hues[2] = h + 60;
   hues[3] = h;
@@ -28,9 +25,17 @@ export async function setup(p5) {
 
   for (let i = 0; i < 200; i++) {
     particles.push(
-      new Particle(p5, p5.random(p5.width), p5.random(p5.height), hues[p5.floor(p5.random(2, 4))])
+      new Particle(
+        p5,
+        p5.random(p5.width * 1.1),
+        p5.random(p5.height * 1.1),
+        hues[p5.floor(p5.random(2, 4))]
+      )
     );
   }
+
+  const data = await fetchActivityLog();
+  checkForAdds(p5, data);
 }
 
 export function draw(p5) {
@@ -103,7 +108,7 @@ function walking(p5, hue, w, ns, nr = 1) {
     let nHue = (hues[hue] + nr - i) % 360;
 
     if (nr < 2) {
-      if (prob > 0.9) {
+      if (prob > 0.92) {
         newParts.push(
           new ActivityP(
             p5.random(p5.width * 0.45, p5.width * 0.5),
