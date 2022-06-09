@@ -1,3 +1,14 @@
+<script lang="ts">
+  import { get } from 'svelte/store';
+  import { page } from '$app/stores';
+
+  const currentSlug = get(page).params.slug;
+  const currentPage = get(page).url.pathname;
+
+  // console.log(currentSlug);
+  console.log(currentPage);
+</script>
+
 <nav>
   <div class="bottom-gradient">
     <div class="nav-bottom">
@@ -7,6 +18,10 @@
         <a href="/settings">jag</a>
       </div>
       <div class="nav-right">
+        <a href="/faq">?</a>
+      </div>
+      <div class="nav-right">
+        <!-- TODO: add $currentPage here to get it to sync-->
         <a href="/faq">?</a>
       </div>
     </div>

@@ -4,7 +4,7 @@
   import type { Client } from '$lib/auth/client';
   import createClient from '$lib/auth/client';
   import { isAuthenticated, user } from '$lib/auth/store';
-  import type IActivity from '$lib/models/activity';
+  // import type IActivity from '$lib/models/activity';
 
   // import type { Cotime, IActivitySummary } from '$lib/models/activity';
 
@@ -65,8 +65,7 @@
     return `<li>${date} ${time}: ${activity.activityName}</li>`;
   }
 
-  export let activity: IActivity;
-
+  // export let activity: IActivity;
 </script>
 
 <div class="top-menu">
@@ -88,16 +87,14 @@
         Inget inbokat än.
       {/if}
       {#each eventsUserIsAttending as event}
-
         <!-- <a href="/activities/{activity.slug}">{activity.name}</a> -->
 
-<!-- hämta ut aktiviteten baserat på eventet väl? -->
-<!-- sanitys specialverktyg? -->
+        <!-- hämta ut aktiviteten baserat på eventet väl? -->
+        <!-- sanitys specialverktyg? -->
         <a href="/activities/">
-            {formatDate(event.date, { day: 'numeric', month: 'numeric' })}
-            {event.activityName}
+          {formatDate(event.date, { day: 'numeric', month: 'numeric' })}
+          {event.activityName}
         </a>
-
       {/each}
     </ul>
 
