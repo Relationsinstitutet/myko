@@ -11,13 +11,13 @@
   export let onActivityStarted: (event: CustomEvent<StartedActivityData>) => void;
 </script>
 
-<div>
+<div class="innerWrapper">
   {#each cotime.events as event}
     <div>
       <BookingControls eventId={event.id} bind:userIsAttending={event.userIsAttending}
         >{formatTime(cotime.date, event.time)}</BookingControls
       >
-      {#if $isAuthenticated && event.userIsAttending}
+      <!-- {#if $isAuthenticated && event.userIsAttending}
         <StartActivityButton
           on:activityStarted={onActivityStarted}
           data={{ eventId: event.id }}
@@ -25,7 +25,13 @@
         >
           Starta
         </StartActivityButton>
-      {/if}
+      {/if} -->
     </div>
   {/each}
 </div>
+
+<style>
+.innerWrapper {
+    display: flex;
+}
+</style>
