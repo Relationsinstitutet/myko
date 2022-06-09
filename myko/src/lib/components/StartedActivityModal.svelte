@@ -25,7 +25,7 @@
     {/if}
 
     {#if data.audioFile}
-      <audio src={data.audioFile} controls />
+      <audio src={data.audioFile} controls controlsList="nodownload" />
     {/if}
   </div>
 </div>
