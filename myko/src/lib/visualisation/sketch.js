@@ -97,6 +97,7 @@ function checkForAdds(p5, addedActivs) {
       walking(p5, 2, p5.random(8, 10), 5, addedActivs['say-hello-to-nasims-cat']);
     }
     if ('te-ritual' in addedActivs) {
+      console.log('in here!');
       walking(p5, 4, p5.random(4.75, 5.5), 320, addedActivs['te-ritual']);
     }
   }
@@ -111,6 +112,7 @@ function walking(p5, hue, w, ns, nr = 1) {
       if (prob > 0.92) {
         newParts.push(
           new ActivityP(
+            p5,
             p5.random(p5.width * 0.45, p5.width * 0.5),
             p5.random(p5.height * 0.5, p5.height * 0.55),
             nHue,
@@ -121,6 +123,7 @@ function walking(p5, hue, w, ns, nr = 1) {
       } else {
         newParts.push(
           new ActivityP(
+            p5,
             p5.random(p5.width * 0.45, p5.width * 0.55),
             p5.random(p5.height * 0.45, p5.height * 0.55),
             nHue,
@@ -135,9 +138,9 @@ function walking(p5, hue, w, ns, nr = 1) {
       }
       //console.log(l);
     } else if (nr > 1 && i < 16) {
-      addedParts.push(new ActivityP(p5.random(p5.width), p5.random(p5.height), nHue, w, ns));
+      addedParts.push(new ActivityP(p5, p5.random(p5.width), p5.random(p5.height), nHue, w, ns));
     } else if (i > 15 && i < 75) {
-      particles.push(new Particle(p5.random(p5.width), p5.random(p5.height), nHue));
+      particles.push(new Particle(p5, p5.random(p5.width), p5.random(p5.height), nHue));
     }
     if (h > 360) {
       h = 0;
