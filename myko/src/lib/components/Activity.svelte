@@ -7,8 +7,6 @@
 
 <h1>{activity.name}</h1>
 
-<PortableText blocks={activity.description} />
-
 <div>{activity.duration}</div>
 
 <ul>
@@ -16,6 +14,9 @@
     <li>{prereq}</li>
   {/each}
 </ul>
+
+<PortableText blocks={activity.description} />
+
 {#if activity.image}
   <img loading="lazy" src={activity.image.url} alt={activity.image.alt} />
 {/if}
