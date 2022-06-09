@@ -26,9 +26,12 @@
           Starta
         </StartActivityButton>
       {/if} -->
+      <div class="helpText">
+
       {#if $isAuthenticated && event.userIsAttending}
         <p>Du är med.</p>
       {/if}
+      </div>
 
     </div>
   {/each}
@@ -37,6 +40,14 @@
 <style>
 .innerWrapper {
     display: flex;
+}
+
+.helpText {
+    max-width: fit-content;
+/* display: flex; */
+height: 16px;
+/* flex-direction: column; */
+margin: unset;
 }
 
 p {
