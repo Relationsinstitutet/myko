@@ -18,11 +18,6 @@ export async function setup(p5) {
   p5.colorMode(p5.HSL, 360, 100, 100, 1.0);
   p5.noiseSeed(0);
 
-  hues[0] = h - 180;
-  hues[2] = h + 60;
-  hues[3] = h;
-  hues[4] = h - 60;
-
   for (let i = 0; i < 200; i++) {
     particles.push(
       new Particle(
@@ -36,6 +31,11 @@ export async function setup(p5) {
 
   const data = await fetchActivityLog();
   checkForAdds(p5, data);
+
+  hues[0] = h - 180;
+  hues[2] = h + 60;
+  hues[3] = h;
+  hues[4] = h - 60;
 }
 
 export function draw(p5) {
@@ -44,8 +44,9 @@ export function draw(p5) {
   let count = 0;
   for (let p of particles) {
     count++;
-    w = p5.map(count, 0, particles.length, 1, 40);
-    p.show(w, 50);
+    w = p5.map(count, 0, particles.length, 1, 30);
+    let nh = p5.floor(p5.map(count, 0, particles.length, 1, 4));
+    p.show(w, 50, hues[nh]);
     p.update();
     p.edge();
     if (particles.length > 380) {

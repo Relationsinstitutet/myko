@@ -6,7 +6,7 @@ export default class Particle {
     this.dir = this.p5.createVector(0, 0);
     this.speed = this.p5.random(0.3, 0.7); //
     this.h = h;
-    this.l = this.p5.random(5, 21);
+    this.l = this.p5.random(5, 20);
     this.noiseScl = 500;
     this.noiseStr = 2;
   }
@@ -23,12 +23,11 @@ export default class Particle {
     this.pos.add(this.vel);
   }
 
-  show(w, s) {
-    let col = this.p5.color(this.h, s, this.l, 0.6);
+  show(w, s, h) {
+    let col = this.p5.color(h, s, this.l, 0.5);
     this.p5.fill(col);
-    this.p5.strokeWeight(w * 0.2);
-    let strokeCol = this.p5.color(this.h, s, this.l, 0.2);
-    this.p5.stroke(strokeCol);
+    this.p5.strokeWeight(w * 0.02);
+    this.p5.stroke(col);
     this.p5.circle(this.pos.x, this.pos.y, w);
   }
 
