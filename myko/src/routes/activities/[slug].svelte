@@ -124,5 +124,6 @@
     width: 100%;
     left: 0;
     padding: 24px;
+    padding-bottom: 12px;
   }
 </style>

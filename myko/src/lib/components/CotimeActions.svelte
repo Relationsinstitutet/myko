@@ -26,6 +26,10 @@
           Starta
         </StartActivityButton>
       {/if} -->
+      {#if $isAuthenticated && event.userIsAttending}
+        <p>Du är med.</p>
+      {/if}
+
     </div>
   {/each}
 </div>
@@ -33,5 +37,11 @@
 <style>
 .innerWrapper {
     display: flex;
+}
+
+p {
+    font-size: var(--12px);
+    font-weight: 700;
+    color: var(--grey-800);
 }
 </style>
