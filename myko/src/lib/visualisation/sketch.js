@@ -39,7 +39,7 @@ export async function setup(p5) {
 }
 
 export function draw(p5) {
-  p5.background(h, s, l, 0.09); //7,4,40  235,255,242
+  p5.background(h, s, l, 0.09);
   p5.translate(p5.width * -0.1, p5.height * -0.1);
   let count = 0;
   for (let p of particles) {
@@ -98,13 +98,12 @@ function checkForAdds(p5, addedActivs) {
       walking(p5, 2, p5.random(8, 10), 5, addedActivs['say-hello-to-nasims-cat']);
     }
     if ('te-ritual' in addedActivs) {
-      console.log('in here!');
       walking(p5, 4, p5.random(4.75, 5.5), 320, addedActivs['te-ritual']);
     }
   }
 }
 
-//walker animation for both just added and added in the past, just send less vibrant color for the past ones + less different path?
+//walker animation for just added & added in the past
 function walking(p5, hue, w, ns, nr = 1) {
   for (let i = 0; i < nr; i++) {
     let nHue = (hues[hue] + nr - i) % 360;
@@ -137,7 +136,6 @@ function walking(p5, hue, w, ns, nr = 1) {
         l += 0.25;
         s -= 0.75;
       }
-      //console.log(l);
     } else if (nr > 1 && i < 16) {
       addedParts.push(new ActivityP(p5, p5.random(p5.width), p5.random(p5.height), nHue, w, ns));
     } else if (i > 15 && i < 75) {

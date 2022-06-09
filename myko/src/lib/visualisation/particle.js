@@ -4,7 +4,7 @@ export default class Particle {
     this.pos = this.p5.createVector(x, y);
     this.vel = this.p5.createVector(0, 0);
     this.dir = this.p5.createVector(0, 0);
-    this.speed = this.p5.random(0.3, 0.7); //
+    this.speed = this.p5.random(0.3, 0.7);
     this.h = h;
     this.l = this.p5.random(5, 20);
     this.noiseScl = 500;
@@ -13,7 +13,6 @@ export default class Particle {
 
   update() {
     let sclPos = this.p5.Vector.div(this.pos, this.noiseScl);
-    //let anglea = noise(sclPos.x)*noiseStr;//* noiseStr
     let angleb = this.p5.noise(sclPos.x, sclPos.y) * this.noiseStr * this.p5.TWO_PI;
     this.dir.x = this.p5.cos(angleb);
     this.dir.y = this.p5.sin(angleb);
