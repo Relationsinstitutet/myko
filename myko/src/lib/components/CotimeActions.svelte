@@ -27,32 +27,28 @@
         </StartActivityButton>
       {/if} -->
       <div class="helpText">
-
-      {#if $isAuthenticated && event.userIsAttending}
-        <p>Du är med.</p>
-      {/if}
+        {#if $isAuthenticated && event.userIsAttending}
+          <p>Du är med &#127852;</p>
+        {/if}
       </div>
-
     </div>
   {/each}
 </div>
 
 <style>
-.innerWrapper {
+  .innerWrapper {
     display: flex;
-}
+  }
 
-.helpText {
+  .helpText {
     max-width: fit-content;
-/* display: flex; */
-height: 16px;
-/* flex-direction: column; */
-margin: unset;
-}
+    height: 16px;
+    margin: unset;
+  }
 
-p {
+  p {
     font-size: var(--12px);
     font-weight: 700;
     color: var(--grey-800);
-}
+  }
 </style>
