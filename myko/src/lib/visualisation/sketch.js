@@ -61,13 +61,14 @@ export function draw(p5) {
     ap.edge();
   }
 
+  /* //cycling through just added particles, not a functionality at the moment
   for (let np of newParts) {
     np.show(99);
     np.speedo(0.8, 80);
     np.update();
     np.edge();
     np.normalSize();
-  }
+  }*/
 }
 
 async function fetchActivityLog() {
@@ -103,11 +104,13 @@ function checkForAdds(p5, addedActivs) {
   }
 }
 
-//walker animation for just added & added in the past
+//walker animation for added in the past
 function walking(p5, hue, w, ns, nr = 1) {
   for (let i = 0; i < nr; i++) {
     let nHue = (hues[hue] + nr - i) % 360;
 
+    /* //basic way of treating just added, could be a flawed way of doing it 
+       //regardless, at this time No Targeting of only just added interactions
     if (nr < 2) {
       if (prob > 0.92) {
         newParts.push(
@@ -136,7 +139,8 @@ function walking(p5, hue, w, ns, nr = 1) {
         l += 0.25;
         s -= 0.75;
       }
-    } else if (nr > 1 && i < 16) {
+    }*/
+    if (i < 16) {
       addedParts.push(new ActivityP(p5, p5.random(p5.width), p5.random(p5.height), nHue, w, ns));
     } else if (i > 15 && i < 75) {
       particles.push(new Particle(p5, p5.random(p5.width), p5.random(p5.height), nHue));
