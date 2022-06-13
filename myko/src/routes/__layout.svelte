@@ -1,18 +1,22 @@
 <script lang="ts">
   import { page } from '$app/stores';
-
 </script>
 
 <nav>
   <div class="bottom-gradient">
     <div class="nav-bottom">
       <div class="nav-left">
-        <a href="/" class:is-active={$page.url.pathname === "/"}> vi</a>
-        <a href="/activities" class:is-active={$page.url.pathname === "/activities" || $page.url.pathname === "/*"}> göra</a>
-        <a href="/settings" class:is-active={$page.url.pathname === "/settings"}> jag</a>
+        <a href="/" class:is-active={$page.url.pathname === '/'}> vi</a>
+        <a
+          href="/activities"
+          class:is-active={$page.url.pathname === '/activities' || $page.url.pathname === '/*'}
+        >
+          göra</a
+        >
+        <a href="/settings" class:is-active={$page.url.pathname === '/settings'}> jag</a>
       </div>
       <div class="nav-right">
-        <a href="/faq" class:is-active={$page.url.pathname === "/faq"}>?</a>
+        <a href="/faq" class:is-active={$page.url.pathname === '/faq'}>?</a>
       </div>
     </div>
   </div>
@@ -122,16 +126,25 @@
   }
 
   .nav-bottom .is-active {
-      color: var(--grey-800);
+    color: var(--grey-800);
   }
 
-  .nav-bottom .is-active::after {
-      content: '';
-       display: inline-block;
-       width: 15px;
-       height: 15px;
-       border-radius: 7.5px;
-       background-color: #69b6d5;
-  }
+  .nav-bottom .is-active::before {
+    content: '';
+    display: inline-flex;
+    width: 13px;
+    height: 12px;
+    border-radius: 7.5px;
+    background: var(--ocean-600);
+    position: absolute;
 
+    top: 40px;
+    /* left: 16px; */
+
+    /* top: 0px;
+left: 0px;
+right: 0px;
+bottom: 0px;
+margin:auto; */
+  }
 </style>
