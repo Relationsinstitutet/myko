@@ -129,22 +129,20 @@
     color: var(--grey-800);
   }
 
+  .nav-bottom a {
+    position: relative;
+  }
+
   .nav-bottom .is-active::before {
     content: '';
-    display: inline-flex;
     width: 13px;
     height: 12px;
     border-radius: 7.5px;
     background: var(--ocean-600);
     position: absolute;
 
-    top: 40px;
-    /* left: 16px; */
-
-    /* top: 0px;
-left: 0px;
-right: 0px;
-bottom: 0px;
-margin:auto; */
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, 50%);
   }
 </style>
