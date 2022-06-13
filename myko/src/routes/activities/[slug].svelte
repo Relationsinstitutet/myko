@@ -135,6 +135,7 @@
   }
 
   @media (min-width: 45rem) {
+    /*Can get an okay-ish result with a large padding in % but would need to target the text blocks for better result, more control*/
     main {
       margin: 0 auto;
       padding: 48px 20% 256px;
