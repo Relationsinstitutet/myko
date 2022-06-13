@@ -7,15 +7,12 @@
   <div class="bottom-gradient">
     <div class="nav-bottom">
       <div class="nav-left">
-        <a href="/">vi</a>
-        <a href="/activities">göra</a>
-        <a href="/settings">jag</a>
+        <a href="/" class:is-active={$page.url.pathname === "/"}> vi</a>
+        <a href="/activities" class:is-active={$page.url.pathname === "/activities"}> göra</a>
+        <a href="/settings" class:is-active={$page.url.pathname === "/settings"}> jag</a>
       </div>
       <div class="nav-right">
-        <a href="/faq">?</a>
-      </div>
-      <div class="nav-right">
-        <p>{$page.url.pathname}</p>
+        <a href="/faq" class:is-active={$page.url.pathname === "/faq"}>?</a>
       </div>
     </div>
   </div>
@@ -123,4 +120,13 @@
   .nav-right {
     margin-right: 24px;
   }
+
+  .is-active {
+      color: red;
+  }
+
+  .nav-bottom .is-active {
+      color: red;
+  }
+
 </style>
