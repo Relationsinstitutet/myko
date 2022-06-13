@@ -125,4 +125,13 @@
       color: var(--grey-800);
   }
 
+  .nav-bottom .is-active::after {
+      content: '';
+       display: inline-block;
+       width: 15px;
+       height: 15px;
+       border-radius: 7.5px;
+       background-color: #69b6d5;
+  }
+
 </style>
