@@ -84,7 +84,7 @@
     height: 236px;
     width: 100%;
     background: linear-gradient(
-      3deg,
+      0deg,
       #3fb6c6 -2.94%,
       #c1c6e0 8.67%,
       #349dab 19.14%,
@@ -130,4 +130,6 @@
   .nav-right {
     margin-right: 24px;
   }
+
+  /* LAPTOP queries */
 </style>
