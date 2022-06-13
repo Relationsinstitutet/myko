@@ -1,65 +1,74 @@
 import Particle from './particle';
+import ActivityP from './activityParticle';
 
-let colours = ['#252566', '#9038d9', '#9e9682', '#8b739c', '#cc8c25', '#ebad1c', '#B599cC']; //[2], #756F60
-let xSpace = 1.15;
-let nCols, nRows;
-let w, c;
+let h = 185,
+  s = 90,
+  l = 8;
+let hues = [5, 300, 245, 185, 125];
+let w;
+let prob;
 let particles = [];
-let shortParts = [];
-let incr = 0.1;
-let meditate = 0,
-  tea = 0,
-  talk = 0;
-let fr;
+let addedParts = [];
+let newParts = [];
 
 export async function setup(p5) {
-  const c = p5.createCanvas(300, 450);
+  p5.createCanvas(300, 450);
 
   p5.frameRate(20);
-  fr = p5.createP('');
-  fr.style('color', colours[2]);
-  p5.noStroke();
+  p5.colorMode(p5.HSL, 360, 100, 100, 1.0);
   p5.noiseSeed(0);
 
-  for (let i = 0; i < 300; i++) {
-    particles[i] = new Particle(
-      p5,
-      p5.random(p5.width * xSpace),
-      p5.random(p5.height * xSpace),
-      colours[p5.floor(p5.random(2, 4))],
-      40,
-      2,
-      0.5
+  for (let i = 0; i < 200; i++) {
+    particles.push(
+      new Particle(
+        p5,
+        p5.random(p5.width * 1.1),
+        p5.random(p5.height * 1.1),
+        hues[p5.floor(p5.random(2, 4))]
+      )
     );
   }
 
   const data = await fetchActivityLog();
   checkForAdds(p5, data);
+
+  hues[0] = h - 180;
+  hues[2] = h + 60;
+  hues[3] = h;
+  hues[4] = h - 60;
 }
 
 export function draw(p5) {
-  p5.background(43, 23, 15, 18); //7,4,40  235,255,242
+  p5.background(h, s, l, 0.09);
   p5.translate(p5.width * -0.1, p5.height * -0.1);
   let count = 0;
-  /**/ for (let p of particles) {
+  for (let p of particles) {
     count++;
-    w = p5.map(count, 0, particles.length, 1, 4);
-    p.show(w);
+    w = p5.map(count, 0, particles.length, 1, 30);
+    let nh = p5.floor(p5.map(count, 0, particles.length, 1, 4));
+    p.show(w, 50, hues[nh]);
     p.update();
     p.edge();
-    if (particles.length > 300) {
+    if (particles.length > 380) {
       particles.splice(0, 1);
     }
   }
-
-  for (let sp of shortParts) {
-    sp.show(p5.w + 3);
-    sp.update();
-    sp.follow();
-    sp.edge();
+  count = 0;
+  for (let ap of addedParts) {
+    count++;
+    ap.show(35);
+    ap.update();
+    ap.edge();
   }
 
-  fr.html(p5.floor(p5.frameRate()));
+  /* //cycling through just added particles, not a functionality at the moment
+  for (let np of newParts) {
+    np.show(99);
+    np.speedo(0.8, 80);
+    np.update();
+    np.edge();
+    np.normalSize();
+  }*/
 }
 
 async function fetchActivityLog() {
@@ -87,22 +96,61 @@ function checkForAdds(p5, addedActivs) {
     console.log('no activities yet');
   } else {
     if ('say-hello-to-nasims-cat' in addedActivs) {
-      //walkers(meditate, 0);
-      walking(p5, 30, 1, 65, 0.55, addedActivs['say-hello-to-nasims-cat']);
+      walking(p5, 2, p5.random(8, 10), 5, addedActivs['say-hello-to-nasims-cat']);
     }
     if ('te-ritual' in addedActivs) {
-      //walkers(tea, 4, 1.5, 200);
-      walking(p5, 60, 4, 65, 0.65, addedActivs['te-ritual']);
+      walking(p5, 4, p5.random(4.75, 5.5), 320, addedActivs['te-ritual']);
     }
   }
 }
 
-//walker animation for both just added and added in the past, just send less vibrant color for the past ones + less different path?
-function walking(p5, ns, c, a, s, nr = 1) {
-  //maybe its own array instead, but should be in draw() in that case
+//walker animation for added in the past
+function walking(p5, hue, w, ns, nr = 1) {
   for (let i = 0; i < nr; i++) {
-    particles.push(
-      new Particle(p5, p5.random(p5.width), p5.random(p5.height), colours[c], a, ns, s)
-    );
+    let nHue = (hues[hue] + nr - i) % 360;
+
+    /* //basic way of treating just added, could be a flawed way of doing it 
+       //regardless, at this time No Targeting of only just added interactions
+    if (nr < 2) {
+      if (prob > 0.92) {
+        newParts.push(
+          new ActivityP(
+            p5,
+            p5.random(p5.width * 0.45, p5.width * 0.5),
+            p5.random(p5.height * 0.5, p5.height * 0.55),
+            nHue,
+            175,
+            ns
+          )
+        );
+      } else {
+        newParts.push(
+          new ActivityP(
+            p5,
+            p5.random(p5.width * 0.45, p5.width * 0.55),
+            p5.random(p5.height * 0.45, p5.height * 0.55),
+            nHue,
+            w,
+            ns
+          )
+        );
+      }
+      if (l < 25) {
+        l += 0.25;
+        s -= 0.75;
+      }
+    }*/
+    if (i < 16) {
+      addedParts.push(new ActivityP(p5, p5.random(p5.width), p5.random(p5.height), nHue, w, ns));
+    } else if (i > 15 && i < 75) {
+      particles.push(new Particle(p5, p5.random(p5.width), p5.random(p5.height), nHue));
+    }
+    if (h > 360) {
+      h = 0;
+      h++;
+    }
+    if (h <= 360) {
+      h++;
+    }
   }
 }
