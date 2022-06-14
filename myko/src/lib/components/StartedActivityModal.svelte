@@ -1,27 +1,42 @@
 <script lang="ts">
   import type StartedActivityData from '$lib/models/startedActivity';
   import PortableText from '@portabletext/svelte';
+  import { fly } from './transitions';
+  import { goto } from '$app/navigation';
 
+  function done() {
+    shown = false;
+  }
+
+  function completed() {
+    goto('/');
+  }
+
+  export let shown: boolean;
   export let data: StartedActivityData;
 </script>
 
-<div class="modal">
-  <div class="modal-content">
-    <h1>Välkommen</h1>
-    <PortableText blocks={data.instructions} />
+{#if shown}
+  <div transition:fly={{ y: '100%', duration: 2000 }} on:outroend={completed} class="modal">
+    <div class="modal-content">
+      <h1>Välkommen</h1>
+      <PortableText blocks={data.instructions} />
 
-    {#if data.videoConferencingLink}
-      <p>
-        Klicka här för att joina mötet:
-        <a href={data.videoConferencingLink}>{data.videoConferencingLink}</a>
-      </p>
-    {/if}
+      {#if data.videoConferencingLink}
+        <p>
+          Klicka här för att joina mötet:
+          <a href={data.videoConferencingLink}>{data.videoConferencingLink}</a>
+        </p>
+      {/if}
 
-    {#if data.audioFile}
-      <audio src={data.audioFile} controls />
-    {/if}
+      {#if data.audioFile}
+        <audio src={data.audioFile} controls />
+      {/if}
+
+      <button class="done-btn" on:click={done}>Jag är klar!</button>
+    </div>
   </div>
-</div>
+{/if}
 
 <style>
   h1 {
@@ -61,5 +76,11 @@
     border-radius: 4px;
     width: 100%;
     height: 100%;
+  }
+
+  .done-btn {
+    display: block;
+    position: absolute;
+    bottom: 5%;
   }
 </style>
