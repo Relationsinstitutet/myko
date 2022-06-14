@@ -7,12 +7,7 @@
     <div class="nav-bottom">
       <div class="nav-left">
         <a href="/" class:is-active={$page.url.pathname === '/'}> vi</a>
-        <a
-          href="/activities"
-          class:is-active={$page.url.pathname === '/activities' || $page.url.pathname === '/*'}
-        >
-          göra</a
-        >
+        <a href="/activities" class:is-active={$page.url.pathname === '/activities'}> göra</a>
         <a href="/settings" class:is-active={$page.url.pathname === '/settings'}> jag</a>
       </div>
       <div class="nav-right">
