@@ -58,7 +58,7 @@
 </svelte:head>
 
 {#if showStartedActivityModal}
-  <StartedActivityModal data={startedActivityData} bind:shown={showStartedActivityModal} />
+  <StartedActivityModal data={startedActivityData} />
 {/if}
 
 <main>

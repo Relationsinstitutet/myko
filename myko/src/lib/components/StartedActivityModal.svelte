@@ -2,18 +2,11 @@
   import type StartedActivityData from '$lib/models/startedActivity';
   import PortableText from '@portabletext/svelte';
 
-  function close() {
-    shown = false;
-  }
-
-  export let shown: boolean;
   export let data: StartedActivityData;
 </script>
 
 <div class="modal">
   <div class="modal-content">
-    <span class="close" on:click={close}>&times;</span>
-
     <h1>Välkommen</h1>
     <PortableText blocks={data.instructions} />
 
@@ -62,25 +55,11 @@
 
   .modal-content {
     background-color: #fefefe;
-    margin: 5% auto;
+    margin: 0;
     padding: 20px;
     border: 1px solid #888;
     border-radius: 4px;
-    width: 80%;
-    height: 80%;
-  }
-
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-
-  .close:hover,
-  .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+    width: 100%;
+    height: 100%;
   }
 </style>
