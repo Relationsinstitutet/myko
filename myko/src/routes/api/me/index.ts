@@ -6,7 +6,10 @@ type SanityResultType = {
   eventsForUser: {
     _id: string;
     date: string;
-    activityName: string;
+    activity: {
+      name: string;
+      slug: string;
+    };
   }[];
   completedActivities: {
     _createdAt: string;
@@ -30,7 +33,10 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
   ] | order(date asc) {
     _id,
     date,
-    "activityName": activity->name
+    activity->{
+      name,
+      "slug": slug.current
+    }
   }`;
   const completedActivitiesForUserQuery = `*[
     _type == "${sanitySchemaNames.activitylog}" &&
@@ -51,7 +57,7 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
       id: e._id,
       date,
       time,
-      activityName: e.activityName,
+      activity: e.activity,
       userIsAttending: true,
     };
   });
