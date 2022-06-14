@@ -4,11 +4,7 @@
   import type { Client } from '$lib/auth/client';
   import createClient from '$lib/auth/client';
   import { isAuthenticated, user } from '$lib/auth/store';
-  // import type IActivity from '$lib/models/activity';
 
-  // import type { Cotime, IActivitySummary } from '$lib/models/activity';
-
-  // import BookingControls from '$lib/components/BookingControls.svelte';
   import Paginated from '$lib/components/Paginated.svelte';
   import { formatDate, formatTime } from '$lib/dateFormat';
 
@@ -64,8 +60,6 @@
 
     return `<li>${date} ${time}: ${activity.activityName}</li>`;
   }
-
-  // export let activity: IActivity;
 </script>
 
 <div class="top-menu">
@@ -88,9 +82,6 @@
       {/if}
       {#each eventsUserIsAttending as event}
         <!-- <a href="/activities/{activity.slug}">{activity.name}</a> -->
-
-        <!-- hämta ut aktiviteten baserat på eventet väl? -->
-        <!-- sanitys specialverktyg? -->
         <a href="/activities/">
           {formatDate(event.date, { day: 'numeric', month: 'numeric' })}
           {event.activityName}
