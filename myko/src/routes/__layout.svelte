@@ -1,39 +1,37 @@
 <script lang="ts">
   import { page } from '$app/stores';
 
-  const pathName = ['/', '/activities', '/settings', '/faq'];
+  function gradientColor(pageUrl: string): string {
+    let gradientColor = 'gradient-basic';
 
-  function checkCurrentPath() {
-      if ($page.url.pathname === '/') {
-          return pathName[0];
-      } else if ($page.url.pathname === '/activities') {
-          return pathName[1];
-      } else if ($page.url.pathname === '/settings') {
-          return pathName[2];
-      } else if ($page.url.pathname === '/faq') {
-          return pathName[3];
-      }
-  }
-
-  function gradientColor(): string {
-      console.log($page.url.pathname);
-
-      const gradientColor = "gradient-color";
+    if (pageUrl === '/') {
+      gradientColor = 'gradient-home';
       return gradientColor;
+    } else if (pageUrl === '/activities') {
+      gradientColor = 'gradient-activities';
+      return gradientColor;
+    } else if (pageUrl === '/settings') {
+      gradientColor = 'gradient-settings';
+      return gradientColor;
+    } else if (pageUrl === '/faq') {
+      gradientColor = 'gradient-faq';
+      return gradientColor;
+    } else {
+      return gradientColor;
+    }
   }
-
 </script>
 
 <nav>
-  <div class="bottom-gradient {gradientColor()}">
+  <div class="bottom-gradient {gradientColor($page.url.pathname)}">
     <div class="nav-bottom">
       <div class="nav-left">
-        <a href="/" class:is-active={checkCurrentPath()}> vi</a>
-        <a href="/activities" class:is-active={checkCurrentPath()}> göra</a>
-        <a href="/settings" class:is-active={checkCurrentPath()}> jag</a>
+        <a href="/" class:is-active={$page.url.pathname === '/'}> vi</a>
+        <a href="/activities" class:is-active={$page.url.pathname === '/activities'}> göra</a>
+        <a href="/settings" class:is-active={$page.url.pathname === '/settings'}> jag</a>
       </div>
       <div class="nav-right">
-        <a href="/faq" class:is-active={checkCurrentPath()}>?</a>
+        <a href="/faq" class:is-active={$page.url.pathname === '/faq'}>?</a>
       </div>
     </div>
   </div>
@@ -96,17 +94,61 @@
     width: 100%;
   }
 
-  .gradient-color {
-      background: linear-gradient(
-        3deg,
-        #3fb6c6 -2.94%,
-        #c1c6e0 8.67%,
-        #349dab 19.14%,
-        rgba(200, 131, 180, 0.83) 33.09%,
-        rgba(216, 160, 193, 0.57678) 54.02%,
-        rgba(236, 198, 210, 0.25322) 80.76%,
-        rgba(252, 228, 223, 0) 101.68%
-      );
+  .gradient-basic {
+    background: linear-gradient(
+      3deg,
+      #3fb6c6 -2.94%,
+      #c1c6e0 8.67%,
+      #349dab 19.14%,
+      rgba(200, 131, 180, 0.83) 33.09%,
+      rgba(216, 160, 193, 0.57678) 54.02%,
+      rgba(236, 198, 210, 0.25322) 80.76%,
+      rgba(252, 228, 223, 0) 101.68%
+    );
+  }
+
+  .gradient-home {
+    background: linear-gradient(
+      1deg,
+      #3fb6c6 -2.94%,
+      #c1c6e0 8.67%,
+      #349dab 19.14%,
+      rgba(200, 131, 180, 0.83) 33.09%,
+      rgba(216, 160, 193, 0.57678) 54.02%,
+      rgba(236, 198, 210, 0.25322) 75.76%,
+      rgba(252, 228, 223, 0) 90.68%
+    );
+  }
+
+  .gradient-activities {
+    background: linear-gradient(
+      3deg,
+      #3fb6c6 -2.94%,
+      #c1c6e0 8.67%,
+      #349dab 19.14%,
+      rgba(200, 131, 180, 0.83) 33.09%,
+      rgba(216, 160, 193, 0.57678) 54.02%,
+      rgba(236, 198, 210, 0.25322) 80.76%,
+      rgba(252, 228, 223, 0) 101.68%
+    );
+  }
+
+  .gradient-settings {
+    background: linear-gradient(
+      359deg,
+      #ec9e9e -2.94%,
+      #ec9e9e 2.28%,
+      rgba(252, 228, 223, 0) 94.66%
+    );
+  }
+
+  .gradient-faq {
+    background: linear-gradient(
+      359deg,
+      #ec9e9e -2.94%,
+      #ec9e9e 2.28%,
+      rgba(252, 228, 223, 0) 94.66%
+    );
   }
 
   .nav-bottom {
