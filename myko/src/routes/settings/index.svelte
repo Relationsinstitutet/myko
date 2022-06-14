@@ -172,5 +172,7 @@
   .plain-list {
     list-style: none;
     padding-left: unset;
+    display: flex;
+    flex-direction: column;
   }
 </style>
