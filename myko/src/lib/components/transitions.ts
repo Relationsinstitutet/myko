@@ -26,7 +26,7 @@ export function fly(
   let xValue = 0;
   let xUnit = 'px';
   if (typeof x === 'number') {
-      xValue = x;
+    xValue = x;
   } else {
     const xMatch = x.match(/([-\d.]+)(\D+)/);
     if (xMatch !== null && xMatch.length === 3) {
@@ -38,10 +38,9 @@ export function fly(
   let yValue = 0;
   let yUnit = 'px';
   if (typeof y === 'number') {
-      yValue = y;
+    yValue = y;
   } else {
     const yMatch = y.match(/([-\d.]+)(\D+)/);
-    console.log(yMatch)
     if (yMatch !== null && yMatch.length === 3) {
       yValue = Number(yMatch[1]);
       yUnit = yMatch[2];
