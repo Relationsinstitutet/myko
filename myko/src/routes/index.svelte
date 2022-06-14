@@ -16,6 +16,7 @@
 <main>
   <h1>Myko</h1>
 
+  <div class="p5" />
   <P5 {sketch} />
 </main>
 
@@ -36,5 +37,19 @@
     text-transform: uppercase;
     font-size: var(--20px);
     color: var(--grey-050);
+  }
+  @media (min-width: 45rem) {
+    h1 {
+      text-align: center;
+    }
+    .m-0 {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .p5Canvas {
+      width: 500px;
+    }
   }
 </style>
