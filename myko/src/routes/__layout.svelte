@@ -31,7 +31,7 @@
 <slot />
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Roboto+Mono:wght@300;400;500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Roboto+Mono:wght@300;400;500;700&display=swap');
 
   :global(:root) {
     /* Font sizes */

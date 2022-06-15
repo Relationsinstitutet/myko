@@ -173,4 +173,10 @@
     list-style: none;
     padding-left: unset;
   }
+
+  @media (min-width: 45rem) {
+    main {
+      align-items: center;
+    }
+  }
 </style>

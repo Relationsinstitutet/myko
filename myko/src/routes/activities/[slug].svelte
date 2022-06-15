@@ -111,6 +111,7 @@
     color: var(--ocean-800);
     padding: 8px;
     border: 0;
+    letter-spacing: 1px;
   }
 
   .wrapper {
