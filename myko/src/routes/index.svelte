@@ -23,7 +23,7 @@
 <style>
   main {
     background-color: var(--ocean-800);
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -42,7 +42,7 @@
     h1 {
       text-align: center;
     }
-    .m-0 {
+    /*.m-0 {
       display: flex;
       flex-direction: column;
       flex-wrap: wrap;
@@ -50,6 +50,6 @@
     }
     .p5Canvas {
       width: 500px;
-    }
+    }*/
   }
 </style>

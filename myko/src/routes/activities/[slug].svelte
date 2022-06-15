@@ -140,8 +140,7 @@
       align-items: center;
     }
     .wrapper {
-      justify-content: space-evenly;
-      /*width: 35rem;*/
+      justify-content: space-around;
     }
   }
 </style>

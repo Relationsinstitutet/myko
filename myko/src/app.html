@@ -61,6 +61,13 @@
   #__next {
     isolation: isolate;
   }
+  ul,
+  li {
+    list-style-type: none;
+    list-style-position: inside;
+    margin: 0;
+    padding: 0;
+  }
 
   /* Extra settings for targeting within portabletext blocks */
   h2 {
@@ -70,22 +77,35 @@
     color: var(--grey-800);
     margin-top: 2em;
   }
+
+  ::marker {
+    color: var(--ocean-800);
+    font-size: 1.1em;
+    font-weight: bold;
+    content: '🞄 ';
+  }
+
   @media (min-width: 45rem) {
     h1 {
       width: 38rem;
-      padding: 2rem 0;
+      padding: 40px 0 1rem;
+    }
+    h1 + div {
+      width: 35rem;
     }
     p {
       display: flex;
       justify-content: center;
-      padding: 1rem 32px 0.5rem;
+      padding: 1rem 0 0.5rem;
       width: 35rem;
     }
     h2 {
       width: 35rem;
     }
-    h2 + ul {
+    ul {
       width: 35rem;
+    }
+    li {
     }
   }
 </style>

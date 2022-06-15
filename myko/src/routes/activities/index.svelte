@@ -73,6 +73,7 @@
   }
 
   ul {
+    all: unset;
     list-style: none;
     padding-inline-start: 0;
   }
@@ -84,6 +85,10 @@
 
   li a {
     color: var(--grey-700);
+  }
+
+  ::marker {
+    all: unset;
   }
 
   .dot {

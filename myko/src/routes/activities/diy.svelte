@@ -88,7 +88,6 @@
 
   label {
     --grey-800: hsla(0, 0%, 23%, 1); /* Typography */
-
     font-size: 1rem;
     color: var(--grey-800);
     margin-top: 2em;
@@ -97,21 +96,29 @@
   }
 
   input[type='text'] {
-    border: 1px solid #333334;
-    border-radius: 8px;
-    margin: 0.65rem 8px 1rem;
-    padding: 4px;
+    border: 1px solid var(--ocean-800);
+    border-radius: 12px;
+    margin: 0.45rem 4px 1rem;
+    padding: 4px 8px;
     width: 90%;
   }
 
   input[type='submit'] {
     border: 2px solid var(--ocean-600);
     border-radius: 4px;
+    box-shadow: 2px 2px 9px -2px rgb(108 97 97 / 50%);
     background: var(--ocean-800);
     color: white;
     font-weight: 500;
-    margin: 0.65rem 12px;
+    margin: 0.65rem 4px;
     padding: 4px 8px;
+  }
+
+  @media (min-width: 45rem) {
+    main {
+      margin: 0 auto;
+      align-items: center;
+    }
   }
   /* TODO: add errorMessage styling */
 </style>
