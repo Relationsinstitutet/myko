@@ -35,7 +35,6 @@
 
       <button class="done-btn" on:click={done}>Jag är klar!</button>
     </div>
-
   </div>
 {/if}
 
