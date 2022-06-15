@@ -128,36 +128,3 @@ function trailing(ns, c, a, s, nr = 1) {
     shortParts.push(new Particle(random(width), random(height), colours[c], a, ns, s));
   }
 }
-
-/*
-      let angleBg = noise(xoff, yoff, zoff) * TWO_PI * xr;
-      let v = p5.Vector.fromAngle(angleBg);
-      xoff += inc;
-
-      push();
-      translate(x * res, y * res);
-
-      rotate(v.heading());
-      line(0,0,res,0);
-      pop();
-    }
-    yoff += inc;
-    zoff += 0.001;
-  }*/
-/*
-  let gridPos = 5;
-  for(let y = 0; y < rows; y++) {
-    for(let x = 0; x < cols; x++) {
-      if(x % gridPos  === 0) {
-        if(y % gridPos === 0) {
-          particles[x] = new Particle((x + (gridPos/2)) * res, (y + gridPos/2) * res);
-        }
-      }}}*/
-
-/*
-  let largerW = (width * xSpace) - (width * (width - xSpace));
-  let largerH = (height * xSpace) - (height * (height - xSpace));
-  nCols = floor(largerW/res);
-  nRows = floor(largerH/res);
-  defA = PI * 0.25;
-  */
