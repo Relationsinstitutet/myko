@@ -1,8 +1,18 @@
-export async function post({ request }) {
+import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
+
+function isNonEmptyString(s: FormDataEntryValue | null): boolean {
+  if (typeof s === 'string' && s.trim().length > 0) {
+    return true;
+  }
+
+  return false;
+}
+
+export const post: RequestHandler<Record<string, string>, ResponseBody> = async ({ request }) => {
   const data = await request.formData(); // or .json(), or .text(), etc
 
   const name = data.get('name');
-  if (!name.trim()) {
+  if (!isNonEmptyString(name)) {
     return {
       status: 400,
       body: {
@@ -12,7 +22,7 @@ export async function post({ request }) {
   }
 
   const activityDesc = data.get('activity-description');
-  if (!activityDesc.trim()) {
+  if (!isNonEmptyString(activityDesc)) {
     return {
       status: 400,
       body: {
@@ -35,4 +45,4 @@ export async function post({ request }) {
   }
 
   return { status: 201 };
-}
+};

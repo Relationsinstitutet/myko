@@ -8,10 +8,12 @@
   import { onMount } from 'svelte';
   import { get } from 'svelte/store';
   import { page } from '$app/stores';
-  import StartedActivityModal from '$lib/components/StartedActivityModal.svelte';
   import type StartedActivityData from '$lib/models/startedActivity';
   import CotimeInfo from '$lib/components/CotimeInfo.svelte';
   import CotimeActions from '$lib/components/CotimeActions.svelte';
+  import FullPageModal from '$lib/components/FullPageModal.svelte';
+  import StartedActivityView from '$lib/components/StartedActivityView.svelte';
+  import DiyView from '$lib/components/DiyView.svelte';
 
   const currentSlug = get(page).params.slug;
   const currentPage = get(page).url.pathname;
@@ -57,7 +59,13 @@
   <title>{activity.name}</title>
 </svelte:head>
 
-<StartedActivityModal data={startedActivityData} bind:shown={showStartedActivityModal} />
+<FullPageModal bind:shown={showStartedActivityModal}>
+  {#if currentSlug == 'tillverka-aktivitet'}
+    <DiyView />
+  {:else}
+    <StartedActivityView data={startedActivityData} />
+  {/if}
+</FullPageModal>
 
 <main>
   {#if activity.cotime}
