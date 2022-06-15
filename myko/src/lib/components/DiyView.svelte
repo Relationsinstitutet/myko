@@ -19,7 +19,7 @@
     }
 
     submitted = true;
-    message = 'Ditt förslag är inskickat!';
+    message = 'Myko har noterat aktiviteten, tack!';
   }
 </script>
 
