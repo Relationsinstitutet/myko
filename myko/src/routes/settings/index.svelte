@@ -4,7 +4,6 @@
   import type { Client } from '$lib/auth/client';
   import createClient from '$lib/auth/client';
   import { isAuthenticated, user } from '$lib/auth/store';
-  import BookingControls from '$lib/components/BookingControls.svelte';
   import Paginated from '$lib/components/Paginated.svelte';
   import { formatDate, formatTime } from '$lib/dateFormat';
 
@@ -24,7 +23,10 @@
     readonly id: string;
     readonly date: string;
     readonly time: string;
-    readonly activityName: string;
+    readonly activity: {
+      readonly name: string;
+      readonly slug: string;
+    };
     userIsAttending: boolean;
   }[] = [];
   let completedActivities: CompletedActivity[] = [];
@@ -75,21 +77,21 @@
 
 <main>
   {#if $isAuthenticated}
-    <h1>Bokade aktiviteter</h1>
-    <ul class="plain-list">
-      {#if eventsUserIsAttending.length < 1}
-        Inget inbokat än.
-      {/if}
-      {#each eventsUserIsAttending as event}
-        <li>
-          {formatDate(event.date, { day: 'numeric', month: 'numeric' })}
-          {event.activityName}:
-          <BookingControls eventId={event.id} bind:userIsAttending={event.userIsAttending}>
-            {formatTime(event.date, event.time)}
-          </BookingControls>
-        </li>
-      {/each}
-    </ul>
+    <h1>Aktiviteter du ska vara med på</h1>
+    {#if eventsUserIsAttending.length < 1}
+      Inget inbokat än.
+    {:else}
+      <ul class="plain-list">
+        {#each eventsUserIsAttending as event}
+          <li>
+            <a href="/activities/{event.activity.slug}">
+              {formatDate(event.date, { day: 'numeric', month: 'numeric' })}
+              {event.activity.name}
+            </a>
+          </li>
+        {/each}
+      </ul>
+    {/if}
 
     <h1>Genomförda aktiviteter</h1>
     {#if completedActivities.length < 1}
@@ -165,5 +167,7 @@
   .plain-list {
     list-style: none;
     padding-left: unset;
+    display: flex;
+    flex-direction: column;
   }
 </style>
