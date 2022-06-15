@@ -24,8 +24,8 @@
     readonly date: string;
     readonly time: string;
     readonly activity: {
-      name: string;
-      slug: string;
+      readonly name: string;
+      readonly slug: string;
     };
     userIsAttending: boolean;
   }[] = [];
