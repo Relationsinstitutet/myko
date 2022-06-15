@@ -127,7 +127,6 @@
 
   input[type='submit']:hover,
   :focus {
-    /*background: var(--ocean-600);*/
     background-position: right;
   }
 
