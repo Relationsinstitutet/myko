@@ -137,11 +137,10 @@
 
   @media (min-width: 45rem) {
     main {
-      margin: 0 auto;
       align-items: center;
     }
     .wrapper {
-      justify-content: space-around;
+      justify-content: space-evenly;
     }
   }
 </style>
