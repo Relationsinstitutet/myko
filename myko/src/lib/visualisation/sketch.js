@@ -23,7 +23,6 @@ export async function setup(p5) {
   //let adjPos = p5.windowWidth * 0.05;
   //c.position(adjPos, adjPos);
   //c.style('z-index', '-1');
-  //c.class('responsive-canvas');
 
   p5.frameRate(20);
   fr = p5.createP('');
