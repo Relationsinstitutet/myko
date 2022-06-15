@@ -57,15 +57,8 @@
     color: var(--ocean-800);
     padding: 8px;
     border: 0;
-    /* max-width: fit-content; */
   }
-  .wrapper {
-    /* position: fixed;
-    bottom: 0;
-    margin-bottom: 72px;
-   display: flex;
-   justify-content: flex-end; */
-  }
+
   .loader {
     display: inline-block;
     width: 1em;

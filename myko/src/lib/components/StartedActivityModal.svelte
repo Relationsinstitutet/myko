@@ -30,7 +30,7 @@
       {/if}
 
       {#if data.audioFile}
-        <audio src={data.audioFile} controls />
+        <audio src={data.audioFile} controls controlsList="nodownload" />
       {/if}
 
       <button class="done-btn" on:click={done}>Jag är klar!</button>
