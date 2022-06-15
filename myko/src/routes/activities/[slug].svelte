@@ -57,9 +57,7 @@
   <title>{activity.name}</title>
 </svelte:head>
 
-{#if showStartedActivityModal}
-  <StartedActivityModal data={startedActivityData} bind:shown={showStartedActivityModal} />
-{/if}
+<StartedActivityModal data={startedActivityData} bind:shown={showStartedActivityModal} />
 
 <main>
   {#if activity.cotime}
@@ -124,5 +122,6 @@
     width: 100%;
     left: 0;
     padding: 24px;
+    padding-bottom: 12px;
   }
 </style>

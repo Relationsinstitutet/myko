@@ -77,7 +77,7 @@
 
 <main>
   {#if $isAuthenticated}
-    <h1>Bokade aktiviteter</h1>
+    <h1>Aktiviteter du ska vara med på</h1>
     {#if eventsUserIsAttending.length < 1}
       Inget inbokat än.
     {:else}
@@ -167,5 +167,7 @@
   .plain-list {
     list-style: none;
     padding-left: unset;
+    display: flex;
+    flex-direction: column;
   }
 </style>
