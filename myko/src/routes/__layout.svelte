@@ -131,6 +131,4 @@
   .nav-right {
     margin-right: 24px;
   }
-
-  /* LAPTOP queries */
 </style>

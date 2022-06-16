@@ -70,6 +70,7 @@
     flex-wrap: wrap;
     align-items: center;
     padding-top: 48px;
+    padding-bottom: 96px;
   }
 
   ul {

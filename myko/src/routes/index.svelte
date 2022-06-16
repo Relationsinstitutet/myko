@@ -45,9 +45,5 @@
     h1 {
       text-align: center;
     }
-    .responsive-canvas {
-      all: unset;
-      min-width: 90%;
-    }
   }
 </style>

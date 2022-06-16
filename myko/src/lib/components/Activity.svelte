@@ -7,9 +7,9 @@
 
 <h1>{activity.name}</h1>
 
-<div>{activity.duration}</div>
+<div class="duration">{activity.duration}</div>
 
-<ul>
+<ul class="prereqs">
   {#each activity.prerequisites as prereq}
     <li>{prereq}</li>
   {/each}
@@ -32,5 +32,21 @@
     margin-bottom: var(--30px);
   }
 
+  .duration,
+  .prereqs li {
+    font-weight: 700;
+    color: var(--grey-600);
+    letter-spacing: 1px;
+    list-style: none;
+  }
+  .prereqs li::marker {
+    all: unset;
+  }
   /* the h2's in the portabletext blocks are styled in app.html */
+  @media (min-width: 45rem) {
+    .duration,
+    .prereqs li {
+      width: 35rem;
+    }
+  }
 </style>
