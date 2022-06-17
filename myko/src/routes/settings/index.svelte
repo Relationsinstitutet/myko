@@ -109,6 +109,7 @@
 
 <style>
   main {
+    min-height: 100vh;
     background-color: var(--ocean-100);
     display: flex;
     flex-direction: column;
