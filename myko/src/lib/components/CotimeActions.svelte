@@ -51,4 +51,7 @@
     font-weight: 700;
     color: var(--grey-800);
   }
+
+  @media (min-width: 45rem) {
+  }
 </style>

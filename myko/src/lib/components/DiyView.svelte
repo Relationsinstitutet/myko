@@ -61,7 +61,7 @@
 
 <style>
   main {
-    height: 100%;
+    min-height: 100%;
     background-color: var(--peach-300);
     display: flex;
     flex-direction: column;
@@ -92,6 +92,47 @@
     margin-top: 2em;
     font-weight: 700;
     display: block;
+  }
+
+  input[type='text'] {
+    margin: 0.45rem 4px 1rem;
+    padding: 4px 8px;
+    width: 90%;
+    border: 0;
+    border-radius: 12px;
+    outline: 1px solid var(--ocean-800);
+  }
+
+  textarea:focus,
+  input:focus {
+    outline-width: 2px;
+  }
+
+  input[type='submit'] {
+    color: white;
+    font-weight: 500;
+    margin: 0.65rem 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+    border: 0;
+    border-radius: 4px;
+    box-shadow: 2px 2px 9px -2px rgb(108 97 97 / 50%);
+    background: var(--ocean-800);
+    background-image: linear-gradient(90deg, var(--ocean-900), var(--ocean-800), var(--ocean-600));
+    background-size: 200%;
+    background-position: left;
+    transition: background-position 1000ms ease;
+  }
+
+  input[type='submit']:hover,
+  :focus {
+    background-position: right;
+  }
+
+  @media (min-width: 45rem) {
+    main {
+      align-items: center;
+    }
   }
 
   /* TODO: add errorMessage styling */
