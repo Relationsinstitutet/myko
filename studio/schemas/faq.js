@@ -1,28 +1,39 @@
 export default {
   name: 'faq',
   type: 'document',
-  title: 'FAQ',
+  title: 'Faq',
   fields: [
       {
-        name: 'description',
+        name: 'intro',
         type: 'array',
-        title: 'Description',
+        title: 'Intro',
         of: [{type: 'block'}]
       },
-    {
-      name: 'image',
-      type: 'image',
-      title: 'Image',
-      fields: [
-        {
-          name: 'alt',
-          type: 'string',
-          title: 'Alt text',
-          options: {
-            isHighlighted: true
+      {
+        name: 'detail1',
+        type: 'string',
+        title: 'Detail'
+      },
+      {
+        name: 'longstory',
+        type: 'array',
+        title: 'Longer story',
+        of: [{type: 'block'}]
+      },
+      {
+        name: 'image',
+        type: 'image',
+        title: 'Image',
+        fields: [
+          {
+            name: 'alt',
+            type: 'string',
+            title: 'Alt text',
+            options: {
+              isHighlighted: true
+            }
           }
-        }
-      ]
-    },
-  ],
+        ]
+      },
+  ]
 }
