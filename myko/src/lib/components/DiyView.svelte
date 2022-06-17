@@ -64,6 +64,12 @@
   main {
     min-height: 100%;
     background-color: var(--peach-300);
+    background-image: linear-gradient(
+      var(--peach-100),
+      var(--peach-300),
+      var(--peach-500),
+      var(--ocean-100)
+    );
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;

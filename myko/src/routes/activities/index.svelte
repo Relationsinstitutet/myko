@@ -64,13 +64,13 @@
 <style>
   main {
     background-color: var(--peach-300);
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
     padding-top: 48px;
-    padding-bottom: 96px;
+    padding-bottom: 256px;
   }
 
   ul {
