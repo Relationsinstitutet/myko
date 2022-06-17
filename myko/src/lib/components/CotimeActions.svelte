@@ -14,18 +14,19 @@
 <div class="innerWrapper">
   {#each cotime.events as event}
     <div>
-      <BookingControls eventId={event.id} bind:userIsAttending={event.userIsAttending}
-        >{formatTime(cotime.date, event.time)}</BookingControls
-      >
-      <!-- {#if $isAuthenticated && event.userIsAttending}
+      {#if $isAuthenticated && event.userIsAttending && event.isStartable}
         <StartActivityButton
           on:activityStarted={onActivityStarted}
           data={{ eventId: event.id }}
           enabled={event.isStartable}
         >
-          Starta
+          Starta {formatTime(cotime.date, event.time)}
         </StartActivityButton>
-      {/if} -->
+      {:else}
+        <BookingControls eventId={event.id} bind:userIsAttending={event.userIsAttending}
+          >{formatTime(cotime.date, event.time)}</BookingControls
+        >
+      {/if}
       <div class="helpText">
         {#if $isAuthenticated && event.userIsAttending}
           <p>Du är med &#127852;</p>
