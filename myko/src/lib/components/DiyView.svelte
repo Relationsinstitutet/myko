@@ -41,7 +41,8 @@
           det skulle kunna bli en aktivitet som alla kan göra samt kanske vad den skulle kunna ha
           för arbetsnamn.
         </p>
-        <input type="text" name="activity-description" required />
+        <!--<input type="text" name="activity-description" required />-->
+        <textarea name="activity-description" rows="5" />
       </div>
 
       <div>
@@ -94,7 +95,8 @@
     display: block;
   }
 
-  input[type='text'] {
+  input[type='text'],
+  textarea {
     margin: 0.45rem 4px 1rem;
     padding: 4px 8px;
     width: 90%;

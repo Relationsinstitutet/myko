@@ -38,6 +38,7 @@
 <style>
   .innerWrapper {
     display: flex;
+    justify-content: start;
   }
 
   .helpText {
@@ -47,11 +48,9 @@
   }
 
   p {
+    all: unset;
     font-size: var(--12px);
     font-weight: 700;
     color: var(--grey-800);
-  }
-
-  @media (min-width: 45rem) {
   }
 </style>
