@@ -7,6 +7,7 @@ import schemaTypes from 'all:part:@sanity/base/schema-type'
 import activity from './activity'
 import activitylog from './activitylog'
 import event from './event'
+import faq from './faq'
 import webuser from './webuser'
 
 // Then we give our schema to the builder and provide the result to Sanity
@@ -19,6 +20,7 @@ export default createSchema({
     activity,
     activitylog,
     event,
+    faq,
     webuser
   ]),
 })
