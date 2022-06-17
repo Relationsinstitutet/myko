@@ -33,6 +33,10 @@
       <div class="nav-right">
         <a href="/faq" class:is-active={$page.url.pathname === '/faq'}>?</a>
       </div>
+      <div class="nav-right">
+        <!-- TODO: add $currentPage here to get it to sync-->
+        <a href="/faq">?</a>
+      </div>
     </div>
   </div>
 </nav>
@@ -40,7 +44,7 @@
 <slot />
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Roboto+Mono:wght@300;400;500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Roboto+Mono:wght@300;400;500;700&display=swap');
 
   :global(:root) {
     /* Font sizes */
@@ -69,6 +73,7 @@
     --grey-050: hsla(0, 0%, 97%, 1);
 
     /* Ocean colors */
+    --ocean-900: hsla(185, 94%, 17%, 1);
     --ocean-800: hsla(185, 97%, 23%, 1);
     --ocean-600: hsla(185, 99%, 29%, 1);
     --ocean-400: hsla(187, 54%, 51%, 1);
@@ -96,7 +101,7 @@
 
   .gradient-basic {
     background: linear-gradient(
-      3deg,
+      0deg,
       #3fb6c6 -2.94%,
       #c1c6e0 8.67%,
       #349dab 19.14%,
