@@ -11,10 +11,11 @@ export let faq: Faq;
   <h1>Vad är nu detta</h1>
 
   <!-- <h1>{faq.name}</h1> -->
+  <h2>{faq.detail1}</h2>
 
   <!-- <div>{faq.duration}</div> -->
 
-  <PortableText blocks={faq.intro} />
+  <!-- <PortableText blocks={faq.intro} /> -->
 
   <!-- {#if faq.image}
     <img loading="lazy" src={faq.image.url} alt={faq.image.alt} />
