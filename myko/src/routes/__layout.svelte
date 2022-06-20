@@ -95,7 +95,7 @@
   .bottom-gradient {
     position: fixed;
     bottom: 0;
-    height: 236px;
+    height: 246px;
     width: 100%;
   }
 
@@ -114,14 +114,22 @@
 
   .gradient-home {
     background: linear-gradient(
-      1deg,
-      #3fb6c6 -2.94%,
+      0deg,
+      /*#3fb6c6 -2.94%,
       #c1c6e0 8.67%,
       #349dab 19.14%,
       rgba(200, 131, 180, 0.83) 33.09%,
       rgba(216, 160, 193, 0.57678) 54.02%,
       rgba(236, 198, 210, 0.25322) 75.76%,
-      rgba(252, 228, 223, 0) 90.68%
+      rgba(252, 228, 223, 0) 90.68%*/
+        /*smoother gradient from josh comeau, and ehem fiddled with a bit*/ hsl(187deg 53% 55%) -4%,
+      hsl(195deg 43% 65%) 22%,
+      hsla(250deg, 45%, 75%, 0.85) 30%,
+      hsla(300deg, 55%, 70%, 0.58) 45%,
+      hsla(320deg, 40%, 65%, 0.45) 60%,
+      hsla(310deg, 20%, 50%, 0.32) 77%,
+      hsla(290deg, 20%, 45%, 0.17) 88%,
+      hsla(260deg, 20%, 35%, 0) 100%
     );
   }
 
