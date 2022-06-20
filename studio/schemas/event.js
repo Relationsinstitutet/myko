@@ -52,5 +52,17 @@ export default {
         media: <span style={{fontSize: '1.5rem'}}>{visible ? '✅' : '🚧'}</span>
       }
     }
-  }
+  },
+  orderings: [
+    {
+      title: 'Activity',
+      name: 'activity',
+      by: [{field: 'activity.name'}]
+    },
+    {
+      title: 'Date',
+      name: 'date',
+      by: [{field: 'date'}]
+    }
+  ]
 }
