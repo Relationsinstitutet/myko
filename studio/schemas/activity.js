@@ -1,3 +1,5 @@
+import { orderRankField } from "@sanity/orderable-document-list";
+
 export default {
   name: 'activity',
   type: 'document',
@@ -64,5 +66,6 @@ export default {
         accept: 'audio/*'
       }
     },
+    orderRankField({ type: 'activity', hidden: false }),
   ],
 }
