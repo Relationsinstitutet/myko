@@ -102,13 +102,13 @@
   .gradient-basic {
     background: linear-gradient(
       0deg,
-      #3fb6c6 -2.94%,
-      #c1c6e0 8.67%,
-      #349dab 19.14%,
-      rgba(200, 131, 180, 0.83) 33.09%,
-      rgba(216, 160, 193, 0.57678) 54.02%,
-      rgba(236, 198, 210, 0.25322) 80.76%,
-      rgba(252, 228, 223, 0) 101.68%
+      hsla(180deg, 50%, 50%) -3%,
+      hsla(180deg, 30%, 80%) 8%,
+      hsla(190deg, 50%, 50%) 16%,
+      hsla(315deg, 45%, 65%, 0.8) 35%,
+      hsla(328deg, 50%, 75%, 0.42) 55%,
+      hsla(340deg, 60%, 90%, 0.17) 80%,
+      hsla(0deg, 85%, 95%, 0) 100%
     );
   }
 
@@ -136,10 +136,10 @@
   .gradient-activities {
     background: linear-gradient(
       4deg,
-      #3fb6c6 -3%,
-      #c1c6e0 8.67%,
+      hsla(180deg, 50%, 50%) -3%,
+      hsla(180deg, 30%, 80%) 8%,
       hsla(190deg, 50%, 50%) 15%,
-      hsla(315deg, 50%, 65%, 0.65) 40%,
+      hsla(315deg, 45%, 65%, 0.65) 40%,
       hsla(328deg, 50%, 75%, 0.32) 60%,
       hsla(340deg, 60%, 90%, 0.12) 80%,
       hsla(0deg, 85%, 95%, 0) 99%
