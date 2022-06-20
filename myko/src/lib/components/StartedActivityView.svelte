@@ -23,7 +23,23 @@
 
 <style>
   .wrapper {
-    padding: 20px;
+    min-height: 100%;
+    background-color: var(--peach-500);
+    background-image: linear-gradient(
+      var(--peach-100),
+      var(--peach-300),
+      var(--peach-500),
+      var(--ocean-100)
+    );
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding-top: 48px;
+    padding-left: 48px;
+    padding-right: 48px;
+    padding-bottom: 256px;
+    font-family: 'Lato', sans-serif;
+    color: var(--grey-800);
   }
 
   h1 {
@@ -40,5 +56,22 @@
   audio {
     max-width: 100%;
     margin-top: 32px;
+  }
+
+  a {
+    max-width: 100%;
+    margin-top: 32px;
+  }
+
+  @media (min-width: 45rem) {
+    .wrapper {
+      align-items: center;
+    }
+    h1 {
+      text-align: center;
+    }
+    audio {
+      width: 30rem;
+    }
   }
 </style>

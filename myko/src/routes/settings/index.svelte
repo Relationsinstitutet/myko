@@ -62,6 +62,8 @@
 
     return `<li>${date} ${time}: ${activity.activityName}</li>`;
   }
+
+  // export let activity: IActivity;
 </script>
 
 <div class="top-menu">
@@ -107,6 +109,7 @@
 
 <style>
   main {
+    min-height: 100vh;
     background-color: var(--ocean-100);
     display: flex;
     flex-direction: column;
@@ -169,5 +172,11 @@
     padding-left: unset;
     display: flex;
     flex-direction: column;
+  }
+
+  @media (min-width: 45rem) {
+    main {
+      align-items: center;
+    }
   }
 </style>

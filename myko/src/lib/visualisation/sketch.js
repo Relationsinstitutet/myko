@@ -11,8 +11,17 @@ let particles = [];
 let addedParts = [];
 let newParts = [];
 
+export function windowResized(p5) {
+  p5.resizeCanvas(p5.windowWidth, 530);
+  //console.log('heya');
+}
+
 export async function setup(p5) {
-  p5.createCanvas(300, 450);
+  //let adjWidth = p5.windowWidth * 0.9;
+  let c = p5.createCanvas(p5.windowWidth, 530);
+  //let adjPos = p5.windowWidth * 0.05;
+  //c.position(adjPos, adjPos);
+  //c.style('z-index', '-1');
 
   p5.frameRate(20);
   p5.colorMode(p5.HSL, 360, 100, 100, 1.0);

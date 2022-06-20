@@ -33,6 +33,10 @@
       <div class="nav-right">
         <a href="/faq" class:is-active={$page.url.pathname === '/faq'}>?</a>
       </div>
+      <div class="nav-right">
+        <!-- TODO: add $currentPage here to get it to sync-->
+        <a href="/faq">?</a>
+      </div>
     </div>
   </div>
 </nav>
@@ -40,7 +44,7 @@
 <slot />
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Roboto+Mono:wght@300;400;500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Roboto+Mono:wght@300;400;500;700&display=swap');
 
   :global(:root) {
     /* Font sizes */
@@ -69,6 +73,7 @@
     --grey-050: hsla(0, 0%, 97%, 1);
 
     /* Ocean colors */
+    --ocean-900: hsla(185, 94%, 17%, 1);
     --ocean-800: hsla(185, 97%, 23%, 1);
     --ocean-600: hsla(185, 99%, 29%, 1);
     --ocean-400: hsla(187, 54%, 51%, 1);
@@ -90,46 +95,59 @@
   .bottom-gradient {
     position: fixed;
     bottom: 0;
-    height: 236px;
+    height: 246px;
     width: 100%;
   }
 
   .gradient-basic {
     background: linear-gradient(
-      3deg,
-      #3fb6c6 -2.94%,
-      #c1c6e0 8.67%,
-      #349dab 19.14%,
-      rgba(200, 131, 180, 0.83) 33.09%,
-      rgba(216, 160, 193, 0.57678) 54.02%,
-      rgba(236, 198, 210, 0.25322) 80.76%,
-      rgba(252, 228, 223, 0) 101.68%
+      0deg,
+      hsla(180deg, 50%, 50%) -3%,
+      hsla(180deg, 30%, 80%) 8%,
+      hsla(190deg, 50%, 50%) 15%,
+      hsla(315deg, 45%, 65%, 0.7) 34%,
+      hsla(328deg, 50%, 75%, 0.42) 55%,
+      hsla(340deg, 60%, 90%, 0.17) 80%,
+      hsla(0deg, 85%, 95%, 0) 100%
     );
   }
 
   .gradient-home {
     background: linear-gradient(
-      1deg,
-      #3fb6c6 -2.94%,
+      0deg,
+      /*#3fb6c6 -2.94%,
       #c1c6e0 8.67%,
       #349dab 19.14%,
       rgba(200, 131, 180, 0.83) 33.09%,
       rgba(216, 160, 193, 0.57678) 54.02%,
       rgba(236, 198, 210, 0.25322) 75.76%,
-      rgba(252, 228, 223, 0) 90.68%
+      rgba(252, 228, 223, 0) 90.68%*/
+        /*smoother gradient from josh comeau, and ehem fiddled with a bit*/ hsl(187deg 53% 55%) -4%,
+      hsl(195deg 43% 65%) 22%,
+      hsla(250deg, 45%, 75%, 0.85) 30%,
+      hsla(300deg, 55%, 70%, 0.58) 45%,
+      hsla(320deg, 40%, 65%, 0.45) 60%,
+      hsla(310deg, 20%, 50%, 0.32) 77%,
+      hsla(290deg, 20%, 45%, 0.17) 88%,
+      hsla(260deg, 20%, 35%, 0) 100%
     );
   }
 
   .gradient-activities {
     background: linear-gradient(
-      3deg,
-      #3fb6c6 -2.94%,
-      #c1c6e0 8.67%,
-      #349dab 19.14%,
-      rgba(200, 131, 180, 0.83) 33.09%,
-      rgba(216, 160, 193, 0.57678) 54.02%,
-      rgba(236, 198, 210, 0.25322) 80.76%,
-      rgba(252, 228, 223, 0) 101.68%
+      4deg,
+      hsla(180deg, 50%, 50%) -3%,
+      hsla(180deg, 30%, 80%) 8%,
+      hsla(190deg, 50%, 50%) 15%,
+      hsla(315deg, 45%, 65%, 0.65) 40%,
+      hsla(328deg, 50%, 75%, 0.32) 60%,
+      hsla(340deg, 60%, 90%, 0.12) 80%,
+      hsla(0deg, 85%, 95%, 0) 99%
+        /*#349dab 20%,
+        rgba(200, 131, 180, 0.85) 33.09%,
+      rgba(216, 160, 193, 0.55) 54.02%,
+        rgba(236, 198, 210, 0.2) 80.76%,
+      rgba(252, 228, 223, 0) 101.68%*/
     );
   }
 

@@ -14,9 +14,9 @@
 
 <style>
   /*
-   Josh's Custom CSS Reset
-   https://www.joshwcomeau.com/css/custom-css-reset/
- */
+    Josh's Custom CSS Reset
+    https://www.joshwcomeau.com/css/custom-css-reset/
+  */
   *,
   *::before,
   *::after {
@@ -61,6 +61,13 @@
   #__next {
     isolation: isolate;
   }
+  ul,
+  li {
+    list-style-type: none;
+    list-style-position: inside;
+    margin: 0;
+    padding: 0;
+  }
 
   /* Extra settings for targeting within portabletext blocks */
   h2 {
@@ -69,5 +76,38 @@
     font-size: 1rem;
     color: var(--grey-800);
     margin-top: 2em;
+  }
+
+  p {
+    padding: 1rem 0 0.5rem;
+  }
+
+  li::marker {
+    color: var(--ocean-800);
+    font-size: 1.1em;
+    font-weight: bold;
+    content: '\00B7 \00a0';
+  }
+
+  @media (min-width: 45rem) {
+    h1 {
+      width: 38rem;
+      padding: 40px 0 1rem;
+    }
+    p {
+      display: flex;
+      justify-content: center;
+      width: 35rem;
+    }
+    h2,
+    ul {
+      width: 35rem;
+    }
+    /*canvas container!*/
+    .m-0 {
+      all: unset;
+      margin: 0 auto;
+      width: 85%;
+    }
   }
 </style>

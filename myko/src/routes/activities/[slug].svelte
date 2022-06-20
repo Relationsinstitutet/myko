@@ -100,10 +100,8 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    padding-top: 48px;
-    padding-left: 48px;
-    padding-right: 48px;
-    padding-bottom: 256px;
+    padding: 48px 1.5rem 256px;
+    min-height: 100vh;
     font-family: 'Lato', sans-serif;
     color: var(--grey-800);
   }
@@ -119,6 +117,7 @@
     color: var(--ocean-800);
     padding: 8px;
     border: 0;
+    letter-spacing: 1px;
   }
 
   .wrapper {
@@ -131,5 +130,23 @@
     left: 0;
     padding: 24px;
     padding-bottom: 12px;
+  }
+
+  @media (min-width: 22rem) {
+    main {
+      padding-top: 48px;
+      padding-left: 48px;
+      padding-right: 48px;
+      padding-bottom: 256px;
+    }
+  }
+
+  @media (min-width: 45rem) {
+    main {
+      align-items: center;
+    }
+    .wrapper {
+      justify-content: space-evenly;
+    }
   }
 </style>
