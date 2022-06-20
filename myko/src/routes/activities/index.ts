@@ -49,7 +49,7 @@ function getActivitiesQuery() {
 
   return `*[
     _type == "${sanitySchemaNames.activity}" && ${notDraft}
-  ] | order(name asc) {
+  ] | order(orderRank) {
     name,
     "events": ${eventAttendeesQuery},
     slug
