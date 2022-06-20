@@ -2,6 +2,7 @@
   import { formatDate, formatTime } from '$lib/dateFormat';
 
   import type { Cotime } from '$lib/models/activity';
+  import EventInfo from '$lib/components/cotime/EventInfo.svelte';
 
   export let cotime: Cotime;
 </script>
@@ -12,7 +13,7 @@
     {formatDate(cotime.date)}
     <span class="times">
       {#each cotime.events as event, i}
-        {formatTime(cotime.date, event.time)}{#if i < cotime.events.length - 1}<span
+        <EventInfo date={cotime.date} {event} />{#if i < cotime.events.length - 1}<span
             class="separator">|</span
           >{/if}
       {/each}

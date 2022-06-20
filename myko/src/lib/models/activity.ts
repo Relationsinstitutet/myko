@@ -14,14 +14,19 @@ export type IActivityWithCotime = IActivity & {
   readonly cotime?: Cotime;
 };
 
+export type Event = {
+  readonly id: string;
+  readonly userIsAttending?: boolean;
+  readonly time: string;
+  readonly isStartable: boolean;
+  readonly attendees: {
+    readonly displayName: string;
+  }[];
+};
+
 export type Cotime = {
   readonly date: string;
-  readonly events: {
-    readonly id: string;
-    readonly userIsAttending?: boolean;
-    readonly time: string;
-    readonly isStartable: boolean;
-  }[];
+  readonly events: Event[];
 };
 
 export interface IActivitySummary {

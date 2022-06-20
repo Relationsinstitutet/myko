@@ -7,7 +7,7 @@ type Activity = {
   name: string;
   events: {
     _id: string;
-    attendees: { _ref: string }[];
+    attendees: { _id: string; displayName: string }[];
     date: string;
     numAttendees: number;
   }[];
@@ -42,7 +42,10 @@ function getActivitiesQuery() {
     ${eventsForActivityFilter}
   ] | order(date asc) {
       _id,
-      attendees,
+      attendees[]->{
+        _id,
+        "displayName": nickname
+      },
       date,
       "numAttendees": coalesce(count(attendees), 0)
   }`;

@@ -9,8 +9,8 @@
   import { get } from 'svelte/store';
   import { page } from '$app/stores';
   import type StartedActivityData from '$lib/models/startedActivity';
-  import CotimeInfo from '$lib/components/CotimeInfo.svelte';
-  import CotimeActions from '$lib/components/CotimeActions.svelte';
+  import CotimeInfo from '$lib/components/cotime/CotimeInfo.svelte';
+  import CotimeActions from '$lib/components/cotime/CotimeActions.svelte';
   import FullPageModal from '$lib/components/FullPageModal.svelte';
   import StartedActivityView from '$lib/components/StartedActivityView.svelte';
   import DiyView from '$lib/components/DiyView.svelte';
