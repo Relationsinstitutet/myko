@@ -48,9 +48,21 @@ export default {
     prepare({ title, date, visible }) {
       return {
         title: title,
-        subtitle: moment(date).format('YYYY-MM-DD hh:mm:ss'),
+        subtitle: moment(date).format('YYYY-MM-DD HH:mm:ss'),
         media: <span style={{fontSize: '1.5rem'}}>{visible ? '✅' : '🚧'}</span>
       }
     }
-  }
+  },
+  orderings: [
+    {
+      title: 'Activity',
+      name: 'activity',
+      by: [{field: 'activity.name'}]
+    },
+    {
+      title: 'Date',
+      name: 'date',
+      by: [{field: 'date'}]
+    }
+  ]
 }
