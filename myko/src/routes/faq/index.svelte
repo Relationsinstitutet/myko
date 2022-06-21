@@ -6,7 +6,7 @@ import type { Faq } from '$lib/models/faq';
 
 // export let activity: IActivity;
 
-export let  faq: Faq;
+export let faq: Faq;
 
 </script>
 
@@ -15,7 +15,7 @@ export let  faq: Faq;
   <!-- <h1>{activity.name}</h1> -->
 
   <!-- <h1>{faq.name}</h1> -->
-  <!-- <h2>{faq.detail1}</h2> -->
+  <h2>{faq.detail1}</h2>
 
   <!-- <div>{faq.duration}</div> -->
 
