@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { formatDate, formatTime } from '$lib/dateFormat';
+  import { formatDate } from '$lib/dateFormat';
 
   import type { Cotime } from '$lib/models/activity';
   import EventInfo from '$lib/components/cotime/EventInfo.svelte';
