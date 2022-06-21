@@ -9,11 +9,11 @@ export enum sanitySchemaNames {
   reference = 'reference',
 }
 
-export function userIsAttendee(userId: string, attendees: { _ref: string }[] | null): boolean {
+export function userIsAttendee(userId: string, attendees: { _id: string }[] | null): boolean {
   if (!userId || !attendees) {
     return false;
   }
-  return attendees.find((attendee) => attendee._ref == userId) !== undefined;
+  return attendees.find((attendee) => attendee._id == userId) !== undefined;
 }
 
 export function eventIsStartable(userId: string | undefined, startDate: string): boolean {
@@ -42,6 +42,7 @@ export function computeNextCotime(events: SanityEventType[], userId: string | un
         time: event.date.split('T')[1],
         ...(userId && { userIsAttending: userIsAttendee(userId, event.attendees) }),
         isStartable: eventIsStartable(userId, event.date),
+        attendees: event.attendees,
       };
     }),
   };

@@ -22,7 +22,10 @@ function getActivity(slug: string): string {
     ${eventsForActivityFilter}
   ] | order(date asc) {
     _id,
-    attendees,
+    attendees[]->{
+      _id,
+      "displayName": nickname
+    },
     date
   }`;
 

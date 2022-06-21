@@ -4,8 +4,8 @@
   import type { Cotime } from '$lib/models/activity';
   import type StartedActivityData from '$lib/models/startedActivity';
 
-  import BookingControls from './BookingControls.svelte';
-  import StartActivityButton from './StartActivityButton.svelte';
+  import BookingControls from '$lib/components/BookingControls.svelte';
+  import StartActivityButton from '$lib/components/StartActivityButton.svelte';
 
   export let cotime: Cotime;
   export let onActivityStarted: (event: CustomEvent<StartedActivityData>) => void;
