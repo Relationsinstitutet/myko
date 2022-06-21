@@ -1,17 +1,21 @@
 <script lang="ts">
 
-import PortableText from '@portabletext/svelte';
-import type Faq from '$lib/models/faq';
+// import PortableText from '@portabletext/svelte';
+import type { Faq } from '$lib/models/faq';
+// import type IActivity from '$lib/models/activity';
 
-export let faq: Faq;
+// export let activity: IActivity;
+
+export let  faq: Faq;
 
 </script>
 
 <main>
   <h1>Vad är nu detta</h1>
+  <!-- <h1>{activity.name}</h1> -->
 
   <!-- <h1>{faq.name}</h1> -->
-  <h2>{faq.detail1}</h2>
+  <!-- <h2>{faq.detail1}</h2> -->
 
   <!-- <div>{faq.duration}</div> -->
 
