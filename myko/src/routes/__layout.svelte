@@ -33,10 +33,6 @@
       <div class="nav-right">
         <a href="/faq" class:is-active={$page.url.pathname === '/faq'}>?</a>
       </div>
-      <div class="nav-right">
-        <!-- TODO: add $currentPage here to get it to sync-->
-        <a href="/faq">?</a>
-      </div>
     </div>
   </div>
 </nav>
