@@ -103,6 +103,7 @@
   li a:hover,
   :focus {
     color: var(--grey-900);
+    font-weight: normal;
     background-position: right bottom;
   }
 
