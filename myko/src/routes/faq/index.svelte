@@ -4,13 +4,15 @@
 <main>
   <h1>Vad är nu detta</h1>
 
-  <p>
-    Hej, vi på Relationsinstitutet välkomnar dig till Myko. Myko är en art och samtidigt en app vi
-    odlat fram för att utforska relationer, digitalisering och organisationspraktik. Med Myko kan du
-    göra aktiviteter, under <a href="/activities" class="menu-link">göra</a>. När du gjort en
-    aktivitet så påverkar det konstverket, under <a href="/activities" class="menu-link">vi</a>. Det
-    är den korta versionen, längre berättelse längre ner. Välkommen!
-  </p>
+  <div class="wrap">
+    <p>
+      Hej, vi på Relationsinstitutet välkomnar dig till Myko. Myko är en art och samtidigt en app vi
+      odlat fram för att utforska relationer, digitalisering och organisationspraktik. Med Myko kan
+      du göra aktiviteter, under <a href="/activities" class="menu-link">göra</a>. När du gjort en
+      aktivitet så påverkar det konstverket, under <a href="/activities" class="menu-link">vi</a>.
+      Det är den korta versionen, längre berättelse längre ner. Välkommen!
+    </p>
+  </div>
 
   <details>
     <summary>Vad är samtid</summary>
@@ -88,30 +90,53 @@
 <style>
   main {
     background-color: var(--ocean-100);
-    /*display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    padding-top: 48px;
-    padding-left: 48px;
-    padding-right: 48px;
-    padding-bottom: 256px;
-    font-family: 'Lato', sans-serif;
-    color: var(--grey-800);*/
   }
-
-  /* h1 {
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 400;
-    text-transform: uppercase;
-    font-size: var(--24px);
-    color: var(--grey-800);
-    margin-top: 1em;
-    margin-bottom: var(--30px);
-  }*/
 
   .menu-link {
     font-family: 'Roboto Mono', monospace;
     color: var(--grey-800);
     font-weight: 700;
+  }
+
+  details:first-of-type {
+    padding-top: 1rem;
+  }
+
+  details {
+    padding: 0 0 1rem 0;
+    margin-left: 32px; /**/
+  }
+  summary {
+    padding: 0.25rem 0;
+    margin-left: -32px;
+    color: var(--grey-600);
+    font-family: 'Roboto Mono', monospace;
+  }
+
+  @media (min-width: 45rem) {
+    .wrap {
+      width: 35rem;
+      display: block;
+    }
+
+    .wrap > * {
+      display: inline;
+    }
+
+    .menu-link {
+      /*background: blanchedalmond;
+      width: fit-content;
+      height: fit-content;
+      a
+      align-self: unset;
+      lign-self: initial;
+      justify-self: initial;*/
+    }
+
+    details {
+      /**/
+      width: 35rem;
+      padding: 0 0 1rem 16px;
+    }
   }
 </style>
