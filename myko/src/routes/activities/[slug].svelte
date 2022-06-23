@@ -97,27 +97,6 @@
 <style>
   main {
     background-color: var(--peach-300);
-    /* display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    padding: 48px 1.5rem 256px;
-    min-height: 100vh;
-    font-family: 'Lato', sans-serif;
-    color: var(--grey-800);*/
-  }
-
-  button {
-    background: var(--grey-050);
-    box-shadow: 2px 2px 9px -2px rgb(108 97 97 / 50%);
-    width: fit-content;
-    border-radius: 4px;
-    font-family: 'Lato', sans-serif;
-    font-weight: 800;
-    text-align: center;
-    color: var(--ocean-800);
-    padding: 8px;
-    border: 0;
-    letter-spacing: 1px;
   }
 
   .wrapper {
@@ -142,9 +121,6 @@
   }
 
   @media (min-width: 45rem) {
-    main {
-      align-items: center;
-    }
     .wrapper {
       justify-content: space-evenly;
     }

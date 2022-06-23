@@ -54,7 +54,7 @@
       </div>
 
       <div>
-        <input type="submit" value="Notera aktiviteten" required />
+        <input type="submit" value="Notera aktiviteten" required class="btn secondary" />
       </div>
     </form>
   {/if}
@@ -62,7 +62,6 @@
 
 <style>
   main {
-    min-height: 100%;
     background-color: var(--peach-300);
     background-image: linear-gradient(
       var(--peach-100),
@@ -70,30 +69,10 @@
       var(--peach-500),
       var(--ocean-100)
     );
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    padding-top: 48px;
-    padding-left: 48px;
-    padding-right: 48px;
-    padding-bottom: 256px;
-    font-family: 'Lato', sans-serif;
-    color: var(--grey-800);
-  }
-
-  h1 {
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 400;
-    text-transform: uppercase;
-    font-size: var(--24px);
-    color: var(--grey-800);
-    margin-top: 1em;
-    margin-bottom: var(--30px);
   }
 
   label {
-    --grey-800: hsla(0, 0%, 23%, 1); /* Typography */
-
+    --grey-800: hsla(0, 0%, 23%, 1);
     font-size: 1rem;
     color: var(--grey-800);
     margin-top: 2em;
@@ -117,30 +96,10 @@
   }
 
   input[type='submit'] {
-    color: white;
     font-weight: 500;
     margin: 0.65rem 4px;
     padding: 4px 8px;
     cursor: pointer;
-    border: 0;
-    border-radius: 4px;
-    box-shadow: 2px 2px 9px -2px rgb(108 97 97 / 50%);
-    background: var(--ocean-800);
-    background-image: linear-gradient(90deg, var(--ocean-900), var(--ocean-800), var(--ocean-600));
-    background-size: 200%;
-    background-position: left;
-    transition: background-position 1000ms ease;
-  }
-
-  input[type='submit']:hover,
-  :focus {
-    background-position: right;
-  }
-
-  @media (min-width: 45rem) {
-    main {
-      align-items: center;
-    }
   }
 
   /* TODO: add errorMessage styling */

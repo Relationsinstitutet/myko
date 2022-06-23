@@ -47,7 +47,7 @@
 {/if}
 
 <style>
-  button {
+  /*button {
     background: var(--grey-050);
     box-shadow: 2px 2px 9px -2px rgb(108 97 97 / 50%);
     border-radius: 4px;
@@ -57,7 +57,7 @@
     color: var(--ocean-800);
     padding: 8px;
     border: 0;
-  }
+  }*/
 
   .loader {
     display: inline-block;
