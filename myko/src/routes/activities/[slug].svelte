@@ -74,50 +74,32 @@
 
   <Activity {activity} />
   <div class="wrapper">
-    {#if activity.cotime}
-      <CotimeActions cotime={activity.cotime} onActivityStarted={activityStarted} />
-    {/if}
-
-    {#if activity.instant}
-      {#if $isAuthenticated}
-        <StartActivityButton
-          on:activityStarted={activityStarted}
-          data={{ activityId: activity.id }}
-          enabled
-        >
-          Gör nu
-        </StartActivityButton>
-      {:else}
-        <button on:click={login}> Gör nu </button>
+    <div class="booking-btns">
+      {#if activity.cotime}
+        <CotimeActions cotime={activity.cotime} onActivityStarted={activityStarted} />
       {/if}
-    {/if}
+    </div>
+    <div class="instant-btn">
+      {#if activity.instant}
+        {#if $isAuthenticated}
+          <StartActivityButton
+            on:activityStarted={activityStarted}
+            data={{ activityId: activity.id }}
+            enabled
+          >
+            Gör nu
+          </StartActivityButton>
+        {:else}
+          <button on:click={login}> Gör nu </button>
+        {/if}
+      {/if}
+    </div>
   </div>
 </main>
 
 <style>
   main {
     background-color: var(--peach-300);
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    padding: 48px 1.5rem 256px;
-    min-height: 100vh;
-    font-family: 'Lato', sans-serif;
-    color: var(--grey-800);
-  }
-
-  button {
-    background: var(--grey-050);
-    box-shadow: 2px 2px 9px -2px rgb(108 97 97 / 50%);
-    width: fit-content;
-    border-radius: 4px;
-    font-family: 'Lato', sans-serif;
-    font-weight: 800;
-    text-align: center;
-    color: var(--ocean-800);
-    padding: 8px;
-    border: 0;
-    letter-spacing: 1px;
   }
 
   .wrapper {
@@ -128,25 +110,33 @@
     justify-content: space-between;
     width: 100%;
     left: 0;
-    padding: 24px;
-    padding-bottom: 12px;
+    padding: 8px;
+  }
+
+  .wrapper > .instant-btn,
+  .booking-btns {
+    flex-grow: 1;
+  }
+
+  .booking-btns {
+    max-width: 40%;
+  }
+
+  .instant-btn {
+    max-width: 10%;
+  }
+  button {
+    height: fit-content;
   }
 
   @media (min-width: 22rem) {
     main {
-      padding-top: 48px;
       padding-left: 48px;
       padding-right: 48px;
-      padding-bottom: 256px;
-    }
-  }
-
-  @media (min-width: 45rem) {
-    main {
-      align-items: center;
     }
     .wrapper {
-      justify-content: space-evenly;
+      padding: 24px;
+      padding-bottom: 12px;
     }
   }
 </style>

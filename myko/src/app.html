@@ -68,28 +68,92 @@
     margin: 0;
     padding: 0;
   }
+  details summary {
+    cursor: pointer;
+  }
+  details summary > * {
+    display: inline;
+  }
 
+  /*Reset END // Global styling START*/
+  main {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    min-height: 100vh;
+    font-family: 'Lato', sans-serif;
+    color: var(--grey-800);
+    padding: 48px 1.5rem 256px;
+  }
+  h1 {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: var(--24px);
+    color: var(--grey-800);
+    margin-top: 1em;
+    margin-bottom: var(--30px);
+  }
   /* Extra settings for targeting within portabletext blocks */
   h2 {
-    --grey-800: hsla(0, 0%, 23%, 1); /* Typography */
-
+    --grey-800: hsla(0, 0%, 23%, 1);
     font-size: 1rem;
     color: var(--grey-800);
     margin-top: 2em;
   }
-
   p {
     padding: 1rem 0 0.5rem;
   }
-
+  button,
+  .btn {
+    background: var(--grey-050);
+    width: fit-content;
+    padding: 8px;
+    border: 0;
+    border-radius: 4px;
+    box-shadow: var(--shadow-elevation-medium);
+    color: var(--ocean-800);
+    font-family: 'Lato', sans-serif;
+    font-weight: 800;
+    text-align: center;
+    white-space: nowrap;
+  }
+  button:hover,
+  .btn:hover {
+    color: var(--ocean-900);
+    box-shadow: var(--shadow-elevation-low);
+  }
+  .secondary {
+    background: var(--ocean-800);
+    color: #fff;
+  }
+  .secondary:hover {
+    background: var(--ocean-900);
+    color: #fff;
+  }
   li::marker {
     color: var(--ocean-800);
     font-size: 1.1em;
     font-weight: bold;
     content: '\00B7 \00a0';
   }
+  a {
+    color: var(--ocean-800);
+  }
+  a:visited {
+    color: var(--purple-800);
+  }
+  a:hover {
+    font-weight: 700;
+  }
+  a:active {
+    color: var(--peach-900);
+  }
 
   @media (min-width: 45rem) {
+    main {
+      align-items: center;
+    }
     h1 {
       width: 38rem;
       padding: 40px 0 1rem;

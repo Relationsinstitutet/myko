@@ -10,15 +10,16 @@
 
 <main>
   <h1>{faq.title}</h1>
-
-  <PortableText
-    blocks={faq.intro}
-    serializers={{
-      marks: {
-        link: PortableTextLink,
-      },
-    }}
-  />
+  <div class="wrap">
+    <PortableText
+      blocks={faq.intro}
+      serializers={{
+        marks: {
+          link: PortableTextLink,
+        },
+      }}
+    />
+  </div>
 
   {#each faq.questions as question}
     <details>
@@ -48,24 +49,53 @@
 <style>
   main {
     background-color: var(--ocean-100);
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    padding-top: 48px;
-    padding-left: 48px;
-    padding-right: 48px;
-    padding-bottom: 256px;
-    font-family: 'Lato', sans-serif;
-    color: var(--grey-800);
   }
 
-  h1 {
+  .menu-link {
     font-family: 'Roboto Mono', monospace;
-    font-weight: 400;
-    text-transform: uppercase;
-    font-size: var(--24px);
     color: var(--grey-800);
-    margin-top: 1em;
-    margin-bottom: var(--30px);
+    font-weight: 700;
+  }
+
+  details:first-of-type {
+    padding-top: 1rem;
+  }
+
+  details {
+    padding: 0 0 1rem 0;
+    margin-left: 32px; /**/
+  }
+  summary {
+    padding: 0.25rem 0;
+    margin-left: -32px;
+    color: var(--grey-600);
+    font-family: 'Roboto Mono', monospace;
+  }
+
+  @media (min-width: 45rem) {
+    .wrap {
+      width: 35rem;
+      display: block;
+    }
+
+    .wrap > * {
+      display: inline;
+    }
+
+    .menu-link {
+      /*background: blanchedalmond;
+      width: fit-content;
+      height: fit-content;
+      a
+      align-self: unset;
+      lign-self: initial;
+      justify-self: initial;*/
+    }
+
+    details {
+      /**/
+      width: 35rem;
+      padding: 0 0 1rem 16px;
+    }
   }
 </style>

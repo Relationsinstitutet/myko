@@ -46,19 +46,19 @@
   }
 
   .done-btn {
-    color: #fff;
+    /*color: #fff;
     background: var(--ocean-900);
     font-weight: 500;
     width: fit-content;
     display: block;
-    position: absolute;
-    bottom: 5%;
-    margin: 0 0 0 48px;
     padding: 8px;
     border-radius: 4px;
     box-shadow: 2px 2px 9px -2px rgb(108 97 97 / 50%);
     border: 0;
-    letter-spacing: 1px;
+    letter-spacing: 1px;*/
+    position: absolute;
+    bottom: 5%;
+    margin: 0 0 0 48px;
   }
 
   .done-btn:hover,
