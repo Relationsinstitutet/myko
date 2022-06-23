@@ -10,15 +10,15 @@
 
 <main>
   <h1>{faq.title}</h1>
- <div class="wrap">
-  <PortableText
-    blocks={faq.intro}
-    serializers={{
-      marks: {
-        link: PortableTextLink,
-      },
-    }}
-  />
+  <div class="wrap">
+    <PortableText
+      blocks={faq.intro}
+      serializers={{
+        marks: {
+          link: PortableTextLink,
+        },
+      }}
+    />
   </div>
 
   {#each faq.questions as question}
@@ -98,5 +98,4 @@
       padding: 0 0 1rem 16px;
     }
   }
-
 </style>
