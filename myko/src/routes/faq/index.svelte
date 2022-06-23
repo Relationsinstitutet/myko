@@ -88,7 +88,7 @@
 <style>
   main {
     background-color: var(--ocean-100);
-    display: flex;
+    /*display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     padding-top: 48px;
@@ -96,10 +96,10 @@
     padding-right: 48px;
     padding-bottom: 256px;
     font-family: 'Lato', sans-serif;
-    color: var(--grey-800);
+    color: var(--grey-800);*/
   }
 
-  h1 {
+  /* h1 {
     font-family: 'Roboto Mono', monospace;
     font-weight: 400;
     text-transform: uppercase;
@@ -107,7 +107,7 @@
     color: var(--grey-800);
     margin-top: 1em;
     margin-bottom: var(--30px);
-  }
+  }*/
 
   .menu-link {
     font-family: 'Roboto Mono', monospace;

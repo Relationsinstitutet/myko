@@ -109,8 +109,8 @@
 
 <style>
   main {
+    background-color: var(--ocean-100); /**/
     min-height: 100vh;
-    background-color: var(--ocean-100);
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;

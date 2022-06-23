@@ -97,13 +97,13 @@
 <style>
   main {
     background-color: var(--peach-300);
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     padding: 48px 1.5rem 256px;
     min-height: 100vh;
     font-family: 'Lato', sans-serif;
-    color: var(--grey-800);
+    color: var(--grey-800);*/
   }
 
   button {
