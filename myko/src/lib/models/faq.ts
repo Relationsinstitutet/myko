@@ -1,9 +1,12 @@
-// import type { PortableTextBlocks } from '@portabletext/svelte/ptTypes';
+import type { PortableTextBlocks } from '@portabletext/svelte/ptTypes';
 
 export type Faq = {
-  // readonly id: string;
-  // readonly intro: PortableTextBlocks;
-  readonly detail1: string;
-  // readonly longstory: PortableTextBlocks;
-  // readonly image?: { url: string; alt: string };
+  readonly title: string;
+  readonly intro: PortableTextBlocks;
+  readonly questions: {
+    readonly question: string;
+    readonly answer: PortableTextBlocks;
+  }[];
+  readonly descriptionTitle: string;
+  readonly description: PortableTextBlocks;
 };
