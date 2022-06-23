@@ -5,6 +5,7 @@ export enum sanitySchemaNames {
   activity = 'activity',
   activitylog = 'activitylog',
   event = 'event',
+  faq = 'faq',
   webuser = 'webuser',
   reference = 'reference',
 }
