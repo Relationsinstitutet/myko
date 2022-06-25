@@ -139,4 +139,13 @@
       padding-bottom: 12px;
     }
   }
+
+  @media (min-width: 45rem) {
+    .wrapper {
+      justify-content: space-evenly;
+    }
+    .booking-btns {
+      max-width: 20%;
+    }
+  }
 </style>

@@ -88,12 +88,12 @@
     --purple-200: hsla(341, 50%, 85%, 1);
 
     /*  Button shadows */
-    --shadow-color: hsl(350deg 40% 50%);
+    --shadow-color: 350deg 40% 50%;
     --shadow-elevation-low: 0.5px 0.7px 0.8px hsla(var(--shadow-color) / 0.32),
       1.5px 2.2px 3px -1px hsl(var(--shadow-color) / 0.46);
-    --shadow-elevation-medium: 0.3px 0.5px 0.7px hsla(var(--shadow-color) / 0.2),
-      1px 1.7px 2.4px -0.9px hsla(var(--shadow-color) / 0.32),
-      3.9px 6.4px 10.7px -1.7px hsla(var(--shadow-color) / 0.4);
+    --shadow-elevation-medium: 0.3px 0.5px 0.7px hsl(var(--shadow-color) / 0.2),
+      1px 1.7px 2.4px -0.9px hsl(var(--shadow-color) / 0.32),
+      3.9px 6.4px 10.7px -1.7px hsl(var(--shadow-color) / 0.4);
   }
 
   .bottom-gradient {
@@ -147,11 +147,6 @@
       hsla(328deg, 50%, 75%, 0.32) 60%,
       hsla(340deg, 60%, 90%, 0.12) 80%,
       hsla(0deg, 85%, 95%, 0) 99%
-        /*#349dab 20%,
-        rgba(200, 131, 180, 0.85) 33.09%,
-      rgba(216, 160, 193, 0.55) 54.02%,
-        rgba(236, 198, 210, 0.2) 80.76%,
-      rgba(252, 228, 223, 0) 101.68%*/
     );
   }
 

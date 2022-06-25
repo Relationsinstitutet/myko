@@ -69,6 +69,7 @@
       var(--peach-500),
       var(--ocean-100)
     );
+    padding-bottom: 144px;
   }
 
   label {
@@ -96,10 +97,15 @@
   }
 
   input[type='submit'] {
-    font-weight: 500;
-    margin: 0.65rem 4px;
     padding: 4px 8px;
     cursor: pointer;
+  }
+
+  @media (min-width: 22rem) {
+    main {
+      padding-left: 48px;
+      padding-right: 48px;
+    }
   }
 
   /* TODO: add errorMessage styling */
