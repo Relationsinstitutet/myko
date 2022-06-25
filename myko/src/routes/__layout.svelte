@@ -89,7 +89,7 @@
 
     /*  Button shadows */
     --shadow-color: 350deg 40% 50%;
-    --shadow-elevation-low: 0.5px 0.7px 0.8px hsla(var(--shadow-color) / 0.32),
+    --shadow-elevation-low: 0.5px 0.7px 0.8px hsl(var(--shadow-color) / 0.32),
       1.5px 2.2px 3px -1px hsl(var(--shadow-color) / 0.46);
     --shadow-elevation-medium: 0.3px 0.5px 0.7px hsl(var(--shadow-color) / 0.2),
       1px 1.7px 2.4px -0.9px hsl(var(--shadow-color) / 0.32),
