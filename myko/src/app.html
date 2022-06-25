@@ -163,6 +163,14 @@
       justify-content: center;
       width: 35rem;
     }
+    /*fix flexbox centering problem for portable text blocks. Nest in a <div class=wrap>*/
+    .wrap {
+      width: 35rem;
+      display: block;
+    }
+    .wrap > p {
+      display: inline;
+    }
     h2,
     ul {
       width: 35rem;

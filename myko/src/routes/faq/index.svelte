@@ -51,12 +51,6 @@
     background-color: var(--ocean-100);
   }
 
-  .menu-link {
-    font-family: 'Roboto Mono', monospace;
-    color: var(--grey-800);
-    font-weight: 700;
-  }
-
   details:first-of-type {
     padding-top: 1rem;
   }
@@ -64,38 +58,23 @@
   details {
     padding: 0 0 1rem 0;
     margin-left: 32px; /**/
+    font-family: 'Roboto Mono', monospace;
+    font-size: var(--14px);
   }
   summary {
     padding: 0.25rem 0;
     margin-left: -32px;
     color: var(--grey-600);
-    font-family: 'Roboto Mono', monospace;
+    font-size: var(--16px);
   }
 
   @media (min-width: 45rem) {
     .wrap {
-      width: 35rem;
-      display: block;
+      padding-bottom: 24px;
     }
-
-    .wrap > * {
-      display: inline;
-    }
-
-    .menu-link {
-      /*background: blanchedalmond;
-      width: fit-content;
-      height: fit-content;
-      a
-      align-self: unset;
-      lign-self: initial;
-      justify-self: initial;*/
-    }
-
     details {
-      /**/
       width: 35rem;
-      padding: 0 0 1rem 16px;
+      padding: 0 0 1.2rem 16px;
     }
   }
 </style>
