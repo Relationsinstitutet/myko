@@ -50,7 +50,6 @@
     background: var(--ocean-900);
     
     width: fit-content;
-    
     padding: 8px;
     border-radius: 4px;
     box-shadow: 2px 2px 9px -2px rgb(108 97 97 / 50%);

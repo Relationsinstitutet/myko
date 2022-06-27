@@ -142,7 +142,8 @@
 
   @media (min-width: 45rem) {
     .wrapper {
-      justify-content: space-evenly;
+      padding: 24px;
+      padding-bottom: 12px;
     }
     .booking-btns {
       max-width: 20%;
