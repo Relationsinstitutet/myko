@@ -5,6 +5,6 @@ export default () =>
   S.list()
     .title('Contents')
     .items([
-      orderableDocumentListDeskItem({type: 'activity', title: 'Ordered activities'}),
+      orderableDocumentListDeskItem({type: 'activity', title: 'Ordered activities', filter: 'listable == true'}),
       ...S.documentTypeListItems().map(item => item.serialize()),
     ]);
