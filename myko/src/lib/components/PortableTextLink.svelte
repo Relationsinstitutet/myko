@@ -19,7 +19,7 @@
 <style>
   a {
     font-family: 'Roboto Mono', monospace;
-    color: var(--grey-800);
+    color: var(--grey-700);
     font-weight: 700;
   }
 
