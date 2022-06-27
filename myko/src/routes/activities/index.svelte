@@ -80,8 +80,94 @@
   }
 
   li {
+    position: relative;
     font-family: 'Roboto Mono', monospace;
     line-height: var(--48px);
+  }
+
+  .dot {
+    /*position: absolute; 
+    border-top: solid 1px var(--ocean-800);
+    top: 0.5em;
+    width: 0;
+    transition: width 500ms;*/
+  }
+
+  .dot::before {
+    content: '';
+    position: absolute; /**/
+    top: 1.2em; /*0.8em**/
+    left: -1.2em;
+    height: 0.7em;
+    width: 0.7em;
+    background-color: hsla(185deg, 97%, 23%, 0);
+    background-color: var(--ocean-800);
+    border-radius: 50%;
+    margin-right: 0.5em;
+  }
+
+  .dot::after {
+    /*content: 'hej';
+    position: absolute; 
+    bottom: 0;
+    left: 0;
+    top: -1.6em;
+    margin-left: 1em;
+    color: var(--ocean-800);
+    font-size: var(--14px);
+    font-weight: bold;
+    letter-spacing: 1px;
+    opacity: 0;
+    transition: margin-left 500ms, opacity 300ms;*/
+  }
+
+  .dot:hover {
+    /*opacity: 1;
+    width: 80%;;*/
+  }
+
+  .dot:hover::after {
+    /*margin-left: 105%;
+    opacity: 1;*/
+  }
+
+  .dot + a {
+    position: relative;
+  }
+
+  .dot + a::before {
+    content: '';
+    position: absolute;
+    border-top: solid 1px var(--ocean-800);
+    top: -0.3em;
+    width: 0;
+    opacity: 0;
+    transition: width 500ms ease, opacity 300ms;
+  }
+
+  .dot + a::after {
+    content: 'hej!';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    top: -2em;
+    margin-left: 1em;
+    color: var(--ocean-800);
+    font-size: var(--14px);
+    font-weight: bold;
+    letter-spacing: 1px;
+    opacity: 0;
+    transition: margin-left 500ms ease, opacity 300ms;
+  }
+
+  .dot:hover + a::before {
+    opacity: 1;
+    width: 105%;
+  }
+
+  .dot:hover + a::after {
+    margin-left: 115%;
+    opacity: 1;
   }
 
   li a {
@@ -111,11 +197,11 @@
     all: unset;
   }
 
-  .dot {
+  /*.dot {
     display: inline-block;
     height: 15px;
     width: 15px;
     background-color: var(--ocean-800);
     border-radius: 50%;
-  }
+  }*/
 </style>
