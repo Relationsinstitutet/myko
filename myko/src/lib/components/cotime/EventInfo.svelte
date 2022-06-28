@@ -49,28 +49,28 @@
 
   .attendee-list {
     visibility: hidden;
-    /* min-height: 1em;
-    min-width: 4em;*/
-    width: fit-content;
-    height: fit-content;
+    /* width: fit-content;
+    height: fit-content;*/
+    min-height: 1em;
+    min-width: 4em;
     padding: 2px 6px;
     border-radius: 8px;
     background-color: white;
     color: var(--ocean-800);
     font-size: 0.725rem;
     letter-spacing: 0.5px;
-
+    box-shadow: 0.5px 0.7px 1.2px hsla(30, 55%, 23%, 0.2), 0.8px 1.5px 4px hsla(360, 54%, 38%, 0.3);
     position: absolute;
     z-index: 1;
     top: 100%;
     right: 50%;
     transform: translateX(50%);
 
-    margin-top: 7px;
+    margin-top: 8px;
 
     /* Fade in tooltip */
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 300ms;
   }
 
   /* arrow */

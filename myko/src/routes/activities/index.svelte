@@ -85,50 +85,16 @@
     line-height: var(--48px);
   }
 
-  .dot {
-    /*position: absolute; 
-    border-top: solid 1px var(--ocean-800);
-    top: 0.5em;
-    width: 0;
-    transition: width 500ms;*/
-  }
-
   .dot::before {
     content: '';
     position: absolute; /**/
-    top: 1.2em; /*0.8em**/
+    top: 1.2em;
     left: -1.2em;
     height: 0.7em;
     width: 0.7em;
-    background-color: hsla(185deg, 97%, 23%, 0);
     background-color: var(--ocean-800);
     border-radius: 50%;
     margin-right: 0.5em;
-  }
-
-  .dot::after {
-    /*content: 'hej';
-    position: absolute; 
-    bottom: 0;
-    left: 0;
-    top: -1.6em;
-    margin-left: 1em;
-    color: var(--ocean-800);
-    font-size: var(--14px);
-    font-weight: bold;
-    letter-spacing: 1px;
-    opacity: 0;
-    transition: margin-left 500ms, opacity 300ms;*/
-  }
-
-  .dot:hover {
-    /*opacity: 1;
-    width: 80%;;*/
-  }
-
-  .dot:hover::after {
-    /*margin-left: 105%;
-    opacity: 1;*/
   }
 
   .dot + a {
@@ -138,11 +104,13 @@
   .dot + a::before {
     content: '';
     position: absolute;
-    border-top: solid 1px var(--ocean-800);
-    top: -0.3em;
+    border-top: solid 2px var(--ocean-800);
+    border-radius: 40% 75% 65% 20% / 67% 50% 34% 0;
+    top: -0.7em;
     width: 0;
+    height: 100%;
     opacity: 0;
-    transition: width 500ms ease, opacity 300ms;
+    transition: width 600ms ease, opacity 300ms;
   }
 
   .dot + a::after {
@@ -151,23 +119,24 @@
     bottom: 0;
     left: 0;
     top: -2em;
-    margin-left: 1em;
+    margin-left: 90%;
     color: var(--ocean-800);
     font-size: var(--14px);
     font-weight: bold;
     letter-spacing: 1px;
     opacity: 0;
-    transition: margin-left 500ms ease, opacity 300ms;
+    transition: margin-left 350ms, opacity 150ms ease-in;
   }
 
   .dot:hover + a::before {
     opacity: 1;
-    width: 105%;
+    width: 110%;
   }
 
   .dot:hover + a::after {
-    margin-left: 115%;
+    margin-left: 108%;
     opacity: 1;
+    transition-duration: 800ms;
   }
 
   li a {
@@ -196,12 +165,4 @@
   ::marker {
     all: unset;
   }
-
-  /*.dot {
-    display: inline-block;
-    height: 15px;
-    width: 15px;
-    background-color: var(--ocean-800);
-    border-radius: 50%;
-  }*/
 </style>
