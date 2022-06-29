@@ -1,6 +1,7 @@
 <script lang="ts">
   import createClient from '$lib/auth/client';
   import { isAuthenticated } from '$lib/auth/store';
+  import Activity from '$lib/components/Activity.svelte';
   import CotimeInfo from '$lib/components/cotime/CotimeInfo.svelte';
 
   import type { Cotime, IActivitySummary } from '$lib/models/activity';
@@ -80,8 +81,63 @@
   }
 
   li {
+    position: relative;
     font-family: 'Roboto Mono', monospace;
     line-height: var(--48px);
+  }
+
+  .dot::before {
+    content: '';
+    position: absolute; /**/
+    top: 1.2em;
+    left: -1.2em;
+    height: 0.7em;
+    width: 0.7em;
+    background-color: var(--ocean-800);
+    border-radius: 50%;
+    margin-right: 0.5em;
+  }
+
+  .dot + a {
+    position: relative;
+  }
+
+  .dot + a::before {
+    content: '';
+    position: absolute;
+    border-top: solid 2px var(--ocean-800);
+    border-radius: 40% 75% 65% 20% / 67% 50% 34% 0;
+    top: -0.7em;
+    width: 0;
+    height: 100%;
+    opacity: 0;
+    transition: width 600ms ease, opacity 300ms;
+  }
+
+  .dot + a::after {
+    content: 'hej!';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    top: -2em;
+    margin-left: 90%;
+    color: var(--ocean-800);
+    font-size: var(--14px);
+    font-weight: bold;
+    letter-spacing: 1px;
+    opacity: 0;
+    transition: margin-left 350ms, opacity 150ms ease-in;
+  }
+
+  .dot:hover + a::before {
+    opacity: 1;
+    width: 110%;
+  }
+
+  .dot:hover + a::after {
+    margin-left: 108%;
+    opacity: 1;
+    transition-duration: 800ms;
   }
 
   li a {
@@ -109,13 +165,5 @@
 
   ::marker {
     all: unset;
-  }
-
-  .dot {
-    display: inline-block;
-    height: 15px;
-    width: 15px;
-    background-color: var(--ocean-800);
-    border-radius: 50%;
   }
 </style>

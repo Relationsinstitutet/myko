@@ -45,9 +45,8 @@
     background: var(--ocean-100);
     border-radius: 5px;
     font-size: var(--14px);
-    padding: 4px;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding: 4px 12px;
+    box-shadow: 0.7px 0.7px 2px hsla(185, 54%, 51%, 0.3);
   }
 
   .times {

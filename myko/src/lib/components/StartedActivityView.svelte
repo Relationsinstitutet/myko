@@ -44,13 +44,6 @@
 
   h1 {
     text-align: left;
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 400;
-    text-transform: uppercase;
-    font-size: var(--24px);
-    color: var(--grey-800);
-    margin-top: 1em;
-    margin-bottom: var(--30px);
   }
 
   audio {

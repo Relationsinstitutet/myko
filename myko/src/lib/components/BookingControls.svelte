@@ -87,25 +87,20 @@
 
 <style>
   button {
-    /* TODO: nicer shadows */ /*background: var(--grey-050);
-    box-shadow: 2px 2px 9px -2px rgb(108 97 97 / 50%); 
-    border-radius: 4px;
-    font-family: 'Lato', sans-serif;
-    font-weight: 800;
-    text-align: center;
-    color: var(--ocean-800);
-    padding: 8px;
     padding-right: 12px;
     padding-left: 12px;
-    border: 0;*/
     margin-right: 12px;
     margin-bottom: 4px;
   }
 
   .attending {
     /* border: 2px solid var(--ocean-800); */
-    /* box-shadow: inset 2px 2px 9px -2px rgb(108 97 97 / 50%); */
     background: var(--ocean-800);
     color: var(--grey-050);
+  }
+
+  .attending:hover {
+    background: var(--ocean-900);
+    color: #fff;
   }
 </style>

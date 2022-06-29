@@ -15,3 +15,17 @@
 {:else}
   <slot />
 {/if}
+
+<style>
+  a {
+    font-family: 'Roboto Mono', monospace;
+    color: var(--grey-700);
+    font-weight: 700;
+  }
+
+  @media (min-width: 45rem) {
+    a {
+      display: inline;
+    }
+  }
+</style>

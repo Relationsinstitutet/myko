@@ -109,27 +109,7 @@
 
 <style>
   main {
-    background-color: var(--ocean-100); /**/
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    padding-top: 48px;
-    padding-left: 48px;
-    padding-right: 48px;
-    padding-bottom: 256px;
-    font-family: 'Lato', sans-serif;
-    color: var(--grey-800);
-  }
-
-  h1 {
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 400;
-    text-transform: uppercase;
-    font-size: var(--24px);
-    color: var(--grey-800);
-    margin-top: 1em;
-    margin-bottom: var(--30px);
+    background-color: var(--ocean-100);
   }
 
   ul {
@@ -174,9 +154,30 @@
     flex-direction: column;
   }
 
-  @media (min-width: 45rem) {
+  a {
+    text-decoration: none;
+    background-image: linear-gradient(
+      90deg,
+      var(--ocean-800),
+      var(--ocean-400),
+      var(--ocean-100),
+      var(--ocean-100)
+    );
+    background-size: 250% 1.5px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    transition: background-position 1s ease;
+  }
+
+  a:hover {
+    background-position: right bottom;
+    /*background-size: 250% 2px;*/
+  }
+
+  @media (min-width: 22rem) {
     main {
-      align-items: center;
+      padding-left: 48px;
+      padding-right: 48px;
     }
   }
 </style>
