@@ -51,7 +51,9 @@ function getActivitiesQuery() {
   }`;
 
   return `*[
-    _type == "${sanitySchemaNames.activity}" && ${notDraft}
+    _type == "${sanitySchemaNames.activity}" &&
+    listable == true &&
+    ${notDraft}
   ] | order(orderRank) {
     name,
     "events": ${eventAttendeesQuery},
