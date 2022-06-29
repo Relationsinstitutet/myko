@@ -45,14 +45,17 @@
   .visible {
     visibility: visible !important;
     opacity: 1 !important;
+    transform: translateX(50%) translateY(0) !important;
   }
 
   .attendee-list {
     visibility: hidden;
-    /* width: fit-content;
-    height: fit-content;*/
     min-height: 1em;
     min-width: 4em;
+    /*Scroll if it gets too long? but would need to combine styling + accessibility
+    max-height: 10em;
+    overflow: auto;*/
+
     padding: 2px 6px;
     border-radius: 8px;
     background-color: white;
@@ -64,13 +67,13 @@
     z-index: 1;
     top: 100%;
     right: 50%;
-    transform: translateX(50%);
+    transform: translateX(50%) translateY(-10px);
 
     margin-top: 8px;
 
     /* Fade in tooltip */
     opacity: 0;
-    transition: opacity 300ms;
+    transition: opacity 300ms, transform 400ms;
   }
 
   /* arrow */

@@ -123,7 +123,7 @@
   }
 
   .instant-btn {
-    max-width: 18%;
+    max-width: 23%;
   }
   button {
     height: fit-content;
@@ -138,6 +138,9 @@
       padding: 24px;
       padding-bottom: 12px;
     }
+    .instant-btn {
+      max-width: 18%;
+    }
   }
 
   @media (min-width: 45rem) {
@@ -146,10 +149,10 @@
       padding-bottom: 12px;
     }
     .booking-btns {
-      max-width: 20%;
+      max-width: 25%;
     }
     .instant-btn {
-      max-width: 10%;
+      max-width: 8%;
     }
   }
 </style>
