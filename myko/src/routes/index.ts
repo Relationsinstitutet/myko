@@ -1,21 +1,10 @@
-import type { Cotime, IActivitySummary } from '$lib/models/activity';
+import type { Cotime, IActivitySummary, SanityActivityType } from '$lib/models/activity';
 import { createReadClient, eventsForActivityFilter, notDraft } from '$lib/sanityClient';
 import { computeNextCotime, sanitySchemaNames, userIsAttendee } from '$lib/util';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
-type Activity = {
-  name: string;
-  events: {
-    _id: string;
-    attendees: { _id: string; displayName: string }[];
-    date: string;
-    numAttendees: number;
-  }[];
-  slug: { current: string };
-};
-
 type SanityResultType = {
-  activities: Activity[];
+  activities: SanityActivityType[];
 };
 
 type Response = {
@@ -23,7 +12,7 @@ type Response = {
   nextUpcomingCotime?: Cotime;
 };
 
-function sortActivitiesByEventDate(activities: Activity[]) {
+function sortActivitiesByEventDate(activities: SanityActivityType[]) {
   return activities.sort((a, b) => {
     if (a.events.length > 0) {
       if (b.events.length > 0) {
@@ -55,7 +44,7 @@ function getActivitiesQuery() {
   ] | order(orderRank) {
     name,
     "events": ${eventAttendeesQuery},
-    slug
+    "slug": slug.current
   }`;
 }
 
@@ -91,7 +80,7 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
     const body: Response = {
       activities: activitySummaries,
       ...(activityWithNearestEvents.events.length > 0 && {
-        nextUpcomingCotime: computeNextCotime(activityWithNearestEvents.events, userId),
+        nextUpcomingCotime: computeNextCotime(activityWithNearestEvents, userId),
       }),
     };
     return {

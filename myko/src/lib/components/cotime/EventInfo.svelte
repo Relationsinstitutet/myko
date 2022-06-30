@@ -1,17 +1,25 @@
 <script lang="ts">
   import { formatTime } from '$lib/dateFormat';
   import type { Event } from '$lib/models/activity';
+  import { createEventDispatcher } from 'svelte';
 
-  let showAttendees = false;
+  const dispatch = createEventDispatcher<{ toggled: {} }>();
+
+  function clicked() {
+    expanded = !expanded;
+    dispatch('toggled', {});
+  }
 
   export let date: string;
   export let event: Event;
+  export let expanded: boolean = false;
 </script>
 
 <div class="event">
-  <button on:click={() => (showAttendees = !showAttendees)} class="cotime-btn"
-    >{formatTime(date, event.time)}</button
-  ><span class:visible={showAttendees} class="attendee-list">
+  <button on:click={clicked} class="cotime-btn">{formatTime(date, event.time)}</button><span
+    class:visible={expanded}
+    class="attendee-list"
+  >
     {#if event.attendees.length < 1}
       Ingen än.
     {:else}
