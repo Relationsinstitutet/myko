@@ -1,6 +1,6 @@
 <script lang="ts">
   import CotimeInfo from '$lib/components/cotime/CotimeInfo.svelte';
-  import type { Cotime, IActivitySummary } from '$lib/models/activity';
+  import type { Cotime } from '$lib/models/activity';
 
   import P5 from 'p5-svelte';
   import type { Sketch, p5 } from 'p5-svelte';
