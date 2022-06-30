@@ -12,7 +12,9 @@
   {#if data.videoConferencingLink}
     <p>
       Klicka här för att joina mötet:
-      <a href={data.videoConferencingLink}>{data.videoConferencingLink}</a>
+      <a href={data.videoConferencingLink} rel="noopener" target="_blank"
+        >{data.videoConferencingLink}</a
+      >
     </p>
   {/if}
 
