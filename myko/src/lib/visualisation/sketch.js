@@ -13,15 +13,10 @@ let newParts = [];
 
 export function windowResized(p5) {
   p5.resizeCanvas(p5.windowWidth, 530);
-  //console.log('heya');
 }
 
 export async function setup(p5) {
-  //let adjWidth = p5.windowWidth * 0.9;
-  let c = p5.createCanvas(p5.windowWidth, 530);
-  //let adjPos = p5.windowWidth * 0.05;
-  //c.position(adjPos, adjPos);
-  //c.style('z-index', '-1');
+  /*let c =*/ p5.createCanvas(p5.windowWidth, 530);
 
   p5.frameRate(20);
   p5.colorMode(p5.HSL, 360, 100, 100, 1.0);
@@ -104,11 +99,23 @@ function checkForAdds(p5, addedActivs) {
   if (!addedActivs) {
     console.log('no activities yet');
   } else {
-    if ('say-hello-to-nasims-cat' in addedActivs) {
-      walking(p5, 2, p5.random(8, 10), 5, addedActivs['say-hello-to-nasims-cat']);
+    if ('halsa-pa-nasims-katter' in addedActivs) {
+      walking(p5, 2, p5.random(9, 10), 5, addedActivs['halsa-pa-nasims-katter']);
     }
     if ('te-ritual' in addedActivs) {
-      walking(p5, 4, p5.random(4.75, 5.5), 320, addedActivs['te-ritual']);
+      walking(p5, 4, p5.random(4, 5), 150, addedActivs['te-ritual']);
+    }
+    if ('mykomote' in addedActivs) {
+      walking(p5, 3, p5.random(5, 6), 50, addedActivs['mykomote']);
+    }
+    if ('tillverka-aktivitet' in addedActivs) {
+      walking(p5, 0, p5.random(7, 8), 1, addedActivs['tillverka-aktivitet']);
+    }
+    if ('prata-om-tema' in addedActivs) {
+      walking(p5, 1, p5.random(11, 12), 0.35, addedActivs['prata-om-tema']);
+    }
+    if ('gor-ri-byrakrati' in addedActivs) {
+      walking(p5, 1, p5.random(11, 12), 0.35, addedActivs['gor-ri-byrakrati']);
     }
   }
 }
@@ -149,9 +156,11 @@ function walking(p5, hue, w, ns, nr = 1) {
         s -= 0.75;
       }
     }*/
-    if (i < 16) {
-      addedParts.push(new ActivityP(p5, p5.random(p5.width), p5.random(p5.height), nHue, w, ns));
-    } else if (i > 15 && i < 75) {
+    if (i < 21) {
+      addedParts.push(
+        new ActivityP(p5, p5.random(p5.width), p5.random(p5.height), nHue, w, ns, p5.random(-2, 2))
+      );
+    } else if (i > 20 && i < 75) {
       particles.push(new Particle(p5, p5.random(p5.width), p5.random(p5.height), nHue));
     }
     if (h > 360) {
