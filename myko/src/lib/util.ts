@@ -1,4 +1,4 @@
-import type { Cotime, SanityActivityType } from './models/activity';
+import type { Cotime } from './models/activity';
 import type { SanityEventType } from './models/event';
 
 export enum sanitySchemaNames {

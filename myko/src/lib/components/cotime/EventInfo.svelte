@@ -3,7 +3,7 @@
   import type { Event } from '$lib/models/activity';
   import { createEventDispatcher } from 'svelte';
 
-  const dispatch = createEventDispatcher<{ toggled: {} }>();
+  const dispatch = createEventDispatcher<{ toggled: never }>();
 
   function clicked() {
     expanded = !expanded;
@@ -12,7 +12,7 @@
 
   export let date: string;
   export let event: Event;
-  export let expanded: boolean = false;
+  export let expanded = false;
 </script>
 
 <div class="event">

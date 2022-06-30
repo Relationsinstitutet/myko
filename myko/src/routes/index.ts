@@ -1,6 +1,6 @@
-import type { Cotime, IActivitySummary, SanityActivityType } from '$lib/models/activity';
+import type { SanityActivityType } from '$lib/models/activity';
 import { createReadClient, eventsForActivityFilter, notDraft } from '$lib/sanityClient';
-import { computeNextCotime, sanitySchemaNames, userIsAttendee } from '$lib/util';
+import { computeNextCotime, sanitySchemaNames } from '$lib/util';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
 function getActivityWithNearestEvent() {
