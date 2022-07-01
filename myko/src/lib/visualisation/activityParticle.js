@@ -34,7 +34,7 @@ export default class ActivityP extends Particle {
     this.l = l;
   }
   normalSize() {
-    if (this.w > 8) {
+    if (this.w > 9.5) {
       this.w -= 0.2;
     }
   }

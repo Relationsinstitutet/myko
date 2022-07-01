@@ -33,7 +33,7 @@ export async function setup(p5) {
     );
   }
 
-  const data = await fetchActivityLog();
+  const data = await fetchActivityLog(p5);
   checkForAdds(p5, data);
 
   hues[0] = h - 180;
@@ -53,7 +53,7 @@ export function draw(p5) {
     p.show(w, 50, hues[nh]);
     p.update();
     p.edge();
-    if (particles.length > 380) {
+    if (particles.length > 400) {
       particles.splice(0, 1);
     }
   }
@@ -65,17 +65,17 @@ export function draw(p5) {
     ap.edge();
   }
 
-  /* //cycling through just added particles, not a functionality at the moment
+  /* //cycling through just added particles, not a functionality at the moment*/
   for (let np of newParts) {
     np.show(99);
-    np.speedo(0.8, 80);
+    np.speedo(0.8, 84);
     np.update();
     np.edge();
     np.normalSize();
-  }*/
+  }
 }
 
-async function fetchActivityLog() {
+async function fetchActivityLog(p5) {
   const response = await fetch('/api/activities/log');
   if (!response.ok) {
     console.log('Could not get activity data');
@@ -83,6 +83,22 @@ async function fetchActivityLog() {
   }
 
   const logEntries = await response.json();
+
+  //
+  const todayDate = new Date();
+  let nrNewAdds = 0;
+  for (let entry of logEntries) {
+    let entryDate = new Date(entry.date);
+    if (isNewDate(entryDate, todayDate)) {
+      nrNewAdds++;
+      console.log(`${entryDate}`);
+    }
+  }
+  if (nrNewAdds) {
+    newMovers(p5, nrNewAdds);
+    logEntries.shift(0, nrNewAdds);
+  } /**/
+
   // count the number of each activity
   return logEntries.reduce((result, entry) => {
     if (!(entry.activity in result)) {
@@ -100,10 +116,10 @@ function checkForAdds(p5, addedActivs) {
     console.log('no activities yet');
   } else {
     if ('halsa-pa-nasims-katter' in addedActivs) {
-      walking(p5, 2, p5.random(9, 10), 5, addedActivs['halsa-pa-nasims-katter']);
+      walking(p5, 2, p5.random(9, 10), 15, addedActivs['halsa-pa-nasims-katter']);
     }
     if ('te-ritual' in addedActivs) {
-      walking(p5, 4, p5.random(4, 5), 150, addedActivs['te-ritual']);
+      walking(p5, 4, p5.random(4, 5), 175, addedActivs['te-ritual']);
     }
     if ('mykomote' in addedActivs) {
       walking(p5, 3, p5.random(5, 6), 50, addedActivs['mykomote']);
@@ -112,12 +128,61 @@ function checkForAdds(p5, addedActivs) {
       walking(p5, 0, p5.random(7, 8), 1, addedActivs['tillverka-aktivitet']);
     }
     if ('prata-om-tema' in addedActivs) {
-      walking(p5, 1, p5.random(11, 12), 0.35, addedActivs['prata-om-tema']);
+      walking(p5, 1, p5.random(6, 7), 0.35, addedActivs['prata-om-tema']);
     }
     if ('gor-ri-byrakrati' in addedActivs) {
-      walking(p5, 1, p5.random(11, 12), 0.35, addedActivs['gor-ri-byrakrati']);
+      walking(p5, 1, p5.random(8, 9), 250, addedActivs['gor-ri-byrakrati']);
     }
   }
+}
+
+function isNewDate(entryDate, todayDate) {
+  if (
+    entryDate.getDate() === todayDate.getDate() &&
+    entryDate.getMonth() === todayDate.getMonth()
+  ) {
+    return true;
+  }
+}
+
+// walker animation for added during the current day
+function newMovers(p5, nr) {
+  let nHue = 0;
+  let ns = 100;
+  w = p5.random(8, 12);
+
+  for (let i = 0; i < nr; i++) {
+    if (prob > 0.92) {
+      newParts.push(
+        new ActivityP(
+          p5,
+          p5.random(p5.width * 0.45, p5.width * 0.5),
+          p5.random(p5.height * 0.5, p5.height * 0.55),
+          nHue,
+          175,
+          ns,
+          p5.random(-0.5, 0.5)
+        )
+      );
+    } else {
+      newParts.push(
+        new ActivityP(
+          p5,
+          p5.random(p5.width * 0.45, p5.width * 0.55),
+          p5.random(p5.height * 0.45, p5.height * 0.55),
+          nHue,
+          w,
+          ns,
+          p5.random(-1, 1)
+        )
+      );
+    }
+    if (l < 25) {
+      l += 0.25;
+      s -= 0.75;
+    }
+  }
+  prob = p5.random(1);
 }
 
 //walker animation for added in the past
@@ -125,42 +190,11 @@ function walking(p5, hue, w, ns, nr = 1) {
   for (let i = 0; i < nr; i++) {
     let nHue = (hues[hue] + nr - i) % 360;
 
-    /* //basic way of treating just added, could be a flawed way of doing it 
-       //regardless, at this time No Targeting of only just added interactions
-    if (nr < 2) {
-      if (prob > 0.92) {
-        newParts.push(
-          new ActivityP(
-            p5,
-            p5.random(p5.width * 0.45, p5.width * 0.5),
-            p5.random(p5.height * 0.5, p5.height * 0.55),
-            nHue,
-            175,
-            ns
-          )
-        );
-      } else {
-        newParts.push(
-          new ActivityP(
-            p5,
-            p5.random(p5.width * 0.45, p5.width * 0.55),
-            p5.random(p5.height * 0.45, p5.height * 0.55),
-            nHue,
-            w,
-            ns
-          )
-        );
-      }
-      if (l < 25) {
-        l += 0.25;
-        s -= 0.75;
-      }
-    }*/
-    if (i < 21) {
+    if (i < 26) {
       addedParts.push(
         new ActivityP(p5, p5.random(p5.width), p5.random(p5.height), nHue, w, ns, p5.random(-2, 2))
       );
-    } else if (i > 20 && i < 75) {
+    } else if (i > 25 && i < 60) {
       particles.push(new Particle(p5, p5.random(p5.width), p5.random(p5.height), nHue));
     }
     if (h > 360) {
