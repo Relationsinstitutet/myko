@@ -1,11 +1,11 @@
 import Particle from './particle';
 import ActivityP from './activityParticle';
 
-let h = 185,
-  s = 90,
-  l = 8;
+let hue = 185,
+  sat = 90,
+  light = 8;
 let hues = [5, 300, 245, 185, 125];
-let w;
+let strokeweight;
 let prob;
 let particles = [];
 let addedParts = [];
@@ -36,22 +36,22 @@ export async function setup(p5) {
   const data = await fetchActivityLog(p5);
   checkForAdds(p5, data);
 
-  hues[0] = h - 180;
-  hues[2] = h + 60;
-  hues[3] = h;
-  hues[4] = h - 60;
+  hues[0] = hue - 180;
+  hues[2] = hue + 60;
+  hues[3] = hue;
+  hues[4] = hue - 60;
 }
 
 export function draw(p5) {
-  p5.background(h, s, l, 0.09);
+  p5.background(hue, sat, light, 0.09);
   p5.translate(p5.width * -0.1, p5.height * -0.1);
   let count = 0;
   /* everpresent background particles*/
   for (let p of particles) {
     count++;
-    w = p5.map(count, 0, particles.length, 1, 30);
-    let nh = p5.floor(p5.map(count, 0, particles.length, 1, 4));
-    p.show(w, 50, hues[nh]);
+    strokeweight = p5.map(count, 0, particles.length, 1, 30);
+    let newHue = p5.floor(p5.map(count, 0, particles.length, 1, 4));
+    p.show(strokeweight, 50, hues[newHue]);
     p.update();
     p.edge();
     if (particles.length > 400) {
@@ -85,7 +85,6 @@ async function fetchActivityLog(p5) {
   }
 
   const logEntries = await response.json();
-
   //
   checkForNewEntries(p5, logEntries);
 
@@ -154,8 +153,8 @@ function checkForAdds(p5, addedActivs) {
 // walker animation for added during the current day
 function newMovers(p5, nr) {
   let nHue = 0;
-  let ns = 100;
-  w = p5.random(8, 12);
+  let noise = 100;
+  strokeweight = p5.random(8, 12);
 
   for (let i = 0; i < nr; i++) {
     if (prob > 0.9) {
@@ -166,7 +165,7 @@ function newMovers(p5, nr) {
           p5.random(p5.height * 0.5, p5.height * 0.55),
           nHue,
           175,
-          ns,
+          noise,
           p5.random(-0.5, 0.5)
         )
       );
@@ -177,38 +176,46 @@ function newMovers(p5, nr) {
           p5.random(p5.width * 0.45, p5.width * 0.55),
           p5.random(p5.height * 0.45, p5.height * 0.55),
           nHue,
-          w,
-          ns,
+          strokeweight,
+          noise,
           p5.random(-1, 1)
         )
       );
     }
-    if (l < 25) {
-      l += 0.25;
-      s -= 0.75;
+    if (light < 25) {
+      light += 0.25;
+      sat -= 0.75;
     }
   }
   prob = p5.random(1);
 }
 
 //walker animation for added in the past
-function walking(p5, hue, w, ns, nr = 1) {
+function walking(p5, particleHue, strokeweight, noise, nr = 1) {
   for (let i = 0; i < nr; i++) {
-    let nHue = (hues[hue] + nr - i) % 360;
+    let nHue = (hues[particleHue] + nr - i) % 360;
 
-    if (i < 26) {
+    if (i < 27) {
       addedParts.push(
-        new ActivityP(p5, p5.random(p5.width), p5.random(p5.height), nHue, w, ns, p5.random(-2, 2))
+        new ActivityP(
+          p5,
+          p5.random(p5.width),
+          p5.random(p5.height),
+          nHue,
+          strokeweight,
+          noise,
+          p5.random(-2, 2)
+        )
       );
-    } else if (i > 25 && i < 60) {
+    } else if (i > 26 && i < 60) {
       particles.push(new Particle(p5, p5.random(p5.width), p5.random(p5.height), nHue));
     }
-    if (h > 360) {
-      h = 0;
-      h++;
+    if (hue > 360) {
+      hue = 0;
+      hue++;
     }
-    if (h <= 360) {
-      h++;
+    if (hue <= 360) {
+      hue++;
     }
   }
 }

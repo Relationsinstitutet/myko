@@ -1,12 +1,12 @@
 export default class Particle {
-  constructor(p5, x, y, h) {
+  constructor(p5, x, y, hue) {
     this.p5 = p5;
     this.pos = this.p5.createVector(x, y);
     this.vel = this.p5.createVector(0, 0);
     this.dir = this.p5.createVector(0, 0);
     this.speed = this.p5.random(0.3, 0.7);
-    this.h = h;
-    this.l = this.p5.random(5, 20);
+    this.hue = hue;
+    this.light = this.p5.random(5, 20);
     this.noiseScl = 500;
     this.noiseStr = 2;
   }
@@ -22,12 +22,12 @@ export default class Particle {
     this.pos.add(this.vel);
   }
 
-  show(w, s, h) {
-    let col = this.p5.color(h, s, this.l, 0.5);
+  show(strokeweight, sat, hue) {
+    let col = this.p5.color(hue, sat, this.light, 0.5);
     this.p5.fill(col);
-    this.p5.strokeWeight(w * 0.02);
+    this.p5.strokeWeight(strokeweight * 0.02);
     this.p5.stroke(col);
-    this.p5.circle(this.pos.x, this.pos.y, w);
+    this.p5.circle(this.pos.x, this.pos.y, strokeweight);
   }
 
   edge() {
