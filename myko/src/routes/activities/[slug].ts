@@ -23,10 +23,10 @@ function getActivity(slug: string): string {
     ${eventsForActivityFilter}
   ] | order(date asc) {
     _id,
-    attendees[]->{
-      _id,
-      "displayName": nickname
-    },
+    "attendees": coalesce(
+      attendees[]->{_id, "displayName": nickname},
+      []
+    ),
     date
   }`;
 

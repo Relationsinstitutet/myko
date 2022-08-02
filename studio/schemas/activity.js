@@ -15,6 +15,12 @@ export default {
       type: 'slug',
     },
     {
+      name: 'listable',
+      type: 'boolean',
+      initialValue: true,
+      description: 'Whether the activity should be listed among all activities automatically'
+    },
+    {
       name: 'duration',
       type: 'string',
       title: 'Duration'
