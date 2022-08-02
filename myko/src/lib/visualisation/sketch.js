@@ -46,6 +46,7 @@ export function draw(p5) {
   p5.background(h, s, l, 0.09);
   p5.translate(p5.width * -0.1, p5.height * -0.1);
   let count = 0;
+  /* everpresent background particles*/
   for (let p of particles) {
     count++;
     w = p5.map(count, 0, particles.length, 1, 30);
@@ -58,6 +59,7 @@ export function draw(p5) {
     }
   }
   count = 0;
+  /* added particles */
   for (let ap of addedParts) {
     count++;
     ap.show(35);
@@ -65,7 +67,7 @@ export function draw(p5) {
     ap.edge();
   }
 
-  /* //cycling through just added particles, not a functionality at the moment*/
+  /* particles added today */
   for (let np of newParts) {
     np.show(99);
     np.speedo(0.8, 84);
@@ -85,6 +87,19 @@ async function fetchActivityLog(p5) {
   const logEntries = await response.json();
 
   //
+  checkForNewEntries(p5, logEntries);
+
+  // count the number of each activity
+  return logEntries.reduce((result, entry) => {
+    if (!(entry.activity in result)) {
+      result[entry.activity] = 0;
+    }
+    result[entry.activity] += 1;
+    return result;
+  }, {});
+}
+
+function checkForNewEntries(p5, logEntries) {
   const todayDate = new Date();
   let nrNewAdds = 0;
   for (let entry of logEntries) {
@@ -98,15 +113,15 @@ async function fetchActivityLog(p5) {
     newMovers(p5, nrNewAdds);
     logEntries.shift(0, nrNewAdds);
   } /**/
+}
 
-  // count the number of each activity
-  return logEntries.reduce((result, entry) => {
-    if (!(entry.activity in result)) {
-      result[entry.activity] = 0;
-    }
-    result[entry.activity] += 1;
-    return result;
-  }, {});
+function isNewDate(entryDate, todayDate) {
+  if (
+    entryDate.getDate() === todayDate.getDate() &&
+    entryDate.getMonth() === todayDate.getMonth()
+  ) {
+    return true;
+  }
 }
 
 function checkForAdds(p5, addedActivs) {
@@ -136,15 +151,6 @@ function checkForAdds(p5, addedActivs) {
   }
 }
 
-function isNewDate(entryDate, todayDate) {
-  if (
-    entryDate.getDate() === todayDate.getDate() &&
-    entryDate.getMonth() === todayDate.getMonth()
-  ) {
-    return true;
-  }
-}
-
 // walker animation for added during the current day
 function newMovers(p5, nr) {
   let nHue = 0;
@@ -152,7 +158,7 @@ function newMovers(p5, nr) {
   w = p5.random(8, 12);
 
   for (let i = 0; i < nr; i++) {
-    if (prob > 0.92) {
+    if (prob > 0.9) {
       newParts.push(
         new ActivityP(
           p5,
