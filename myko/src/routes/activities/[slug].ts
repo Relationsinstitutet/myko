@@ -15,6 +15,7 @@ type SanityResultType = {
   instant: boolean;
   name: string;
   prerequisites: string[];
+  slug: string;
 };
 
 function getActivity(slug: string): string {
@@ -41,7 +42,8 @@ function getActivity(slug: string): string {
     image,
     instant,
     name,
-    prerequisites
+    prerequisites,
+    "slug": slug.current
   }`;
 }
 
@@ -70,7 +72,7 @@ export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({
           alt: activity.image.alt,
         },
       }),
-      ...(activity.events.length > 0 && { cotime: computeNextCotime(activity.events, userId) }),
+      ...(activity.events.length > 0 && { cotime: computeNextCotime(activity, userId) }),
       name: activity.name,
       prerequisites: activity.prerequisites,
       instant: activity.instant,

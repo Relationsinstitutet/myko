@@ -30,12 +30,16 @@ export function eventIsStartable(userId: string | undefined, startDate: string):
   return diffSeconds < gracePeriodSeconds;
 }
 
-export function computeNextCotime(events: SanityEventType[], userId: string | undefined): Cotime {
+export function computeNextCotime(
+  activity: { events: SanityEventType[]; name: string; slug: string },
+  userId: string | undefined
+): Cotime {
   // group all events on the same day as the next upcoming event
-  const nextDate = events[0].date.split('T')[0];
-  const upcomingEvents = events.filter((event) => event.date.startsWith(nextDate));
+  const nextDate = activity.events[0].date.split('T')[0];
+  const upcomingEvents = activity.events.filter((event) => event.date.startsWith(nextDate));
 
   return {
+    activity: { name: activity.name, slug: activity.slug },
     date: nextDate,
     events: upcomingEvents.map((event) => {
       return {

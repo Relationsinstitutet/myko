@@ -25,6 +25,10 @@ export type Event = {
 };
 
 export type Cotime = {
+  readonly activity: {
+    readonly name: string;
+    readonly slug: string;
+  };
   readonly date: string;
   readonly events: Event[];
 };
@@ -39,3 +43,14 @@ export interface IEventSummary {
   readonly userIsAttending?: boolean;
   readonly numAttendees: number;
 }
+
+export type SanityActivityType = {
+  name: string;
+  events: {
+    _id: string;
+    attendees: { _id: string; displayName: string }[];
+    date: string;
+    numAttendees: number;
+  }[];
+  slug: string;
+};
