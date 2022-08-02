@@ -1,8 +1,29 @@
 <script lang="ts">
   import { formatDate } from '$lib/dateFormat';
+  import { page } from '$app/stores';
 
   import type { Cotime } from '$lib/models/activity';
   import EventInfo from '$lib/components/cotime/EventInfo.svelte';
+
+  function headerColor(pageUrl: string): string {
+    let headerColor = 'header-dark-text';
+
+    if (pageUrl === '/') {
+      headerColor = 'header-light-text';
+      return headerColor;
+    } else if (pageUrl === '/activities') {
+      headerColor = 'header-dark-text';
+      return headerColor;
+    } else if (pageUrl === '/settings') {
+      headerColor = 'header-dark-text';
+      return headerColor;
+    } else if (pageUrl === '/faq') {
+      headerColor = 'header-dark-text';
+      return headerColor;
+    } else {
+      return headerColor;
+    }
+  }
 
   function toggle(index: number) {
     // radio-button like behavior: make all others non-expanded
@@ -22,7 +43,7 @@
   {#if showActivityNameWhenSelected && eventInfoExpanded.some((v) => v === true)}
     <a href="/activities/{cotime.activity.slug}">{cotime.activity.name}</a>
   {:else}
-    <div class="header">Nästa samtid</div>
+    <div class="header {headerColor($page.url.pathname)}">Nästa samtid</div>
   {/if}
   <div class="date">
     {formatDate(cotime.date)}
@@ -55,8 +76,15 @@
     font-size: var(--12px);
     text-transform: uppercase;
     letter-spacing: 0.5rem;
-    color: var(--grey-600);
     margin-bottom: 8px;
+  }
+
+  .header-dark-text {
+    color: var(--grey-600);
+  }
+
+  .header-light-text {
+    color: var(--grey-100);
   }
 
   .date {
