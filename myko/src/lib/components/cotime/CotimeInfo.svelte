@@ -5,23 +5,23 @@
   import type { Cotime } from '$lib/models/activity';
   import EventInfo from '$lib/components/cotime/EventInfo.svelte';
 
-  function headerColor(pageUrl: string): string {
-    let headerColor = 'header-dark-text';
+  function headerTextColor(pageUrl: string): string {
+    let headerTextColor = 'header-dark-text';
 
     if (pageUrl === '/') {
-      headerColor = 'header-light-text';
-      return headerColor;
+      headerTextColor = 'header-light-text';
+      return headerTextColor;
     } else if (pageUrl === '/activities') {
-      headerColor = 'header-dark-text';
-      return headerColor;
+      headerTextColor = 'header-dark-text';
+      return headerTextColor;
     } else if (pageUrl === '/settings') {
-      headerColor = 'header-dark-text';
-      return headerColor;
+      headerTextColor = 'header-dark-text';
+      return headerTextColor;
     } else if (pageUrl === '/faq') {
-      headerColor = 'header-dark-text';
-      return headerColor;
+      headerTextColor = 'header-dark-text';
+      return headerTextColor;
     } else {
-      return headerColor;
+      return headerTextColor;
     }
   }
 
@@ -39,11 +39,11 @@
   let eventInfoExpanded: boolean[] = new Array(cotime.events.length);
 </script>
 
-<div class="cotime">
+<div class="cotime {headerTextColor($page.url.pathname)}">
   {#if showActivityNameWhenSelected && eventInfoExpanded.some((v) => v === true)}
-    <a href="/activities/{cotime.activity.slug}">{cotime.activity.name}</a>
+    <a class="header-link" href="/activities/{cotime.activity.slug}">{cotime.activity.name}</a>
   {:else}
-    <div class="header {headerColor($page.url.pathname)}">Nästa samtid</div>
+    <div class="header">Nästa samtid</div>
   {/if}
   <div class="date">
     {formatDate(cotime.date)}
@@ -87,7 +87,16 @@
     color: var(--grey-100);
   }
 
+  .header-link {
+    font-style: normal;
+    font-weight: 500;
+    font-size: var(--12px);
+    letter-spacing: 0rem;
+    margin-bottom: 8px;
+  }
+
   .date {
+    color: var(--grey-800);
     background: var(--ocean-100);
     border-radius: 5px;
     font-size: var(--14px);
