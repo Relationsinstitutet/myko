@@ -94,7 +94,6 @@
   }
 
   .attending {
-    /* border: 2px solid var(--ocean-800); */
     background: var(--ocean-800);
     color: var(--grey-050);
   }

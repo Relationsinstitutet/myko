@@ -119,14 +119,7 @@
   .gradient-home {
     background: linear-gradient(
       0deg,
-      /*#3fb6c6 -2.94%,
-      #c1c6e0 8.67%,
-      #349dab 19.14%,
-      rgba(200, 131, 180, 0.83) 33.09%,
-      rgba(216, 160, 193, 0.57678) 54.02%,
-      rgba(236, 198, 210, 0.25322) 75.76%,
-      rgba(252, 228, 223, 0) 90.68%*/
-        /*smoother gradient from josh comeau, and ehem fiddled with a bit*/ hsl(187deg 53% 55%) -4%,
+      /*smoother gradient from josh comeau*/ hsl(187deg 53% 55%) -4%,
       hsl(195deg 43% 65%) 22%,
       hsla(250deg, 45%, 75%, 0.85) 30%,
       hsla(300deg, 55%, 70%, 0.58) 45%,
@@ -139,7 +132,7 @@
 
   .gradient-activities {
     background: linear-gradient(
-      4deg,
+      3deg,
       hsla(180deg, 50%, 50%) -3%,
       hsla(180deg, 30%, 80%) 8%,
       hsla(190deg, 50%, 50%) 15%,
@@ -223,5 +216,28 @@
     top: 100%;
     left: 50%;
     transform: translate(-50%, 50%);
+  }
+
+  @media (min-width: 45rem) {
+    .nav-bottom {
+      justify-content: center;
+    }
+    .nav-bottom a {
+      letter-spacing: 0.1rem;
+    }
+    .nav-left {
+      /*margin-left: 48px;*/
+      margin-left: 24px;
+    }
+
+    .nav-left a {
+      margin-right: 72px; /*48,72,96*/
+    }
+    .nav-right {
+      /*position: absolute;
+      right: 16px;*/
+      margin-right: 24px;
+      margin-left: 72px;
+    }
   }
 </style>

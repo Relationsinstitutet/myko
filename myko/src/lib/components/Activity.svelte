@@ -54,6 +54,9 @@
   .prereqs li::marker {
     all: unset;
   }
+  img {
+    margin-top: 1.5rem;
+  }
   /* the h2's in the portabletext blocks are styled in app.html */
   @media (min-width: 45rem) {
     .duration,

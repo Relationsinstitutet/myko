@@ -38,7 +38,7 @@
     text-transform: uppercase;
     letter-spacing: 0.5rem;
     color: var(--grey-600);
-    margin-bottom: 8px;
+    margin-bottom: 12px;
   }
 
   .date {
