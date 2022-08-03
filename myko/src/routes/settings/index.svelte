@@ -1,6 +1,10 @@
 <script lang="ts">
   import { page } from '$app/stores';
 
+  import CotimeInfo from '$lib/components/cotime/CotimeInfo.svelte';
+  import type { Cotime } from '$lib/models/activity';
+
+
   import type { Client } from '$lib/auth/client';
   import createClient from '$lib/auth/client';
   import { isAuthenticated, user } from '$lib/auth/store';
@@ -64,6 +68,7 @@
   }
 
   // export let activity: IActivity;
+  export let nextUpcomingCotime: Cotime | undefined = undefined;
 </script>
 
 <div class="top-menu">
@@ -78,6 +83,10 @@
 </div>
 
 <main>
+  {#if nextUpcomingCotime}
+    <CotimeInfo cotime={nextUpcomingCotime} />
+  {/if}
+
   {#if $isAuthenticated}
     <h1>Aktiviteter du ska vara med på</h1>
     {#if eventsUserIsAttending.length < 1}
