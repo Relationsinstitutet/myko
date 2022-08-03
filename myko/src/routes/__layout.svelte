@@ -28,6 +28,7 @@
       <div class="nav-left">
         <a href="/" class:is-active={$page.url.pathname === '/'}> vi</a>
         <a href="/activities" class:is-active={$page.url.pathname === '/activities'}> göra</a>
+        <a href="/samtid" class:is-active={$page.url.pathname === '/samtid'}> samtid</a>
         <a href="/settings" class:is-active={$page.url.pathname === '/settings'}> jag</a>
       </div>
       <div class="nav-right">
@@ -198,7 +199,7 @@
   }
 
   .nav-left a {
-    margin-right: 24px;
+    margin-right: 16px;
   }
   .nav-right {
     margin-right: 24px;
