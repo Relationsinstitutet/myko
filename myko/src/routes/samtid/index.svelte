@@ -136,7 +136,6 @@
   }
 
   li {
-    position: relative;
     font-family: 'Roboto Mono', monospace;
     line-height: var(--48px);
   }
