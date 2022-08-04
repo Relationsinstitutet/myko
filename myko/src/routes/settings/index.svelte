@@ -4,7 +4,6 @@
   import CotimeInfo from '$lib/components/cotime/CotimeInfo.svelte';
   import type { Cotime } from '$lib/models/activity';
 
-
   import type { Client } from '$lib/auth/client';
   import createClient from '$lib/auth/client';
   import { isAuthenticated, user } from '$lib/auth/store';

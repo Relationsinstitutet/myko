@@ -62,7 +62,6 @@
     return `<li>${date} ${time}: ${activity.activityName}</li>`;
   }
 
-
   export let nextUpcomingCotime: Cotime | undefined = undefined;
 </script>
 
@@ -90,35 +89,33 @@
     {/each}
   </ul>
 
-
-
   {#if $isAuthenticated}
-  <h1>Aktiviteter du ska vara med på</h1>
-  {#if eventsUserIsAttending.length < 1}
-    Inget inbokat än.
-  {:else}
-    <ul class="plain-list">
-      {#each eventsUserIsAttending as event}
-        <li>
-          <a href="/activities/{event.activity.slug}">
-            {formatDate(event.date, { day: 'numeric', month: 'numeric' })}
-            {event.activity.name}
-          </a>
-        </li>
-      {/each}
-    </ul>
-  {/if}
+    <h1>Aktiviteter du ska vara med på</h1>
+    {#if eventsUserIsAttending.length < 1}
+      Inget inbokat än.
+    {:else}
+      <ul class="plain-list">
+        {#each eventsUserIsAttending as event}
+          <li>
+            <a href="/activities/{event.activity.slug}">
+              {formatDate(event.date, { day: 'numeric', month: 'numeric' })}
+              {event.activity.name}
+            </a>
+          </li>
+        {/each}
+      </ul>
+    {/if}
 
-  <h1>Genomförda aktiviteter</h1>
-  {#if completedActivities.length < 1}
-    Inga genomförda aktiviteter än.
+    <h1>Genomförda aktiviteter</h1>
+    {#if completedActivities.length < 1}
+      Inga genomförda aktiviteter än.
+    {/if}
+    <ul>
+      <Paginated data={completedActivities} render={renderCompletedActivity} />
+    </ul>
+  {:else}
+    <div class="unauthenticated">Logga in för att se dina bokade aktiviteter</div>
   {/if}
-  <ul>
-    <Paginated data={completedActivities} render={renderCompletedActivity} />
-  </ul>
-{:else}
-  <div class="unauthenticated">Logga in för att se dina bokade aktiviteter</div>
-{/if}
 </main>
 
 <style>
