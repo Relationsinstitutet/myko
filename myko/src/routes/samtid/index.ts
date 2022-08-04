@@ -25,7 +25,6 @@ function getActivityWithNearestEvent() {
   } [count(events) > 0] | order(events[0].date) [0]`;
 }
 
-
 function getAllEvents() {
   const eventsQuery = `*[
     _type == "${sanitySchemaNames.event}"
@@ -56,9 +55,9 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
   if (activity) {
     return {
       status: 200,
-      body: { 
+      body: {
         nextUpcomingCotime: computeNextCotime(activity, undefined),
-        events: events
+        events: events,
       },
     };
   }
@@ -68,4 +67,3 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
     body: {},
   };
 };
-

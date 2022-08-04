@@ -30,7 +30,6 @@
   }[] = [];
   let completedActivities: CompletedActivity[] = [];
 
-
   let events: {
     readonly id: string;
     readonly date: string;
@@ -40,7 +39,6 @@
       readonly slug: string;
     };
   }[] = [];
-
 
   onMount(async () => {
     authClient = await createClient();
