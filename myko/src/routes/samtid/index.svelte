@@ -30,6 +30,18 @@
   }[] = [];
   let completedActivities: CompletedActivity[] = [];
 
+
+  let events: {
+    readonly id: string;
+    readonly date: string;
+    readonly time: string;
+    readonly activity: {
+      readonly name: string;
+      readonly slug: string;
+    };
+  }[] = [];
+
+
   onMount(async () => {
     authClient = await createClient();
     await authClient.updateState();
@@ -73,9 +85,22 @@
     <CotimeInfo cotime={nextUpcomingCotime} />
   {/if}
   <h1>När det är samtid</h1>
-  <!-- {#if events.length < 1}
-  Finns inga schemalagda samtider just nu. 
-  {:else} -->
+
+  <ul class="plain-list">
+    {#each events as event}
+      <li>
+        <!-- <a href="/activities/{event.activity.slug}">
+          {formatDate(event.date, { day: 'numeric', month: 'numeric' })}
+          {formatTime(event.date, event.time)}
+
+          {event.activity.name}
+        </a> -->
+      </li>
+    {/each}
+  </ul>
+
+  <h1>När det är samtid för dig</h1>
+
   <ul class="plain-list">
     {#each eventsUserIsAttending as event}
       <li>
