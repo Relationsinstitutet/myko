@@ -43,7 +43,6 @@
 
   .header-dark-text {
     color: var(--grey-600);
-    margin-bottom: 12px;
   }
 
   .header-light-text {
