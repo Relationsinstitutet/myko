@@ -27,7 +27,7 @@ function getActivityWithNearestEvent() {
 
 function getAllEvents() {
   const eventsQuery = `*[
-    _type == "${sanitySchemaNames.event}"
+    _type == "${sanitySchemaNames.event}" && ${notDraft}
   ] | order(date asc) {
     _id,
     date,
@@ -37,13 +37,15 @@ function getAllEvents() {
     }
   }`;
 
-  return `*[
-    _type == "${sanitySchemaNames.activity}" && ${notDraft}
-  ] {
-    name,
-    "events": ${eventsQuery},
-    "slug": slug.current
-  } [count(events) > 0] | order(events[0].date) [0...100]`;
+  return `${eventsQuery}`
+
+  // return `*[
+  //   _type == "${sanitySchemaNames.activity}" && ${notDraft}
+  // ] {
+  //   name,
+  //   "events": ${eventsQuery},
+  //   "slug": slug.current
+  // } [count(events) > 0] | order(events[0].date) [0...100]`;
 }
 
 export const get: RequestHandler<Record<string, string>, ResponseBody> = async () => {

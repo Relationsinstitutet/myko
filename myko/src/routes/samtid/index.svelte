@@ -30,31 +30,24 @@
   }[] = [];
   let completedActivities: CompletedActivity[] = [];
 
-  let events: {
-    readonly id: string;
-    readonly date: string;
-    readonly time: string;
-    readonly activity: {
-      readonly name: string;
-      readonly slug: string;
-    };
-  }[] = [];
+  // let events: {
+  //   readonly id: string;
+  //   readonly date: string;
+  //   readonly time: string;
+  //   readonly activity: {
+  //     readonly name: string;
+  //     readonly slug: string;
+  //   };
+  // }[] = [];
 
   onMount(async () => {
-    authClient = await createClient();
-    await authClient.updateState();
-
-    const accessToken = await authClient.getUserAccessToken();
-    const response = await fetch('/api/me', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      ({ eventsUserIsAttending, completedActivities } = data);
-    }
+    const response = await fetch('samtid/__data.json');
+    const data = await response.json();
+    console.log(data);
+    
+    return {
+      props: data
+    };
   });
 
   function logout() {
@@ -70,6 +63,9 @@
     const time = formatTime(activity.date, activity.time);
 
     return `<li>${date} ${time}: ${activity.activityName}</li>`;
+
+
+  
   }
 
   export let nextUpcomingCotime: Cotime | undefined = undefined;
@@ -85,7 +81,7 @@
   <h1>När det är samtid</h1>
 
   <ul class="plain-list">
-    {#each events as event}
+    <!-- {#each events as event} -->
       <li>
         <!-- <a href="/activities/{event.activity.slug}">
           {formatDate(event.date, { day: 'numeric', month: 'numeric' })}
@@ -94,7 +90,7 @@
           {event.activity.name}
         </a> -->
       </li>
-    {/each}
+    <!-- {/each} -->
   </ul>
 
   <h1>När det är samtid för dig</h1>
