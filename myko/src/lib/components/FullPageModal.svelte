@@ -46,26 +46,23 @@
   }
 
   .done-btn {
-    /*color: #fff;
-    background: var(--ocean-900);
-    
-    width: fit-content;
-    padding: 8px;
-    border-radius: 4px;
-    box-shadow: 2px 2px 9px -2px rgb(108 97 97 / 50%);
-    border: 0;
-    letter-spacing: 1px;*/
     font-weight: 500;
     display: block;
     position: fixed;
     bottom: 0;
     right: 0;
-    margin: 0 -2px 5% 0;
-    transition: margin-right 250ms ease-in-out;
+    margin: 0 -4px 5% 0;
+    transition: margin-bottom 250ms ease-in-out;
   }
 
   .done-btn:hover,
   :focus {
-    margin-right: 8px;
+    margin-bottom: 5.15%;
+  }
+
+  @media (min-width: 45rem) {
+    .done-btn {
+      margin-right: 24px;
+    }
   }
 </style>

@@ -149,6 +149,11 @@
   a:active {
     color: var(--peach-900);
   }
+  button:disabled {
+    background: var(--grey-200);
+    box-shadow: none;
+    opacity: 0.7;
+  }
 
   @media (min-width: 45rem) {
     main {
@@ -162,6 +167,9 @@
       display: flex;
       justify-content: center;
       width: 35rem;
+    }
+    details > p {
+      justify-content: start;
     }
     /*fix flexbox centering problem for portable text blocks. Nest in a <div class=wrap>*/
     .wrap {

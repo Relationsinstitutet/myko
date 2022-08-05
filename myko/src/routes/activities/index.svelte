@@ -110,7 +110,7 @@
     width: 0;
     height: 100%;
     opacity: 0;
-    transition: width 600ms ease, opacity 300ms;
+    transition: width 250ms ease, opacity 150ms;
   }
 
   .dot + a::after {
@@ -125,7 +125,7 @@
     font-weight: bold;
     letter-spacing: 1px;
     opacity: 0;
-    transition: margin-left 350ms, opacity 150ms ease-in;
+    transition: margin-left 350ms, opacity 50ms ease-in;
   }
 
   .dot:hover + a::before {
@@ -144,22 +144,22 @@
     text-decoration: none;
     background-image: linear-gradient(
       90deg,
-      var(--grey-600),
-      var(--grey-500),
+      var(--peach-300),
       var(--peach-700),
-      var(--peach-300)
+      var(--grey-500),
+      var(--grey-600)
     );
-    background-size: 180% 2px;
+    background-size: 200% 2px;
     background-repeat: no-repeat;
-    background-position: left bottom;
-    transition: background-position 750ms ease;
+    background-position: right bottom;
+    transition: background-position 350ms ease;
   }
 
   li a:hover,
   :focus {
     color: var(--grey-900);
     font-weight: normal;
-    background-position: right bottom;
+    background-position: left bottom;
   }
 
   ::marker {

@@ -147,12 +147,18 @@
     .wrapper {
       padding: 24px;
       padding-bottom: 12px;
+      justify-content: space-around;
     }
     .booking-btns {
-      max-width: 25%;
+      max-width: 20%;
     }
     .instant-btn {
       max-width: 8%;
+    }
+  }
+  @media (min-width: 70rem) {
+    .wrapper {
+      justify-content: space-evenly;
     }
   }
 </style>

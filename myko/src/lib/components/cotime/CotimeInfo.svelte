@@ -76,7 +76,8 @@
     font-size: var(--12px);
     text-transform: uppercase;
     letter-spacing: 0.5rem;
-    margin-bottom: 8px;
+    color: var(--grey-600);
+    margin-bottom: 12px;
   }
 
   .header-dark-text {

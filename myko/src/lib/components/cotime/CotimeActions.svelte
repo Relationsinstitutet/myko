@@ -43,15 +43,20 @@
   }
 
   .helpText {
-    max-width: fit-content;
-    height: 16px;
+    width: fit-content;
+    height: fit-content;
     margin: unset;
+    margin-left: -5px;
+    background: hsla(330, 70%, 86%, 0.8);
+    border-radius: 35%;
+    box-shadow: 0 0 1em 0.35em #f4c2db;
   }
 
   p {
     all: unset;
     font-size: var(--12px);
     font-weight: 700;
-    color: var(--grey-800);
+    color: var(--grey-900);
+    letter-spacing: 0.02em;
   }
 </style>
