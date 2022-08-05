@@ -52,7 +52,7 @@
   }
 
   details:first-of-type {
-    padding-top: 1rem;
+    padding-top: 1.5rem;
   }
 
   details {
@@ -61,6 +61,7 @@
     font-family: 'Roboto Mono', monospace;
     font-size: var(--14px);
   }
+
   summary {
     padding: 0.25rem 0;
     margin-left: -32px;

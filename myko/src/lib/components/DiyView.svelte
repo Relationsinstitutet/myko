@@ -99,6 +99,8 @@
   input[type='submit'] {
     padding: 4px 8px;
     cursor: pointer;
+    font-weight: normal;
+    letter-spacing: 1px;
   }
 
   @media (min-width: 22rem) {

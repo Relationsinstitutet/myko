@@ -158,20 +158,19 @@
     text-decoration: none;
     background-image: linear-gradient(
       90deg,
-      var(--ocean-800),
-      var(--ocean-400),
       var(--ocean-100),
-      var(--ocean-100)
+      var(--ocean-100),
+      var(--ocean-400),
+      var(--ocean-800)
     );
-    background-size: 250% 1.5px;
+    background-size: 230% 1.5px;
     background-repeat: no-repeat;
-    background-position: left bottom;
-    transition: background-position 1s ease;
+    background-position: right bottom;
+    transition: background-position 400ms ease;
   }
 
   a:hover {
-    background-position: right bottom;
-    /*background-size: 250% 2px;*/
+    background-position: left bottom;
   }
 
   @media (min-width: 22rem) {

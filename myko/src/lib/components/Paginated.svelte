@@ -36,7 +36,7 @@
     margin: 0.5rem 12px;
     padding: 0.25rem 0.85rem;
     border-radius: 50%;
-    transition: padding-left 500ms ease-out, padding-right 500ms ease-out;
+    transition: padding-left 250ms ease-out, padding-right 250ms ease-out;
   }
 
   .left:hover {
@@ -47,5 +47,9 @@
   .right:hover {
     padding-left: 1rem;
     padding-right: 0.7rem;
+  }
+
+  button:hover:disabled {
+    padding: 0.25rem 0.85rem;
   }
 </style>
