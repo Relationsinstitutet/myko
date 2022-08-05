@@ -41,6 +41,23 @@
     margin-bottom: 12px;
   }
 
+  .header-dark-text {
+    color: var(--grey-600);
+    margin-bottom: 12px;
+  }
+
+  .header-light-text {
+    color: var(--grey-100);
+  }
+
+  .header-link {
+    font-style: normal;
+    font-weight: 500;
+    font-size: var(--12px);
+    letter-spacing: 0rem;
+    margin-bottom: 8px;
+  }
+
   .date {
     background: var(--ocean-100);
     border-radius: 5px;
