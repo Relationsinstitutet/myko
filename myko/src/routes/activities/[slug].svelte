@@ -69,7 +69,7 @@
 
 <main>
   {#if activity.cotime}
-    <CotimeInfo cotime={activity.cotime} />
+    <CotimeInfo cotime={activity.cotime} showActivityNameWhenSelected={false} />
   {/if}
 
   <Activity {activity} />

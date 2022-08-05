@@ -1,4 +1,7 @@
 <script lang="ts">
+  import CotimeInfo from '$lib/components/cotime/CotimeInfo.svelte';
+  import type { Cotime } from '$lib/models/activity';
+
   import P5 from 'p5-svelte';
   import type { Sketch, p5 } from 'p5-svelte';
   import { setup, draw, windowResized } from '$lib/visualisation/sketch';
@@ -14,9 +17,15 @@
       windowResized(p5);
     };
   };
+
+  export let nextUpcomingCotime: Cotime | undefined = undefined;
 </script>
 
 <main>
+  {#if nextUpcomingCotime}
+    <CotimeInfo cotime={nextUpcomingCotime} />
+  {/if}
+
   <h1>Myko</h1>
 
   <P5 {sketch} />
