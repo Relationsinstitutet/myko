@@ -37,22 +37,13 @@ function getAllEvents() {
     }
   }`;
 
-  return `${eventsQuery}`
-
-  // return `*[
-  //   _type == "${sanitySchemaNames.activity}" && ${notDraft}
-  // ] {
-  //   name,
-  //   "events": ${eventsQuery},
-  //   "slug": slug.current
-  // } [count(events) > 0] | order(events[0].date) [0...100]`;
+  return `${eventsQuery}`;
 }
 
 export const get: RequestHandler<Record<string, string>, ResponseBody> = async () => {
   const client = await createReadClient();
   const activity = await client.fetch<SanityActivityType>(getActivityWithNearestEvent());
   const events = await client.fetch<SanityActivityType>(getAllEvents());
-  console.log(events);
 
   if (activity) {
     return {
