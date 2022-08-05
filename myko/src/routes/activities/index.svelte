@@ -1,7 +1,6 @@
 <script lang="ts">
   import createClient from '$lib/auth/client';
   import { isAuthenticated } from '$lib/auth/store';
-  import Activity from '$lib/components/Activity.svelte';
   import CotimeInfo from '$lib/components/cotime/CotimeInfo.svelte';
 
   import type { Cotime, IActivitySummary } from '$lib/models/activity';
