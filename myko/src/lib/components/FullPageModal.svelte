@@ -14,7 +14,12 @@
 </script>
 
 {#if shown}
-  <div transition:fly={{ y: '100%', duration: 2000 }} on:outroend={completed} class="modal">
+  <div
+    in:fly={{ y: '100%', duration: 2000 }}
+    out:fly={{ y: '-100%', duration: 2000 }}
+    on:outroend={completed}
+    class="modal"
+  >
     <div class="modal-content">
       <slot />
       <button class="done-btn secondary" on:click={done}>Jag är klar!</button>

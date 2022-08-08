@@ -1,7 +1,8 @@
 <script lang="ts">
   import { formatDate } from '$lib/dateFormat';
   import { page } from '$app/stores';
-
+  import { fade } from 'svelte/transition';
+  import { fly } from '$lib/components/transitions';
   import type { Cotime } from '$lib/models/activity';
   import EventInfo from '$lib/components/cotime/EventInfo.svelte';
 
@@ -41,9 +42,14 @@
 
 <div class="cotime {headerTextColor($page.url.pathname)}">
   {#if showActivityNameWhenSelected && eventInfoExpanded.some((v) => v === true)}
-    <a class="header-link" href="/activities/{cotime.activity.slug}">{cotime.activity.name}</a>
+    <a
+      in:fly={{ y: '-10px', duration: 300 }}
+      out:fade
+      class="header-link"
+      href="/activities/{cotime.activity.slug}">{cotime.activity.name}</a
+    >
   {:else}
-    <div class="header">Nästa samtid</div>
+    <div in:fade out:fly={{ y: '10px', duration: 400 }} class="header">Nästa samtid</div>
   {/if}
   <div class="date">
     {formatDate(cotime.date)}
@@ -67,17 +73,19 @@
     align-items: center;
     flex-direction: column;
     font-family: 'Roboto Mono', monospace;
+    height: 72px;
     margin-bottom: 48px;
   }
 
   .header {
+    position: absolute;
+    top: 42px;
     font-style: normal;
     font-weight: 500;
     font-size: var(--12px);
     text-transform: uppercase;
     letter-spacing: 0.5rem;
     color: var(--grey-600);
-    margin-bottom: 12px;
   }
 
   .header-dark-text {
@@ -89,11 +97,12 @@
   }
 
   .header-link {
+    position: absolute;
+    top: 42px;
     font-style: normal;
     font-weight: 500;
     font-size: var(--12px);
     letter-spacing: 0rem;
-    margin-bottom: 8px;
   }
 
   .date {
