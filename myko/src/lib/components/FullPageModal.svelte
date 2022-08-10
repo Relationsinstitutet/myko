@@ -70,4 +70,16 @@
       margin-right: 24px;
     }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* 
+    need to check for this in <script> instead, to be able to change animation from fly to fade */
+
+    * {
+      animation-duration: 10ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 10ms !important;
+      animation-delay: 10ms !important;
+    }
+  }
 </style>

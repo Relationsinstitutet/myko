@@ -85,7 +85,7 @@
     font-size: var(--12px);
     text-transform: uppercase;
     letter-spacing: 0.5rem;
-    color: var(--grey-600);
+    color: inherit;
   }
 
   .header-dark-text {

@@ -85,7 +85,6 @@
   {#if nextUpcomingCotime}
     <CotimeInfo cotime={nextUpcomingCotime} />
   {/if}
-
   {#if $isAuthenticated}
     <h1>Aktiviteter du ska vara med på</h1>
     {#if eventsUserIsAttending.length < 1}
@@ -127,7 +126,7 @@
 
   .top-menu {
     background-color: var(--ocean-100);
-    height: 3em;
+    /*height: 3em; This doesn't seem to be needed? Removed it for now so this layout is the same as the other ones*/
   }
 
   .top-menu button {
@@ -178,6 +177,7 @@
   }
 
   a:hover {
+    color: var(--grey-900);
     background-position: left bottom;
   }
 

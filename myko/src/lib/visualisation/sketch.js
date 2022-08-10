@@ -1,6 +1,7 @@
 import Particle from './particle';
 import ActivityP from './activityParticle';
 
+let stopAnimation = false;
 let h = 185,
   s = 90,
   l = 8;
@@ -74,6 +75,10 @@ export function draw(p5) {
     np.update();
     np.edge();
     np.normalSize();
+  }
+
+  if (stopAnimation) {
+    p5.noLoop();
   }
 }
 

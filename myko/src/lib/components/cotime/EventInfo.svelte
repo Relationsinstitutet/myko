@@ -76,7 +76,6 @@
     top: 100%;
     right: 50%;
     transform: translateX(50%) translateY(-10px);
-
     margin-top: 8px;
 
     /* Fade in tooltip */
