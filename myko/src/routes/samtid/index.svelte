@@ -3,24 +3,14 @@
   import type { Cotime } from '$lib/models/activity';
   import { formatDate, formatTime } from '$lib/dateFormat';
   import { onMount } from 'svelte';
+  import type { SanityFullEventType } from '$lib/models/event';
 
-  let events: any[] = [];
+  let events: SanityFullEventType[] = [];
 
   onMount(async () => {
     const response = await fetch('samtid/__data.json');
     const data = await response.json();
-
-    events = data.events.map(
-      (e: { date: { split: (arg0: string) => [any, any] }; _id: any; activity: any }) => {
-        const [date, time] = e.date.split('T');
-        return {
-          id: e._id,
-          date,
-          time,
-          activity: e.activity,
-        };
-      }
-    );
+    events = data.events
   });
 
   export let nextUpcomingCotime: Cotime | undefined = undefined;
