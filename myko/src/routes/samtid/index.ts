@@ -24,11 +24,11 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
   const activity = await client.fetch<SanityActivityType>(activityWithNearestEventQuery);
   const events = await client.fetch<SanityFullEventType[]>(getAllEvents());
 
-  if (activity) {
+  if (events) {
     return {
       status: 200,
       body: {
-        nextUpcomingCotime: computeNextCotime(activity, undefined),
+        ...(activity && { nextUpcomingCotime: computeNextCotime(activity, undefined) }),
         events: events.map((e) => {
           const [date, time] = e.date.split('T');
           return { ...e, date, time };
