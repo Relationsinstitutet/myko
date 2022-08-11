@@ -2,18 +2,11 @@
   import CotimeInfo from '$lib/components/cotime/CotimeInfo.svelte';
   import type { Cotime } from '$lib/models/activity';
   import { formatDate, formatTime } from '$lib/dateFormat';
-  import { onMount } from 'svelte';
   import type { SanityFullEventType } from '$lib/models/event';
 
-  let events: SanityFullEventType[] = [];
-
-  onMount(async () => {
-    const response = await fetch('samtid/__data.json');
-    const data = await response.json();
-    events = data.events
-  });
-
+  // populated with data from the endpoint
   export let nextUpcomingCotime: Cotime | undefined = undefined;
+  export let events: SanityFullEventType[];
 </script>
 
 <svelte:head>
