@@ -1,13 +1,16 @@
 <script lang="ts">
   import { fly } from './transitions';
-  import { goto } from '$app/navigation';
+  import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher();
 
   function done() {
     shown = false;
+    dispatch('done');
   }
 
   function completed() {
-    goto('/');
+    dispatch('closed');
   }
 
   export let shown: boolean;
