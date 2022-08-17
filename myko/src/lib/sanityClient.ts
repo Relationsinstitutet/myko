@@ -45,3 +45,24 @@ export const eventsForActivityFilter = `
   ${notDraft} &&
   dateTime(date) > dateTime(now()) - 60*10
 `;
+
+const eventsQuery = `*[
+  ${eventsForActivityFilter}
+] | order(date asc) {
+    _id,
+    attendees[]->{
+      _id,
+      "displayName": nickname
+    },
+    date,
+    "numAttendees": coalesce(count(attendees), 0)
+}`;
+
+export const activityWithNearestEventQuery = `*[
+    _type == "${sanitySchemaNames.activity}" && ${notDraft}
+] {
+    name,
+    "events": ${eventsQuery},
+    "slug": slug.current
+  } [count(events) > 0] | order(events[0].date) [0]
+`;
