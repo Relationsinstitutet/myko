@@ -14,6 +14,7 @@
   import FullPageModal from '$lib/components/FullPageModal.svelte';
   import StartedActivityView from '$lib/components/StartedActivityView.svelte';
   import DiyView from '$lib/components/DiyView.svelte';
+  import { goto } from '$app/navigation';
 
   const currentSlug = get(page).params.slug;
   const currentPage = get(page).url.pathname;
@@ -21,6 +22,7 @@
   let authClient: Client;
   let startedActivityData: StartedActivityData;
   let showStartedActivityModal = false;
+  let activityCompleted = false;
 
   onMount(async () => {
     authClient = await createClient();
@@ -51,6 +53,14 @@
     showStartedActivityModal = true;
   }
 
+  function activityWasCompleted() {
+    activityCompleted = true;
+  }
+
+  function activityModalClosed() {
+    goto('/');
+  }
+
   // populated with data from the endpoint
   export let activity: IActivityWithCotime;
 </script>
@@ -59,7 +69,11 @@
   <title>{activity.name}</title>
 </svelte:head>
 
-<FullPageModal bind:shown={showStartedActivityModal}>
+<FullPageModal
+  bind:shown={showStartedActivityModal}
+  on:done={activityWasCompleted}
+  on:closed={activityModalClosed}
+>
   {#if currentSlug == 'tillverka-aktivitet'}
     <DiyView />
   {:else}
@@ -68,33 +82,38 @@
 </FullPageModal>
 
 <main>
-  {#if activity.cotime}
-    <CotimeInfo cotime={activity.cotime} showActivityNameWhenSelected={false} />
-  {/if}
+  {#if activityCompleted}
+    Reticulating 3-Dimensional Splines...
+    <div class="loading-spinner" />
+  {:else}
+    {#if activity.cotime}
+      <CotimeInfo cotime={activity.cotime} showActivityNameWhenSelected={false} />
+    {/if}
 
-  <Activity {activity} />
-  <div class="wrapper">
-    <div class="booking-btns">
-      {#if activity.cotime}
-        <CotimeActions cotime={activity.cotime} onActivityStarted={activityStarted} />
-      {/if}
-    </div>
-    <div class="instant-btn">
-      {#if activity.instant}
-        {#if $isAuthenticated}
-          <StartActivityButton
-            on:activityStarted={activityStarted}
-            data={{ activityId: activity.id }}
-            enabled
-          >
-            Gör nu
-          </StartActivityButton>
-        {:else}
-          <button on:click={login}> Gör nu </button>
+    <Activity {activity} />
+    <div class="wrapper">
+      <div class="booking-btns">
+        {#if activity.cotime}
+          <CotimeActions cotime={activity.cotime} onActivityStarted={activityStarted} />
         {/if}
-      {/if}
+      </div>
+      <div class="instant-btn">
+        {#if activity.instant}
+          {#if $isAuthenticated}
+            <StartActivityButton
+              on:activityStarted={activityStarted}
+              data={{ activityId: activity.id }}
+              enabled
+            >
+              Gör nu
+            </StartActivityButton>
+          {:else}
+            <button on:click={login}> Gör nu </button>
+          {/if}
+        {/if}
+      </div>
     </div>
-  </div>
+  {/if}
 </main>
 
 <style>
@@ -127,6 +146,23 @@
   }
   button {
     height: fit-content;
+  }
+
+  .loading-spinner {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+  }
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 
   @media (min-width: 22rem) {
