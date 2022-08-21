@@ -15,10 +15,10 @@
       array[i] = false;
     });
 
-    if (isAnyExpanded && eventInfoExpanded.every(v => v === false)) {
+    if (isAnyExpanded && eventInfoExpanded.every((v) => v === false)) {
       isAnyExpanded = false;
       dispatch('closed');
-    } else if (!isAnyExpanded && eventInfoExpanded.some(v => v === true)) {
+    } else if (!isAnyExpanded && eventInfoExpanded.some((v) => v === true)) {
       isAnyExpanded = true;
       dispatch('expanded');
     }
@@ -31,7 +31,7 @@
 
 {#each events as event, i}
   <EventInfo
-    date={date}
+    {date}
     {event}
     bind:expanded={eventInfoExpanded[i]}
     on:toggled={() => toggle(i)}

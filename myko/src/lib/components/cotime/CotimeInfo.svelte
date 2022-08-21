@@ -39,9 +39,12 @@
   <div class="date">
     {formatDate(cotime.date)}
     <span class="times">
-      <Events events={cotime.events} date={cotime.date}
-      on:closed={() => isEventsExpanded = false}
-      on:expanded={() => isEventsExpanded = true}/>
+      <Events
+        events={cotime.events}
+        date={cotime.date}
+        on:closed={() => (isEventsExpanded = false)}
+        on:expanded={() => (isEventsExpanded = true)}
+      />
     </span>
   </div>
 </div>
