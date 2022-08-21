@@ -1,5 +1,10 @@
 import type { Cotime, IActivitySummary, SanityActivityType } from '$lib/models/activity';
-import { activityWithNearestEventQuery, createReadClient, eventsForActivityFilter, notDraft } from '$lib/sanityClient';
+import {
+  activityWithNearestEventQuery,
+  createReadClient,
+  eventsForActivityFilter,
+  notDraft,
+} from '$lib/sanityClient';
 import { computeNextCotime, sanitySchemaNames, userIsAttendee } from '$lib/util';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 

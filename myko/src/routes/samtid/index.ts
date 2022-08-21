@@ -21,7 +21,10 @@ function getAllEvents() {
 
 export const get: RequestHandler<Record<string, string>, ResponseBody> = async () => {
   const client = await createReadClient();
-  const data = await client.fetch<{activity: SanityActivityType, events: SanityFullEventType[]}>(`{
+  const data = await client.fetch<{
+    activity: SanityActivityType;
+    events: SanityFullEventType[];
+  }>(`{
     "activity": ${activityWithNearestEventQuery},
     "events": ${getAllEvents()}
   }`);
