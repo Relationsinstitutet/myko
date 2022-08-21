@@ -19,6 +19,7 @@
   <button on:click={clicked} class="cotime-btn">{formatTime(date, event.time)}</button><span
     class:visible={expanded}
     class="attendee-list"
+    on:click={clicked}
   >
     {#if event.attendees.length < 1}
       Ingen än.
