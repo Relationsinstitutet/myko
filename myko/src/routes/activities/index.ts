@@ -1,30 +1,17 @@
 import type { Cotime, IActivitySummary, SanityActivityType } from '$lib/models/activity';
-import { createReadClient, eventsForActivityFilter, notDraft } from '$lib/sanityClient';
+import { activityWithNearestEventQuery, createReadClient, eventsForActivityFilter, notDraft } from '$lib/sanityClient';
 import { computeNextCotime, sanitySchemaNames, userIsAttendee } from '$lib/util';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
 type SanityResultType = {
   activities: SanityActivityType[];
+  activityWithNearestEvent: SanityActivityType;
 };
 
 type Response = {
   activities: IActivitySummary[];
   nextUpcomingCotime?: Cotime;
 };
-
-function sortActivitiesByEventDate(activities: SanityActivityType[]) {
-  return activities.sort((a, b) => {
-    if (a.events.length > 0) {
-      if (b.events.length > 0) {
-        return a.events[0].date.localeCompare(b.events[0].date);
-      }
-
-      return -1;
-    }
-
-    return 0;
-  });
-}
 
 function getActivitiesQuery() {
   const eventAttendeesQuery = `*[
@@ -55,6 +42,7 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
   const client = await createReadClient();
   const data = await client.fetch<SanityResultType>(`{
     "activities": ${getActivitiesQuery()},
+    "activityWithNearestEvent": ${activityWithNearestEventQuery}
   }`);
 
   if (data) {
@@ -76,13 +64,11 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
         slug: activity.slug,
       };
     });
-    const sortedActivities = sortActivitiesByEventDate(data.activities);
-    const activityWithNearestEvents = sortedActivities[0];
 
     const body: Response = {
       activities: activitySummaries,
-      ...(activityWithNearestEvents.events.length > 0 && {
-        nextUpcomingCotime: computeNextCotime(activityWithNearestEvents, userId),
+      ...(data.activityWithNearestEvent.events.length > 0 && {
+        nextUpcomingCotime: computeNextCotime(data.activityWithNearestEvent, userId),
       }),
     };
     return {
