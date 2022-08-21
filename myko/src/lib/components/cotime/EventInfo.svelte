@@ -3,11 +3,11 @@
   import type { Event } from '$lib/models/activity';
   import { createEventDispatcher } from 'svelte';
 
-  const dispatch = createEventDispatcher<{ toggled: never }>();
+  const dispatch = createEventDispatcher();
 
   function clicked() {
     expanded = !expanded;
-    dispatch('toggled', {});
+    dispatch('toggled');
   }
 
   export let date: string;
