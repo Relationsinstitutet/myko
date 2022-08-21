@@ -72,7 +72,6 @@
     letter-spacing: 0.5px;
     box-shadow: 0.5px 0.7px 1.2px hsla(30, 55%, 23%, 0.2), 0.8px 1.5px 4px hsla(360, 54%, 38%, 0.3);
     position: absolute;
-    z-index: 1;
     top: 100%;
     right: 50%;
     transform: translateX(50%) translateY(-10px);
