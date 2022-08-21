@@ -21,15 +21,17 @@ function getAllEvents() {
 
 export const get: RequestHandler<Record<string, string>, ResponseBody> = async () => {
   const client = await createReadClient();
-  const activity = await client.fetch<SanityActivityType>(activityWithNearestEventQuery);
-  const events = await client.fetch<SanityFullEventType[]>(getAllEvents());
+  const data = await client.fetch<{activity: SanityActivityType, events: SanityFullEventType[]}>(`{
+    "activity": ${activityWithNearestEventQuery},
+    "events": ${getAllEvents()}
+  }`);
 
-  if (events) {
+  if (data) {
     return {
       status: 200,
       body: {
-        ...(activity && { nextUpcomingCotime: computeNextCotime(activity, undefined) }),
-        events: events.map((e) => {
+        ...(data.activity && { nextUpcomingCotime: computeNextCotime(data.activity, undefined) }),
+        events: data.events.map((e) => {
           const [date, time] = e.date.split('T');
           return { ...e, date, time };
         }),
