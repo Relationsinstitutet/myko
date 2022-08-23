@@ -83,7 +83,7 @@
 
 <main>
   {#if activityCompleted}
-    Reticulating 3-Dimensional Splines...
+    Myko äter...
     <div class="loading-spinner" />
   {:else}
     {#if activity.cotime}
