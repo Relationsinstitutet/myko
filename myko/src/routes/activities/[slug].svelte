@@ -168,12 +168,14 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    padding-top: 192px;
   }
 
   .transition-message {
-    font-size: var(--48px);
+    font-size: var(--16px);
     font-family: 'Roboto Mono', monospace;
     margin-bottom: 24px;
+    font-weight: 700;
   }
 
   .lds-default {
