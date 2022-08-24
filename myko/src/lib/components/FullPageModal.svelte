@@ -20,7 +20,8 @@
   <div transition:fly={{ y: '100%', duration: 2000 }} on:outroend={completed} class="modal">
     <div class="modal-content">
       <slot />
-      <button class="done-btn secondary" on:click={done}>Jag är klar!</button>
+      <div class="help-text">När du är klar:</div>
+      <button class="done-btn secondary" on:click={done}>Mata Myko!</button>
     </div>
   </div>
 {/if}
@@ -53,7 +54,7 @@
     display: block;
     position: fixed;
     bottom: 0;
-    right: 0;
+    right: 12px;
     margin: 0 -4px 5% 0;
     transition: margin-bottom 250ms ease-in-out;
   }
@@ -63,8 +64,21 @@
     margin-bottom: 5.15%;
   }
 
+  .help-text {
+    font-weight: 500;
+    display: block;
+    position: fixed;
+    bottom: 42px;
+    right: 12px;
+    margin: 0 -4px 5% 0;
+  }
+
   @media (min-width: 45rem) {
     .done-btn {
+      margin-right: 24px;
+    }
+
+    .help-text {
       margin-right: 24px;
     }
   }
