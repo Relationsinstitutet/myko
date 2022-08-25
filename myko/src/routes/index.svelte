@@ -6,27 +6,7 @@
   import type { Sketch, p5 } from 'p5-svelte';
   import { setup, draw, windowResized } from '$lib/visualisation/sketch';
 
-  /**alt. <svelte:window on:load={prefersReducedMotion}
-   *
-   * eller, använda onmount för att få window.matchMedia att funka?
-   */
-
-  /**import { onMount } from "svelte";
-
-    export let query = '(prefers-reduced-motion: reduce)';
-    
-    const mediaQueryList = window.matchMedia('(prefers-reduced-motion: reduce)');
-  mediaQueryList.addEventListener('change', handlePreferenceChange);
-
-  function handlePreferenceChange(event) {
-    console.log(`prefers-reduced-motion: reduce is ${event.matches ? 'enabled' : 'disabled'}`);
-  }
-
-  function prefersReducedMotion() {
-  const mediaQueryList = window.matchMedia('(prefers-reduced-motion: reduce)');
-  return mediaQueryList.matches;
-}
-  /**Maybe maybe could call another function instead of draw if prefers reduced motion. Something noLoop, but shapes instead, beginShape, endShape*/
+  let reduce = false;
 
   const sketch: Sketch = (p5: p5) => {
     p5.setup = () => {
@@ -35,10 +15,28 @@
     p5.draw = () => {
       draw(p5);
     };
+    /*if (!reduce) {
+      p5.draw = () => {
+        draw(p5, !reduce);
+      };
+    } else {
+      p5.draw = () => {
+        draw(p5, reduce);
+      };
+    }*/
     p5.windowResized = () => {
       windowResized(p5);
     };
   };
+
+  /*const sketchLogo: Sketch = (p5: p5) => {
+    p5.setup = () => {
+      setup(p5);
+    };
+    p5.draw = () => {
+      draw(p5);
+    };
+  };*/
 
   export let nextUpcomingCotime: Cotime | undefined = undefined;
 </script>
@@ -50,6 +48,7 @@
 
   <h1>Myko</h1>
 
+  <!--<P5 {sketchLogo}-->
   <P5 {sketch} />
 </main>
 
