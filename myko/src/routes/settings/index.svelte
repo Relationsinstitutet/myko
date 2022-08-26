@@ -110,7 +110,7 @@
       <Paginated data={completedActivities} render={renderCompletedActivity} />
     </ul>
   {:else}
-    <div class="unauthenticated">Logga in för att se dina bokade aktiviteter</div>
+    <div class="unauthenticated">Logga in för att se dina aktiviteter. Du kan skapa konto om du går samma väg.</div>
   {/if}
 </main>
 
@@ -126,7 +126,6 @@
 
   .top-menu {
     background-color: var(--ocean-100);
-    /*height: 3em; This doesn't seem to be needed? Removed it for now so this layout is the same as the other ones*/
   }
 
   .top-menu button {
