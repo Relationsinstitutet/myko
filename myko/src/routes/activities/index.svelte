@@ -64,7 +64,13 @@
 <style>
   main {
     background-color: var(--peach-300);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
+    padding-top: 48px;
+    padding-bottom: 256px;
   }
 
   ul {
