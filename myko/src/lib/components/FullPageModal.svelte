@@ -1,13 +1,16 @@
 <script lang="ts">
   import { fly } from './transitions';
-  import { goto } from '$app/navigation';
+  import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher();
 
   function done() {
     shown = false;
+    dispatch('done');
   }
 
   function completed() {
-    goto('/');
+    dispatch('closed');
   }
 
   export let shown: boolean;
@@ -22,7 +25,8 @@
   >
     <div class="modal-content">
       <slot />
-      <button class="done-btn secondary" on:click={done}>Jag är klar!</button>
+      <div class="help-text">När du är klar:</div>
+      <button class="done-btn secondary" on:click={done}>Mata Myko!</button>
     </div>
   </div>
 {/if}
@@ -55,7 +59,7 @@
     display: block;
     position: fixed;
     bottom: 0;
-    right: 0;
+    right: 12px;
     margin: 0 -4px 5% 0;
     transition: margin-bottom 250ms ease-in-out;
   }
@@ -65,21 +69,22 @@
     margin-bottom: 5.15%;
   }
 
+  .help-text {
+    font-weight: 500;
+    display: block;
+    position: fixed;
+    bottom: 42px;
+    right: 12px;
+    margin: 0 -4px 5% 0;
+  }
+
   @media (min-width: 45rem) {
     .done-btn {
       margin-right: 24px;
     }
-  }
 
-  @media (prefers-reduced-motion: reduce) {
-    /* 
-    need to check for this in <script> instead, to be able to change animation from fly to fade */
-
-    * {
-      animation-duration: 10ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 10ms !important;
-      animation-delay: 10ms !important;
+    .help-text {
+      margin-right: 24px;
     }
   }
 </style>

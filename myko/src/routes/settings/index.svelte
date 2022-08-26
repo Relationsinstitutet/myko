@@ -110,7 +110,7 @@
       <Paginated data={completedActivities} render={renderCompletedActivity} />
     </ul>
   {:else}
-    <div class="unauthenticated">Logga in för att se dina bokade aktiviteter</div>
+    <div class="unauthenticated">Logga in för att se dina aktiviteter.</div>
   {/if}
 </main>
 

@@ -4,7 +4,7 @@
   import { fade } from 'svelte/transition';
   import { fly } from '$lib/components/transitions';
   import type { Cotime } from '$lib/models/activity';
-  import EventInfo from '$lib/components/cotime/EventInfo.svelte';
+  import Events from '$lib/components/cotime/Events.svelte';
 
   function headerTextColor(pageUrl: string): string {
     let headerTextColor = 'header-dark-text';
@@ -26,42 +26,26 @@
     }
   }
 
-  function toggle(index: number) {
-    // radio-button like behavior: make all others non-expanded
-    eventInfoExpanded.forEach((_, i, array) => {
-      if (i === index) {
-        return;
-      }
-      array[i] = false;
-    });
-  }
   export let cotime: Cotime;
   export let showActivityNameWhenSelected = true;
-  let eventInfoExpanded: boolean[] = new Array(cotime.events.length);
+  let isEventsExpanded = false;
 </script>
 
 <div class="cotime {headerTextColor($page.url.pathname)}">
-  {#if showActivityNameWhenSelected && eventInfoExpanded.some((v) => v === true)}
-    <a
-      in:fly={{ y: '-10px', duration: 300 }}
-      out:fade
-      class="header-link"
-      href="/activities/{cotime.activity.slug}">{cotime.activity.name}</a
-    >
+  {#if showActivityNameWhenSelected && isEventsExpanded}
+    <a class="header-link" href="/activities/{cotime.activity.slug}">{cotime.activity.name}</a>
   {:else}
     <div in:fade out:fly={{ y: '10px', duration: 400 }} class="header">Nästa samtid</div>
   {/if}
   <div class="date">
     {formatDate(cotime.date)}
     <span class="times">
-      {#each cotime.events as event, i}
-        <EventInfo
-          date={cotime.date}
-          {event}
-          bind:expanded={eventInfoExpanded[i]}
-          on:toggled={() => toggle(i)}
-        />{#if i < cotime.events.length - 1}<span class="separator">|</span>{/if}
-      {/each}
+      <Events
+        events={cotime.events}
+        date={cotime.date}
+        on:closed={() => (isEventsExpanded = false)}
+        on:expanded={() => (isEventsExpanded = true)}
+      />
     </span>
   </div>
 </div>
@@ -85,7 +69,8 @@
     font-size: var(--12px);
     text-transform: uppercase;
     letter-spacing: 0.5rem;
-    color: inherit;
+    color: var(--grey-600);
+    margin-bottom: 12px;
   }
 
   .header-dark-text {
