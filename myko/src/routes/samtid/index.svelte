@@ -2,11 +2,28 @@
   import CotimeInfo from '$lib/components/cotime/CotimeInfo.svelte';
   import type { Cotime } from '$lib/models/activity';
   import { formatDate, formatTime } from '$lib/dateFormat';
-  import type { SanityFullEventType } from '$lib/models/event';
+  import { onMount } from 'svelte';
 
-  // populated with data from the endpoint
+  let events: any[] = [];
+
+  onMount(async () => {
+    const response = await fetch('samtid/__data.json');
+    const data = await response.json();
+
+    events = data.events.map(
+      (e: { date: { split: (arg0: string) => [any, any] }; _id: any; activity: any }) => {
+        const [date, time] = e.date.split('T');
+        return {
+          id: e._id,
+          date,
+          time,
+          activity: e.activity,
+        };
+      }
+    );
+  });
+
   export let nextUpcomingCotime: Cotime | undefined = undefined;
-  export let events: SanityFullEventType[];
 </script>
 
 <svelte:head>

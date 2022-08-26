@@ -3,11 +3,11 @@
   import type { Event } from '$lib/models/activity';
   import { createEventDispatcher } from 'svelte';
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{ toggled: never }>();
 
   function clicked() {
     expanded = !expanded;
-    dispatch('toggled');
+    dispatch('toggled', {});
   }
 
   export let date: string;
@@ -19,7 +19,6 @@
   <button on:click={clicked} class="cotime-btn">{formatTime(date, event.time)}</button><span
     class:visible={expanded}
     class="attendee-list"
-    on:click={clicked}
   >
     {#if event.attendees.length < 1}
       Ingen än.
@@ -73,6 +72,7 @@
     letter-spacing: 0.5px;
     box-shadow: 0.5px 0.7px 1.2px hsla(30, 55%, 23%, 0.2), 0.8px 1.5px 4px hsla(360, 54%, 38%, 0.3);
     position: absolute;
+    z-index: 1;
     top: 100%;
     right: 50%;
     transform: translateX(50%) translateY(-10px);
