@@ -37,13 +37,13 @@ export const notDraft = `!(_id in path('drafts.**'))`;
 // Get all events for an activity that are active:
 //  * not a Sanity draft document,
 //  * 'visible'=true,
-//  * and with a date not passed by more than 10 minutes
+//  * and with a date not passed by more than 2.5 hours
 export const eventsForActivityFilter = `
   _type == "${sanitySchemaNames.event}" &&
   activity._ref == ^._id &&
   visible == true &&
   ${notDraft} &&
-  dateTime(date) > dateTime(now()) - 60*10
+  dateTime(date) > dateTime(now()) - 60*60*2.5
 `;
 
 const eventsQuery = `*[
