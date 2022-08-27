@@ -15,7 +15,7 @@ export class Client {
 
   async login(returnTo: string) {
     await this.client.loginWithRedirect({
-      redirect_uri: this.absoluteUrl(`/login/callback`),
+      redirect_uri: this.absoluteUrl(`/logga-in`),
       appState: { returnTo },
     });
   }

@@ -32,7 +32,7 @@
       // if user is logged-in, include token in request to get
       // booking status of the logged-in user for each event
       const accessToken = await authClient.getUserAccessToken();
-      const response = await fetch(`/activities/${currentSlug}`, {
+      const response = await fetch(`/aktiviteter/${currentSlug}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           accept: 'application/json',

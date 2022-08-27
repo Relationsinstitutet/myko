@@ -78,7 +78,7 @@ export function draw(p5) {
 }
 
 async function fetchActivityLog(p5) {
-  const response = await fetch('/api/activities/log');
+  const response = await fetch('/api/aktiviteter/logg');
   if (!response.ok) {
     console.log('Could not get activity data');
     return null;

@@ -39,7 +39,7 @@
     await authClient.updateState();
 
     const accessToken = await authClient.getUserAccessToken();
-    const response = await fetch('/api/me', {
+    const response = await fetch('/api/jag', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -94,7 +94,7 @@
       <ul class="plain-list">
         {#each eventsUserIsAttending as event}
           <li>
-            <a href="/activities/{event.activity.slug}">
+            <a href="/aktiviteter/{event.activity.slug}">
               {formatDate(event.date, { day: 'numeric', month: 'numeric' })}
               {event.activity.name}
             </a>

@@ -22,7 +22,7 @@
     {#each events as event}
       <li>
         {formatDate(event.date, { day: 'numeric', month: 'numeric' })}
-        <a href="/activities/{event.activity.slug}"> {event.activity.name} </a>
+        <a href="/aktiviteter/{event.activity.slug}"> {event.activity.name} </a>
         <span class="time">{formatTime(event.date, event.time)}</span>
       </li>
     {/each}
