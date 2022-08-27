@@ -14,7 +14,7 @@
   async function startActivity() {
     loading = true;
     const accessToken = await authClient.getUserAccessToken();
-    const response = await fetch('/api/aktiviteter/start', {
+    const response = await fetch('/api/aktiviteter/starta', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
