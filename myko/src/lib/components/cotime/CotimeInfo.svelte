@@ -11,7 +11,7 @@
     if (pageUrl === '/') {
       headerTextColor = 'header-light-text';
       return headerTextColor;
-    } else if (pageUrl === '/activities') {
+    } else if (pageUrl === '/aktiviteter') {
       headerTextColor = 'header-dark-text';
       return headerTextColor;
     } else if (pageUrl === '/settings') {
@@ -32,7 +32,7 @@
 
 <div class="cotime {headerTextColor($page.url.pathname)}">
   {#if showActivityNameWhenSelected && isEventsExpanded}
-    <a class="header-link" href="/activities/{cotime.activity.slug}">{cotime.activity.name}</a>
+    <a class="header-link" href="/aktiviteter/{cotime.activity.slug}">{cotime.activity.name}</a>
   {:else}
     <div class="header">Nästa samtid</div>
   {/if}

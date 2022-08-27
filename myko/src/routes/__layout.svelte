@@ -7,7 +7,7 @@
     if (pageUrl === '/') {
       gradientColor = 'gradient-home';
       return gradientColor;
-    } else if (pageUrl === '/activities') {
+    } else if (pageUrl === '/aktiviteter') {
       gradientColor = 'gradient-activities';
       return gradientColor;
     } else if (pageUrl === '/settings') {
@@ -27,7 +27,7 @@
     <div class="nav-bottom">
       <div class="nav-left">
         <a href="/" class:is-active={$page.url.pathname === '/'}> vi</a>
-        <a href="/activities" class:is-active={$page.url.pathname === '/activities'}> göra</a>
+        <a href="/aktiviteter" class:is-active={$page.url.pathname === '/aktiviteter'}> göra</a>
         <a href="/samtid" class:is-active={$page.url.pathname === '/samtid'}> samtid</a>
         <a href="/settings" class:is-active={$page.url.pathname === '/settings'}> jag</a>
       </div>

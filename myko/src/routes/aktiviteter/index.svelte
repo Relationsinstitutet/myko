@@ -19,7 +19,7 @@
         accept: 'application/json',
         authorization: `Bearer ${accessToken}`,
       };
-      const response = await fetch('/activities', {
+      const response = await fetch('/aktiviteter', {
         headers,
       });
 
@@ -47,7 +47,7 @@
         {#if activity.eventSummaries.find((event) => event.userIsAttending)}
           <span class="dot" />
         {/if}
-        <a href="/activities/{activity.slug}">{activity.name}</a>
+        <a href="/aktiviteter/{activity.slug}">{activity.name}</a>
         <span>
           {#if activity.eventSummaries.length > 0}
             ({activity.eventSummaries.reduce(

@@ -4,7 +4,7 @@
 
   async function submitForm(e: Event) {
     const form = e.currentTarget as HTMLFormElement;
-    const response = await fetch('/api/activities/diy', {
+    const response = await fetch('/api/aktiviteter/diy', {
       method: 'POST',
       headers: {
         accept: 'application/json',
