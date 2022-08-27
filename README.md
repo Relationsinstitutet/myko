@@ -22,3 +22,9 @@ In `studio` directory:
 1. `sanity start`
 
 See more info [in their documentation](https://www.sanity.io/docs).
+
+#### Deploying the studio
+
+The studio is currently hosted via Sanity at https://myko.sanity.studio/.
+
+To deploy new changes: in `studio` directory, run `sanity deploy`.
