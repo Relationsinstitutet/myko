@@ -34,7 +34,7 @@
 
       const accessToken = await authClient.getUserAccessToken();
       const response = await makeRequest(
-        new Request(`/api/booking/${eventId}`, {
+        new Request(`/api/boka/${eventId}`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -56,7 +56,7 @@
 
       const accessToken = await authClient.getUserAccessToken();
       const response = await makeRequest(
-        new Request(`/api/booking/${eventId}`, {
+        new Request(`/api/boka/${eventId}`, {
           method: 'DELETE',
           headers: {
             Authorization: `Bearer ${accessToken}`,
