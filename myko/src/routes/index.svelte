@@ -2,6 +2,8 @@
   import CotimeInfo from '$lib/components/cotime/CotimeInfo.svelte';
   import type { Cotime } from '$lib/models/activity';
 
+  import { reducedMotion } from 'svelte-reduced-motion';
+
   import P5 from 'p5-svelte';
   import type { Sketch, p5 } from 'p5-svelte';
   import { setup, draw, windowResized } from '$lib/visualisation/sketch';
@@ -28,7 +30,12 @@
 
   <h1>Myko</h1>
 
-  <P5 {sketch} />
+  {#if $reducedMotion}
+    <h1>Hej!</h1>
+    <p>Du har önskat mindre rörelse när du surfar, bakom här är vår visualisering som kan bli lite vild, men om du vill kolla på den får du stänga av det.</p>
+  {:else}
+    <P5 {sketch} />
+  {/if}
 </main>
 
 <style>
