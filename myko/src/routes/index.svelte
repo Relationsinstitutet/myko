@@ -32,7 +32,10 @@
 
   {#if $reducedMotion}
     <h1>Hej!</h1>
-    <p>Du har önskat mindre rörelse när du surfar, bakom här är vår visualisering som kan bli lite vild, men om du vill kolla på den får du stänga av det.</p>
+    <p>
+      Du har önskat mindre rörelse när du surfar, bakom här är vår visualisering som kan bli lite
+      vild, men om du vill kolla på den får du stänga av det.
+    </p>
   {:else}
     <P5 {sketch} />
   {/if}

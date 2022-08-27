@@ -20,7 +20,11 @@
 </script>
 
 {#if shown}
-  <div transition:accessibleTransition={{ y: '100%', duration: 2000 }} on:outroend={completed} class="modal">
+  <div
+    transition:accessibleTransition={{ y: '100%', duration: 2000 }}
+    on:outroend={completed}
+    class="modal"
+  >
     <div class="modal-content">
       <slot />
       <div class="help-text">När du är klar:</div>
