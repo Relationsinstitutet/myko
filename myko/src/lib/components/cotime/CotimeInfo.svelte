@@ -14,7 +14,7 @@
     } else if (pageUrl === '/aktiviteter') {
       headerTextColor = 'header-dark-text';
       return headerTextColor;
-    } else if (pageUrl === '/settings') {
+    } else if (pageUrl === '/jag') {
       headerTextColor = 'header-dark-text';
       return headerTextColor;
     } else if (pageUrl === '/faq') {

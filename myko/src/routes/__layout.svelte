@@ -10,7 +10,7 @@
     } else if (pageUrl === '/aktiviteter') {
       gradientColor = 'gradient-activities';
       return gradientColor;
-    } else if (pageUrl === '/settings') {
+    } else if (pageUrl === '/jag') {
       gradientColor = 'gradient-settings';
       return gradientColor;
     } else if (pageUrl === '/faq') {
@@ -29,7 +29,7 @@
         <a href="/" class:is-active={$page.url.pathname === '/'}> vi</a>
         <a href="/aktiviteter" class:is-active={$page.url.pathname === '/aktiviteter'}> göra</a>
         <a href="/samtid" class:is-active={$page.url.pathname === '/samtid'}> samtid</a>
-        <a href="/settings" class:is-active={$page.url.pathname === '/settings'}> jag</a>
+        <a href="/jag" class:is-active={$page.url.pathname === '/jag'}> jag</a>
       </div>
       <div class="nav-right">
         <a href="/faq" class:is-active={$page.url.pathname === '/faq'}>?</a>

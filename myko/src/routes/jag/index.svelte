@@ -39,7 +39,7 @@
     await authClient.updateState();
 
     const accessToken = await authClient.getUserAccessToken();
-    const response = await fetch('/api/me', {
+    const response = await fetch('/api/jag', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
