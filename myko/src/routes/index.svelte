@@ -31,9 +31,8 @@
   <h1>Myko</h1>
 
   {#if $reducedMotion}
-    <h1>Hej!</h1>
     <p>
-      Du har önskat mindre rörelse när du surfar, bakom här är vår visualisering som kan bli lite
+      Hej! Du har önskat mindre rörelse när du surfar, bakom här är vår visualisering som kan bli lite
       vild, men om du vill kolla på den får du stänga av det i inställningarna på din enhet. Det
       brukar heta Reduce motion eller liknande.
     </p>
