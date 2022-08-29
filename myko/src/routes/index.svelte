@@ -34,7 +34,8 @@
     <h1>Hej!</h1>
     <p>
       Du har önskat mindre rörelse när du surfar, bakom här är vår visualisering som kan bli lite
-      vild, men om du vill kolla på den får du stänga av det.
+      vild, men om du vill kolla på den får du stänga av det i inställningarna på din enhet. Det
+      brukar heta Reduce motion eller liknande.
     </p>
   {:else}
     <P5 {sketch} />
@@ -60,6 +61,12 @@
     font-size: var(--20px);
     color: var(--grey-050);
   }
+
+  p {
+    font-size: var(--20px);
+    color: var(--grey-050);
+  }
+
   @media (min-width: 45rem) {
     h1 {
       text-align: center;
