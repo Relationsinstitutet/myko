@@ -1,8 +1,11 @@
 <script lang="ts">
+  import { createTransition } from 'svelte-reduced-motion';
   import { fly } from './transitions';
   import { createEventDispatcher } from 'svelte';
 
   const dispatch = createEventDispatcher();
+
+  const accessibleTransition = createTransition(fly);
 
   function done() {
     shown = false;
@@ -17,7 +20,11 @@
 </script>
 
 {#if shown}
-  <div transition:fly={{ y: '100%', duration: 2000 }} on:outroend={completed} class="modal">
+  <div
+    transition:accessibleTransition={{ y: '100%', duration: 2000 }}
+    on:outroend={completed}
+    class="modal"
+  >
     <div class="modal-content">
       <slot />
       <div class="help-text">När du är klar:</div>
