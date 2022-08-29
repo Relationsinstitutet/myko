@@ -32,9 +32,9 @@
 
   {#if $reducedMotion}
     <p>
-      Hej! Du har önskat mindre rörelse när du surfar, bakom här är vår visualisering som kan bli lite
-      vild, men om du vill kolla på den får du stänga av det i inställningarna på din enhet. Det
-      brukar heta Reduce motion eller liknande.
+      Hej! Du har önskat mindre rörelse när du surfar, bakom här är vår visualisering som kan bli
+      lite vild, men om du vill kolla på den får du stänga av det i inställningarna på din enhet.
+      Det brukar heta Reduce motion eller liknande.
     </p>
   {:else}
     <P5 {sketch} />
