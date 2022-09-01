@@ -74,17 +74,19 @@
     align-items: center;
     flex-direction: column;
     font-family: 'Roboto Mono', monospace;
+    height: 72px;
     margin-bottom: 48px;
   }
 
   .header {
+    position: absolute;
+    top: 42px;
     font-style: normal;
     font-weight: 500;
     font-size: var(--12px);
     text-transform: uppercase;
     letter-spacing: 0.5rem;
     color: var(--grey-600);
-    margin-bottom: 12px;
   }
 
   .header-dark-text {
@@ -96,11 +98,12 @@
   }
 
   .header-link {
+    position: absolute;
+    top: 42px;
     font-style: normal;
     font-weight: 500;
     font-size: var(--12px);
     letter-spacing: 0rem;
-    margin-bottom: 8px;
   }
 
   .date {
