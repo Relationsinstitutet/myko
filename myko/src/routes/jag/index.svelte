@@ -127,7 +127,6 @@
 
   .top-menu {
     background-color: var(--ocean-100);
-    height: 3em;
   }
 
   .top-menu button {
@@ -178,6 +177,7 @@
   }
 
   a:hover {
+    color: var(--grey-900);
     background-position: left bottom;
   }
 
