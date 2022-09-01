@@ -43,6 +43,17 @@
   li {
     font-family: 'Roboto Mono', monospace;
     line-height: var(--48px);
+    max-width: 23rem;
+    display: flex;
+    align-items: end;
+  }
+
+  li * {
+    margin-right: auto;
+  }
+
+  li span {
+    margin-right: 0;
   }
 
   li a {
@@ -55,16 +66,23 @@
       var(--grey-500),
       var(--grey-600)
     );
-    background-size: 180% 2px;
+    background-size: 180% 1.5px;
     background-repeat: no-repeat;
     background-position: right bottom;
     transition: background-position 350ms ease;
+    line-height: normal;
+    margin-top: 0.8rem;
+    margin-bottom: 0.85rem;
+    white-space: nowrap;
+    max-width: 63%;
+    margin-left: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   li a:hover,
   :focus {
     color: var(--grey-900);
-    font-weight: normal;
     background-position: left bottom;
   }
 
