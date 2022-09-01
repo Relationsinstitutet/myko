@@ -20,8 +20,14 @@
 </script>
 
 {#if shown}
-  <div
+  <!--<div
     transition:accessibleTransition={{ y: '100%', duration: 2000 }}
+    on:outroend={completed}
+    class="modal"
+  >-->
+  <div
+    in:accessibleTransition={{ y: '100%', duration: 2000 }}
+    out:accessibleTransition={{ y: '-100%', duration: 2000 }}
     on:outroend={completed}
     class="modal"
   >
