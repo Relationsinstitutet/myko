@@ -191,4 +191,13 @@
       width: 85%;
     }
   }
+  @media (prefers-reduced-motion: reduce) {
+    a {
+      transition: color 400ms ease;
+    }
+    a:hover,
+    :focus {
+      background-position: right bottom;
+    }
+  }
 </style>
