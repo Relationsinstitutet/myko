@@ -1,9 +1,14 @@
 <script lang="ts">
   import { formatDate } from '$lib/dateFormat';
   import { page } from '$app/stores';
-
+  import { fade } from 'svelte/transition';
+  import { createTransition } from 'svelte-reduced-motion';
+  import { fly } from '../transitions';
   import type { Cotime } from '$lib/models/activity';
   import Events from '$lib/components/cotime/Events.svelte';
+
+  const accessibleTransitionFly = createTransition(fly);
+  const accessibleTransitionFade = createTransition(fade);
 
   function headerTextColor(pageUrl: string): string {
     let headerTextColor = 'header-dark-text';
@@ -32,9 +37,22 @@
 
 <div class="cotime {headerTextColor($page.url.pathname)}">
   {#if showActivityNameWhenSelected && isEventsExpanded}
-    <a class="header-link" href="/aktiviteter/{cotime.activity.slug}">{cotime.activity.name}</a>
+    <!--<a class="header-link" href="/aktiviteter/{cotime.activity.slug}">{cotime.activity.name}</a>-->
+    <a
+      in:accessibleTransitionFly={{ y: '-10px', duration: 300 }}
+      out:accessibleTransitionFade
+      class="header-link"
+      href="/aktiviteter/{cotime.activity.slug}">{cotime.activity.name}</a
+    >
   {:else}
-    <div class="header">Nästa samtid</div>
+    <!--<div class="header">Nästa samtid</div>-->
+    <div
+      in:accessibleTransitionFade
+      out:accessibleTransitionFly={{ y: '10px', duration: 400 }}
+      class="header"
+    >
+      Nästa samtid
+    </div>
   {/if}
   <div class="date">
     {formatDate(cotime.date)}
