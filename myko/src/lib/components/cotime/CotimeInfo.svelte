@@ -37,7 +37,6 @@
 
 <div class="cotime {headerTextColor($page.url.pathname)}">
   {#if showActivityNameWhenSelected && isEventsExpanded}
-    <!--<a class="header-link" href="/aktiviteter/{cotime.activity.slug}">{cotime.activity.name}</a>-->
     <a
       in:accessibleTransitionFly={{ y: '-10px', duration: 300 }}
       out:accessibleTransitionFade
@@ -45,7 +44,6 @@
       href="/aktiviteter/{cotime.activity.slug}">{cotime.activity.name}</a
     >
   {:else}
-    <!--<div class="header">Nästa samtid</div>-->
     <div
       in:accessibleTransitionFade
       out:accessibleTransitionFly={{ y: '10px', duration: 400 }}
@@ -86,7 +84,7 @@
     font-size: var(--12px);
     text-transform: uppercase;
     letter-spacing: 0.5rem;
-    color: var(--grey-600);
+    color: inherit;
   }
 
   .header-dark-text {
@@ -94,7 +92,7 @@
   }
 
   .header-light-text {
-    color: var(--grey-100);
+    color: var(--grey-050);
   }
 
   .header-link {
@@ -104,6 +102,7 @@
     font-weight: 500;
     font-size: var(--12px);
     letter-spacing: 0rem;
+    color: inherit;
   }
 
   .date {
