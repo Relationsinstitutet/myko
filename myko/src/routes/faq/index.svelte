@@ -36,14 +36,16 @@
   {/each}
 
   <h2>{faq.descriptionTitle}</h2>
-  <PortableText
-    blocks={faq.description}
-    serializers={{
-      marks: {
-        link: PortableTextLink,
-      },
-    }}
-  />
+  <div class="wrap">
+    <PortableText
+      blocks={faq.description}
+      serializers={{
+        marks: {
+          link: PortableTextLink,
+        },
+      }}
+    />
+  </div>
 </main>
 
 <style>
