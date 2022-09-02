@@ -32,13 +32,7 @@
 <style>
   main {
     background-color: var(--peach-300);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
     align-items: center;
-    padding-top: 48px;
-    padding-bottom: 256px;
   }
 
   ul {
@@ -49,6 +43,17 @@
   li {
     font-family: 'Roboto Mono', monospace;
     line-height: var(--48px);
+    max-width: 23rem;
+    display: flex;
+    align-items: end;
+  }
+
+  li * {
+    margin-right: auto;
+  }
+
+  li span {
+    margin-right: 0;
   }
 
   li a {
@@ -56,22 +61,29 @@
     text-decoration: none;
     background-image: linear-gradient(
       90deg,
-      var(--grey-600),
-      var(--grey-500),
+      var(--peach-300),
       var(--peach-700),
-      var(--peach-300)
+      var(--grey-500),
+      var(--grey-600)
     );
-    background-size: 180% 2px;
+    background-size: 180% 1.5px;
     background-repeat: no-repeat;
-    background-position: left bottom;
-    transition: background-position 750ms ease;
+    background-position: right bottom;
+    transition: background-position 350ms ease;
+    line-height: normal;
+    margin-top: 0.8rem;
+    margin-bottom: 0.85rem;
+    white-space: nowrap;
+    max-width: 63%;
+    margin-left: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   li a:hover,
   :focus {
     color: var(--grey-900);
-    font-weight: normal;
-    background-position: right bottom;
+    background-position: left bottom;
   }
 
   ::marker {

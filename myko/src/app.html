@@ -131,6 +131,15 @@
     background: var(--ocean-900);
     color: #fff;
   }
+  button:disabled,
+  .btn:disabled {
+    background: var(--grey-100);
+    box-shadow: none;
+  }
+  button:disabled:hover,
+  .btn:disabled:hover {
+    color: var(--ocean-800);
+  }
   li::marker {
     color: var(--ocean-800);
     font-size: 1.1em;
@@ -138,21 +147,13 @@
     content: '\00B7 \00a0';
   }
   a {
-    color: var(--ocean-800);
+    color: var(--ocean-700);
   }
   a:visited {
     color: var(--purple-800);
   }
-  a:hover {
-    font-weight: 700;
-  }
   a:active {
     color: var(--peach-900);
-  }
-  button:disabled {
-    background: var(--grey-200);
-    box-shadow: none;
-    opacity: 0.7;
   }
 
   @media (min-width: 45rem) {
@@ -188,6 +189,15 @@
       all: unset;
       margin: 0 auto;
       width: 85%;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    a {
+      transition: color 400ms ease;
+    }
+    a:hover,
+    :focus {
+      background-position: right bottom;
     }
   }
 </style>

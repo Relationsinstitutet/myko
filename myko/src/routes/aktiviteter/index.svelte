@@ -64,13 +64,7 @@
 <style>
   main {
     background-color: var(--peach-300);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
     align-items: center;
-    padding-top: 48px;
-    padding-bottom: 256px;
   }
 
   ul {
@@ -136,7 +130,7 @@
   .dot:hover + a::after {
     margin-left: 108%;
     opacity: 1;
-    transition-duration: 800ms;
+    transition-duration: 500ms;
   }
 
   li a {
@@ -158,11 +152,27 @@
   li a:hover,
   :focus {
     color: var(--grey-900);
-    font-weight: normal;
     background-position: left bottom;
   }
 
   ::marker {
     all: unset;
+  }
+
+  @media (prefers-reduced-motion) {
+    li a:hover,
+    :focus {
+      background-position: right bottom;
+    }
+    .dot + a::before {
+      transition: opacity 500ms ease-in-out;
+    }
+    .dot + a::after {
+      margin-left: 108%;
+      transition: opacity 500ms ease-in-out;
+    }
+    .dot:hover + a::after {
+      transition-duration: 0ms;
+    }
   }
 </style>

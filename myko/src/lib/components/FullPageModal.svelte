@@ -20,8 +20,14 @@
 </script>
 
 {#if shown}
-  <div
+  <!--<div
     transition:accessibleTransition={{ y: '100%', duration: 2000 }}
+    on:outroend={completed}
+    class="modal"
+  >-->
+  <div
+    in:accessibleTransition={{ y: '100%', duration: 2000 }}
+    out:accessibleTransition={{ y: '-100%', duration: 2000 }}
     on:outroend={completed}
     class="modal"
   >
@@ -61,23 +67,23 @@
     display: block;
     position: fixed;
     bottom: 0;
-    right: 12px;
-    margin: 0 -4px 5% 0;
+    right: 8px;
+    margin-bottom: 55px;
     transition: margin-bottom 250ms ease-in-out;
   }
 
   .done-btn:hover,
   :focus {
-    margin-bottom: 5.15%;
+    margin-bottom: 60px;
   }
 
   .help-text {
-    font-weight: 500;
     display: block;
     position: fixed;
-    bottom: 42px;
-    right: 12px;
-    margin: 0 -4px 5% 0;
+    bottom: 0;
+    right: 16px;
+    margin-bottom: 100px;
+    font-size: 0.85em;
   }
 
   @media (min-width: 45rem) {
