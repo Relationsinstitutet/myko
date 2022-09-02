@@ -19,18 +19,12 @@
     }
 
     submitted = true;
-    message = 'Myko har noterat aktiviteten, tack!';
+    message = 'Myko har noterat aktiviteten, tack!' + '\u2726';
   }
 </script>
 
 <main>
   <h1>Tillverka aktivitet</h1>
-
-  {#if message}
-    <div>
-      <p>{message}</p>
-    </div>
-  {/if}
 
   {#if !submitted}
     <form on:submit|preventDefault={submitForm}>
@@ -54,9 +48,15 @@
       </div>
 
       <div>
-        <input type="submit" value="Notera aktiviteten" required class="btn secondary" />
+        <input type="submit" value="Notera aktiviteten" required class="btn" />
       </div>
     </form>
+  {/if}
+
+  {#if message}
+    <div class="form-message">
+      <p>{message}</p>
+    </div>
   {/if}
 </main>
 
@@ -99,8 +99,24 @@
   input[type='submit'] {
     padding: 4px 8px;
     cursor: pointer;
-    font-weight: normal;
     letter-spacing: 1px;
+  }
+
+  .form-message {
+    position: relative;
+    max-width: 90%;
+    color: var(--ocean-900);
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    margin-top: -0.5rem;
+    margin-left: -1rem;
+    /*border-top: 0.05rem solid var(--ocean-800);*/
+  }
+
+  .form-message > p {
+    padding-top: 8px;
+    padding-left: 1rem;
+    max-width: 95%;
   }
 
   @media (min-width: 22rem) {
@@ -110,5 +126,9 @@
     }
   }
 
-  /* TODO: add errorMessage styling */
+  @media (min-width: 45rem) {
+    .form-message {
+      max-width: 33rem;
+    }
+  }
 </style>
