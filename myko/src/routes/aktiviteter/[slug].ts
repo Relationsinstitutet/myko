@@ -1,4 +1,10 @@
-import { attendeesQuery, createReadClient, eventsForActivityFilter, notDraft, urlFor } from '$lib/sanityClient';
+import {
+  attendeesQuery,
+  createReadClient,
+  eventsForActivityFilter,
+  notDraft,
+  urlFor,
+} from '$lib/sanityClient';
 import { computeNextCotime, sanitySchemaNames } from '$lib/util';
 import type { IActivityWithCotime } from '$lib/models/activity';
 import type { PortableTextBlocks } from '@portabletext/svelte/ptTypes';
