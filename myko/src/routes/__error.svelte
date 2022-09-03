@@ -21,6 +21,7 @@
         Sidan kunde inte hittas, alltså. Du kan testa ladda om sidan eller klicka i menyn, och se om
         det går bättre.
       </p>
+      <img src="./confused-cat.png" alt="Confused Ribot!" />
       <p>Om du vill kan du meddela oss på <span> info@relationsinstitutet.gmail</span></p>
     </div>
   {:else}
@@ -39,17 +40,31 @@
   .error-message {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    flex-wrap: wrap;
     font-weight: 400;
     font-size: var(--16px);
     color: var(--ocean-900);
-    padding-top: 2rem;
+    padding-top: 1.5rem;
+  }
+
+  .error-message > * {
+    display: inline;
   }
 
   span {
-    display: inline;
     margin-left: 8px;
     font-weight: bold;
-    text-decoration: underline;
+  }
+
+  img {
+    max-height: 160px;
+    max-width: 190px;
+    margin: 3.5rem 0 0.5rem 25%;
+  }
+
+  @media (min-width: 45rem) {
+    .error-message {
+      width: 35rem;
+    }
   }
 </style>
