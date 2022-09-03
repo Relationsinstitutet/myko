@@ -44,6 +44,7 @@
         <p>
           Bra att veta om det är en aktivitet för flera och om vi har frågor eller vill följa upp.
         </p>
+
         <input type="text" name="name" />
       </div>
 
@@ -54,7 +55,11 @@
   {/if}
 
   {#if message}
-    <div class="form-message">
+    <div
+      class="form-message {message === 'Myko har noterat aktiviteten, tack!' + '\u2726'
+        ? ''
+        : 'error-message'}"
+    >
       <p>{message}</p>
     </div>
   {/if}
@@ -70,6 +75,10 @@
       var(--ocean-100)
     );
     padding-bottom: 144px;
+  }
+
+  form {
+    z-index: 1;
   }
 
   label {
@@ -108,15 +117,20 @@
     color: var(--ocean-900);
     font-family: 'Roboto Mono', monospace;
     font-weight: 500;
-    margin-top: -0.5rem;
-    margin-left: -1rem;
-    /*border-top: 0.05rem solid var(--ocean-800);*/
   }
 
   .form-message > p {
-    padding-top: 8px;
-    padding-left: 1rem;
-    max-width: 95%;
+    max-width: 100%;
+    padding: 0.75rem 0.25rem;
+  }
+
+  .error-message {
+    margin-top: -0.75rem;
+    border-top: 0.1rem solid;
+    margin-left: -1.5rem;
+    font-size: 0.9em;
+    color: var(--peach-900);
+    background: hsla(0, 100%, 99%, 0.7);
   }
 
   @media (min-width: 22rem) {
@@ -128,7 +142,10 @@
 
   @media (min-width: 45rem) {
     .form-message {
-      max-width: 33rem;
+      max-width: 35rem;
+    }
+    .form-message > p {
+      max-width: 27rem;
     }
   }
 </style>

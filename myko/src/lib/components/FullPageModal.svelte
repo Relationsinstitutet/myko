@@ -57,6 +57,11 @@
     height: 100%;
   }
 
+  .done-btn,
+  .help-text {
+    z-index: 1;
+  }
+
   .done-btn {
     font-weight: 500;
     display: block;
