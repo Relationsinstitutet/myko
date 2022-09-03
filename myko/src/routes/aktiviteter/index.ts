@@ -1,6 +1,7 @@
 import type { Cotime, IActivitySummary, SanityActivityType } from '$lib/models/activity';
 import {
   activityWithNearestEventQuery,
+  attendeesQuery,
   createReadClient,
   eventsForActivityFilter,
   notDraft,
@@ -23,10 +24,7 @@ function getActivitiesQuery() {
     ${eventsForActivityFilter}
   ] | order(date asc) {
       _id,
-      attendees[]->{
-        _id,
-        "displayName": nickname
-      },
+      "attendees": ${attendeesQuery},
       date,
       "numAttendees": coalesce(count(attendees), 0)
   }`;

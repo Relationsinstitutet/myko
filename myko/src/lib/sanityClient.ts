@@ -46,14 +46,17 @@ export const eventsForActivityFilter = `
   dateTime(date) > dateTime(now()) - 60*60*2.5
 `;
 
+export const attendeesQuery = `
+  coalesce(
+    attendees[]->{ _id, "displayName": nickname },
+    []
+  )`;
+
 const eventsQuery = `*[
   ${eventsForActivityFilter}
 ] | order(date asc) {
     _id,
-    attendees[]->{
-      _id,
-      "displayName": nickname
-    },
+    "attendees": ${attendeesQuery},
     date,
     "numAttendees": coalesce(count(attendees), 0)
 }`;
