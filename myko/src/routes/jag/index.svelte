@@ -96,7 +96,7 @@
           <li>
             <a href="/aktiviteter/{event.activity.slug}">
               {formatDate(event.date, { day: 'numeric', month: 'numeric' })}
-              {formatTime(event.date, event.time) }
+              {formatTime(event.date, event.time)}
               {event.activity.name}
             </a>
           </li>
