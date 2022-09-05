@@ -22,6 +22,14 @@
     submitted = true;
     message = 'Myko har noterat aktiviteten, tack!' + '\u2726';
   }
+
+  function scrollIntoView({ target }) {
+    const el = document.querySelector(target.getAttribute('action'));
+    if (!el) return;
+    el.scrollIntoView({
+      behavior: 'smooth',
+    });
+  }
 </script>
 
 <main>
@@ -29,7 +37,7 @@
 
   {#if errorMessage}
     <div class="form-message error-message">
-    {errorMessage}
+      {errorMessage}
     </div>
   {/if}
 
@@ -56,7 +64,14 @@
       </div>
 
       <div>
-        <input type="submit" value="Notera aktiviteten" required class="btn" />
+        <input
+          type="submit"
+          value="Notera aktiviteten"
+          required
+          class="btn"
+          action="h1"
+          on:click={scrollIntoView}
+        />
       </div>
     </form>
   {/if}
@@ -126,9 +141,8 @@
   }
 
   .error-message {
-    margin-top: -0.75rem;
+    padding: 0.25rem;
     border-top: 0.1rem solid;
-    margin-left: -1.5rem;
     font-size: 0.9em;
     color: var(--peach-900);
     background: hsla(0, 100%, 99%, 0.7);
