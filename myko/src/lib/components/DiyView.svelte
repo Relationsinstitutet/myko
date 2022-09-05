@@ -1,7 +1,10 @@
 <script lang="ts">
+  import { tick } from 'svelte';
+
   let message: string | null = null;
   let errorMessage: string | null = null;
   let submitted = false;
+  let errorMessageElement: HTMLElement;
 
   async function submitForm(e: Event) {
     const form = e.currentTarget as HTMLFormElement;
@@ -16,19 +19,15 @@
     if (response.status !== 201) {
       let json = await response.json();
       ({ message: errorMessage } = json);
+
+      await tick(); // wait for error message element to be rendered
+      errorMessageElement.scrollIntoView({ block: 'end', behavior: 'smooth' });
+
       return;
     }
 
     submitted = true;
     message = 'Myko har noterat aktiviteten, tack!' + '\u2726';
-  }
-
-  function scrollIntoView({ target }) {
-    const el = document.querySelector(target.getAttribute('action'));
-    if (!el) return;
-    el.scrollIntoView({
-      behavior: 'smooth',
-    });
   }
 </script>
 
@@ -36,7 +35,7 @@
   <h1>Tillverka aktivitet</h1>
 
   {#if errorMessage}
-    <div class="form-message error-message">
+    <div bind:this={errorMessageElement} class="form-message error-message">
       {errorMessage}
     </div>
   {/if}
@@ -64,14 +63,7 @@
       </div>
 
       <div>
-        <input
-          type="submit"
-          value="Notera aktiviteten"
-          required
-          class="btn"
-          action="h1"
-          on:click={scrollIntoView}
-        />
+        <input type="submit" value="Notera aktiviteten" required class="btn" />
       </div>
     </form>
   {/if}
