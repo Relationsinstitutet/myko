@@ -44,6 +44,14 @@
       },
     }}
   />
+
+  <div class="logos">
+    <img src="/Logo(Portrait4)-Relationsinstitutet.png" alt="Relationsinstitutet Logo" id="ri" />
+    <div class="kn">
+      <p>Med stöd från Kulturbryggan</p>
+      <img src="/Kulturbryggan_svart.png" alt="Kulturbryggan Logo" id="kulturbryggan" />
+    </div>
+  </div>
 </main>
 
 <style>
@@ -69,7 +77,29 @@
     font-size: var(--16px);
   }
 
+  .logos {
+    padding-top: 3rem;
+  }
+
+  .kn > p {
+    padding-top: 1.75rem;
+    padding-bottom: 0;
+    text-align: center;
+  }
+
+  img {
+    padding: 0;
+    max-width: 300px;
+    max-height: 150px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   @media (min-width: 45rem) {
+    .logos {
+      max-width: 32rem;
+      display: flex;
+    }
     .wrap {
       padding-bottom: 24px;
     }

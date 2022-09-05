@@ -109,6 +109,4 @@
       padding-right: 48px;
     }
   }
-
-  /* TODO: add errorMessage styling */
 </style>
