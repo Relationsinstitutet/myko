@@ -1,5 +1,6 @@
 <script lang="ts">
   let message: string | null = null;
+  let errorMessage: string | null = null;
   let submitted = false;
 
   async function submitForm(e: Event) {
@@ -13,8 +14,8 @@
     });
 
     if (response.status !== 201) {
-      const { message: errorMessage } = await response.json();
-      message = errorMessage;
+      let json = await response.json();
+      ({ message: errorMessage } = json);
       return;
     }
 
@@ -25,6 +26,12 @@
 
 <main>
   <h1>Tillverka aktivitet</h1>
+
+  {#if errorMessage}
+    <div class="form-message error-message">
+    {errorMessage}
+    </div>
+  {/if}
 
   {#if !submitted}
     <form on:submit|preventDefault={submitForm}>
@@ -55,12 +62,10 @@
   {/if}
 
   {#if message}
-    <div
-      class="form-message {message === 'Myko har noterat aktiviteten, tack!' + '\u2726'
-        ? ''
-        : 'error-message'}"
-    >
-      <p>{message}</p>
+    <div class="form-message">
+      <p>
+        {message}
+      </p>
     </div>
   {/if}
 </main>
@@ -75,10 +80,6 @@
       var(--ocean-100)
     );
     padding-bottom: 144px;
-  }
-
-  form {
-    z-index: 1;
   }
 
   label {
