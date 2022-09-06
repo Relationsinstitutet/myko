@@ -54,7 +54,10 @@
       </div>
 
       <div>
-        <label for=""> Vem är du/ni som gör aktiviteten? </label>
+        <label for="">
+          Vem är du/ni som gör aktiviteten? <span class="required-field-mark">*</span>
+          <span class="required-field-text">Obligatorisk</span>
+        </label>
         <p>
           Bra att veta om det är en aktivitet för flera och om vi har frågor eller vill följa upp.
         </p>
@@ -68,11 +71,9 @@
     </form>
   {/if}
 
-  {#if message}
+  <!---->{#if message}
     <div class="form-message">
-      <p>
-        {message}
-      </p>
+      {message}
     </div>
   {/if}
 </main>
@@ -90,6 +91,7 @@
   }
 
   label {
+    position: relative;
     --grey-800: hsla(0, 0%, 23%, 1);
     font-size: 1rem;
     color: var(--grey-800);
@@ -125,10 +127,6 @@
     color: var(--ocean-900);
     font-family: 'Roboto Mono', monospace;
     font-weight: 500;
-  }
-
-  .form-message > p {
-    max-width: 100%;
     padding: 0.75rem 0.25rem;
   }
 
@@ -138,6 +136,30 @@
     font-size: 0.9em;
     color: var(--peach-900);
     background: hsla(0, 100%, 99%, 0.7);
+  }
+
+  .required-field-mark {
+    padding: 0.4em;
+    color: var(--peach-900);
+    font-size: 1.65em;
+    font-family: 'Roboto-Mono';
+  }
+
+  .required-field-text {
+    visibility: hidden;
+    position: absolute;
+    bottom: 20%;
+    padding: 0.25em 0.5em;
+    background: var(--grey-700);
+    border-radius: 4px;
+    color: var(--grey-050);
+    font-size: 0.7em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .required-field-mark:hover ~ .required-field-text {
+    visibility: visible;
   }
 
   @media (min-width: 22rem) {
@@ -150,9 +172,6 @@
   @media (min-width: 45rem) {
     .form-message {
       max-width: 35rem;
-    }
-    .form-message > p {
-      max-width: 27rem;
     }
   }
 </style>

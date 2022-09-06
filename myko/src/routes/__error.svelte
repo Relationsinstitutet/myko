@@ -17,12 +17,9 @@
   {#if status === 404}
     <h1>Attans, det blev en 404</h1>
     <div class="error-message">
-      <p>
-        Sidan kunde inte hittas, alltså. Du kan testa ladda om sidan eller klicka i menyn, och se om
-        det går bättre.
-      </p>
+      <p>Sidan kunde inte hittas, alltså. Du kan testa klicka i menyn, och se om det går bättre.</p>
       <img src="./confused-cat.png" alt="Confused Ribot!" />
-      <p>Om du vill kan du meddela oss på <span> info@relationsinstitutet.gmail</span></p>
+      <p>Om du vill kan du meddela oss på <span> myko@relationsinstitutet.org</span></p>
     </div>
   {:else}
     <h1>Tusan, något gick fel!</h1>
