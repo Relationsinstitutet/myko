@@ -137,11 +137,6 @@
     background-repeat: no-repeat;
     background-position: right bottom;
     transition: background-position 350ms ease;
-    /*line-height: normal;
-    margin-top: 0.8rem;
-    margin-bottom: 0.85rem;
-    margin-right: 0.5rem;
-    white-space: nowrap;*/
   }
 
   li a:hover,

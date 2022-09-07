@@ -32,7 +32,6 @@
 <style>
   main {
     background-color: var(--peach-300);
-    align-items: center;
   }
 
   ul {
@@ -43,7 +42,7 @@
   li {
     font-family: 'Roboto Mono', monospace;
     line-height: var(--48px);
-    max-width: 23rem;
+    max-width: 100%;
     display: flex;
     align-items: end;
   }
@@ -53,7 +52,7 @@
   }
 
   li span {
-    margin-right: 0;
+    margin-right: 1em;
   }
 
   li a {
@@ -99,5 +98,14 @@
 
   .time {
     font-weight: 700;
+  }
+
+  @media (min-width: 45rem) {
+    li {
+      max-width: 23rem;
+    }
+    li span {
+      margin-right: -1em;
+    }
   }
 </style>
