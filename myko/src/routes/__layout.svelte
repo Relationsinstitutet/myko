@@ -102,6 +102,7 @@
     bottom: 0;
     height: 246px;
     width: 100%;
+    pointer-events: none;
   }
 
   .gradient-basic {
@@ -180,6 +181,7 @@
     align-items: center;
     font-family: 'Roboto Mono', monospace;
     font-weight: 700;
+    pointer-events: auto;
   }
 
   .nav-bottom a {
