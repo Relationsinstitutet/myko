@@ -1,4 +1,5 @@
 import type { PortableTextBlocks } from '@portabletext/svelte/ptTypes';
+import type { SanityEventType } from './event';
 
 export default interface IActivity {
   readonly id: string;
@@ -44,13 +45,16 @@ export interface IEventSummary {
   readonly numAttendees: number;
 }
 
+export type ActivityEvent = SanityEventType & {
+  readonly numAttendees: number;
+};
+
 export type SanityActivityType = {
-  name: string;
-  events: {
-    _id: string;
-    attendees: { _id: string; displayName: string }[];
-    date: string;
-    numAttendees: number;
+  readonly name: string;
+  readonly events: ActivityEvent[];
+  readonly slug: string;
+  readonly subactivities?: {
+    readonly name: string;
+    readonly events: ActivityEvent[];
   }[];
-  slug: string;
 };
