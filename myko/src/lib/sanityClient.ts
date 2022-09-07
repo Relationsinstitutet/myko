@@ -34,26 +34,30 @@ export function urlFor(client: SanityClientLike, source: SanityImageSource) {
 
 export const notDraft = `!(_id in path('drafts.**'))`;
 
+export const eventGracePeriod = '60*60*2.5'; // 2.5 hours
 // Get all events for an activity that are active:
 //  * not a Sanity draft document,
 //  * 'visible'=true,
-//  * and with a date not passed by more than 2.5 hours
+//  * and with a date not passed by more than specified grace period
 export const eventsForActivityFilter = `
   _type == "${sanitySchemaNames.event}" &&
   activity._ref == ^._id &&
   visible == true &&
   ${notDraft} &&
-  dateTime(date) > dateTime(now()) - 60*60*2.5
+  dateTime(date) > dateTime(now()) - ${eventGracePeriod}
 `;
+
+export const attendeesQuery = `
+  coalesce(
+    attendees[]->{ _id, "displayName": nickname },
+    []
+  )`;
 
 const eventsQuery = `*[
   ${eventsForActivityFilter}
 ] | order(date asc) {
     _id,
-    attendees[]->{
-      _id,
-      "displayName": nickname
-    },
+    "attendees": ${attendeesQuery},
     date,
     "numAttendees": coalesce(count(attendees), 0)
 }`;

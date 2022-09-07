@@ -96,6 +96,7 @@
           <li>
             <a href="/aktiviteter/{event.activity.slug}">
               {formatDate(event.date, { day: 'numeric', month: 'numeric' })}
+              {formatTime(event.date, event.time)}
               {event.activity.name}
             </a>
           </li>
@@ -132,19 +133,24 @@
   .top-menu button {
     background: var(--grey-050);
     box-shadow: 2px 2px 9px -2px rgb(108 97 97 / 50%);
-    border-radius: 4px;
-    font-family: 'Lato', sans-serif;
-    font-weight: 800;
-    text-align: center;
     color: var(--ocean-800);
-    padding: 8px;
-    border: 0;
+    padding: 4px 6px 6px;
+    margin: 2px 2px 0 0;
+  }
+
+  .top-menu button:hover {
+    background: #fcfcfc;
+    color: var(--ocean-900);
   }
 
   .user-menu {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    text-align: center;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 8px;
+    right: 6px;
     font-family: 'Roboto Mono', monospace;
     color: var(--grey-800);
   }

@@ -72,6 +72,19 @@ export default {
         accept: 'audio/*'
       }
     },
+    {
+      name: 'subactivities',
+      type: 'array',
+      title: 'Subactivities',
+      of: [
+        {
+          type: 'reference',
+          to: [
+            {type: 'activity'},
+          ]
+        }
+      ]
+    },
     orderRankField({ type: 'activity', hidden: false }),
   ],
 }

@@ -1,4 +1,4 @@
-import { createReadClient } from '$lib/sanityClient';
+import { createReadClient, eventGracePeriod, notDraft } from '$lib/sanityClient';
 import { sanitySchemaNames } from '$lib/util';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
@@ -29,7 +29,10 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
   const client = await createReadClient();
   const eventsForUserQuery = `*[
     _type == "${sanitySchemaNames.event}" &&
-    references("${userId}")
+    references("${userId}") &&
+    visible == true &&
+    ${notDraft} &&
+    dateTime(date) > dateTime(now()) - ${eventGracePeriod}
   ] | order(date asc) {
     _id,
     date,

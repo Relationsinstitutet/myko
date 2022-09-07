@@ -170,7 +170,7 @@
       padding-right: 48px;
     }
   }
-
+  
   @media (min-width: 45rem) {
     .form-message {
       max-width: 35rem;
