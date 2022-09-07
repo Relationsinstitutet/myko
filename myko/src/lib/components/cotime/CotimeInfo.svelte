@@ -72,7 +72,7 @@
     align-items: center;
     flex-direction: column;
     font-family: 'Roboto Mono', monospace;
-    height: 72px;
+    height: 116px;
     margin-bottom: 48px;
   }
 
