@@ -74,46 +74,36 @@
   }
 
   li {
-    position: relative;
     font-family: 'Roboto Mono', monospace;
     line-height: var(--48px);
   }
 
   .dot::before {
     content: '';
-    position: absolute; /**/
+    display: inline-block;
     top: 1.2em;
-    left: -1.2em;
+    left: -3.2em;
     height: 0.7em;
     width: 0.7em;
     background-color: var(--ocean-800);
     border-radius: 50%;
-    margin-right: 0.5em;
-  }
-
-  .dot + a {
-    position: relative;
+    margin-left: -1.5em;
   }
 
   .dot + a::before {
     content: '';
-    position: absolute;
+    position: fixed;
     border-top: solid 2px var(--ocean-800);
     border-radius: 40% 75% 65% 20% / 67% 50% 34% 0;
-    top: -0.7em;
+    height: 1.2em;
     width: 0;
-    height: 100%;
     opacity: 0;
     transition: width 250ms ease, opacity 150ms;
   }
 
   .dot + a::after {
     content: 'hej!';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    top: -2em;
-    margin-left: 90%;
+    position: fixed;
     color: var(--ocean-800);
     font-size: var(--14px);
     font-weight: bold;
@@ -124,11 +114,11 @@
 
   .dot:hover + a::before {
     opacity: 1;
-    width: 110%;
+    width: 210px;
   }
 
   .dot:hover + a::after {
-    margin-left: 108%;
+    margin-left: 4em;
     opacity: 1;
     transition-duration: 500ms;
   }
@@ -147,6 +137,11 @@
     background-repeat: no-repeat;
     background-position: right bottom;
     transition: background-position 350ms ease;
+    /*line-height: normal;
+    margin-top: 0.8rem;
+    margin-bottom: 0.85rem;
+    margin-right: 0.5rem;
+    white-space: nowrap;*/
   }
 
   li a:hover,
