@@ -61,7 +61,7 @@
           <span class="required-field-text">Obligatorisk</span>
         </label>
         <p>
-          Bra att veta om det är en aktivitet för flera och om vi har frågor eller vill följa upp.
+          Bra att veta om det är en aktivitet för flera, och om vi har frågor eller vill följa upp.
         </p>
 
         <input type="text" name="name" />
@@ -170,7 +170,7 @@
       padding-right: 48px;
     }
   }
-  
+
   @media (min-width: 45rem) {
     .form-message {
       max-width: 35rem;
