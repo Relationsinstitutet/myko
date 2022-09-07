@@ -24,6 +24,8 @@
       errorMessageElement.scrollIntoView({ block: 'end', behavior: 'smooth' });
 
       return;
+    } else {
+      errorMessage = null;
     }
 
     submitted = true;
@@ -71,7 +73,7 @@
     </form>
   {/if}
 
-  <!---->{#if message}
+  {#if message}
     <div class="form-message">
       {message}
     </div>
