@@ -68,9 +68,8 @@ function showImages(p5) {
     p5.image(teapot1, p5.random(p5.width * 0.05, p5.width * 0.8), p5.random(p5.height));
 
     p5.loadImage(cats[i % cats.length], (thoughtcat) => {
-      p5.image(thoughtcat, p5.random(p5.width * 0.8), p5.random(p5.height), r, r);
+      p5.image(thoughtcat, p5.random(p5.width * 0.8), p5.random(p5.height), 100, 110);
     });
-    r -= 10;
     /**/
   }
   /**
