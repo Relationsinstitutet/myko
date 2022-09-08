@@ -20,11 +20,6 @@
 </script>
 
 {#if shown}
-  <!--<div
-    transition:accessibleTransition={{ y: '100%', duration: 2000 }}
-    on:outroend={completed}
-    class="modal"
-  >-->
   <div
     in:accessibleTransition={{ y: '100%', duration: 2000 }}
     out:accessibleTransition={{ y: '-100%', duration: 2000 }}
@@ -84,6 +79,9 @@
     right: 16px;
     margin-bottom: 100px;
     font-size: 0.85em;
+    background: hsla(330, 70%, 95%, 0.8);
+    border-radius: 35%;
+    box-shadow: 0 0.5em 1.75em 1em #fbe9f2;
   }
 
   @media (min-width: 45rem) {

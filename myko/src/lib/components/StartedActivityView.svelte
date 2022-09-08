@@ -10,12 +10,14 @@
   <PortableText blocks={data.instructions} />
 
   {#if data.videoConferencingLink}
-    <p>
-      Klicka här för att joina mötet:
-      <a href={data.videoConferencingLink} rel="noopener" target="_blank"
-        >{data.videoConferencingLink}</a
-      >
-    </p>
+    <div class="wrap">
+      <p>
+        Klicka här för att joina mötet:
+        <a href={data.videoConferencingLink} rel="noopener" target="_blank"
+          >{data.videoConferencingLink}</a
+        >
+      </p>
+    </div>
   {/if}
 
   {#if data.audioFile}
