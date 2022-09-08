@@ -43,6 +43,9 @@
 
 <style>
   main {
+    background-image: url('/flowfield(4).png');
+    background-repeat: repeat-y;
+    background-size: cover;
     background-color: var(--ocean-800);
     min-height: 100vh;
     display: flex;
