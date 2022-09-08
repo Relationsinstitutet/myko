@@ -37,24 +37,23 @@
 
   <h2>{faq.descriptionTitle}</h2>
 
-<div class="wrap">
-  <PortableText
-    blocks={faq.description}
-    serializers={{
-      marks: {
-        link: PortableTextLink,
-      },
-    }}
-  />
+  <div class="wrap">
+    <PortableText
+      blocks={faq.description}
+      serializers={{
+        marks: {
+          link: PortableTextLink,
+        },
+      }}
+    />
 
-  <div class="logos">
-    <img src="/Logo(Portrait4)-Relationsinstitutet.png" alt="Relationsinstitutet Logo" id="ri" />
-    <div class="kn">
-      <p>Med stöd från Kulturbryggan</p>
-      <img src="/Kulturbryggan_svart.png" alt="Kulturbryggan Logo" id="kulturbryggan" />
+    <div class="logos">
+      <img src="/Logo(Portrait4)-Relationsinstitutet.png" alt="Relationsinstitutet Logo" id="ri" />
+      <div class="kn">
+        <p>Med stöd från Kulturbryggan</p>
+        <img src="/Kulturbryggan_svart.png" alt="Kulturbryggan Logo" id="kulturbryggan" />
+      </div>
     </div>
-
-  </div>
   </div>
 </main>
 
