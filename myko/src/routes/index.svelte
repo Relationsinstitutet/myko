@@ -6,9 +6,12 @@
 
   import P5 from 'p5-svelte';
   import type { Sketch, p5 } from 'p5-svelte';
-  import { setup, draw, windowResized } from '$lib/visualisation/sketch';
+  import { setup, draw, preload, windowResized } from '$lib/visualisation/sketch';
 
   const sketch: Sketch = (p5: p5) => {
+    p5.preload = () => {
+      preload(p5);
+    };
     p5.setup = () => {
       setup(p5);
     };
