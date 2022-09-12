@@ -15,6 +15,7 @@
   import StartedActivityView from '$lib/components/StartedActivityView.svelte';
   import DiyView from '$lib/components/DiyView.svelte';
   import { goto } from '$app/navigation';
+  import { browser } from '$app/env';
 
   const currentSlug = get(page).params.slug;
   const currentPage = get(page).url.pathname;
@@ -63,6 +64,8 @@
 
   // populated with data from the endpoint
   export let activity: IActivityWithCotime;
+
+  $: if (browser) document.body.classList.toggle('no-scroll', showStartedActivityModal);
 </script>
 
 <svelte:head>
