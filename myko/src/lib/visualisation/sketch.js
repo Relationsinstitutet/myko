@@ -1,17 +1,45 @@
 import Particle from './particle';
 import ActivityP from './activityParticle';
+import p5Svelte from 'p5-svelte';
+import { linear } from 'svelte/easing';
 
-/*let h = 185,
-  s = 90,
-  l = 8;
-let hues = [5, 300, 245, 185, 125];
-let w;
-let prob;
-let particles = [];
-let addedParts = [];
-let newParts = [];*/
-let teapot1;
-let thoughtcat;
+class Images {
+  constructor(p5, type, y) {
+    this.type = type;
+    this.p5 = p5;
+    this.y = y;
+  }
+  show(nr) {
+    let randomSize = this.p5.random(135, 155);
+    let randomIncrease = this.p5.random(2.75, 3.5);
+
+    let adress = this.type[0];
+    console.log(adress);
+    this.type.push(this.type.shift()); /**/
+    /*let adress;
+    if(this.type === "cats") {
+      adress = cats[cats.length[0]];
+    } else if(type === "buttons") {
+      adress = buttons[i % buttons.length];
+    } else if(type === "teas") {
+      adress = teas[i % teas.length];
+    }*/
+
+    this.p5.loadImage(adress, (img) => {
+      this.p5.tint(255, 255 - nr * 9);
+      this.p5.image(
+        img,
+        this.p5.random(this.p5.width * 0.015, this.p5.width * 0.05) + nr * 50,
+        this.p5.random(this.p5.height * (this.y - 0.05), this.p5.height * (this.y + 0.2)),
+        randomSize - nr * randomIncrease,
+        randomSize - nr * randomIncrease
+      );
+    });
+  }
+}
+
+let addedThings = [];
+let teas = ['teacup.png', 'teapot1.png', 'teapot2.png'];
 let cats = [
   '/thoughtful-cat.png',
   'walking-cat.png',
@@ -20,66 +48,88 @@ let cats = [
   'Cat640x428.png',
   'Cat640x587.png',
 ];
+let buttons = [
+  'button0.png',
+  'button1.png',
+  'button2.png',
+  'button3.png',
+  'button4.png',
+  'button5.png',
+  'button6.png',
+  'button7.png',
+  'button8.png',
+  'button9.png',
+  'buttonb0.png',
+  'buttonb1.png',
+];
 let addedCats = [];
 let addedTeas = [];
-let addedTools = [];
-
-export function preload(p5) {
-  teapot1 = p5.loadImage('/teapot1.png');
-}
+let addedButtons = [];
 
 export function windowResized(p5) {
-  p5.resizeCanvas(p5.windowWidth, 600);
+  p5.resizeCanvas(p5.windowWidth, p5.windowHeight - 170);
 }
 
 export async function setup(p5) {
-  p5.createCanvas(p5.windowWidth, 530);
+  p5.createCanvas(p5.windowWidth, p5.windowHeight - 170);
 
   p5.frameRate(20);
-  p5.colorMode(p5.HSL, 360, 100, 100, 1.0);
-  showImages(p5);
-  /*
-  p5.noiseSeed(0);
-  for (let i = 0; i < 200; i++) {
-    particles.push(
-      new Particle(
-        p5,
-        p5.random(p5.width * 1.1),
-        p5.random(p5.height * 1.1),
-        hues[p5.floor(p5.random(2, 4))]
-      )
-    );
-  }
-  hues[0] = h - 180;
-  hues[2] = h + 60;
-  hues[3] = h;
-  hues[4] = h - 60;
-  
-  
+  //p5.colorMode(p5.HSL, 360, 100, 100, 1.0);
+  //showImages(p5);
+  p5.strokeWeight(5);
+  p5.stroke(3, 77, 84);
+  p5.line(0, 0, p5.width, 0);
   const data = await fetchActivityLog(p5);
-  checkForAdds(p5, data);*/
-
-  //p5.background(h, s, l, 1);
+  checkForAdds(p5, data);
+  showAdded();
+  /*
+  p5.noiseSeed(0);p5.background(h, s, l, 1);
+  */
 }
 
 function showImages(p5) {
   let r = 250;
+  let randomButton = p5.random(100, 150);
+  let randomIncrease = p5.random(1.5, 4);
   for (let i = 0; i < 25; i++) {
-    p5.image(teapot1, p5.random(p5.width * 0.05, p5.width * 0.8), p5.random(p5.height));
+    p5.image(
+      teapot1,
+      p5.random(p5.width * 0.05, p5.width * 0.8),
+      p5.random(p5.height * 0.05, p5.height * 0.25),
+      randomButton + 40 - i * randomIncrease,
+      randomButton + 15 - i * randomIncrease
+    );
 
+    p5.tint(255, 25 + i * 2);
     p5.loadImage(cats[i % cats.length], (thoughtcat) => {
-      p5.image(thoughtcat, p5.random(p5.width * 0.8), p5.random(p5.height), 100, 110);
+      p5.image(
+        thoughtcat,
+        p5.random(p5.width * 0.05, p5.width * 0.8),
+        p5.random(p5.height * 0.22, p5.height * 0.28) + i * 7,
+        randomButton + 5 - i * randomIncrease,
+        randomButton + 45 - i * randomIncrease
+      );
     });
-    /**/
+
+    p5.loadImage(buttons[i % buttons.length], (buttony) => {
+      p5.image(
+        buttony,
+        p5.random(p5.width * 0.05, p5.width * 0.8), //+ i * (10 * randomIncrease),
+        p5.random(p5.height * 0.6, p5.height * 0.75),
+        randomButton - i * randomIncrease,
+        randomButton - i * randomIncrease
+      );
+    });
   }
-  /**
-   * for(let ac of addedCats) {
-   *  p5.loadImage(cats[i % cats.length], (ac) => {
-      p5.image(ac, p5.random(p5.width), p5.random(p5.height));
-   * }
-     ac.p5.resize(25, 0); 
-   * 
-   */
+}
+
+function showAdded() {
+  let index = 0;
+  for (const ac of addedThings) {
+    index++;
+    ac.show(index);
+    console.log(ac, index);
+  }
 }
 
 export function draw(p5) {
@@ -167,18 +217,21 @@ function checkForAdds(p5, addedActivs) {
     console.log('no activities yet');
   } else {
     if ('halsa-pa-nasims-katter' in addedActivs) {
-      showCats(p5, addedActivs['halsa-pa-nasims-katter']);
+      showThings(p5, addedActivs['halsa-pa-nasims-katter'], cats, 0.3);
+      //showCats(p5, addedActivs['halsa-pa-nasims-katter']);
       //walking(p5, 2, p5.random(9, 10), 15, addedActivs['halsa-pa-nasims-katter']);
     }
     if ('te-ritual' in addedActivs) {
-      showTea(p5, addedActivs['te-ritual']);
+      showThings(p5, addedActivs['te-ritual'], teas, 0.05);
+      //showTea(p5, addedActivs['te-ritual']);
       //walking(p5, 4, p5.random(4, 5), 175, addedActivs['te-ritual']);
     }
     if ('mykomote' in addedActivs) {
       walking(p5, 3, p5.random(5, 6), 50, addedActivs['mykomote']);
     }
     if ('tillverka-aktivitet' in addedActivs) {
-      showTools(p5, addedActivs['tillverka-aktivitet']);
+      showThings(p5, addedActivs['tillverka-aktivitet'], buttons, 0.6);
+      //showButtons(p5, addedActivs['tillverka-aktivitet']);
       //walking(p5, 0, p5.random(7, 8), 1, addedActivs['tillverka-aktivitet']);
     }
     if ('prata-om-tema' in addedActivs) {
@@ -190,20 +243,39 @@ function checkForAdds(p5, addedActivs) {
   }
 }
 
-function showCats(p5, nr) {
+function showThings(p5, nr, type, y) {
   for (let i = 0; i < nr; i++) {
-    let thiscat;
-    let catadress = cats[i % cats.length];
-    addedCats.push(
-      p5.loadImage(catadress, (thiscat) => {
-        p5.image(thiscat, p5.random(p5.width), p5.random(p5.height));
-      })
-    );
+    addedThings.push(new Images(p5, type, y));
   }
 }
 
-function showTea(p5, nr) {}
+function showCats(p5, nr) {
+  for (let i = 0; i < nr; i++) {
+    let catadress = cats[i % cats.length];
+    addedThings.push(new Images(p5, 'cats', catadress, 2));
+  }
+}
 
+function showTea(p5, nr) {
+  for (let i = 0; i < nr; i++) {
+    let teadress = teas[i % teas.length];
+    addedThings.push(new Images(p5, 'tea', teadress, 1));
+  }
+}
+
+function showButtons(p5, nr) {
+  for (let i = 0; i < nr; i++) {
+    let buttonadress = buttons[i % buttons.length];
+    addedThings.push(new Images(p5, 'button', buttonadress, 3));
+    /*let thisbutton;
+    
+    addedButtons.push(
+      p5.loadImage(buttonadress, (thisbutton) => {
+        p5.image(thisbutton, p5.random(p5.width), p5.random(p5.height));
+      })
+    );*/
+  }
+}
 // walker animation for added during the current day
 /*function newMovers(p5, nr) {
   let nHue = 0;
@@ -245,7 +317,7 @@ function showTea(p5, nr) {}
 }*/
 
 //walker animation for added in the past
-function walking(p5, hue, w, ns, nr = 1) {
+/*function walking(p5, hue, w, ns, nr = 1) {
   for (let i = 0; i < nr; i++) {
     let nHue = (hues[hue] + nr - i) % 360;
 
@@ -264,4 +336,4 @@ function walking(p5, hue, w, ns, nr = 1) {
       h++;
     }
   }
-}
+}*/

@@ -6,12 +6,12 @@
 
   import P5 from 'p5-svelte';
   import type { Sketch, p5 } from 'p5-svelte';
-  import { setup, draw, preload, windowResized } from '$lib/visualisation/sketch';
+  import { setup, draw, windowResized } from '$lib/visualisation/sketch'; //preload,
 
   const sketch: Sketch = (p5: p5) => {
-    p5.preload = () => {
+    /*p5.preload = () => {
       preload(p5);
-    };
+    };*/
     p5.setup = () => {
       setup(p5);
     };
@@ -31,7 +31,7 @@
     <CotimeInfo cotime={nextUpcomingCotime} />
   {/if}
 
-  <h1>Myko</h1>
+  <!--<h1>Myko</h1>-->
 
   {#if $reducedMotion}
     <p>
@@ -55,17 +55,17 @@
     flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
-    padding-top: 48px;
+    padding-top: 15px;
     padding-bottom: 192px;
   }
 
-  h1 {
+  /* h1 {
     font-family: 'Roboto Mono', monospace;
     font-weight: 400;
     text-transform: uppercase;
     font-size: var(--20px);
     color: var(--grey-050);
-  }
+  }*/
 
   p {
     font-size: var(--20px);
