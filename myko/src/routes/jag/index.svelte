@@ -185,11 +185,4 @@
     color: var(--grey-900);
     background-position: left bottom;
   }
-
-  @media (min-width: 22rem) {
-    main {
-      padding-left: 48px;
-      padding-right: 48px;
-    }
-  }
 </style>

@@ -78,7 +78,7 @@
 
   .header {
     position: absolute;
-    top: 70px;
+    top: 66px;
     font-style: normal;
     font-weight: 500;
     font-size: var(--12px);
@@ -97,7 +97,7 @@
 
   .header-link {
     position: absolute;
-    top: 70px;
+    top: 66px;
     font-style: normal;
     font-weight: 500;
     font-size: var(--12px);

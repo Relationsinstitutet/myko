@@ -89,7 +89,6 @@
 
   img {
     padding: 0;
-    max-width: 300px;
     max-height: 150px;
     margin-left: auto;
     margin-right: auto;

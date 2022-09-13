@@ -52,7 +52,7 @@
   }
 
   li span {
-    margin-right: 1em;
+    margin-right: 0.25rem;
   }
 
   li a {

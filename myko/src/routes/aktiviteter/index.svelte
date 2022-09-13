@@ -65,6 +65,7 @@
   main {
     background-color: var(--peach-300);
     align-items: center;
+    padding-left: 1.5rem;
   }
 
   ul {
