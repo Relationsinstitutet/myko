@@ -6,12 +6,12 @@
 
   import P5 from 'p5-svelte';
   import type { Sketch, p5 } from 'p5-svelte';
-  import { setup, draw, windowResized } from '$lib/visualisation/sketch'; //preload,
+  import { preload, setup, draw, windowResized } from '$lib/visualisation/sketch'; //
 
   const sketch: Sketch = (p5: p5) => {
-    /*p5.preload = () => {
+    /**/ p5.preload = () => {
       preload(p5);
-    };*/
+    };
     p5.setup = () => {
       setup(p5);
     };
@@ -73,8 +73,8 @@
   }
 
   @media (min-width: 45rem) {
-    h1 {
+    /*h1 {
       text-align: center;
-    }
+    }*/
   }
 </style>

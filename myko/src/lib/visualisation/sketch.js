@@ -4,10 +4,11 @@ import p5Svelte from 'p5-svelte';
 import { linear } from 'svelte/easing';
 
 class Images {
-  constructor(p5, type, y) {
+  constructor(p5, type, size, location = [2, 2]) {
     this.type = type;
     this.p5 = p5;
-    this.y = y;
+    this.location = location;
+    this.size = size;
   }
   show(nr) {
     let randomSize = this.p5.random(135, 155);
@@ -16,39 +17,41 @@ class Images {
     let adress = this.type[0];
     console.log(adress);
     this.type.push(this.type.shift()); /**/
-    /*let adress;
-    if(this.type === "cats") {
-      adress = cats[cats.length[0]];
-    } else if(type === "buttons") {
-      adress = buttons[i % buttons.length];
-    } else if(type === "teas") {
-      adress = teas[i % teas.length];
-    }*/
-
-    this.p5.loadImage(adress, (img) => {
-      this.p5.tint(255, 255 - nr * 9);
-      this.p5.image(
-        img,
-        this.p5.random(this.p5.width * 0.015, this.p5.width * 0.05) + nr * 50,
-        this.p5.random(this.p5.height * (this.y - 0.05), this.p5.height * (this.y + 0.2)),
-        randomSize - nr * randomIncrease,
-        randomSize - nr * randomIncrease
-      );
-    });
+    /*let adress;*/
+    if (this.type === cats) {
+      this.p5.loadImage(adress, (img) => {
+        this.p5.image(img, this.location[0], this.location[1], this.size, this.size);
+      });
+    } else if (this.type === buttons) {
+      this.p5.loadImage(adress, (img) => {
+        this.p5.tint(255, 255 - nr * 9);
+        this.p5.image(
+          img,
+          this.p5.random(this.p5.width * 0.015, this.p5.width * 0.05) + nr * 50,
+          this.p5.random(
+            this.p5.height * (this.location[0] - 0.05),
+            this.p5.height * (this.location[1] + 0.2)
+          ),
+          randomSize - nr * randomIncrease,
+          randomSize - nr * randomIncrease
+        );
+      });
+    } else if (this.type === teas) {
+      this.p5.loadImage(adress, (img) => {
+        this.p5.image(img, this.location[0], this.location[1], this.size, this.size);
+      });
+    }
   }
 }
 
 let addedThings = [];
-let teas = ['teacup.png', 'teapot1.png', 'teapot2.png'];
-let cats = [
-  '/thoughtful-cat.png',
-  'walking-cat.png',
-  'Cat480x480.png',
-  'Cat480x616.png',
-  'Cat640x428.png',
-  'Cat640x587.png',
-];
-let buttons = [
+let cloud;
+let catLocations;
+let teaLocations;
+
+const teas = ['teacup.png', 'teapot3.png', 'teapot4.png', 'teapot5.png'];
+const cats = ['cat1.png', 'cat2.png', 'cat3.png', 'cat4.png', 'cat5.png', 'cat6.png'];
+const buttons = [
   'button0.png',
   'button1.png',
   'button2.png',
@@ -66,6 +69,10 @@ let addedCats = [];
 let addedTeas = [];
 let addedButtons = [];
 
+export function preload(p5) {
+  cloud = p5.loadImage('cloud0.png');
+}
+
 export function windowResized(p5) {
   p5.resizeCanvas(p5.windowWidth, p5.windowHeight - 170);
 }
@@ -75,10 +82,17 @@ export async function setup(p5) {
 
   p5.frameRate(20);
   //p5.colorMode(p5.HSL, 360, 100, 100, 1.0);
-  //showImages(p5);
+
   p5.strokeWeight(5);
   p5.stroke(3, 77, 84);
   p5.line(0, 0, p5.width, 0);
+
+  let cloudwidth = p5.width * 0.44;
+  p5.image(cloud, p5.width * 0.6, p5.height * 0.2, cloudwidth, 400);
+
+  arrayLocations(p5);
+  //showImages(p5, catLocations, teaLocations);
+
   const data = await fetchActivityLog(p5);
   checkForAdds(p5, data);
   showAdded();
@@ -87,40 +101,62 @@ export async function setup(p5) {
   */
 }
 
-function showImages(p5) {
-  let r = 250;
-  let randomButton = p5.random(100, 150);
-  let randomIncrease = p5.random(1.5, 4);
-  for (let i = 0; i < 25; i++) {
-    p5.image(
-      teapot1,
-      p5.random(p5.width * 0.05, p5.width * 0.8),
-      p5.random(p5.height * 0.05, p5.height * 0.25),
-      randomButton + 40 - i * randomIncrease,
-      randomButton + 15 - i * randomIncrease
-    );
+function arrayLocations(p5) {
+  let catLoc = [
+    [p5.width * 0.74, p5.height * 0.2],
+    [p5.width * 0.83, p5.height * 0.28],
+    [p5.width * 0.7, p5.height * 0.33],
+    [p5.width * 0.65, p5.height * 0.465],
+    [p5.width * 0.89, p5.height * 0.48],
+    [p5.width * 0.79, p5.height * 0.49],
+    [p5.width * 0.7, p5.height * 0.76],
+    [p5.width * 0.59, p5.height * 0.77],
+    [p5.width * 0.82, p5.height * 0.76],
+    [p5.width * 0.91, p5.height * 0.76],
+  ];
+  let teaLoc = [
+    [p5.width * 0.0035, p5.height * 0.14],
+    [p5.width * 0.045, p5.height * 0.05],
+    [p5.width * 0.09, p5.height * 0.17],
+    [p5.width * 0.135, p5.height * 0.26],
+    [p5.width * 0.18, p5.height * 0.1],
+    [p5.width * 0.22, p5.height * 0.2],
+    [p5.width * 0.27, p5.height * 0.12],
+    [p5.width * 0.32, p5.height * 0.03],
+    [p5.width * 0.37, p5.height * 0.17],
+    [p5.width * 0.42, p5.height * 0.07],
+  ];
 
-    p5.tint(255, 25 + i * 2);
+  catLocations = [...catLoc];
+  teaLocations = [...teaLoc];
+}
+
+function showImages(p5, catLocations, teaLocations) {
+  for (let i = 0; i < 10; i++) {
     p5.loadImage(cats[i % cats.length], (thoughtcat) => {
+      p5.tint(255, 190 + i * 5);
       p5.image(
         thoughtcat,
-        p5.random(p5.width * 0.05, p5.width * 0.8),
+        catLocations[i][0],
+        catLocations[i][1],
+        130,
+        130
+
+        /*p5.random(p5.width * 0.05, p5.width * 0.8),
         p5.random(p5.height * 0.22, p5.height * 0.28) + i * 7,
         randomButton + 5 - i * randomIncrease,
-        randomButton + 45 - i * randomIncrease
+        randomButton + 45 - i * randomIncrease*/
       );
     });
 
-    p5.loadImage(buttons[i % buttons.length], (buttony) => {
-      p5.image(
-        buttony,
-        p5.random(p5.width * 0.05, p5.width * 0.8), //+ i * (10 * randomIncrease),
-        p5.random(p5.height * 0.6, p5.height * 0.75),
-        randomButton - i * randomIncrease,
-        randomButton - i * randomIncrease
-      );
+    p5.loadImage(teas[i % teas.length], (tee) => {
+      p5.tint(255, 190 + i * 5);
+      p5.image(tee, teaLocations[i][0], teaLocations[i][1], 115, 115);
+      p5.line(teaLocations[i][0] + 57, teaLocations[i][1] + 5, teaLocations[i][0] + 57, 0);
     });
   }
+  //need to shuffle cat images and not location array probably, so that stuff further up will sit in the back, to look more true to life
+  p5.shuffle(catLocations, true);
 }
 
 function showAdded() {
@@ -216,24 +252,22 @@ function checkForAdds(p5, addedActivs) {
   if (!addedActivs) {
     console.log('no activities yet');
   } else {
+    if ('tillverka-aktivitet' in addedActivs) {
+      showThings(p5, addedActivs['tillverka-aktivitet'], buttons);
+      //showButtons(p5, addedActivs['tillverka-aktivitet']);
+    }
     if ('halsa-pa-nasims-katter' in addedActivs) {
-      showThings(p5, addedActivs['halsa-pa-nasims-katter'], cats, 0.3);
-      //showCats(p5, addedActivs['halsa-pa-nasims-katter']);
-      //walking(p5, 2, p5.random(9, 10), 15, addedActivs['halsa-pa-nasims-katter']);
+      //showThings(p5, addedActivs['halsa-pa-nasims-katter'], cats, 0.3);
+      showCats(p5, addedActivs['halsa-pa-nasims-katter']);
     }
     if ('te-ritual' in addedActivs) {
-      showThings(p5, addedActivs['te-ritual'], teas, 0.05);
-      //showTea(p5, addedActivs['te-ritual']);
-      //walking(p5, 4, p5.random(4, 5), 175, addedActivs['te-ritual']);
+      //showThings(p5, addedActivs['te-ritual'], teas, 0.05);
+      showTea(p5, addedActivs['te-ritual']);
     }
     if ('mykomote' in addedActivs) {
       walking(p5, 3, p5.random(5, 6), 50, addedActivs['mykomote']);
     }
-    if ('tillverka-aktivitet' in addedActivs) {
-      showThings(p5, addedActivs['tillverka-aktivitet'], buttons, 0.6);
-      //showButtons(p5, addedActivs['tillverka-aktivitet']);
-      //walking(p5, 0, p5.random(7, 8), 1, addedActivs['tillverka-aktivitet']);
-    }
+
     if ('prata-om-tema' in addedActivs) {
       walking(p5, 1, p5.random(6, 7), 0.35, addedActivs['prata-om-tema']);
     }
@@ -243,23 +277,21 @@ function checkForAdds(p5, addedActivs) {
   }
 }
 
-function showThings(p5, nr, type, y) {
+function showThings(p5, nr, type) {
   for (let i = 0; i < nr; i++) {
-    addedThings.push(new Images(p5, type, y));
+    addedThings.push(new Images(p5, type, p5.random(100, 155)));
   }
 }
 
 function showCats(p5, nr) {
   for (let i = 0; i < nr; i++) {
-    let catadress = cats[i % cats.length];
-    addedThings.push(new Images(p5, 'cats', catadress, 2));
+    addedThings.push(new Images(p5, cats, 130, catLocations[i]));
   }
 }
 
 function showTea(p5, nr) {
   for (let i = 0; i < nr; i++) {
-    let teadress = teas[i % teas.length];
-    addedThings.push(new Images(p5, 'tea', teadress, 1));
+    addedThings.push(new Images(p5, teas, 110, teaLocations[i]));
   }
 }
 
