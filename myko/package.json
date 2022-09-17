@@ -16,7 +16,7 @@
   "devDependencies": {
     "@playwright/test": "^1.21.0",
     "@sveltejs/adapter-netlify": "^1.0.0-next.78",
-    "@sveltejs/kit": "next",
+    "@sveltejs/kit": "1.0.0-next.484",
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",
     "eslint": "^8.12.0",
