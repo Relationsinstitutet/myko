@@ -23,6 +23,11 @@
   {#if data.audioFile}
     <audio src={data.audioFile} controls controlsList="nodownload" />
   {/if}
+
+  {#if data.videoFile}
+    <!-- svelte-ignore a11y-media-has-caption -->
+    <video src={data.videoFile} controls controlsList="nodownload" />
+  {/if}
 </div>
 
 <style>

@@ -10,6 +10,7 @@ type SanityActivityType = {
   instant: boolean;
   startedInstructions: PortableTextBlocks;
   audioFile: string;
+  videoFile: string;
 };
 
 type SanityEventType = {
@@ -19,12 +20,14 @@ type SanityEventType = {
     _id: string;
     startedInstructions: PortableTextBlocks;
     audioFile: string;
+    videoFile: string;
   };
 };
 const startedActivityProjection = `
   _id,
   startedInstructions,
-  "audioFile": audioFile.asset->url
+  "audioFile": audioFile.asset->url,
+  "videoFile": videoFile.asset->url
 `;
 
 async function createActivityLogEntry(
@@ -72,6 +75,7 @@ async function startEvent(writeClient: SanityClient, userId: string, eventId: st
   const body: StartedActivityData = {
     instructions: event.activity.startedInstructions,
     ...(event.activity.audioFile && { audioFile: event.activity.audioFile }),
+    ...(event.activity.videoFile && { audioFile: event.activity.videoFile }),
     ...(event.videoconferencing && { videoConferencingLink: event.videoconferencing }),
   };
 
@@ -108,6 +112,7 @@ async function startActivity(writeClient: SanityClient, userId: string, activity
   const body: StartedActivityData = {
     instructions: activity.startedInstructions,
     ...(activity.audioFile && { audioFile: activity.audioFile }),
+    ...(activity.videoFile && { videoFile: activity.videoFile }),
   };
   return {
     status: 200,

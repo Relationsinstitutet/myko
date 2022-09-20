@@ -4,6 +4,7 @@ export default interface StartedActivityData {
   readonly instructions: PortableTextBlocks;
   readonly videoConferencingLink?: string;
   readonly audioFile?: string;
+  readonly videoFile?: string;
 }
 
 export type ActivityStarted = {
