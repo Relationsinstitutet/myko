@@ -61,10 +61,6 @@
     visibility: hidden;
     min-height: 1em;
     min-width: 4em;
-    /*Scroll if it gets too long? but would need to combine styling + accessibility
-    max-height: 10em;
-    overflow: auto;*/
-
     padding: 2px 6px;
     border-radius: 8px;
     background-color: white;

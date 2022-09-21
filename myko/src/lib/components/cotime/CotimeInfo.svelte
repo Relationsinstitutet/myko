@@ -72,13 +72,13 @@
     align-items: center;
     flex-direction: column;
     font-family: 'Roboto Mono', monospace;
-    height: 72px;
+    height: 116px;
     margin-bottom: 48px;
   }
 
   .header {
     position: absolute;
-    top: 70px;
+    top: 66px;
     font-style: normal;
     font-weight: 500;
     font-size: var(--12px);
@@ -97,7 +97,7 @@
 
   .header-link {
     position: absolute;
-    top: 70px;
+    top: 66px;
     font-style: normal;
     font-weight: 500;
     font-size: var(--12px);

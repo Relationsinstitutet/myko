@@ -81,23 +81,25 @@
     flex-direction: column;
     flex-wrap: wrap;
     min-height: 100vh;
-    min-width: 100vw;
-    padding: 76px 1.5rem 256px;
+    padding: 48px 1rem 256px;
     font-family: 'Lato', sans-serif;
     color: var(--grey-800);
   }
+
+  main * {
+    max-width: 100%;
+  }
+
   h1 {
     font-family: 'Roboto Mono', monospace;
     font-weight: 400;
     text-transform: uppercase;
     font-size: var(--24px);
     color: var(--grey-800);
-    margin-top: 1em;
-    margin-bottom: var(--30px);
+    margin-bottom: 0.25em;
   }
-  /* Extra settings for targeting within portabletext blocks */
+  /* Extra settings for targeting within portabletext blocks*/
   h2 {
-    --grey-800: hsla(0, 0%, 23%, 1);
     font-size: 1rem;
     color: var(--grey-800);
     margin-top: 2em;
@@ -141,6 +143,9 @@
   .btn:disabled:hover {
     color: var(--ocean-800);
   }
+  ul {
+    margin-bottom: 2rem;
+  }
   li::marker {
     color: var(--ocean-800);
     font-size: 1.1em;
@@ -166,6 +171,8 @@
     }
     h1 {
       width: 38rem;
+      margin-top: 1em;
+      margin-bottom: 0.5em;
       padding: 40px 0 1rem;
     }
     p {

@@ -230,16 +230,13 @@
       letter-spacing: 0.1rem;
     }
     .nav-left {
-      /*margin-left: 48px;*/
       margin-left: 24px;
     }
 
     .nav-left a {
-      margin-right: 72px; /*48,72,96*/
+      margin-right: 72px;
     }
     .nav-right {
-      /*position: absolute;
-      right: 16px;*/
       margin-right: 24px;
       margin-left: 72px;
     }
