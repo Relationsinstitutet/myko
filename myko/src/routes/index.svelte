@@ -46,16 +46,16 @@
 
 <style>
   main {
-    background-image: url('/flowfield(4).png');
+    /*background-image: url('/flowfield(4).png');
     background-repeat: repeat-y;
-    background-size: cover;
-    background-color: var(--ocean-800);
+    background-size: cover;*/
+    background: var(--ocean-800);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
-    padding-top: 15px;
+    padding-top: 70px;
     padding-bottom: 192px;
   }
 
