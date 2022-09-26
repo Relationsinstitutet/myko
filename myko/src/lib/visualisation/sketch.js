@@ -332,7 +332,8 @@ function checkForAdds(p5, addedActivs) {
       showMoving(p5, addedActivs['prata-om-tema']);
     }
     if ('gor-ri-byrakrati' in addedActivs) {
-      walking(p5, 1, p5.random(8, 9), 250, addedActivs['gor-ri-byrakrati']);
+      showMoving(p5, addedActivs['gor-ri-byrakrati']);
+      //walking(p5, 1, p5.random(8, 9), 250, addedActivs['gor-ri-byrakrati']);
     }
   }
 }
