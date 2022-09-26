@@ -245,6 +245,18 @@ function showAdded(p5) {
 export function draw(p5) {
   p5.background(2, 106, 116, 100);
 
+  flowfieldDraw(xtraCnvs2);
+
+  p5.image(xtraCnvs2, p5.width * 0.5, p5.height * 0.5);
+  p5.image(xtraCnvs, p5.width * 0.5, p5.height * 0.5);
+  for (const atm of addedThingsMove) {
+    atm.update();
+    atm.shows();
+    atm.edge();
+  }
+}
+
+function flowfieldDraw(xtraCnvs2) {
   xtraCnvs2.strokeWeight(1);
   for (let i = 0; i < points.length; i++) {
     let h = xtraCnvs2.map(points[i].x, 0, xtraCnvs2.width, randomH1, randomH2);
@@ -271,13 +283,6 @@ export function draw(p5) {
     if (xtraCnvs2.dist(xtraCnvs2.width / 2, xtraCnvs2.height / 2, points[i].x, points[i].y) < 500) {
       xtraCnvs2.point(points[i].x, points[i].y);
     }
-  }
-  p5.image(xtraCnvs2, p5.width * 0.5, p5.height * 0.5);
-  p5.image(xtraCnvs, p5.width * 0.5, p5.height * 0.5);
-  for (const atm of addedThingsMove) {
-    atm.update();
-    atm.shows();
-    atm.edge();
   }
 }
 
