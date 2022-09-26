@@ -8,7 +8,9 @@ let canvas,
   xtraCnvs2,
   mult = 0.005,
   randomH1,
-  randomH2;
+  randomH2,
+  flowWeight;
+let points = [];
 let addedThings = [],
   addedThingsMove = [];
 let cloud, streetlight, shelf, bucket;
@@ -24,7 +26,6 @@ let teas = [];
 let cats = [];
 let diys = [];
 let planes = [];
-let points = [];
 
 export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
@@ -49,6 +50,7 @@ export function windowResized(p5) {
 
 export async function setup(p5) {
   canvas = p5.createCanvas(p5.windowWidth, p5.windowHeight - 50);
+  p5.imageMode(p5.CENTER);
   p5.pixelDensity(1);
   xtraCnvs = p5.createGraphics(p5.windowWidth, p5.windowHeight - 50);
   xtraCnvs.imageMode[xtraCnvs.CENTER];
@@ -56,7 +58,8 @@ export async function setup(p5) {
   xtraCnvs2.imageMode[xtraCnvs2.CENTER];
 
   p5.frameRate(20);
-  p5.imageMode(p5.CENTER);
+  xtraCnvs2.frameRate(20);
+  flowWeight = 0.1;
 
   xtraCnvs2.colorMode(xtraCnvs.HSL, 360, 100, 100, 1.0);
   xtraCnvs.stroke(3, 77, 84);
@@ -115,6 +118,7 @@ function back(p5) {
   //let bucketSize = p5.width * 0.3;
 
   if (horizontalView) {
+    flowWeight = 1;
     weight = 2.5;
     size = xtraCnvs.width * 0.073;
     streetPosX = xtraCnvs.width * 0.6;
@@ -257,7 +261,7 @@ export function draw(p5) {
 }
 
 function flowfieldDraw(xtraCnvs2) {
-  xtraCnvs2.strokeWeight(1);
+  xtraCnvs2.strokeWeight(flowWeight);
   for (let i = 0; i < points.length; i++) {
     let h = xtraCnvs2.map(points[i].x, 0, xtraCnvs2.width, randomH1, randomH2);
     let l = xtraCnvs2.map(points[i].y, 0, xtraCnvs2.height, 10, 90);
