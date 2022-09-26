@@ -1,112 +1,16 @@
-import Particle from './particle';
-import ActivityP from './activityParticle';
-import p5Svelte from 'p5-svelte';
-import { linear } from 'svelte/easing';
+import Pictures from './class';
+import MovingPics from './classMoving';
+//import p5Svelte from 'p5-svelte';
+//import { linear } from 'svelte/easing';
 
-class Pictures {
-  constructor(p5, type, size, location, number, xtraCnvs) {
-    this.p5 = p5;
-    this.xtraCnvs = xtraCnvs;
-    this.type = type;
-    this.size = size;
-    this.pos = this.p5.createVector(location[0], location[1]);
-    this.typeNr = number;
-  }
-
-  show(nr, weight) {
-    this.xtraCnvs.imageMode(this.xtraCnvs.CENTER);
-    if (this.typeNr > 11) {
-      //this.xtraCnvs.push();
-      //this.xtraCnvs.translate(this.pos.x, this.pos.y);
-      //this.xtraCnvs.rotate(
-      //this.xtraCnvs.random(-this.xtraCnvs.QUARTER_PI, this.xtraCnvs.QUARTER_PI)
-      //);
-      this.xtraCnvs.image(
-        this.type[nr % this.type.length],
-        this.pos.x,
-        this.pos.y,
-        this.size * 0.55,
-        this.size * 0.55
-      );
-      console.log('hiya');
-      //this.xtraCnvs.pop();
-    } else {
-      this.xtraCnvs.image(
-        this.type[nr % this.type.length],
-        this.pos.x,
-        this.pos.y,
-        this.size,
-        this.size
-      );
-      if (this.type === teas) {
-        this.xtraCnvs.strokeWeight(2);
-        this.xtraCnvs.line(this.pos.x, this.pos.y - this.size / 2.1, this.pos.x, 0);
-      }
-    }
-
-    //this.p5.drawingContext.shadowBlur = 15;
-    //this.p5.drawingContext.shadowColor = 'lightgrey';
-  }
-}
-
-class MovingPics extends Pictures {
-  constructor(p5, type, size, location) {
-    super(p5, type, size, location);
-    this.vel = this.p5.createVector(0, 0);
-    this.acc = this.p5.createVector(0, 0);
-    this.maxSpeed = 4;
-    this.angle = 0;
-  }
-
-  shows() {
-    if (this.type === planes) {
-      this.p5.push();
-      this.p5.translate(this.pos.x, this.pos.y);
-      this.p5.rotate(this.p5.HALF_PI);
-      this.p5.rotate(this.angle);
-      this.p5.image(planes[0], 0, 0, this.size, this.size);
-      this.p5.pop();
-    }
-  }
-
-  update() {
-    let noiseScl = 50;
-    let noiseStr = 1;
-    let sclPos = this.p5.Vector.div(this.pos, noiseScl);
-    let path = this.p5.noise(sclPos.x, sclPos.y) * this.p5.TWO_PI * noiseStr;
-
-    this.acc.x = this.p5.cos(path * 1.15);
-    this.acc.y = this.p5.sin(path * 1.02);
-
-    this.vel.add(this.acc);
-    this.vel.limit(this.maxSpeed);
-    this.angle = this.vel.heading();
-    this.pos.add(this.vel);
-    this.acc.mult(0);
-  }
-
-  edge() {
-    if (this.pos.x > this.p5.width) {
-      this.pos.x = this.p5.random(this.p5.width * 0.15, this.p5.width * 0.85);
-    }
-    if (this.pos.x < 0) {
-      this.pos.x = this.p5.random(this.p5.width * 0.15, this.p5.width * 0.85);
-    }
-    if (this.pos.y > this.p5.height) {
-      this.pos.y = this.p5.random(this.p5.height * 0.15, this.p5.height * 0.85);
-    }
-    if (this.pos.y < 0) {
-      this.pos.y = this.p5.random(this.p5.height * 0.15, this.p5.height * 0.85);
-    }
-  }
-}
-
-let canvas, xtraCnvs;
+let canvas,
+  xtraCnvs,
+  xtraCnvs2,
+  mult = 0.005,
+  randomH1,
+  randomH2;
 let addedThings = [],
-  addedThingsMove = [],
-  addedCats = [],
-  addedDiys = [],
-  addedTeas = [];
+  addedThingsMove = [];
 let cloud, streetlight, shelf, bucket;
 let shelfPosX, shelfPosY, shelfSizeX, shelfSizeY;
 let streetPosX, streetPosY;
@@ -119,32 +23,21 @@ let size, weight;
 let teas = [];
 let cats = [];
 let diys = [];
-let planes = []; /*'diy-hammernail.png',
-  'diy-paperclip.png',
-  'diy-btn1.png',
-  'diy-wateringcan.png',
-  'diy-scissors.png',
-  'diy-colorpencils.png',
-  'diy-btn2.png',
-  'diy-magnifyingglass.png',
-  'diy-sewingmachine.png',
-  'diy-tapemeasure.png',
-  'diy-btn3.png',*/
+let planes = [];
+let points = [];
 
 export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
   streetlight = p5.loadImage('streetlight.png');
   shelf = p5.loadImage('shelves.png');
-  bucket = p5.loadImage('bucket.png');
+  //bucket = p5.loadImage('bucket.png');
 
-  for (let i = 1; i < 5; i++) {
+  for (let i = 1; i < 8; i++) {
     teas.push(p5.loadImage(`tea${i}.png`));
-  }
-  for (let i = 1; i < 7; i++) {
-    cats.push(p5.loadImage(`cat${i}.png`));
   }
   for (let i = 1; i < 12; i++) {
     diys.push(p5.loadImage(`diy${i}.png`));
+    cats.push(p5.loadImage(`cat${i}.png`));
   }
   planes.push(p5.loadImage('paperplane.png'));
   console.log(planes[0]);
@@ -159,13 +52,16 @@ export async function setup(p5) {
   p5.pixelDensity(1);
   xtraCnvs = p5.createGraphics(p5.windowWidth, p5.windowHeight - 50);
   xtraCnvs.imageMode[xtraCnvs.CENTER];
+  xtraCnvs2 = p5.createGraphics(p5.windowWidth, p5.windowHeight - 50);
+  xtraCnvs2.imageMode[xtraCnvs2.CENTER];
 
   p5.frameRate(20);
   p5.imageMode(p5.CENTER);
-  xtraCnvs.stroke(3, 77, 84);
-  //p5.colorMode(p5.HSL, 360, 100, 100, 1.0);
-  //p5.noiseSeed(0);p5.background(h, s, l, 1);
 
+  xtraCnvs2.colorMode(xtraCnvs.HSL, 360, 100, 100, 1.0);
+  xtraCnvs.stroke(3, 77, 84);
+
+  flowfieldSetup(xtraCnvs2);
   ratio(p5);
   back(p5);
 
@@ -173,11 +69,29 @@ export async function setup(p5) {
   xtraCnvs.line(0, 0, p5.width, 0);
   xtraCnvs.line(0, p5.height, p5.width, p5.height);
   arrayLocations(p5);
-  xtraCnvs.strokeWeight(3);
 
   const data = await fetchActivityLog(p5);
   checkForAdds(p5, data);
   showAdded(p5);
+}
+
+function flowfieldSetup(xtraCnvs2) {
+  xtraCnvs2.angleMode(xtraCnvs2.DEGREES);
+  xtraCnvs2.noiseDetail(1);
+  let density = 20;
+  let space = xtraCnvs2.width / density;
+  for (let x = 0; x < xtraCnvs2.width; x += space) {
+    for (let y = 0; y < xtraCnvs2.height; y += space) {
+      let pointPlace = xtraCnvs2.createVector(
+        x + xtraCnvs2.random(-10, 10),
+        y + xtraCnvs2.random(-10, 10)
+      );
+      points.push(pointPlace);
+    }
+  }
+
+  randomH1 = xtraCnvs.random(0, 360);
+  randomH2 = (randomH1 + xtraCnvs.random(45, 110)) % 360;
 }
 
 function ratio(p5) {
@@ -197,7 +111,7 @@ function back(p5) {
   shelfSizeY = xtraCnvs.height * 0.46;
   streetPosX = p5.windowWidth * 0.75;
   streetPosY = p5.windowHeight * 0.3;
-  cloudPosY = p5.height * 0.24;
+  cloudPosY = p5.height * 0.32;
   //let bucketSize = p5.width * 0.3;
 
   if (horizontalView) {
@@ -219,12 +133,11 @@ function back(p5) {
     cloudSizeX = p5.width * 0.85;
     cloudSizeY = p5.width * 0.9;
     cloudPosX = p5.width * 0.4;
-    cloudPosY = p5.height * 0.3;
   } else {
     size = p5.width * 0.18;
-    cloudSizeX = p5.width * 0.95;
-    cloudSizeY = p5.width * 1.22;
-    cloudPosX = p5.width * 0.4;
+    cloudSizeX = p5.width * 1;
+    cloudSizeY = p5.width * 1.2;
+    cloudPosX = p5.width * 0.38;
   }
 
   //streetlight
@@ -238,48 +151,47 @@ function back(p5) {
 }
 
 function arrayLocations(p5) {
-  //console.log('arrays places');
   let cloudTop = cloudPosY + cloudSizeY * 0.29;
   let cloud2Top = cloudPosY + cloudSizeY * 0.41;
   let cloud3Top = cloudPosY + cloudSizeY * 0.57;
   let cloudLeft = cloudPosX + cloudSizeX * 0.17;
-  let cloudRight = cloudPosX + cloudSizeX * 0.6;
+  let cloudRight = cloudPosX + cloudSizeX * 0.62;
   let catLoc = [
     [p5.width * 0.75, cloudTop],
     [cloudLeft, cloud2Top],
     [cloudRight, cloud2Top],
     [cloudLeft, cloud3Top],
     [cloudRight, cloud3Top],
-    [p5.width * 0.71, cloud3Top],
-    [p5.width * 0.15, p5.height - size * 0.6],
-    [p5.width * 0.35, p5.height - size * 0.6],
-    [p5.width * 0.5, p5.height - size * 0.6],
-    [p5.width * 0.66, p5.height - size * 0.6],
-    [p5.width * 0.8, p5.height - size * 0.6],
-    [p5.width * 0.92, p5.height - size * 0.6],
+    [p5.width * 0.725, cloud3Top],
+    [p5.width * 0.13, p5.height - size * 0.46],
+    [p5.width * 0.34, p5.height - size * 0.46],
+    [p5.width * 0.51, p5.height - size * 0.46],
+    [p5.width * 0.66, p5.height - size * 0.46],
+    [p5.width * 0.8, p5.height - size * 0.46],
+    [p5.width * 0.92, p5.height - size * 0.46],
   ];
 
-  startPos = xtraCnvs.width * 0.01;
+  startPos = xtraCnvs.width * 0.015;
   xInc = xtraCnvs.width * 0.045;
   yLevel = xtraCnvs.height;
   let teaLoc = [
-    [startPos, p5.height * 0.16],
-    [xInc, yLevel * 0.04],
-    [xInc * 2, yLevel * 0.1],
+    [startPos, p5.height * 0.18],
+    [xInc, yLevel * 0.06],
+    [xInc * 2, yLevel * 0.12],
     [xInc * 3, yLevel * 0.22],
-    [xInc * 4, yLevel * 0.16],
+    [xInc * 4, yLevel * 0.1],
     [xInc * 5, yLevel * 0.04],
     [xInc * 6, yLevel * 0.28],
-    [xInc * 7, yLevel * 0.16],
-    [xInc * 8, yLevel * 0.22],
+    [xInc * 7, yLevel * 0.2],
+    [xInc * 8, yLevel * 0.06],
     [xInc * 9, yLevel * 0.26],
     [xInc * 17, yLevel * 0.16],
-    [xInc * 18, yLevel * 0.06],
+    [xInc * 18, yLevel * 0.1],
   ];
   let topShelfY = shelfPosY + shelfSizeY * 0.2;
   let secondShelfY = shelfPosY + shelfSizeY * 0.44;
   let midShelfY = shelfPosY + shelfSizeY * 0.65;
-  let fourthShelfY = shelfPosY + shelfSizeY * 0.7;
+  let fourthShelfY = shelfPosY + shelfSizeY * 0.85;
   let leftShelf = shelfPosX + shelfSizeX * 0.23;
   let midShelf = shelfPosX + shelfSizeX * 0.48;
   let rightShelf = shelfPosX + shelfSizeX * 0.75;
@@ -298,12 +210,12 @@ function arrayLocations(p5) {
     [rightShelf, fourthShelfY],
   ];
 
-  let overShelfY = shelfPosY - shelfSizeY * 0.035;
+  let overShelfY = shelfPosY - shelfSizeY * 0.019;
   let xtraLoc = [
     [shelfPosX + shelfSizeX * 0.28, overShelfY],
     [xtraCnvs.width * 0.25, yLevel * 0.17],
-    [shelfPosX + shelfSizeX * 0.43, overShelfY],
-    [xtraCnvs.width * 0.53, xtraCnvs.height * 0.54],
+    [shelfPosX + shelfSizeX * 0.52, overShelfY],
+    [xtraCnvs.width * 0.57, xtraCnvs.height * 0.62],
     [shelfPosX + shelfSizeX * 0.6, cloudPosY + cloudSizeY * 0.3],
     [xtraCnvs.width * 0.8, yLevel * 0.13],
     [xtraCnvs.width * 0.58, yLevel * 0.08],
@@ -333,6 +245,34 @@ function showAdded(p5) {
 export function draw(p5) {
   p5.background(2, 106, 116, 100);
 
+  xtraCnvs2.strokeWeight(1);
+  for (let i = 0; i < points.length; i++) {
+    let h = xtraCnvs2.map(points[i].x, 0, xtraCnvs2.width, randomH1, randomH2);
+    let l = xtraCnvs2.map(points[i].y, 0, xtraCnvs2.height, 10, 90);
+    let a = xtraCnvs2.map(
+      xtraCnvs2.dist(xtraCnvs2.width / 2, xtraCnvs2.height / 2, points[i].x, points[i].y),
+      0,
+      500,
+      1,
+      0
+    );
+
+    xtraCnvs2.stroke(h, 95, l, a);
+
+    let angle = xtraCnvs2.map(
+      xtraCnvs2.noise(points[i].x * mult, points[i].y * mult),
+      0,
+      1,
+      0,
+      720
+    );
+    points[i].add(xtraCnvs2.createVector(xtraCnvs2.cos(angle), xtraCnvs2.sin(angle)));
+
+    if (xtraCnvs2.dist(xtraCnvs2.width / 2, xtraCnvs2.height / 2, points[i].x, points[i].y) < 500) {
+      xtraCnvs2.point(points[i].x, points[i].y);
+    }
+  }
+  p5.image(xtraCnvs2, p5.width * 0.5, p5.height * 0.5);
   p5.image(xtraCnvs, p5.width * 0.5, p5.height * 0.5);
   for (const atm of addedThingsMove) {
     atm.update();
@@ -368,13 +308,13 @@ function checkForAdds(p5, addedActivs) {
     console.log('no activities yet');
   } else {
     if ('tillverka-aktivitet' in addedActivs) {
-      showThings(p5, addedActivs['tillverka-aktivitet'], diys, 1.2, diyLocations);
+      showThings(p5, addedActivs['tillverka-aktivitet'], diys, 'diys', 1.2, diyLocations);
     }
     if ('halsa-pa-nasims-katter' in addedActivs) {
-      showThings(p5, addedActivs['halsa-pa-nasims-katter'], cats, 1.32, catLocations);
+      showThings(p5, addedActivs['halsa-pa-nasims-katter'], cats, 'cats', 1.32, catLocations);
     }
     if ('te-ritual' in addedActivs) {
-      showThings(p5, addedActivs['te-ritual'], teas, 0.82, teaLocations);
+      showThings(p5, addedActivs['te-ritual'], teas, 'teas', 0.82, teaLocations);
     }
     if ('mykomote' in addedActivs) {
       showMoving(p5, addedActivs['mykomote']);
@@ -388,15 +328,25 @@ function checkForAdds(p5, addedActivs) {
   }
 }
 
-function showThings(p5, nr, type, varySize, locations) {
+function showThings(p5, nr, type, typeName, varySize, locations) {
   for (let i = 0; i < nr; i++) {
     if (i >= locations.length) {
       //locations[i] = [xtraCnvs.random(xtraCnvs.width), xtraCnvs.random(xtraCnvs.height)];
       addedThings.push(
-        new Pictures(p5, type, size * varySize, xtraLocations[i - locations.length], i, xtraCnvs)
+        new Pictures(
+          type,
+          size * varySize,
+          typeName,
+          xtraCnvs,
+          p5,
+          xtraLocations[i % locations.length],
+          i
+        )
       );
     } else {
-      addedThings.push(new Pictures(p5, type, size * varySize, locations[i], i, xtraCnvs));
+      addedThings.push(
+        new Pictures(type, size * varySize, typeName, xtraCnvs, p5, locations[i], i)
+      );
     }
   }
 }
@@ -404,7 +354,7 @@ function showThings(p5, nr, type, varySize, locations) {
 function showMoving(p5, nr) {
   for (let i = 0; i < nr; i++) {
     addedThingsMove.push(
-      new MovingPics(p5, planes, size * 0.65, [
+      new MovingPics(planes, size * 0.65, 'planes', p5, [
         p5.random(20, p5.width * 0.95),
         p5.random(20, p5.height * 0.5),
       ])
