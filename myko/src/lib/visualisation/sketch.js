@@ -50,6 +50,7 @@ export function windowResized(p5) {
 export async function setup(p5) {
   canvas = p5.createCanvas(p5.windowWidth, p5.windowHeight - 50);
   p5.imageMode(p5.CENTER);
+  p5.rectMode(p5.CENTER);
   p5.pixelDensity(1);
   xtraCnvs = p5.createGraphics(p5.windowWidth, p5.windowHeight - 50);
   xtraCnvs.imageMode[xtraCnvs.CENTER];
@@ -251,6 +252,9 @@ function showAdded(p5) {
 
 export function draw(p5) {
   p5.background(2, 106, 116, 100);
+  p5.erase();
+  p5.rect(p5.width * 0.5, 115, 180, 60);
+  p5.noErase();
 
   flowfieldDraw(xtraCnvs2);
 
