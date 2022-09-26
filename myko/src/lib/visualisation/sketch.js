@@ -41,7 +41,6 @@ export function preload(p5) {
     cats.push(p5.loadImage(`cat${i}.png`));
   }
   planes.push(p5.loadImage('paperplane.png'));
-  console.log(planes[0]);
 }
 
 export function windowResized(p5) {
@@ -239,10 +238,14 @@ function arrayLocations(p5) {
 }*/
 
 function showAdded(p5) {
-  let index = 0;
-  for (const ac of addedThings) {
-    index++;
-    ac.show(index, weight);
+  //ok funkar typ nästan, men behöver nog kolla vilken som gjordes senast i tid för att få rätt objekt, plus att behöver nog ändå gräva i tidsgrejset
+  for (const [index, ac] of addedThings.entries()) {
+    if (index === addedThings.length - 2) {
+      ac.show(index, weight);
+      ac.shadow();
+    } else {
+      ac.show(index, weight);
+    }
   }
 }
 
@@ -268,7 +271,7 @@ function flowfieldDraw(xtraCnvs2) {
     let a = xtraCnvs2.map(
       xtraCnvs2.dist(xtraCnvs2.width / 2, xtraCnvs2.height / 2, points[i].x, points[i].y),
       0,
-      500,
+      450,
       1,
       0
     );
@@ -284,7 +287,7 @@ function flowfieldDraw(xtraCnvs2) {
     );
     points[i].add(xtraCnvs2.createVector(xtraCnvs2.cos(angle), xtraCnvs2.sin(angle)));
 
-    if (xtraCnvs2.dist(xtraCnvs2.width / 2, xtraCnvs2.height / 2, points[i].x, points[i].y) < 500) {
+    if (xtraCnvs2.dist(xtraCnvs2.width / 2, xtraCnvs2.height / 2, points[i].x, points[i].y) < 450) {
       xtraCnvs2.point(points[i].x, points[i].y);
     }
   }
@@ -298,7 +301,7 @@ async function fetchActivityLog(p5) {
   }
 
   const logEntries = await response.json();
-  //checkForNewEntries(p5, logEntries);
+  checkForNewEntries(logEntries);
 
   // count the number of each activity
   return logEntries.reduce((result, entry) => {
@@ -308,6 +311,31 @@ async function fetchActivityLog(p5) {
     result[entry.activity] += 1;
     return result;
   }, {});
+}
+
+function checkForNewEntries(logEntries) {
+  const todayDate = new Date();
+  let nrNewAdds = 0;
+  for (let entry of logEntries) {
+    let entryDate = new Date(entry.date);
+    if (isNewDate(entryDate, todayDate)) {
+      nrNewAdds++;
+      console.log(`${entryDate}`);
+    }
+  }
+  if (nrNewAdds) {
+    console.log(nrNewAdds);
+    //logEntries.shift(0, nrNewAdds);
+  }
+}
+
+function isNewDate(entryDate, todayDate) {
+  if (
+    entryDate.getDate() === todayDate.getDate() &&
+    entryDate.getMonth() === todayDate.getMonth()
+  ) {
+    return true;
+  }
 }
 
 function checkForAdds(p5, addedActivs) {

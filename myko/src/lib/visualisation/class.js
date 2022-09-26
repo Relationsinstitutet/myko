@@ -34,8 +34,8 @@ export default class Pictures {
           this.pos.y,
           this.size,
           this.size
-        ); /**/
-        this.xtraCnvs.strokeWeight(2);
+        );
+        this.xtraCnvs.strokeWeight(weight);
         this.xtraCnvs.line(this.pos.x, this.pos.y - this.size / 2.1, this.pos.x, 0);
       } else {
         this.xtraCnvs.image(
@@ -47,8 +47,11 @@ export default class Pictures {
         );
       }
     }
+  }
 
-    //this.p5.drawingContext.shadowBlur = 15;
-    //this.p5.drawingContext.shadowColor = 'lightgrey';
+  shadow() {
+    this.xtraCnvs.drawingContext.shadowBlur = 30;
+    this.xtraCnvs.drawingContext.shadowColor = 'blue';
+    //this.xtraCnvs.line(this.pos.x, this.pos.y - this.size / 2.1, this.pos.x, this.pos.y - 70);
   }
 }
