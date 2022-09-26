@@ -77,6 +77,7 @@
     --ocean-100: hsla(152, 43%, 93%, 1);
 
     /* Peach colors */
+    --peach-900: hsla(340, 88%, 45%, 1);
     --peach-700: hsla(358, 93%, 79%, 1);
     --peach-500: hsla(30, 100%, 85%, 1);
     --peach-300: hsla(28, 100%, 90%, 1);
@@ -229,16 +230,13 @@
       letter-spacing: 0.1rem;
     }
     .nav-left {
-      /*margin-left: 48px;*/
       margin-left: 24px;
     }
 
     .nav-left a {
-      margin-right: 72px; /*48,72,96*/
+      margin-right: 72px;
     }
     .nav-right {
-      /*position: absolute;
-      right: 16px;*/
       margin-right: 24px;
       margin-left: 72px;
     }

@@ -73,6 +73,14 @@ export default {
       }
     },
     {
+      name: 'videoFile',
+      type: 'file',
+      title: 'Video file',
+      options: {
+        accept: 'video/*'
+      }
+    },
+    {
       name: 'subactivities',
       type: 'array',
       title: 'Subactivities',

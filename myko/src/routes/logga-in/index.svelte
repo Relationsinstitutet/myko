@@ -22,4 +22,14 @@
   });
 </script>
 
-Loggar in...
+<main>
+  <p>Loggar in...</p>
+</main>
+
+<style>
+  p {
+    font-size: var(--20px);
+    color: var(--ocean-800);
+    letter-spacing: 0.5px;
+  }
+</style>

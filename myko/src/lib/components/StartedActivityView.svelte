@@ -10,16 +10,23 @@
   <PortableText blocks={data.instructions} />
 
   {#if data.videoConferencingLink}
-    <p>
-      Klicka här för att joina mötet:
-      <a href={data.videoConferencingLink} rel="noopener" target="_blank"
-        >{data.videoConferencingLink}</a
-      >
-    </p>
+    <div class="wrap">
+      <p>
+        Klicka här för att joina mötet:
+        <a href={data.videoConferencingLink} rel="noopener" target="_blank"
+          >{data.videoConferencingLink}</a
+        >
+      </p>
+    </div>
   {/if}
 
   {#if data.audioFile}
     <audio src={data.audioFile} controls controlsList="nodownload" />
+  {/if}
+
+  {#if data.videoFile}
+    <!-- svelte-ignore a11y-media-has-caption -->
+    <video src={data.videoFile} controls controlsList="nodownload" />
   {/if}
 </div>
 

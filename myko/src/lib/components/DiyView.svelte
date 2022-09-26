@@ -1,6 +1,10 @@
 <script lang="ts">
+  import { tick } from 'svelte';
+
   let message: string | null = null;
+  let errorMessage: string | null = null;
   let submitted = false;
+  let errorMessageElement: HTMLElement;
 
   async function submitForm(e: Event) {
     const form = e.currentTarget as HTMLFormElement;
@@ -13,22 +17,28 @@
     });
 
     if (response.status !== 201) {
-      const { message: errorMessage } = await response.json();
-      message = errorMessage;
+      let json = await response.json();
+      ({ message: errorMessage } = json);
+
+      await tick(); // wait for error message element to be rendered
+      errorMessageElement.scrollIntoView({ block: 'end', behavior: 'smooth' });
+
       return;
+    } else {
+      errorMessage = null;
     }
 
     submitted = true;
-    message = 'Myko har noterat aktiviteten, tack!';
+    message = 'Myko har noterat aktiviteten, tack!' + '\u2726';
   }
 </script>
 
 <main>
   <h1>Tillverka aktivitet</h1>
 
-  {#if message}
-    <div>
-      <p>{message}</p>
+  {#if errorMessage}
+    <div bind:this={errorMessageElement} class="form-message error-message">
+      {errorMessage}
     </div>
   {/if}
 
@@ -46,17 +56,27 @@
       </div>
 
       <div>
-        <label for=""> Vem är du/ni som gör aktiviteten? </label>
+        <label for="">
+          Vem är du/ni som gör aktiviteten? <span class="required-field-mark">*</span>
+          <span class="required-field-text">Obligatorisk</span>
+        </label>
         <p>
-          Bra att veta om det är en aktivitet för flera och om vi har frågor eller vill följa upp.
+          Bra att veta om det är en aktivitet för flera, och om vi har frågor eller vill följa upp.
         </p>
+
         <input type="text" name="name" />
       </div>
 
       <div>
-        <input type="submit" value="Notera aktiviteten" required class="btn secondary" />
+        <input type="submit" value="Notera aktiviteten" required class="btn" />
       </div>
     </form>
+  {/if}
+
+  {#if message}
+    <div class="form-message">
+      {message}
+    </div>
   {/if}
 </main>
 
@@ -73,6 +93,7 @@
   }
 
   label {
+    position: relative;
     --grey-800: hsla(0, 0%, 23%, 1);
     font-size: 1rem;
     color: var(--grey-800);
@@ -99,14 +120,60 @@
   input[type='submit'] {
     padding: 4px 8px;
     cursor: pointer;
-    font-weight: normal;
     letter-spacing: 1px;
+  }
+
+  .form-message {
+    position: relative;
+    max-width: 90%;
+    color: var(--ocean-900);
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    padding: 0.75rem 0.25rem;
+  }
+
+  .error-message {
+    padding: 0.25rem;
+    border-top: 0.1rem solid;
+    font-size: 0.9em;
+    color: var(--peach-900);
+    background: hsla(0, 100%, 99%, 0.7);
+  }
+
+  .required-field-mark {
+    padding: 0.4em;
+    color: var(--peach-900);
+    font-size: 1.65em;
+    font-family: 'Roboto-Mono';
+  }
+
+  .required-field-text {
+    visibility: hidden;
+    position: absolute;
+    bottom: 20%;
+    padding: 0.25em 0.5em;
+    background: var(--grey-700);
+    border-radius: 4px;
+    color: var(--grey-050);
+    font-size: 0.7em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .required-field-mark:hover ~ .required-field-text {
+    visibility: visible;
   }
 
   @media (min-width: 22rem) {
     main {
       padding-left: 48px;
       padding-right: 48px;
+    }
+  }
+
+  @media (min-width: 45rem) {
+    .form-message {
+      max-width: 35rem;
     }
   }
 </style>
