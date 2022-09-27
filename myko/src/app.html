@@ -81,7 +81,8 @@
     flex-direction: column;
     flex-wrap: wrap;
     min-height: 100vh;
-    padding: 48px 1rem 256px;
+    max-width: 100vw;
+    padding: 76px 0 256px;
     font-family: 'Lato', sans-serif;
     color: var(--grey-800);
   }
@@ -161,6 +162,13 @@
   a:active {
     color: var(--peach-900);
   }
+  /*canvas container!*/
+  .m-0 {
+    all: unset;
+    margin: 0 auto;
+    width: 100%;
+    margin-top: -230px;
+  }
   .no-scroll {
     overflow: hidden;
   }
@@ -194,12 +202,6 @@
     h2,
     ul {
       width: 35rem;
-    }
-    /*canvas container!*/
-    .m-0 {
-      all: unset;
-      margin: 0 auto;
-      width: 85%;
     }
   }
   @media (prefers-reduced-motion: reduce) {

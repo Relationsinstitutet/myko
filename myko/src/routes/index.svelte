@@ -6,9 +6,12 @@
 
   import P5 from 'p5-svelte';
   import type { Sketch, p5 } from 'p5-svelte';
-  import { setup, draw, windowResized } from '$lib/visualisation/sketch';
+  import { preload, setup, draw, windowResized } from '$lib/visualisation/sketch'; //
 
   const sketch: Sketch = (p5: p5) => {
+    /**/ p5.preload = () => {
+      preload(p5);
+    };
     p5.setup = () => {
       setup(p5);
     };
@@ -28,7 +31,7 @@
     <CotimeInfo cotime={nextUpcomingCotime} />
   {/if}
 
-  <h1>Myko</h1>
+  <!--<h1>Myko</h1>-->
 
   {#if $reducedMotion}
     <p>
@@ -43,23 +46,26 @@
 
 <style>
   main {
-    background-color: var(--ocean-800);
+    /*background-image: url('/flowfield(4).png');
+    background-repeat: repeat-y;
+    background-size: cover;*/
+    background: var(--ocean-800);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
-    padding-top: 48px;
+    padding-top: 70px;
     padding-bottom: 192px;
   }
 
-  h1 {
+  /* h1 {
     font-family: 'Roboto Mono', monospace;
     font-weight: 400;
     text-transform: uppercase;
     font-size: var(--20px);
     color: var(--grey-050);
-  }
+  }*/
 
   p {
     font-size: var(--20px);
@@ -67,8 +73,8 @@
   }
 
   @media (min-width: 45rem) {
-    h1 {
+    /*h1 {
       text-align: center;
-    }
+    }*/
   }
 </style>
