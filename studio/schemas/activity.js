@@ -21,9 +21,9 @@ export default {
       description: 'Whether the activity should be listed among all activities automatically'
     },
     {
-      name: 'duration',
-      type: 'string',
-      title: 'Duration'
+      name: 'durationMinutes',
+      type: 'number',
+      title: 'Duration (minutes)'
     },
     {
       name: 'instant',

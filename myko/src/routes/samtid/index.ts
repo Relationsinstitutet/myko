@@ -16,7 +16,7 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
     events: SanityFullEventType[];
   }>(`{
     "activity": ${activityWithNearestEventQuery},
-    "events": ${allEventsQuery}
+    "events": ${allEventsQuery()}
   }`);
 
   if (data) {

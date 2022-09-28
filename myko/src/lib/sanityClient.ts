@@ -71,7 +71,7 @@ export const activityWithNearestEventQuery = `*[
   } [count(events) > 0] | order(events[0].date) [0]
 `;
 
-export const allEventsQuery = `*[
+export const allEventsQuery = (extraActivityFields: string[] = []) => `*[
     _type == "${sanitySchemaNames.event}" && ${notDraft}
   ] | order(date asc) {
     _id,
@@ -79,5 +79,6 @@ export const allEventsQuery = `*[
     activity->{
       name,
       "slug": slug.current
+      ${extraActivityFields ? ',' + extraActivityFields.join(',') : ''}
     }
   }`;

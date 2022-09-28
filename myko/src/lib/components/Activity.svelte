@@ -8,8 +8,8 @@
 
 <h1>{activity.name}</h1>
 
-{#if activity.duration}
-  <div class="duration">{activity.duration}</div>
+{#if activity.durationMinutes}
+  <div class="duration">{activity.durationMinutes} minuter</div>
 {/if}
 
 {#if activity.prerequisites}

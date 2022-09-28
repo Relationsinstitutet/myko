@@ -8,17 +8,22 @@ type Event = {
   readonly activity: {
     readonly name: string;
     readonly slug: string;
+    readonly durationMinutes: number;
   };
 };
 
 export const get: RequestHandler<Record<string, string>, ResponseBody> = async ({ locals }) => {
   const client = await createReadClient();
-  const result = await client.fetch<Event[]>(allEventsQuery);
+  const result = await client.fetch<Event[]>(allEventsQuery(['durationMinutes']));
 
-  const calendar = ical({ name: 'Myko kalender' });
+  const calendar = ical({
+    name: 'Myko',
+    description: 'Samtider',
+    ttl: 60 * 60 * 24,
+  });
   result.map((event) => {
     const startTime = new Date(Date.parse(event.date));
-    const endTime = new Date(startTime.getTime() + 60 * 60);
+    const endTime = new Date(startTime.getTime() + event.activity.durationMinutes * 60 * 1000);
     calendar.createEvent({
       start: startTime,
       end: endTime,
