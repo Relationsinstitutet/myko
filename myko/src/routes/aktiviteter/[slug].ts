@@ -15,7 +15,7 @@ import type { SanityEventType } from '$lib/models/event';
 type SanityResultType = {
   _id: string;
   description: PortableTextBlocks;
-  duration: string;
+  durationMinutes: number;
   events: SanityEventType[];
   image?: SanityImageSource & { alt: string };
   instant: boolean;
@@ -40,7 +40,7 @@ function getActivity(slug: string): string {
   ][0] {
     _id,
     description,
-    duration,
+    durationMinutes,
     "events": ${eventsQuery},
     image,
     instant,
@@ -68,7 +68,7 @@ export const get: RequestHandler<{ slug: string }, ResponseBody> = async ({
     const activityData: IActivityWithCotime = {
       id: activity._id,
       description: activity.description,
-      duration: activity.duration,
+      durationMinutes: activity.durationMinutes,
       ...(activity.image && {
         image: {
           url: urlFor(client, activity.image).url(),

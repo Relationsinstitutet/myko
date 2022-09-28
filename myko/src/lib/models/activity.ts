@@ -5,7 +5,7 @@ export default interface IActivity {
   readonly id: string;
   readonly name: string;
   readonly description: PortableTextBlocks;
-  readonly duration: string;
+  readonly durationMinutes: number;
   readonly prerequisites: string[];
   readonly image?: { url: string; alt: string };
   readonly instant: boolean;

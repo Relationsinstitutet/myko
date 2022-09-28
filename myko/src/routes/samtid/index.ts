@@ -1,23 +1,13 @@
 import type { SanityActivityType } from '$lib/models/activity';
 import type { SanityFullEventType } from '$lib/models/event';
-import { activityWithNearestEventQuery, createReadClient, notDraft } from '$lib/sanityClient';
+import {
+  activityWithNearestEventQuery,
+  allEventsQuery,
+  createReadClient,
+  notDraft,
+} from '$lib/sanityClient';
 import { computeNextCotime, sanitySchemaNames } from '$lib/util';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
-
-function getAllEvents() {
-  const eventsQuery = `*[
-    _type == "${sanitySchemaNames.event}" && ${notDraft}
-  ] | order(date asc) {
-    _id,
-    date,
-    activity->{
-      name,
-      "slug": slug.current
-    }
-  }`;
-
-  return `${eventsQuery}`;
-}
 
 export const get: RequestHandler<Record<string, string>, ResponseBody> = async () => {
   const client = await createReadClient();
@@ -26,7 +16,7 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
     events: SanityFullEventType[];
   }>(`{
     "activity": ${activityWithNearestEventQuery},
-    "events": ${getAllEvents()}
+    "events": ${allEventsQuery()}
   }`);
 
   if (data) {
