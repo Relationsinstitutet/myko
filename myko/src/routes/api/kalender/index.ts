@@ -26,6 +26,7 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
     const startTime = new Date(Date.parse(event.date));
     const endTime = new Date(startTime.getTime() + event.activity.durationMinutes * 60 * 1000);
     calendar.createEvent({
+      id: event._id,
       start: startTime,
       end: endTime,
       summary: event.activity.name,
