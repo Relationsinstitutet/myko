@@ -20,6 +20,7 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
     name: 'Myko',
     description: 'Samtider',
     ttl: 60 * 60 * 24,
+    timezone: 'Europe/Stockholm',
   });
   result.map((event) => {
     const startTime = new Date(Date.parse(event.date));
@@ -29,6 +30,7 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
       end: endTime,
       summary: event.activity.name,
       url: `https://myko.relationsinstitutet.org/aktiviteter/${event.activity.slug}`,
+      timezone: 'Europe/Stockholm',
     });
   });
 
