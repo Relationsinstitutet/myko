@@ -70,3 +70,14 @@ export const activityWithNearestEventQuery = `*[
     "slug": slug.current
   } [count(events) > 0] | order(events[0].date) [0]
 `;
+
+export const allEventsQuery = `*[
+    _type == "${sanitySchemaNames.event}" && ${notDraft}
+  ] | order(date asc) {
+    _id,
+    date,
+    activity->{
+      name,
+      "slug": slug.current
+    }
+  }`;
