@@ -27,6 +27,7 @@ let cats = [];
 let diys = [];
 let planes = [];
 let cranes = [];
+let thoughts = [];
 
 export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
