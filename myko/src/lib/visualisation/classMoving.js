@@ -10,7 +10,7 @@ export default class MovingPics /*extends Pictures*/ {
     this.pos = this.p5.createVector(location[0], location[1]);
     this.vel = this.p5.createVector(0, 0);
     this.acc = this.p5.createVector(0, 0);
-    this.maxSpeed = 5.5;
+    this.maxSpeed = 3;
     this.angle = 0;
     this.rotation = rotation;
     this.noiseScl = noiseScl;

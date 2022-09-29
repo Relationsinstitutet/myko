@@ -244,12 +244,7 @@ function arrayLocations(p5) {
 }*/
 
 function showAdded(p5) {
-  //ok funkar typ nästan, men behöver nog kolla vilken som gjordes senast i tid för att få rätt objekt, plus att behöver nog ändå gräva i tidsgrejset
   for (const [index, ac] of addedThings.entries()) {
-    /*if (index === addedThings.length - 2) {
-      ac.show(index, weight);
-      ac.shadow();
-    } else {}*/
     ac.show(index, weight);
   }
 }
@@ -361,7 +356,7 @@ function checkForAdds(p5, addedActivs) {
       showThings(p5, addedActivs['te-ritual'], teas, 'teas', 0.82, teaLocations);
     }
     if ('mykomote' in addedActivs) {
-      showMoving(p5, addedActivs['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 50);
+      showMoving(p5, addedActivs['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
     if ('prata-om-tema' in addedActivs) {
       showMoving(p5, addedActivs['prata-om-tema'], thoughts, 'thoughts', 0.5, 0.25, 0.75, 0, 1);
