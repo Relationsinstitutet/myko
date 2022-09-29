@@ -26,6 +26,7 @@ let teas = [];
 let cats = [];
 let diys = [];
 let planes = [];
+let cranes = [];
 
 export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
@@ -41,6 +42,9 @@ export function preload(p5) {
     cats.push(p5.loadImage(`cat${i}.png`));
   }
   planes.push(p5.loadImage('paperplane.png'));
+  for (let i = 1; i < 5; i++) {
+    cranes.push(p5.loadImage(`crane${i}.png`));
+  }
 }
 
 export function windowResized(p5) {
@@ -241,12 +245,11 @@ function arrayLocations(p5) {
 function showAdded(p5) {
   //ok funkar typ nästan, men behöver nog kolla vilken som gjordes senast i tid för att få rätt objekt, plus att behöver nog ändå gräva i tidsgrejset
   for (const [index, ac] of addedThings.entries()) {
-    if (index === addedThings.length - 2) {
+    /*if (index === addedThings.length - 2) {
       ac.show(index, weight);
       ac.shadow();
-    } else {
-      ac.show(index, weight);
-    }
+    } else {}*/
+    ac.show(index, weight);
   }
 }
 
@@ -260,9 +263,9 @@ export function draw(p5) {
 
   p5.image(xtraCnvs2, p5.width * 0.5, p5.height * 0.5);
   p5.image(xtraCnvs, p5.width * 0.5, p5.height * 0.5);
-  for (const atm of addedThingsMove) {
+  for (const [index, atm] of addedThingsMove.entries()) {
     atm.update();
-    atm.shows();
+    atm.shows(index);
     atm.edge();
   }
 }
@@ -329,7 +332,6 @@ function checkForNewEntries(logEntries) {
   }
   if (nrNewAdds) {
     console.log(nrNewAdds);
-    //logEntries.shift(0, nrNewAdds);
   }
 }
 
@@ -358,13 +360,13 @@ function checkForAdds(p5, addedActivs) {
       showThings(p5, addedActivs['te-ritual'], teas, 'teas', 0.82, teaLocations);
     }
     if ('mykomote' in addedActivs) {
-      showMoving(p5, addedActivs['mykomote']);
+      showMoving(p5, addedActivs['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 50);
     }
     if ('prata-om-tema' in addedActivs) {
-      showMoving(p5, addedActivs['prata-om-tema']);
+      showMoving(p5, addedActivs['prata-om-tema'], thoughts, 'thoughts', 0.5, 0.25, 0.75, 0, 1);
     }
     if ('gor-ri-byrakrati' in addedActivs) {
-      showMoving(p5, addedActivs['gor-ri-byrakrati']);
+      showMoving(p5, addedActivs['gor-ri-byrakrati'], cranes, 'cranes', 0.85, 0.4, 0.6, 3.4, 150);
       //walking(p5, 1, p5.random(8, 9), 250, addedActivs['gor-ri-byrakrati']);
     }
   }
@@ -393,13 +395,21 @@ function showThings(p5, nr, type, typeName, varySize, locations) {
   }
 }
 
-function showMoving(p5, nr) {
+function showMoving(p5, nr, type, typeName, varySize, location1, location2, rotation, noiseScl) {
   for (let i = 0; i < nr; i++) {
     addedThingsMove.push(
-      new MovingPics(planes, size * 0.65, 'planes', p5, [
-        p5.random(20, p5.width * 0.95),
-        p5.random(20, p5.height * 0.5),
-      ])
+      new MovingPics(
+        type,
+        size * varySize,
+        typeName,
+        p5,
+        [
+          p5.random(p5.width * location1, p5.width * location2),
+          p5.random(p5.height * location1, p5.height * location2),
+        ],
+        rotation,
+        noiseScl
+      )
     );
   }
 }
