@@ -1,7 +1,7 @@
 //import Pictures from './class';
 
 export default class MovingPics /*extends Pictures*/ {
-  constructor(type, size, typeName, p5, location) {
+  constructor(type, size, typeName, p5, location, rotation, noiseScl) {
     //super(type, size, typeName);
     this.p5 = p5;
     this.type = type;
@@ -10,25 +10,26 @@ export default class MovingPics /*extends Pictures*/ {
     this.pos = this.p5.createVector(location[0], location[1]);
     this.vel = this.p5.createVector(0, 0);
     this.acc = this.p5.createVector(0, 0);
-    this.maxSpeed = 4;
+    this.maxSpeed = 3;
     this.angle = 0;
+    this.rotation = rotation;
+    this.noiseScl = noiseScl;
   }
 
-  shows() {
-    if (this.typeName === 'planes') {
-      this.p5.push();
-      this.p5.translate(this.pos.x, this.pos.y);
-      this.p5.rotate(this.p5.HALF_PI);
-      this.p5.rotate(this.angle);
-      this.p5.image(this.type[0], 0, 0, this.size, this.size);
-      this.p5.pop();
-    }
+  shows(nr) {
+    //if (this.typeName === 'planes') {}
+    this.p5.push();
+    this.p5.translate(this.pos.x, this.pos.y);
+    this.p5.rotate(this.rotation);
+    this.p5.rotate(this.angle);
+    this.p5.image(this.type[nr % this.type.length], 0, 0, this.size, this.size);
+    this.p5.pop();
   }
 
   update() {
-    let noiseScl = 50;
-    let noiseStr = 1;
-    let sclPos = this.p5.Vector.div(this.pos, noiseScl);
+    //let noiseScl = 25;
+    let noiseStr = 2;
+    let sclPos = this.p5.Vector.div(this.pos, this.noiseScl);
     let path = this.p5.noise(sclPos.x, sclPos.y) * this.p5.TWO_PI * noiseStr;
 
     this.acc.x = this.p5.cos(path * 1.15);
