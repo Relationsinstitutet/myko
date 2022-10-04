@@ -12,11 +12,6 @@ export default class Pictures {
   show(nr, weight) {
     this.xtraCnvs.imageMode(this.xtraCnvs.CENTER);
     if (this.typeNr > 11) {
-      //this.xtraCnvs.push();
-      //this.xtraCnvs.translate(this.pos.x, this.pos.y);
-      //this.xtraCnvs.rotate(
-      //this.xtraCnvs.random(-this.xtraCnvs.QUARTER_PI, this.xtraCnvs.QUARTER_PI)
-      //);
       this.xtraCnvs.image(
         this.type[nr % this.type.length],
         this.pos.x + this.xtraCnvs.random(this.xtraCnvs.width * -0.04, this.xtraCnvs.width * 0.04),
@@ -25,7 +20,6 @@ export default class Pictures {
         this.size * 0.65,
         this.size * 0.65
       );
-      //this.xtraCnvs.pop();
     } else {
       if (this.typeName === 'teas') {
         this.xtraCnvs.image(
