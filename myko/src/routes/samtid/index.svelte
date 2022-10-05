@@ -18,6 +18,8 @@
   {/if}
   <h1>När det är samtid</h1>
 
+  <p>🗓️ Kalender du kan prenumerera på: <a href="/api/kalender.ics">här</a></p>
+
   <ul class="plain-list">
     {#each events as event}
       <li>
@@ -98,6 +100,10 @@
 
   .time {
     font-weight: 700;
+  }
+
+  p {
+    display: block;
   }
 
   @media (min-width: 45rem) {

@@ -35,6 +35,9 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
 
   return {
     status: 200,
+    headers: {
+      'Content-Type': 'text/calendar',
+    },
     body: calendar.toString(),
   };
 };
