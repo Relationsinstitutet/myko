@@ -20,14 +20,16 @@
   </ul>
 {/if}
 
-<PortableText
-  blocks={activity.description}
-  serializers={{
-    marks: {
-      link: PortableTextLink,
-    },
-  }}
-/>
+{#if activity.description}
+  <PortableText
+    blocks={activity.description}
+    serializers={{
+      marks: {
+        link: PortableTextLink,
+      },
+    }}
+  />
+{/if}
 
 {#if activity.image}
   <img loading="lazy" src={activity.image.url} alt={activity.image.alt} />
