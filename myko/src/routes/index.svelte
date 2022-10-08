@@ -31,9 +31,16 @@
       // source
       canvas,
       // source x, y, w, h
-      0, 0, p5.width, p5.height,
+      0,
+      0,
+      p5.width,
+      p5.height,
       // destination x, y, w, h
-      0, 0, buffer.width, buffer.height);
+      0,
+      0,
+      buffer.width,
+      buffer.height
+    );
 
     buffer.textFont('Roboto Mono');
     buffer.fill(255, 255, 255);
@@ -44,13 +51,17 @@
     const dateText = now.toLocaleString();
     buffer.text(dateText, textOffset, buffer.height - textOffset);
 
-    const shortDate = now.toLocaleString('sv-SE', {year: '2-digit', month: '2-digit', day: '2-digit'});
+    const shortDate = now.toLocaleString('sv-SE', {
+      year: '2-digit',
+      month: '2-digit',
+      day: '2-digit',
+    });
     p5.saveCanvas(buffer, `myko_${shortDate}`, 'png');
-  }
+  };
 
   const storeInstance = (event: CustomEvent<p5>) => {
     p5 = event.detail;
-  }
+  };
 
   export let nextUpcomingCotime: Cotime | undefined = undefined;
   let p5: p5;
