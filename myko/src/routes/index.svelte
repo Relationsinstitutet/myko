@@ -6,14 +6,15 @@
 
   import P5 from 'p5-svelte';
   import type { Sketch, p5 } from 'p5-svelte';
+  import type { Element } from 'p5';
   import { preload, setup, draw, windowResized } from '$lib/visualisation/sketch'; //
 
   const sketch: Sketch = (p5: p5) => {
     /**/ p5.preload = () => {
       preload(p5);
     };
-    p5.setup = () => {
-      setup(p5);
+    p5.setup = async () => {
+      canvas = await setup(p5);
       showSnapshotButton = true;
     };
     p5.draw = () => {
@@ -25,7 +26,24 @@
   };
 
   const takeSnapshot = () => {
-    p5.saveCanvas('myko', 'png');
+    const buffer = p5.createGraphics(p5.width, p5.height);
+    buffer.copy(
+      // source
+      canvas,
+      // source x, y, w, h
+      0, 0, p5.width, p5.height,
+      // destination x, y, w, h
+      0, 0, buffer.width, buffer.height);
+
+    buffer.textFont('Roboto Mono');
+    buffer.fill(255, 255, 255);
+    buffer.textSize(32);
+
+    const textOffset = 20;
+    const dateText = new Date().toLocaleString();
+    buffer.text(dateText, textOffset, buffer.height - textOffset);
+
+    p5.saveCanvas(buffer, 'myko', 'png');
   }
 
   const storeInstance = (event: CustomEvent<p5>) => {
@@ -34,6 +52,7 @@
 
   export let nextUpcomingCotime: Cotime | undefined = undefined;
   let p5: p5;
+  let canvas: Element;
   let showSnapshotButton = false;
 </script>
 
