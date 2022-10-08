@@ -26,15 +26,15 @@
   };
 
   const takeSnapshot = () => {
-    const buffer = p5.createGraphics(p5.width, p5.height);
+    const buffer = p5Ref.createGraphics(p5Ref.width, p5Ref.height);
     buffer.copy(
       // source
       canvas,
       // source x, y, w, h
       0,
       0,
-      p5.width,
-      p5.height,
+      p5Ref.width,
+      p5Ref.height,
       // destination x, y, w, h
       0,
       0,
@@ -56,15 +56,15 @@
       month: '2-digit',
       day: '2-digit',
     });
-    p5.saveCanvas(buffer, `myko_${shortDate}`, 'png');
+    p5Ref.saveCanvas(buffer, `myko_${shortDate}`, 'png');
   };
 
   const storeInstance = (event: CustomEvent<p5>) => {
-    p5 = event.detail;
+    p5Ref = event.detail;
   };
 
   export let nextUpcomingCotime: Cotime | undefined = undefined;
-  let p5: p5;
+  let p5Ref: p5;
   let canvas: Element;
   let showSnapshotButton = false;
 </script>
