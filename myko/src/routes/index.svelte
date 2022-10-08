@@ -40,10 +40,12 @@
     buffer.textSize(32);
 
     const textOffset = 20;
-    const dateText = new Date().toLocaleString();
+    const now = new Date();
+    const dateText = now.toLocaleString();
     buffer.text(dateText, textOffset, buffer.height - textOffset);
 
-    p5.saveCanvas(buffer, 'myko', 'png');
+    const shortDate = now.toLocaleString('sv-SE', {year: '2-digit', month: '2-digit', day: '2-digit'});
+    p5.saveCanvas(buffer, `myko_${shortDate}`, 'png');
   }
 
   const storeInstance = (event: CustomEvent<p5>) => {
