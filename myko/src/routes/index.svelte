@@ -14,6 +14,7 @@
     };
     p5.setup = () => {
       setup(p5);
+      showSnapshotButton = true;
     };
     p5.draw = () => {
       draw(p5);
@@ -23,7 +24,17 @@
     };
   };
 
+  const takeSnapshot = () => {
+    p5.saveCanvas('myko', 'png');
+  }
+
+  const storeInstance = (event: CustomEvent<p5>) => {
+    p5 = event.detail;
+  }
+
   export let nextUpcomingCotime: Cotime | undefined = undefined;
+  let p5: p5;
+  let showSnapshotButton = false;
 </script>
 
 <main>
@@ -40,7 +51,11 @@
       Det brukar heta Reduce motion eller liknande.
     </p>
   {:else}
-    <P5 {sketch} />
+    <P5 {sketch} on:instance={storeInstance} />
+
+    {#if showSnapshotButton}
+      <button on:click={takeSnapshot}>Snaphot!</button>
+    {/if}
   {/if}
 </main>
 
