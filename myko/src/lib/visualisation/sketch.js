@@ -252,7 +252,7 @@ function showAdded(p5) {
 export function draw(p5) {
   p5.background(2, 106, 116, 100);
   p5.erase();
-  p5.rect(p5.width * 0.5, 115, 180, 60);
+  p5.rect(p5.width * 0.5, 125, 227, 36);
   p5.noErase();
 
   flowfieldDraw(xtraCnvs2);
