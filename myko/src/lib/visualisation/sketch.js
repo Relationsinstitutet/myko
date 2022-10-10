@@ -1,6 +1,12 @@
 import Pictures from './class';
 import MovingPics from './classMoving';
-import { ratio, backLocations, backImages, arrayLocations } from './locations';
+import {
+  ratio,
+  proportionsByRatio,
+  fixBgImagePositions,
+  drawBackgroundImages,
+  fixImagePositions,
+} from './locations';
 import { flowfieldDraw, flowfieldSetup } from './flowfield';
 //import p5Svelte from 'p5-svelte';
 //import { linear } from 'svelte/easing';
@@ -9,7 +15,7 @@ let canvas, xtraCnvs, xtraCnvs2;
 let addedThings = [],
   addedThingsMove = [];
 let cloud, streetlight, shelf;
-let arrays, proportions; //, ideaLocations
+let imagePositions, proportions; //, ideaLocations
 let teas = [];
 let cats = [];
 let diys = [];
@@ -58,16 +64,17 @@ export async function setup(p5) {
 
   flowfieldSetup(xtraCnvs2);
   ratio(p5);
-  //returns -size, -(stroke)weight, -flowfield strokeweight
-  proportions = backLocations(xtraCnvs);
-  backImages(xtraCnvs, cloud, streetlight, shelf);
+  //returns -foreground image size, -(stroke)weight, -flowfield strokeweight
+  proportions = proportionsByRatio(xtraCnvs);
+  fixBgImagePositions(xtraCnvs);
+  drawBackgroundImages(xtraCnvs, cloud, streetlight, shelf);
 
   //lines marking vertical start & end of the canvas
   xtraCnvs.strokeWeight(10);
   xtraCnvs.line(0, 0, p5.width, 0);
   xtraCnvs.line(0, p5.height, p5.width, p5.height);
   //returns arrays w image locations; -cats, -tea, -diy, -xtra
-  arrays = arrayLocations(p5, proportions[0]);
+  imagePositions = fixImagePositions(p5, proportions[0]);
 
   const data = await fetchActivityLog(p5);
   checkForAdds(p5, data);
@@ -148,13 +155,13 @@ function checkForAdds(p5, addedActivs) {
     console.log('no activities yet');
   } else {
     if ('tillverka-aktivitet' in addedActivs) {
-      showThings(p5, addedActivs['tillverka-aktivitet'], diys, 'diys', 1.2, arrays[2]);
+      showThings(p5, addedActivs['tillverka-aktivitet'], diys, 'diys', 1.2, imagePositions[2]);
     }
     if ('halsa-pa-nasims-katter' in addedActivs) {
-      showThings(p5, addedActivs['halsa-pa-nasims-katter'], cats, 'cats', 1.32, arrays[0]);
+      showThings(p5, addedActivs['halsa-pa-nasims-katter'], cats, 'cats', 1.32, imagePositions[0]);
     }
     if ('te-ritual' in addedActivs) {
-      showThings(p5, addedActivs['te-ritual'], teas, 'teas', 0.82, arrays[1]);
+      showThings(p5, addedActivs['te-ritual'], teas, 'teas', 0.82, imagePositions[1]);
     }
     if ('mykomote' in addedActivs) {
       showMoving(p5, addedActivs['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
@@ -179,7 +186,7 @@ function showThings(p5, nr, type, typeName, varySize, locations) {
           typeName,
           xtraCnvs,
           p5,
-          arrays[3][i % locations.length],
+          imagePositions[3][i % locations.length],
           i
         )
       );

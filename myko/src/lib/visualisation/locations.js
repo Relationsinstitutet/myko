@@ -2,7 +2,7 @@ let shelfPosX, shelfPosY, shelfSizeX, shelfSizeY;
 let streetPosX, streetPosY;
 let cloudPosX, cloudPosY, cloudSizeX, cloudSizeY;
 let startPos, xInc, yLevel;
-let size, weight, flowWeight;
+let imageSize, strokeWeight, flowfieldStrokeWeight;
 let horizontalView = true,
   portrait2x = false;
 
@@ -15,9 +15,25 @@ export function ratio(p5) {
   }
 }
 
-export function backLocations(xtraCnvs) {
-  flowWeight = 0.2;
-  weight = 1.2;
+export function proportionsByRatio(xtraCnvs) {
+  flowfieldStrokeWeight = 0.15;
+  strokeWeight = 1.2;
+
+  if (horizontalView) {
+    flowfieldStrokeWeight = 1;
+    strokeWeight = 2.5;
+    imageSize = xtraCnvs.width * 0.073;
+  } else if (!portrait2x) {
+    imageSize = xtraCnvs.width * 0.14;
+  } else {
+    imageSize = xtraCnvs.width * 0.18;
+  }
+
+  let result = [imageSize, strokeWeight, flowfieldStrokeWeight];
+  return result;
+}
+
+export function fixBgImagePositions(xtraCnvs) {
   shelfPosX = xtraCnvs.width * -0.1;
   shelfPosY = xtraCnvs.height * 0.5;
   shelfSizeX = xtraCnvs.width * 0.67;
@@ -27,9 +43,6 @@ export function backLocations(xtraCnvs) {
   cloudPosY = xtraCnvs.height * 0.32;
 
   if (horizontalView) {
-    flowWeight = 1;
-    weight = 2.5;
-    size = xtraCnvs.width * 0.073;
     streetPosX = xtraCnvs.width * 0.6;
     streetPosY = xtraCnvs.height * 0.25;
     cloudSizeX = xtraCnvs.width * 0.48;
@@ -41,21 +54,17 @@ export function backLocations(xtraCnvs) {
     shelfPosX = xtraCnvs.width * -0.05;
     shelfPosY = xtraCnvs.height * 0.3;
   } else if (!portrait2x) {
-    size = xtraCnvs.width * 0.14;
     cloudSizeX = xtraCnvs.width * 0.85;
     cloudSizeY = xtraCnvs.width * 0.9;
     cloudPosX = xtraCnvs.width * 0.4;
   } else {
-    size = xtraCnvs.width * 0.18;
     cloudSizeX = xtraCnvs.width * 1;
     cloudSizeY = xtraCnvs.width * 1.2;
     cloudPosX = xtraCnvs.width * 0.38;
   }
-  let result = [size, weight, flowWeight];
-  return result;
 }
 
-export function backImages(xtraCnvs, cloud, streetlight, shelf) {
+export function drawBackgroundImages(xtraCnvs, cloud, streetlight, shelf) {
   //streetlight
   xtraCnvs.image(streetlight, streetPosX, streetPosY);
   //cloud
@@ -64,7 +73,7 @@ export function backImages(xtraCnvs, cloud, streetlight, shelf) {
   xtraCnvs.image(shelf, shelfPosX, shelfPosY, shelfSizeX, shelfSizeY);
 }
 
-export function arrayLocations(xtraCnvs, size) {
+export function fixImagePositions(xtraCnvs, size) {
   let cloudTop = cloudPosY + cloudSizeY * 0.29;
   let cloud2Top = cloudPosY + cloudSizeY * 0.41;
   let cloud3Top = cloudPosY + cloudSizeY * 0.57;
