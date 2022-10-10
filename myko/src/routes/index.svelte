@@ -50,22 +50,9 @@
     background-repeat: repeat-y;
     background-size: cover;*/
     background: var(--ocean-800);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
     align-items: center;
-    padding-top: 70px;
-    padding-bottom: 192px;
+    padding: 70px 0 192px;
   }
-
-  /* h1 {
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 400;
-    text-transform: uppercase;
-    font-size: var(--20px);
-    color: var(--grey-050);
-  }*/
 
   p {
     font-size: var(--20px);
