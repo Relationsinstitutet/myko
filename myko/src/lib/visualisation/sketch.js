@@ -81,6 +81,7 @@ export async function setup(p5) {
   const data = await fetchActivityLog(p5);
   checkForAdds(p5, data);
   showAdded(p5);
+  return canvas;
 }
 
 function flowfieldSetup(xtraCnvs2) {
