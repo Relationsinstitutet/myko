@@ -79,6 +79,7 @@ export async function setup(p5) {
   const data = await fetchActivityLog(p5);
   checkForAdds(p5, data);
   showAdded();
+  return canvas;
 }
 
 function showAdded() {

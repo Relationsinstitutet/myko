@@ -8,11 +8,13 @@ export default {
     {
       name: 'name',
       type: 'string',
-      title: 'Activity name'
+      title: 'Activity name',
+      validation: Rule => Rule.required()
     },
     {
       name: 'slug',
       type: 'slug',
+      validation: Rule => Rule.required()
     },
     {
       name: 'listable',
@@ -40,7 +42,8 @@ export default {
       name: 'description',
       type: 'array',
       title: 'Description',
-      of: [{type: 'block'}]
+      of: [{type: 'block'}],
+      validation: Rule => Rule.required()
     },
     {
       name: 'image',

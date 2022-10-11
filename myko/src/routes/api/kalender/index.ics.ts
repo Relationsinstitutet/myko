@@ -1,4 +1,4 @@
-import { allEventsQuery, createReadClient, eventGracePeriod, notDraft } from '$lib/sanityClient';
+import { allEventsQuery, createReadClient } from '$lib/sanityClient';
 import ical from 'ical-generator';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
@@ -12,7 +12,7 @@ type Event = {
   };
 };
 
-export const get: RequestHandler<Record<string, string>, ResponseBody> = async ({ locals }) => {
+export const get: RequestHandler<Record<string, string>, ResponseBody> = async () => {
   const client = await createReadClient();
   const result = await client.fetch<Event[]>(allEventsQuery(['durationMinutes']));
 
@@ -35,6 +35,9 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
 
   return {
     status: 200,
+    headers: {
+      'Content-Type': 'text/calendar',
+    },
     body: calendar.toString(),
   };
 };
