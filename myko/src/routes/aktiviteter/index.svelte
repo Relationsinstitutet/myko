@@ -65,7 +65,6 @@
   main {
     background-color: var(--peach-300);
     align-items: center;
-    padding-left: 1.5rem;
   }
 
   ul {
@@ -88,7 +87,7 @@
     width: 0.7em;
     background-color: var(--ocean-800);
     border-radius: 50%;
-    margin-left: -1.5em;
+    margin-left: -1.25em;
   }
 
   .dot + a::before {
