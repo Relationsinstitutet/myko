@@ -1,4 +1,4 @@
-import { allEventsQuery, createReadClient } from '$lib/sanityClient';
+import { allFutureEventsQuery, createReadClient } from '$lib/sanityClient';
 import ical from 'ical-generator';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
@@ -14,7 +14,7 @@ type Event = {
 
 export const get: RequestHandler<Record<string, string>, ResponseBody> = async () => {
   const client = await createReadClient();
-  const result = await client.fetch<Event[]>(allEventsQuery(['durationMinutes']));
+  const result = await client.fetch<Event[]>(allFutureEventsQuery(['durationMinutes']));
 
   const calendar = ical({
     name: 'Myko',

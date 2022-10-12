@@ -1,6 +1,10 @@
 import type { SanityActivityType } from '$lib/models/activity';
 import type { SanityFullEventType } from '$lib/models/event';
-import { activityWithNearestEventQuery, allEventsQuery, createReadClient } from '$lib/sanityClient';
+import {
+  activityWithNearestEventQuery,
+  allFutureEventsQuery,
+  createReadClient,
+} from '$lib/sanityClient';
 import { computeNextCotime } from '$lib/util';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
@@ -11,7 +15,7 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
     events: SanityFullEventType[];
   }>(`{
     "activity": ${activityWithNearestEventQuery},
-    "events": ${allEventsQuery()}
+    "events": ${allFutureEventsQuery()}
   }`);
 
   if (data) {
