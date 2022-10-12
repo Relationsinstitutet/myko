@@ -28,7 +28,7 @@ export const get: RequestHandler<Record<string, string>, ResponseBody> = async (
     return {
       date: e._createdAt,
       activity: e.activitySlug,
-      visualisationTags: e.activityVisualisationTags
+      visualisationTags: e.activityVisualisationTags,
     };
   });
   return {
