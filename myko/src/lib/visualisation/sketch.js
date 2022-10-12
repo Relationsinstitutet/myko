@@ -57,9 +57,6 @@ let currentTime;
 let lastTime;
 let timer = 0;
 
-
-
-
 export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
   streetlight = p5.loadImage('streetlight.png');
