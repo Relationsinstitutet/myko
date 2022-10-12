@@ -96,6 +96,14 @@ export default {
         }
       ]
     },
+    {
+      name: 'visualisationTags',
+      title: 'Visualisation tags',
+      type: 'tags',
+      options: {
+        includeFromRelated: 'visualisationTags'
+      }
+    },
     orderRankField({ type: 'activity', hidden: false }),
   ],
 }
