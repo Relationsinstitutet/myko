@@ -11,6 +11,34 @@ import { flowfieldDraw, flowfieldSetup } from './flowfield';
 //import p5Svelte from 'p5-svelte';
 //import { linear } from 'svelte/easing';
 
+class Drop {
+  constructor(p5) {
+    this.x = p5.random(p5.width * 0.5, p5.width + 50);
+    this.y = p5.random(500, 250);
+    this.z = p5.random(0, 30);
+    this.w = p5.random(3);
+    this.h = map(this.z, 0, 20, 10, 20);
+    this.vel = map(this.z, 0, 3, 2, 3);
+    this.wind = 3;
+  }
+
+  update(windForce) {
+    this.wind = windForce;
+    this.y += this.vel;
+    this.x -= this.wind;
+  }
+
+  draw() {
+    noStroke();
+    rotate(PI / this.wind);
+    let c = color(180, 11, 86, 50);
+    //c = color(255); snow
+    fill(c);
+    //circle(this.x, this.y, this.w, this.h); snow
+    rect(this.x, this.y, this.w, this.h);
+  }
+}
+
 let canvas, xtraCnvs, xtraCnvs2;
 let addedThings = [],
   addedThingsMove = [];
@@ -22,6 +50,15 @@ let diys = [];
 let planes = [];
 let cranes = [];
 let thoughts = [];
+let rain = [];
+let heavy;
+let windForce;
+let currentTime;
+let lastTime;
+let timer = 0;
+
+
+
 
 export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
@@ -52,6 +89,9 @@ export async function setup(p5) {
   p5.imageMode(p5.CENTER);
   p5.rectMode(p5.CENTER);
   p5.pixelDensity(1);
+
+  generateDrops(5, 30);
+  lastTime = p5.millis();
 
   xtraCnvs = p5.createGraphics(p5.windowWidth, p5.windowHeight - 50);
   xtraCnvs.imageMode[xtraCnvs.CENTER];
@@ -102,6 +142,26 @@ export function draw(p5) {
     atm.update();
     atm.shows(index);
     atm.edge();
+  }
+
+  currentTime = p5.millis();
+  timer += currentTime - lastTime;
+  lastTime = currentTime;
+
+  if (timer > 300) {
+    heavy = random(0, 40);
+    generateDrops(heavy / 2, heavy * 2);
+
+    timer = 0;
+  }
+
+  for (let i = 0; i < rain.length; i++) {
+    if (rain[i].y > height) {
+      rain.splice(i, 1);
+    } else {
+      rain[i].update(1);
+      rain[i].draw();
+    }
   }
 }
 
@@ -215,5 +275,12 @@ function showMoving(p5, nr, type, typeName, varySize, location1, location2, rota
         noiseScl
       )
     );
+  }
+}
+
+function generateDrops(min, max) {
+  for (let i = min; i < max; i++) {
+    let drop = new Drop();
+    rain.push(drop);
   }
 }
