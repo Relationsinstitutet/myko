@@ -12,6 +12,7 @@ import { flowfieldDraw, flowfieldSetup } from './flowfield';
 //import { linear } from 'svelte/easing';
 
 let canvas, xtraCnvs, xtraCnvs2;
+let currentDate, currentWeek;
 let addedThings = [],
   addedThingsMove = [];
 let cloud, streetlight, shelf;
@@ -27,7 +28,6 @@ export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
   streetlight = p5.loadImage('streetlight.png');
   shelf = p5.loadImage('shelves.png');
-  //bucket = p5.loadImage('bucket.png');
 
   for (let i = 1; i < 8; i++) {
     teas.push(p5.loadImage(`tea${i}.png`));
@@ -61,6 +61,10 @@ export async function setup(p5) {
   xtraCnvs2.frameRate(20);
   xtraCnvs2.imageMode[xtraCnvs2.CENTER];
   xtraCnvs2.colorMode(xtraCnvs.HSL, 360, 100, 100, 1.0);
+
+  currentDate = new Date();
+  currentWeek = getWeekDate(currentDate);
+  xtraCnvs.randomSeed(currentWeek);
 
   flowfieldSetup(xtraCnvs2);
   ratio(p5);
@@ -129,8 +133,6 @@ async function fetchActivityLog(p5) {
 }
 
 function checkForNewEntries(logEntries) {
-  const currentDate = new Date();
-  const currentWeek = getWeekDate(currentDate);
   const currentDay = currentDate.getDay();
   const currentHour = currentDate.getHours();
 

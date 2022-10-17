@@ -10,6 +10,8 @@ export default class Pictures {
   }
 
   show(nr, weight) {
+    nr = this.xtraCnvs.floor(this.xtraCnvs.random(0, 12));
+
     this.xtraCnvs.imageMode(this.xtraCnvs.CENTER);
     if (this.typeNr > 11) {
       this.xtraCnvs.image(
