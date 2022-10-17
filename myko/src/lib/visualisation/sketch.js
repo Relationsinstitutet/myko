@@ -14,7 +14,8 @@ import { flowfieldDraw, flowfieldSetup } from './flowfield';
 let canvas, xtraCnvs, xtraCnvs2;
 let currentDate, currentWeek;
 let addedThings = [],
-  addedThingsMove = [];
+  addedThingsMove = [],
+  newAdds = [];
 let cloud, streetlight, shelf;
 let imagePositions, proportions; //, ideaLocations
 let teas = [];
@@ -77,11 +78,12 @@ export async function setup(p5) {
   xtraCnvs.strokeWeight(10);
   xtraCnvs.line(0, 0, p5.width, 0);
   xtraCnvs.line(0, p5.height, p5.width, p5.height);
-  //returns arrays w image locations; -cats, -tea, -diy, -xtra
+  //returns image location arrays; -cats, -tea, -diy, -xtra
   imagePositions = fixImagePositions(p5, proportions[0]);
 
   const data = await fetchActivityLog(p5);
-  checkForAdds(p5, data);
+  checkForAdds(p5, data[1], 0);
+  checkForAdds(p5, data[0], 'new');
   showAdded();
   return canvas;
 }
@@ -100,6 +102,10 @@ export function draw(p5) {
 
   flowfieldDraw(xtraCnvs2, proportions[2]);
 
+  for (const [index, na] of newAdds.entries()) {
+    na.show(index, proportions[1]);
+  }
+
   p5.image(xtraCnvs2, p5.width * 0.5, p5.height * 0.5);
   p5.image(xtraCnvs, p5.width * 0.5, p5.height * 0.5);
   for (const [index, atm] of addedThingsMove.entries()) {
@@ -117,19 +123,26 @@ async function fetchActivityLog(p5) {
   }
 
   const logEntries = await response.json();
-  checkForNewEntries(logEntries);
-  let periodEntries = logEntries.filter((el) => {
-    return el.thisWeek;
-  });
+  let entries = checkForNewEntries(logEntries);
 
   // count the number of each activity
-  return periodEntries.reduce((result, entry) => {
+  let newerEntries = entries[0].reduce((result, entry) => {
     if (!(entry.activity in result)) {
       result[entry.activity] = 0;
     }
     result[entry.activity] += 1;
     return result;
   }, {});
+
+  let newEntries = entries[1].reduce((result, entry) => {
+    if (!(entry.activity in result)) {
+      result[entry.activity] = 0;
+    }
+    result[entry.activity] += 1;
+    return result;
+  }, {});
+
+  return [newerEntries, newEntries];
 }
 
 function checkForNewEntries(logEntries) {
@@ -138,19 +151,23 @@ function checkForNewEntries(logEntries) {
 
   for (let entry of logEntries) {
     const entryDate = new Date(entry.date);
-    const newOnes = isNewDate(entryDate, currentWeek, currentDay, currentHour);
+    const acceptedEntry = isNewDate(entryDate, currentWeek, currentDay, currentHour);
 
-    if (newOnes[0]) {
-      //pastHours//
+    if (acceptedEntry[0]) {
+      entry.thisHour = true;
+    } else if (acceptedEntry[1]) {
       entry.thisWeek = true;
-      console.log('within 60-120 mins', entry);
-    } else if (newOnes[1]) {
-      //earlier this week//
-      entry.thisWeek = true;
-      console.log('this week', entry);
     }
   }
-  return logEntries;
+
+  let newerEntries = logEntries.filter((el) => {
+    return el.thisHour;
+  });
+  let newEntries = logEntries.filter((el) => {
+    return el.thisWeek;
+  });
+
+  return [newerEntries, newEntries];
 }
 
 function getWeekDate(date) {
@@ -163,9 +180,9 @@ function getWeekDate(date) {
 
 function isNewDate(entryDate, currentWeek, currentDay, currentHour) {
   const week = getWeekDate(entryDate);
+  //should change this to getDate actually, so don't risk getting the wrong day if time restriction gets longer than seven days!!!!!!!!!!!!!!!!!!!!!!!!!!
   const day = entryDate.getDay();
   const hour = entryDate.getHours();
-
   let pastHour = false;
   let earlierThisWeek = false;
 
@@ -180,20 +197,36 @@ function isNewDate(entryDate, currentWeek, currentDay, currentHour) {
   return [pastHour, earlierThisWeek];
 }
 
-function checkForAdds(p5, addedActivs) {
+function checkForAdds(p5, addedActivs, newness) {
   console.log(addedActivs);
 
   if (!addedActivs) {
     console.log('no activities yet');
   } else {
     if ('tillverka-aktivitet' in addedActivs) {
-      showThings(p5, addedActivs['tillverka-aktivitet'], diys, 'diys', 1.2, imagePositions[2]);
+      showThings(
+        p5,
+        addedActivs['tillverka-aktivitet'],
+        diys,
+        'diys',
+        1.2,
+        imagePositions[2],
+        newness
+      );
     }
     if ('halsa-pa-nasims-katter' in addedActivs) {
-      showThings(p5, addedActivs['halsa-pa-nasims-katter'], cats, 'cats', 1.32, imagePositions[0]);
+      showThings(
+        p5,
+        addedActivs['halsa-pa-nasims-katter'],
+        cats,
+        'cats',
+        1.32,
+        imagePositions[0],
+        newness
+      );
     }
     if ('te-ritual' in addedActivs) {
-      showThings(p5, addedActivs['te-ritual'], teas, 'teas', 0.82, imagePositions[1]);
+      showThings(p5, addedActivs['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness);
     }
     if ('mykomote' in addedActivs) {
       showMoving(p5, addedActivs['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
@@ -207,7 +240,7 @@ function checkForAdds(p5, addedActivs) {
   }
 }
 
-function showThings(p5, nr, type, typeName, varySize, locations) {
+function showThings(p5, nr, type, typeName, varySize, locations, newness) {
   for (let i = 0; i < nr; i++) {
     if (i >= locations.length) {
       //locations[i] = [xtraCnvs.random(xtraCnvs.width), xtraCnvs.random(xtraCnvs.height)];
@@ -223,9 +256,15 @@ function showThings(p5, nr, type, typeName, varySize, locations) {
         )
       );
     } else {
-      addedThings.push(
-        new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, p5, locations[i], i)
-      );
+      if (!newness) {
+        addedThings.push(
+          new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, p5, locations[i], i)
+        );
+      } else {
+        newAdds.push(
+          new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, p5, locations[i], i)
+        );
+      }
     }
   }
 }
