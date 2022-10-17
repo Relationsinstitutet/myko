@@ -114,9 +114,12 @@ async function fetchActivityLog(p5) {
 
   const logEntries = await response.json();
   checkForNewEntries(logEntries);
+  let periodEntries = logEntries.filter((el) => {
+    return el.thisWeek;
+  });
 
   // count the number of each activity
-  return logEntries.reduce((result, entry) => {
+  return periodEntries.reduce((result, entry) => {
     if (!(entry.activity in result)) {
       result[entry.activity] = 0;
     }
@@ -126,27 +129,53 @@ async function fetchActivityLog(p5) {
 }
 
 function checkForNewEntries(logEntries) {
-  const todayDate = new Date();
-  let nrNewAdds = 0;
+  const currentDate = new Date();
+  const currentWeek = getWeekDate(currentDate);
+  const currentDay = currentDate.getDay();
+  const currentHour = currentDate.getHours();
+
   for (let entry of logEntries) {
-    let entryDate = new Date(entry.date);
-    if (isNewDate(entryDate, todayDate)) {
-      nrNewAdds++;
-      console.log(`${entryDate}`);
+    const entryDate = new Date(entry.date);
+    const newOnes = isNewDate(entryDate, currentWeek, currentDay, currentHour);
+
+    if (newOnes[0]) {
+      //pastHours//
+      entry.thisWeek = true;
+      console.log('within 60-120 mins', entry);
+    } else if (newOnes[1]) {
+      //earlier this week//
+      entry.thisWeek = true;
+      console.log('this week', entry);
     }
   }
-  if (nrNewAdds) {
-    console.log(nrNewAdds);
-  }
+  return logEntries;
 }
 
-function isNewDate(entryDate, todayDate) {
-  if (
-    entryDate.getDate() === todayDate.getDate() &&
-    entryDate.getMonth() === todayDate.getMonth()
-  ) {
-    return true;
+function getWeekDate(date) {
+  const startDate = new Date(date.getFullYear(), 0, 1);
+  const days = Math.floor((date - startDate) / (24 * 60 * 60 * 1000));
+  const weekNumber = Math.ceil(days / 7);
+
+  return weekNumber;
+}
+
+function isNewDate(entryDate, currentWeek, currentDay, currentHour) {
+  const week = getWeekDate(entryDate);
+  const day = entryDate.getDay();
+  const hour = entryDate.getHours();
+
+  let pastHour = false;
+  let earlierThisWeek = false;
+
+  if (week >= currentWeek) {
+    //checks for present day and closest 2 hours
+    if (day === currentDay && currentHour - hour < 2) {
+      pastHour = true;
+    } else {
+      earlierThisWeek = true;
+    }
   }
+  return [pastHour, earlierThisWeek];
 }
 
 function checkForAdds(p5, addedActivs) {
