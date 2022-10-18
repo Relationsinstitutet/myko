@@ -12,6 +12,7 @@ import { flowfieldDraw, flowfieldSetup } from './flowfield';
 //import { linear } from 'svelte/easing';
 
 let canvas, xtraCnvs, xtraCnvs2;
+let currentDate, currentWeek;
 let addedThings = [],
   addedThingsMove = [];
 let cloud, streetlight, shelf;
@@ -27,7 +28,6 @@ export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
   streetlight = p5.loadImage('streetlight.png');
   shelf = p5.loadImage('shelves.png');
-  //bucket = p5.loadImage('bucket.png');
 
   for (let i = 1; i < 8; i++) {
     teas.push(p5.loadImage(`tea${i}.png`));
@@ -61,6 +61,10 @@ export async function setup(p5) {
   xtraCnvs2.frameRate(20);
   xtraCnvs2.imageMode[xtraCnvs2.CENTER];
   xtraCnvs2.colorMode(xtraCnvs.HSL, 360, 100, 100, 1.0);
+
+  currentDate = new Date();
+  currentWeek = getWeekDate(currentDate);
+  xtraCnvs.randomSeed(currentWeek);
 
   flowfieldSetup(xtraCnvs2);
   ratio(p5);
@@ -114,9 +118,12 @@ async function fetchActivityLog(p5) {
 
   const logEntries = await response.json();
   checkForNewEntries(logEntries);
+  let periodEntries = logEntries.filter((el) => {
+    return el.thisWeek;
+  });
 
   // count the number of each activity
-  return logEntries.reduce((result, entry) => {
+  return periodEntries.reduce((result, entry) => {
     if (!(entry.activity in result)) {
       result[entry.activity] = 0;
     }
@@ -126,27 +133,51 @@ async function fetchActivityLog(p5) {
 }
 
 function checkForNewEntries(logEntries) {
-  const todayDate = new Date();
-  let nrNewAdds = 0;
+  const currentDay = currentDate.getDay();
+  const currentHour = currentDate.getHours();
+
   for (let entry of logEntries) {
-    let entryDate = new Date(entry.date);
-    if (isNewDate(entryDate, todayDate)) {
-      nrNewAdds++;
-      console.log(`${entryDate}`);
+    const entryDate = new Date(entry.date);
+    const newOnes = isNewDate(entryDate, currentWeek, currentDay, currentHour);
+
+    if (newOnes[0]) {
+      //pastHours//
+      entry.thisWeek = true;
+      console.log('within 60-120 mins', entry);
+    } else if (newOnes[1]) {
+      //earlier this week//
+      entry.thisWeek = true;
+      console.log('this week', entry);
     }
   }
-  if (nrNewAdds) {
-    console.log(nrNewAdds);
-  }
+  return logEntries;
 }
 
-function isNewDate(entryDate, todayDate) {
-  if (
-    entryDate.getDate() === todayDate.getDate() &&
-    entryDate.getMonth() === todayDate.getMonth()
-  ) {
-    return true;
+function getWeekDate(date) {
+  const startDate = new Date(date.getFullYear(), 0, 1);
+  const days = Math.floor((date - startDate) / (24 * 60 * 60 * 1000));
+  const weekNumber = Math.ceil(days / 7);
+
+  return weekNumber;
+}
+
+function isNewDate(entryDate, currentWeek, currentDay, currentHour) {
+  const week = getWeekDate(entryDate);
+  const day = entryDate.getDay();
+  const hour = entryDate.getHours();
+
+  let pastHour = false;
+  let earlierThisWeek = false;
+
+  if (week >= currentWeek) {
+    //checks for present day and closest 2 hours
+    if (day === currentDay && currentHour - hour < 2) {
+      pastHour = true;
+    } else {
+      earlierThisWeek = true;
+    }
   }
+  return [pastHour, earlierThisWeek];
 }
 
 function checkForAdds(p5, addedActivs) {
