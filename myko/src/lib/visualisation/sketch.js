@@ -220,4 +220,3 @@ function showMoving(p5, nr, type, typeName, varySize, location1, location2, rota
     );
   }
 }
-
