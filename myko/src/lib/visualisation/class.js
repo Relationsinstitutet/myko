@@ -5,15 +5,17 @@ export default class Pictures {
     this.type = type;
     this.size = size;
     this.typeName = typeName;
-    this.pos = this.layer.createVector(location[0], location[1]);
+    this.pos = this.layer.createVector(location[0][0], location[0][1]);
+    location.push(location.shift());
     this.typeNr = number;
     this.randomNr = this.layer.floor(this.layer.random(0, 12));
 
+    this.incr = 1.75;
     this.startSize = startSize;
     this.finalSize = size;
   }
 
-  show(nr, weight) {
+  show(weight) {
     this.layer.imageMode(this.layer.CENTER);
     if (this.typeNr > 11) {
       this.layer.image(
@@ -36,7 +38,7 @@ export default class Pictures {
         this.layer.line(this.pos.x, this.pos.y - this.startSize / 2.1, this.pos.x, 0);
       } else {
         this.layer.image(
-          this.type[nr % this.type.length],
+          this.type[this.randomNr % this.type.length],
           this.pos.x,
           this.pos.y,
           this.startSize,
@@ -46,9 +48,17 @@ export default class Pictures {
     }
   }
 
+  grow(nr) {
+    this.startSize += this.incr * (1 / (nr + 1));
+    if (this.startSize > this.finalSize * 1.1) {
+      this.incr = 0;
+    }
+    /*try and fix up to size * 1.2 and back down to size * 1, maybe a do while? inside an if block?*/
+  }
+
   shadow() {
-    this.xtraCnvs.drawingContext.shadowBlur = 30;
-    this.xtraCnvs.drawingContext.shadowColor = 'blue';
+    this.layer.drawingContext.shadowBlur = 30;
+    this.layer.drawingContext.shadowColor = 'blue';
     //this.xtraCnvs.line(this.pos.x, this.pos.y - this.size / 2.1, this.pos.x, this.pos.y - 70);
   }
 }

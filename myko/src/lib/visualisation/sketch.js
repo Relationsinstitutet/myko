@@ -89,8 +89,8 @@ export async function setup(p5) {
 }
 
 function showAdded() {
-  for (const [index, ac] of addedThings.entries()) {
-    ac.show(index, proportions[1]);
+  for (const ac of addedThings) {
+    ac.show(proportions[1]);
   }
 }
 
@@ -111,8 +111,8 @@ export function draw(p5) {
   }
 
   for (const [index, na] of newAdds.entries()) {
-    na.show(index, proportions[1]);
-    //na.grow(index);
+    na.show(proportions[1]);
+    na.grow(index);
   }
 }
 
@@ -122,7 +122,6 @@ async function fetchActivityLog(p5) {
     console.log('Could not get activity data');
     return null;
   }
-
   const logEntries = await response.json();
   let entries = checkForNewEntries(logEntries);
 
@@ -142,7 +141,6 @@ async function fetchActivityLog(p5) {
     result[entry.activity] += 1;
     return result;
   }, {});
-
   return [newerEntries, newEntries];
 }
 
@@ -160,14 +158,12 @@ function checkForNewEntries(logEntries) {
       entry.thisWeek = true;
     }
   }
-
   let newerEntries = logEntries.filter((el) => {
     return el.thisHour;
   });
   let newEntries = logEntries.filter((el) => {
     return el.thisWeek;
   });
-
   return [newerEntries, newEntries];
 }
 
@@ -246,24 +242,16 @@ function showThings(p5, nr, type, typeName, varySize, locations, newness) {
     if (i >= locations.length) {
       //locations[i] = [xtraCnvs.random(xtraCnvs.width), xtraCnvs.random(xtraCnvs.height)];
       addedThings.push(
-        new Pictures(
-          type,
-          proportions[0] * varySize,
-          typeName,
-          xtraCnvs,
-          p5,
-          imagePositions[3][i % locations.length],
-          i
-        )
+        new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, p5, imagePositions[3], i)
       );
     } else {
       if (!newness) {
         addedThings.push(
-          new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, locations[i], i)
+          new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, locations, i)
         );
       } else {
         newAdds.push(
-          new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, locations[i], i)
+          new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, locations, i, 15)
         );
       }
     }
