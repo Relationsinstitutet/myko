@@ -102,16 +102,17 @@ export function draw(p5) {
 
   flowfieldDraw(xtraCnvs2, proportions[2]);
 
-  for (const [index, na] of newAdds.entries()) {
-    na.show(index, proportions[1]);
-  }
-
   p5.image(xtraCnvs2, p5.width * 0.5, p5.height * 0.5);
   p5.image(xtraCnvs, p5.width * 0.5, p5.height * 0.5);
   for (const [index, atm] of addedThingsMove.entries()) {
     atm.update();
     atm.shows(index);
     atm.edge();
+  }
+
+  for (const [index, na] of newAdds.entries()) {
+    na.show(index, proportions[1]);
+    //na.grow(index);
   }
 }
 
@@ -258,11 +259,11 @@ function showThings(p5, nr, type, typeName, varySize, locations, newness) {
     } else {
       if (!newness) {
         addedThings.push(
-          new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, p5, locations[i], i)
+          new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, locations[i], i)
         );
       } else {
         newAdds.push(
-          new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, p5, locations[i], i)
+          new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, locations[i], i)
         );
       }
     }
