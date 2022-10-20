@@ -34,7 +34,7 @@ class Drop {
   }
 }
 
-export function makeWeather(p5) {
+export function makeWeather(weatherType, weatherPosition, p5) {
   generateDrops(5, 30, p5);
   lastTime = p5.millis();
 

@@ -23,6 +23,9 @@ let diys = [];
 let planes = [];
 let cranes = [];
 let thoughts = [];
+let weatherOn = false;
+let weatherType = '';
+let weatherPosition = 0;
 
 export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
@@ -105,7 +108,13 @@ export function draw(p5) {
     atm.edge();
   }
 
-  makeWeather(p5);
+  weatherOn = true;
+  weatherPosition = 2;
+  weatherType = 'rain';
+  if (weatherOn) {
+    console.log('you are correct');
+    makeWeather(weatherType, weatherPosition, p5);
+  }
 }
 
 async function fetchActivityLog(p5) {
@@ -157,7 +166,20 @@ function checkForAdds(p5, addedActivs) {
 
   if (!addedActivs) {
     console.log('no activities yet');
+    weatherOn = true;
+    weatherPosition = 1;
+    weatherType = 'rain';
   } else {
+    if (!('tillverka-aktivitet' in addedActivs)) {
+      weatherOn = true;
+      weatherPosition = 2;
+      weatherType = 'rain';
+    }
+    if (!('halsa-pa-nasims-katter' in addedActivs)) {
+      weatherOn = true;
+      weatherPosition = 3;
+      weatherType = 'snow';
+    }
     if ('tillverka-aktivitet' in addedActivs) {
       showThings(p5, addedActivs['tillverka-aktivitet'], diys, 'diys', 1.2, imagePositions[2]);
     }
