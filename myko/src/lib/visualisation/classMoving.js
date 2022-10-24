@@ -85,4 +85,8 @@ export class Particles {
       this.p5.pop();
     }
   }
+
+  finished() {
+    return this.alpha < 0;
+  }
 }

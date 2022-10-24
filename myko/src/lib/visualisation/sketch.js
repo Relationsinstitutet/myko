@@ -123,7 +123,7 @@ export function draw(p5) {
     for (const [index, part] of particles.entries()) {
       part.show(particleSystem, 40 + 7 * particleSystem);
       part.update();
-      if (part.finished) {
+      if (part.finished()) {
         particles.splice(index, 1);
       } /**/
     }
@@ -260,7 +260,7 @@ function showThings(p5, nr, type, typeName, varySize, locations, newness) {
     if (i >= locations.length) {
       //locations[i] = [xtraCnvs.random(xtraCnvs.width), xtraCnvs.random(xtraCnvs.height)];
       addedThings.push(
-        new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, p5, imagePositions[3], i)
+        new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, imagePositions[3], i)
       );
     } else {
       if (!newness) {

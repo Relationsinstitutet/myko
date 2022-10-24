@@ -35,7 +35,7 @@ export function flowfieldDraw(xtraCnvs2, flowWeight) {
       0
     );
 
-    xtraCnvs2.stroke(h, 95, l, a);
+    xtraCnvs2.stroke(h, 85, l, a);
 
     let angle = xtraCnvs2.map(
       xtraCnvs2.noise(points[i].x * mult, points[i].y * mult),
