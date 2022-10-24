@@ -127,6 +127,7 @@ async function fetchActivityLog(p5) {
 
   // count the number of each activity
   let newerEntries = entries[0].reduce((result, entry) => {
+
     if (!(entry.activity in result)) {
       result[entry.activity] = 0;
     }
@@ -180,6 +181,7 @@ function isNewDate(entryDate, currentWeek, currentDay, currentHour) {
   //should change this to getDate actually, so don't risk getting the wrong day if time restriction gets longer than seven days!!!!!!!!!!!!!!!!!!!!!!!!!!
   const day = entryDate.getDay();
   const hour = entryDate.getHours();
+
   let pastHour = false;
   let earlierThisWeek = false;
 
