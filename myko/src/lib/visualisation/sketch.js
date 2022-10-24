@@ -164,12 +164,12 @@ async function fetchActivityLog(p5) {
 }
 
 function checkForNewEntries(logEntries) {
-  const currentDay = currentDate.getDay();
+  const currentDay = currentDate.getDate();
   const currentHour = currentDate.getHours();
 
   for (let entry of logEntries) {
     const entryDate = new Date(entry.date);
-    const acceptedEntry = isNewDate(entryDate, currentWeek, currentDay, currentHour);
+    const acceptedEntry = isNewDate(entryDate, currentDay, currentHour);
     if (acceptedEntry[0]) {
       entry.thisHour = true;
     } else if (acceptedEntry[1]) {
@@ -193,10 +193,9 @@ function getWeekDate(date) {
   return weekNumber;
 }
 
-function isNewDate(entryDate, currentWeek, currentDay, currentHour) {
+function isNewDate(entryDate, currentDay, currentHour) {
   const week = getWeekDate(entryDate);
-  //should change this to getDate actually, so don't risk getting the wrong day if time restriction gets longer than seven days!!!!!!!!!!!!!!!!!!!!!!!!!!
-  const day = entryDate.getDay();
+  const day = entryDate.getDate();
   const hour = entryDate.getHours();
   let pastHour = false;
   let earlierThisWeek = false;
