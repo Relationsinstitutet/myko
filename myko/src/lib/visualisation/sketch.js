@@ -110,9 +110,8 @@ export function draw(p5) {
 
   weatherOn = true;
   weatherPosition = 2;
-  weatherType = 'rain';
-  if (weatherOn) {
-    console.log('you are correct');
+  weatherType = 'snow';
+  if (weatherOn && weatherType) {
     makeWeather(weatherType, weatherPosition, p5);
   }
 }
@@ -168,12 +167,12 @@ function checkForAdds(p5, addedActivs) {
     console.log('no activities yet');
     weatherOn = true;
     weatherPosition = 1;
-    weatherType = 'rain';
+    // weatherType = 'rain';
   } else {
     if (!('tillverka-aktivitet' in addedActivs)) {
       weatherOn = true;
       weatherPosition = 2;
-      weatherType = 'rain';
+      // weatherType = 'rain';
     }
     if (!('halsa-pa-nasims-katter' in addedActivs)) {
       weatherOn = true;

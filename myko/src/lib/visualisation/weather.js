@@ -8,6 +8,7 @@ class Drop {
   constructor(p5) {
     this.p5 = p5;
 
+    // Here you set where the drops should begin
     this.x = this.p5.random(this.p5.width * 0.5, this.p5.width + 50);
     this.y = this.p5.random(500, 250);
     this.z = this.p5.random(0, 30);
@@ -23,14 +24,19 @@ class Drop {
     this.x -= this.wind;
   }
 
-  draw() {
+  draw(weatherType) {
     this.p5.noStroke();
     this.p5.rotate(this.p5.PI / this.wind);
-    let c = this.p5.color(180, 11, 86, 50);
-    //c = color(255); snow
+    let c;
+    if (weatherType == 'rain') {
+      c = this.p5.color(180, 11, 86, 50);
+      this.p5.rect(this.x, this.y, this.w, this.h);
+    }
+    if (weatherType == 'snow') {
+      c = this.p5.color(255);
+      this.p5.circle(this.x, this.y, this.w, this.h);
+    }
     this.p5.fill(c);
-    //circle(this.x, this.y, this.w, this.h); snow
-    this.p5.rect(this.x, this.y, this.w, this.h);
   }
 }
 
@@ -54,7 +60,7 @@ export function makeWeather(weatherType, weatherPosition, p5) {
       rain.splice(i, 1);
     } else {
       rain[i].update(1);
-      rain[i].draw();
+      rain[i].draw(weatherType);
     }
   }
 }
