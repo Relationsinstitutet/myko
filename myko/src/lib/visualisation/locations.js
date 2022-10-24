@@ -151,7 +151,8 @@ export function fixImagePositions(xtraCnvs, size) {
     [xtraCnvs.width * 0.3, yLevel * 0.25],
   ];
 
-  let particleLoc = [streetPosX + streetSizeX * 0.5, streetPosY - streetSizeY * 0.1];
+  //let particleLoc = [xtraCnvs.width * 0.5, xtraCnvs.height * 0.5];
+  let particleLoc = [streetPosX + streetSizeX * 0.5, streetPosY - streetSizeY * 0.02];
 
   let result = [catLoc, teaLoc, diyLoc, xtraLoc, particleLoc];
   return result;

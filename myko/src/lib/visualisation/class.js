@@ -50,7 +50,7 @@ export default class Pictures {
 
   grow(nr) {
     this.startSize += this.incr * (1 / (nr + 1));
-    if (this.startSize > this.finalSize * 1.1) {
+    if (this.startSize > this.finalSize * 1.05) {
       this.incr = 0;
     }
     /*try and fix up to size * 1.2 and back down to size * 1, maybe a do while? inside an if block?*/

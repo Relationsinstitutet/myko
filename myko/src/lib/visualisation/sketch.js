@@ -18,14 +18,13 @@ let addedThings = [],
   particles = [],
   newAdds = [];
 let cloud, streetlight, shelf;
-let imagePositions, proportions; //, ideaLocations
+let imagePositions, proportions;
 let teas = [];
 let cats = [];
 let diys = [];
 let planes = [];
 let cranes = [];
-let particleSystem = false,
-  particleNr;
+let particleSystem, particleSize, p;
 
 export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
@@ -54,6 +53,8 @@ export async function setup(p5) {
   p5.frameRate(20);
   p5.imageMode(p5.CENTER);
   p5.rectMode(p5.CENTER);
+  p5.colorMode(p5.HSL, 360, 100, 100, 1.0);
+  p5.stroke(185, 94, 8, 1);
   p5.pixelDensity(1);
 
   xtraCnvs = p5.createGraphics(p5.windowWidth, p5.windowHeight - 50);
@@ -68,6 +69,7 @@ export async function setup(p5) {
   currentDate = new Date();
   currentWeek = getWeekDate(currentDate);
   xtraCnvs.randomSeed(currentWeek);
+  p5.randomSeed(currentWeek);
 
   flowfieldSetup(xtraCnvs2);
   ratio(p5);
@@ -80,7 +82,7 @@ export async function setup(p5) {
   xtraCnvs.strokeWeight(10);
   xtraCnvs.line(0, 0, p5.width, 0);
   xtraCnvs.line(0, p5.height, p5.width, p5.height);
-  //returns image location arrays; -cats, -tea, -diy, -xtra
+  //returns image location arrays; -cats, -tea, -diy, -xtra, -particles
   imagePositions = fixImagePositions(p5, proportions[0]);
 
   const data = await fetchActivityLog(p5);
@@ -98,7 +100,7 @@ function showAdded() {
 
 export function draw(p5) {
   //cutout to show samtid menu behind canvas
-  p5.background(2, 106, 116, 100);
+  p5.background(185, 97, 23, 0.8);
   p5.erase();
   p5.rect(p5.width * 0.5, 125, 227, 36);
   p5.noErase();
@@ -114,15 +116,16 @@ export function draw(p5) {
   }
 
   if (particleSystem) {
-    let p = new Particles(imagePositions[4][0], imagePositions[4][1], 12, p5);
-    particles.push(p);
-
-    for (const [index, part] of particles) {
-      part.show(particleNr);
+    if (p5.frameCount % p5.floor(20 / particleSystem) == 0) {
+      p = new Particles(imagePositions[4][0], imagePositions[4][1], particleSize, p5);
+      particles.push(p);
+    }
+    for (const [index, part] of particles.entries()) {
+      part.show(particleSystem, 40 + 7 * particleSystem);
       part.update();
       if (part.finished) {
         particles.splice(index, 1);
-      }
+      } /**/
     }
   }
 
@@ -167,7 +170,6 @@ function checkForNewEntries(logEntries) {
   for (let entry of logEntries) {
     const entryDate = new Date(entry.date);
     const acceptedEntry = isNewDate(entryDate, currentWeek, currentDay, currentHour);
-
     if (acceptedEntry[0]) {
       entry.thisHour = true;
     } else if (acceptedEntry[1]) {
@@ -245,8 +247,8 @@ function checkForAdds(p5, addedActivs, newness) {
       showMoving(p5, addedActivs['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
     //prata-om-tema
-    if ('prata-om-tema' in addedActivs) {
-      showParticleSystem(p5, addedActivs['halsa-pa-nasims-katter']);
+    if ('halsa-pa-nasims-katter' in addedActivs) {
+      showParticleSystem(addedActivs['halsa-pa-nasims-katter'], 0.15);
     }
     if ('gor-ri-byrakrati' in addedActivs) {
       showMoving(p5, addedActivs['gor-ri-byrakrati'], cranes, 'cranes', 0.85, 0.4, 0.6, 3.4, 150);
@@ -292,9 +294,8 @@ function showMoving(p5, nr, type, typeName, varySize, location1, location2, rota
   }
 }
 
-function showParticleSystem(p5, nr) {
-  particleSystem = true;
-  //particleSystem = new Particles(imagePositions[4][0], imagePositions[4][1], 12, p5);
-  //particles.push(particleSystem);
-  particleNr = nr;
+function showParticleSystem(nr, varySize) {
+  particleSystem = nr;
+  console.log(particleSystem);
+  particleSize = proportions[0] * varySize;
 }

@@ -1,6 +1,6 @@
 //import Pictures from './class';
 
-export default class MovingPics /*extends Pictures*/ {
+export class MovingPics /*extends Pictures*/ {
   constructor(type, size, typeName, p5, location, rotation, noiseScl) {
     //super(type, size, typeName);
     this.p5 = p5;
@@ -62,21 +62,27 @@ export class Particles {
   constructor(x, y, size, p5) {
     this.p5 = p5;
     this.pos = this.p5.createVector(x, y);
-    this.vel = this.p5.createVector(this.p5.random(-0.25, 0.25), -1);
+    this.vel = this.p5.createVector(this.p5.random(-0.25, 0.25), this.p5.random(-0.25, -0.4));
     this.size = size;
-    this.alpha = 1;
+    this.alpha = 0.8;
+    this.h = 35;
   }
 
   update() {
     this.pos.add(this.vel);
-    this.alpha -= 0.05;
+    this.alpha -= 0.005;
+    this.size += 0.05;
   }
 
-  show(nr) {
+  show(nr, hue) {
+    this.vel.y -= 0.001 * nr;
+    this.h = hue;
     for (let i = 0; i < nr; i++) {
+      this.p5.push();
       this.p5.noStroke();
-      this.p5.fill(195, 20, 95, this.alpha);
+      this.p5.fill(this.h, 88, 90, this.alpha);
       this.p5.circle(this.pos.x, this.pos.y, this.size);
+      this.p5.pop();
     }
   }
 }
