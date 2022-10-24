@@ -1,5 +1,5 @@
 import Pictures from './class';
-import MovingPics from './classMoving';
+import { MovingPics, Particles } from './classMoving';
 import {
   ratio,
   proportionsByRatio,
@@ -15,6 +15,7 @@ let canvas, xtraCnvs, xtraCnvs2;
 let currentDate, currentWeek;
 let addedThings = [],
   addedThingsMove = [],
+  particles = [],
   newAdds = [];
 let cloud, streetlight, shelf;
 let imagePositions, proportions; //, ideaLocations
@@ -23,7 +24,8 @@ let cats = [];
 let diys = [];
 let planes = [];
 let cranes = [];
-let thoughts = [];
+let particleSystem = false,
+  particleNr;
 
 export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
@@ -38,9 +40,9 @@ export function preload(p5) {
     cats.push(p5.loadImage(`cat${i}.png`));
   }
   planes.push(p5.loadImage('paperplane.png'));
-  for (let i = 1; i < 5; i++) {
+  /*for (let i = 1; i < 5; i++) {
     cranes.push(p5.loadImage(`crane${i}.png`));
-  }
+  }*/
 }
 
 export function windowResized(p5) {
@@ -95,6 +97,7 @@ function showAdded() {
 }
 
 export function draw(p5) {
+  //cutout to show samtid menu behind canvas
   p5.background(2, 106, 116, 100);
   p5.erase();
   p5.rect(p5.width * 0.5, 125, 227, 36);
@@ -108,6 +111,19 @@ export function draw(p5) {
     atm.update();
     atm.shows(index);
     atm.edge();
+  }
+
+  if (particleSystem) {
+    let p = new Particles(imagePositions[4][0], imagePositions[4][1], 12, p5);
+    particles.push(p);
+
+    for (const [index, part] of particles) {
+      part.show(particleNr);
+      part.update();
+      if (part.finished) {
+        particles.splice(index, 1);
+      }
+    }
   }
 
   for (const [index, na] of newAdds.entries()) {
@@ -228,8 +244,9 @@ function checkForAdds(p5, addedActivs, newness) {
     if ('mykomote' in addedActivs) {
       showMoving(p5, addedActivs['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
+    //prata-om-tema
     if ('prata-om-tema' in addedActivs) {
-      showMoving(p5, addedActivs['prata-om-tema'], thoughts, 'thoughts', 0.5, 0.25, 0.75, 0, 1);
+      showParticleSystem(p5, addedActivs['halsa-pa-nasims-katter']);
     }
     if ('gor-ri-byrakrati' in addedActivs) {
       showMoving(p5, addedActivs['gor-ri-byrakrati'], cranes, 'cranes', 0.85, 0.4, 0.6, 3.4, 150);
@@ -250,9 +267,7 @@ function showThings(p5, nr, type, typeName, varySize, locations, newness) {
           new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, locations, i)
         );
       } else {
-        newAdds.push(
-          new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, locations, i, 15)
-        );
+        newAdds.push(new Pictures(type, proportions[0] * varySize, typeName, p5, locations, i, 15));
       }
     }
   }
@@ -275,4 +290,11 @@ function showMoving(p5, nr, type, typeName, varySize, location1, location2, rota
       )
     );
   }
+}
+
+function showParticleSystem(p5, nr) {
+  particleSystem = true;
+  //particleSystem = new Particles(imagePositions[4][0], imagePositions[4][1], 12, p5);
+  //particles.push(particleSystem);
+  particleNr = nr;
 }

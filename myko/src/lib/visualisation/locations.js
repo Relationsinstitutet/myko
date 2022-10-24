@@ -1,5 +1,5 @@
 let shelfPosX, shelfPosY, shelfSizeX, shelfSizeY;
-let streetPosX, streetPosY;
+let streetPosX, streetPosY, streetSizeX, streetSizeY;
 let cloudPosX, cloudPosY, cloudSizeX, cloudSizeY;
 let startPos, xInc, yLevel;
 let imageSize, strokeWeight, flowfieldStrokeWeight;
@@ -38,11 +38,15 @@ export function fixBgImagePositions(xtraCnvs) {
   shelfPosY = xtraCnvs.height * 0.5;
   shelfSizeX = xtraCnvs.width * 0.67;
   shelfSizeY = xtraCnvs.height * 0.46;
-  streetPosX = xtraCnvs.windowWidth * 0.75;
+  streetPosX = xtraCnvs.width * 0.7;
   streetPosY = xtraCnvs.windowHeight * 0.3;
+  streetSizeX = xtraCnvs.width * 0.4;
+  streetSizeY = xtraCnvs.height * 0.85;
   cloudPosY = xtraCnvs.height * 0.32;
 
   if (horizontalView) {
+    streetSizeX = xtraCnvs.width * 0.15;
+    streetSizeY = xtraCnvs.height * 1.1;
     streetPosX = xtraCnvs.width * 0.6;
     streetPosY = xtraCnvs.height * 0.25;
     cloudSizeX = xtraCnvs.width * 0.48;
@@ -66,7 +70,7 @@ export function fixBgImagePositions(xtraCnvs) {
 
 export function drawBackgroundImages(xtraCnvs, cloud, streetlight, shelf) {
   //streetlight
-  xtraCnvs.image(streetlight, streetPosX, streetPosY);
+  xtraCnvs.image(streetlight, streetPosX, streetPosY, streetSizeX, streetSizeY);
   //cloud
   xtraCnvs.image(cloud, cloudPosX, cloudPosY, cloudSizeX, cloudSizeY);
   //shelf
@@ -147,6 +151,8 @@ export function fixImagePositions(xtraCnvs, size) {
     [xtraCnvs.width * 0.3, yLevel * 0.25],
   ];
 
-  let result = [catLoc, teaLoc, diyLoc, xtraLoc];
+  let particleLoc = [streetPosX + streetSizeX * 0.5, streetPosY - streetSizeY * 0.1];
+
+  let result = [catLoc, teaLoc, diyLoc, xtraLoc, particleLoc];
   return result;
 }
