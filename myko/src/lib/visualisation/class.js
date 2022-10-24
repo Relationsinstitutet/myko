@@ -15,8 +15,10 @@ export default class Pictures {
     this.finalSize = size;
   }
 
+
   show(weight) {
     this.layer.imageMode(this.layer.CENTER);
+
     if (this.typeNr > 11) {
       this.layer.image(
         this.type[this.randomNr % this.type.length],
