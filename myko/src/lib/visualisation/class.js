@@ -1,53 +1,64 @@
 export default class Pictures {
-  constructor(type, size, typeName, xtraCnvs, p5, location, number) {
-    //this.p5 = p5;
-    this.xtraCnvs = xtraCnvs;
+  constructor(type, size, typeName, layer, location, number, startSize = size) {
+    this.layer = layer;
     this.type = type;
     this.size = size;
     this.typeName = typeName;
-    this.pos = this.xtraCnvs.createVector(location[0], location[1]);
+    this.pos = this.layer.createVector(location[0][0], location[0][1]);
+    location.push(location.shift());
     this.typeNr = number;
+    this.randomNr = this.layer.floor(this.layer.random(0, 12));
+
+    this.incr = 1.75;
+    this.startSize = startSize;
+    this.finalSize = size;
   }
 
-  show(nr, weight) {
-    nr = this.xtraCnvs.floor(this.xtraCnvs.random(0, 12));
+  show(weight) {
+    this.layer.imageMode(this.layer.CENTER);
 
-    this.xtraCnvs.imageMode(this.xtraCnvs.CENTER);
     if (this.typeNr > 11) {
-      this.xtraCnvs.image(
-        this.type[nr % this.type.length],
-        this.pos.x + this.xtraCnvs.random(this.xtraCnvs.width * -0.04, this.xtraCnvs.width * 0.04),
-        this.pos.y +
-          this.xtraCnvs.random(this.xtraCnvs.height * -0.015, this.xtraCnvs.height * 0.015),
-        this.size * 0.65,
-        this.size * 0.65
+      this.layer.image(
+        this.type[this.randomNr % this.type.length],
+        this.pos.x + this.layer.random(this.layer.width * -0.04, this.layer.width * 0.04),
+        this.pos.y + this.layer.random(this.layer.height * -0.015, this.layer.height * 0.015),
+        this.startSize * 0.65,
+        this.startSize * 0.65
       );
     } else {
       if (this.typeName === 'teas') {
-        this.xtraCnvs.image(
-          this.type[nr % this.type.length],
+        this.layer.image(
+          this.type[this.randomNr % this.type.length],
           this.pos.x,
           this.pos.y,
-          this.size,
-          this.size
+          this.startSize,
+          this.startSize
         );
-        this.xtraCnvs.strokeWeight(weight);
-        this.xtraCnvs.line(this.pos.x, this.pos.y - this.size / 2.1, this.pos.x, 0);
+        this.layer.strokeWeight(weight);
+        this.layer.line(this.pos.x, this.pos.y - this.startSize / 2.1, this.pos.x, 0);
       } else {
-        this.xtraCnvs.image(
-          this.type[nr % this.type.length],
+        this.layer.image(
+          this.type[this.randomNr % this.type.length],
           this.pos.x,
           this.pos.y,
-          this.size,
-          this.size
+          this.startSize,
+          this.startSize
         );
       }
     }
   }
 
+  grow(nr) {
+    this.startSize += this.incr * (1 / (nr + 1));
+    if (this.startSize > this.finalSize * 1.1) {
+      this.incr = 0;
+    }
+    /*try and fix up to size * 1.2 and back down to size * 1, maybe a do while? inside an if block?*/
+  }
+
   shadow() {
-    this.xtraCnvs.drawingContext.shadowBlur = 30;
-    this.xtraCnvs.drawingContext.shadowColor = 'blue';
+    this.layer.drawingContext.shadowBlur = 30;
+    this.layer.drawingContext.shadowColor = 'blue';
     //this.xtraCnvs.line(this.pos.x, this.pos.y - this.size / 2.1, this.pos.x, this.pos.y - 70);
   }
 }
