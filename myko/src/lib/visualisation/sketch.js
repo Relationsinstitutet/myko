@@ -127,7 +127,6 @@ async function fetchActivityLog(p5) {
 
   // count the number of each activity
   let newerEntries = entries[0].reduce((result, entry) => {
-
     if (!(entry.activity in result)) {
       result[entry.activity] = 0;
     }
@@ -242,7 +241,6 @@ function checkForAdds(p5, addedActivs, newness) {
 function showThings(p5, nr, type, typeName, varySize, locations, newness) {
   for (let i = 0; i < nr; i++) {
     if (i >= locations.length) {
-      //locations[i] = [xtraCnvs.random(xtraCnvs.width), xtraCnvs.random(xtraCnvs.height)];
       addedThings.push(
         new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, p5, imagePositions[3], i)
       );

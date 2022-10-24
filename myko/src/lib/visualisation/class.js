@@ -1,6 +1,5 @@
 export default class Pictures {
   constructor(type, size, typeName, layer, location, number, startSize = size) {
-    //this.p5 = p5;
     this.layer = layer;
     this.type = type;
     this.size = size;
@@ -14,7 +13,6 @@ export default class Pictures {
     this.startSize = startSize;
     this.finalSize = size;
   }
-
 
   show(weight) {
     this.layer.imageMode(this.layer.CENTER);
