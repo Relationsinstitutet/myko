@@ -120,12 +120,13 @@ export function draw(p5) {
       p = new Particles(imagePositions[4][0], imagePositions[4][1], particleSize, p5);
       particles.push(p);
     }
-    for (const [index, part] of particles.entries()) {
-      part.show(particleSystem, 40 + 7 * particleSystem);
-      part.update();
-      if (part.finished()) {
-        particles.splice(index, 1);
-      } /**/
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      particles[i].show(particleSystem, 40 + 10 * particleSystem);
+      particles[i].update();
+      if (particles[i].finished()) {
+        particles.splice(i, 1);
+      }
     }
   }
 
