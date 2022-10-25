@@ -114,13 +114,11 @@ export function draw(p5) {
     atm.shows(index);
     atm.edge();
   }
-
   if (particleSystem) {
     if (p5.frameCount % p5.floor(20 / particleSystem) == 0) {
       p = new Particles(imagePositions[4][0], imagePositions[4][1], particleSize, p5);
       particles.push(p);
     }
-
     for (let i = particles.length - 1; i >= 0; i--) {
       particles[i].show(particleSystem, 40 + 10 * particleSystem);
       particles[i].update();
