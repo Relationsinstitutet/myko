@@ -202,19 +202,10 @@ function checkForAdds(p5, addedActivs, newness) {
     console.log('no activities yet');
   } else {
     if ('tillverka-aktivitet' in addedActivs) {
-      showThings(
-        p5,
-        addedActivs['tillverka-aktivitet'],
-        diys,
-        'diys',
-        1.2,
-        imagePositions[2],
-        newness
-      );
+      showThings(addedActivs['tillverka-aktivitet'], diys, 'diys', 1.2, imagePositions[2], newness);
     }
     if ('halsa-pa-nasims-katter' in addedActivs) {
       showThings(
-        p5,
         addedActivs['halsa-pa-nasims-katter'],
         cats,
         'cats',
@@ -224,7 +215,7 @@ function checkForAdds(p5, addedActivs, newness) {
       );
     }
     if ('te-ritual' in addedActivs) {
-      showThings(p5, addedActivs['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness);
+      showThings(addedActivs['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness);
     }
     if ('mykomote' in addedActivs) {
       showMoving(p5, addedActivs['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
@@ -238,11 +229,11 @@ function checkForAdds(p5, addedActivs, newness) {
   }
 }
 
-function showThings(p5, nr, type, typeName, varySize, locations, newness) {
+function showThings(nr, type, typeName, varySize, locations, newness) {
   for (let i = 0; i < nr; i++) {
     if (i >= locations.length) {
       addedThings.push(
-        new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, p5, imagePositions[3], i)
+        new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, imagePositions[3], i)
       );
     } else {
       if (!newness) {
