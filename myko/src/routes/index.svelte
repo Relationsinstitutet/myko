@@ -42,14 +42,21 @@
       buffer.height
     );
 
-    buffer.textFont('Roboto Mono');
-    buffer.fill(255, 255, 255);
-    buffer.textSize(32);
+    buffer.rectMode(p5Ref.CENTER);
+    const cutOutCenterX = buffer.width * 0.5;
+    const cutOutCenterY = 125;
+    const cutOutWidth = 229;
 
-    const textOffset = 20;
+    buffer.fill(2, 106, 116);
+    buffer.noStroke();
+    buffer.rect(cutOutCenterX, cutOutCenterY, cutOutWidth, 38);
+
     const now = new Date();
     const dateText = now.toLocaleString();
-    buffer.text(dateText, textOffset, buffer.height - textOffset);
+    buffer.textFont('Roboto Mono');
+    buffer.fill(255, 255, 255);
+    buffer.textSize(18);
+    buffer.text(dateText, cutOutCenterX, cutOutCenterY, cutOutWidth);
 
     const shortDate = now.toLocaleString('sv-SE', {
       year: '2-digit',
