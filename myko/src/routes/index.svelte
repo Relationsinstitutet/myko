@@ -47,14 +47,14 @@
     const cutOutCenterY = 125;
     const cutOutWidth = 229;
 
-    buffer.fill(2, 106, 116);
+    buffer.fill(229, 245, 238);
     buffer.noStroke();
     buffer.rect(cutOutCenterX, cutOutCenterY, cutOutWidth, 38);
 
     const now = new Date();
     const dateText = now.toLocaleString();
     buffer.textFont('Roboto Mono');
-    buffer.fill(255, 255, 255);
+    buffer.fill(59, 59, 59);
     buffer.textSize(18);
     buffer.text(dateText, cutOutCenterX, cutOutCenterY, cutOutWidth);
 
