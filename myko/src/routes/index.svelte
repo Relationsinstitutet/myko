@@ -46,17 +46,19 @@
     const cutOutCenterX = buffer.width * 0.5;
     const cutOutCenterY = 125;
     const cutOutWidth = 229;
+    const cutOutheight = 38;
 
     buffer.fill(229, 245, 238);
     buffer.noStroke();
-    buffer.rect(cutOutCenterX, cutOutCenterY, cutOutWidth, 38);
+    buffer.rect(cutOutCenterX, cutOutCenterY, cutOutWidth, cutOutheight);
 
     const now = new Date();
     const dateText = now.toLocaleString();
     buffer.textFont('Roboto Mono');
     buffer.fill(59, 59, 59);
     buffer.textSize(18);
-    buffer.text(dateText, cutOutCenterX, cutOutCenterY, cutOutWidth);
+    buffer.textAlign(p5Ref.CENTER, p5Ref.CENTER);
+    buffer.text(dateText, cutOutCenterX, cutOutCenterY, cutOutWidth, cutOutheight);
 
     const shortDate = now.toLocaleString('sv-SE', {
       year: '2-digit',
