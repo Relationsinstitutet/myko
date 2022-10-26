@@ -71,7 +71,9 @@
 
 <main>
   {#if nextUpcomingCotime}
-    <CotimeInfo cotime={nextUpcomingCotime} />
+    <div class="cotime-wrapper">
+      <CotimeInfo cotime={nextUpcomingCotime} />
+    </div>
   {/if}
 
   <!--<h1>Myko</h1>-->
@@ -104,6 +106,10 @@
   p {
     font-size: var(--20px);
     color: var(--grey-050);
+  }
+
+  .cotime-wrapper {
+    z-index: 1;
   }
 
   @media (min-width: 45rem) {
