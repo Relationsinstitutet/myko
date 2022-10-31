@@ -26,11 +26,14 @@ let thoughts = [];
 let weatherOn = false;
 let weatherType = '';
 let weatherPosition = 0;
+let precipitationCloud;
 
 export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
   streetlight = p5.loadImage('streetlight.png');
   shelf = p5.loadImage('shelves.png');
+  precipitationCloud = p5.loadImage('precipitationcloud.png');
+
   //bucket = p5.loadImage('bucket.png');
 
   for (let i = 1; i < 8; i++) {
@@ -112,6 +115,7 @@ export function draw(p5) {
   weatherPosition = 2;
   weatherType = 'snow';
   if (weatherOn && weatherType) {
+    p5.image(precipitationCloud, 500, 250);
     makeWeather(weatherType, weatherPosition, p5);
   }
 }
