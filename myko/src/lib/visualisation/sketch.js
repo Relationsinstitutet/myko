@@ -13,8 +13,10 @@ import { flowfieldDraw, flowfieldSetup } from './flowfield';
 import { makeWeather } from './weather';
 
 let canvas, xtraCnvs, xtraCnvs2;
+let currentDate, currentWeek;
 let addedThings = [],
-  addedThingsMove = [];
+  addedThingsMove = [],
+  newAdds = [];
 let cloud, streetlight, shelf;
 let imagePositions, proportions; //, ideaLocations
 let teas = [];
@@ -32,9 +34,6 @@ export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
   streetlight = p5.loadImage('streetlight.png');
   shelf = p5.loadImage('shelves.png');
-  precipitationCloud = p5.loadImage('precipitationcloud.png');
-
-  //bucket = p5.loadImage('bucket.png');
 
   for (let i = 1; i < 8; i++) {
     teas.push(p5.loadImage(`tea${i}.png`));
@@ -69,6 +68,10 @@ export async function setup(p5) {
   xtraCnvs2.imageMode[xtraCnvs2.CENTER];
   xtraCnvs2.colorMode(xtraCnvs.HSL, 360, 100, 100, 1.0);
 
+  currentDate = new Date();
+  currentWeek = getWeekDate(currentDate);
+  xtraCnvs.randomSeed(currentWeek);
+
   flowfieldSetup(xtraCnvs2);
   ratio(p5);
   //returns -foreground image size, -(stroke)weight, -flowfield strokeweight
@@ -80,18 +83,19 @@ export async function setup(p5) {
   xtraCnvs.strokeWeight(10);
   xtraCnvs.line(0, 0, p5.width, 0);
   xtraCnvs.line(0, p5.height, p5.width, p5.height);
-  //returns arrays w image locations; -cats, -tea, -diy, -xtra
+  //returns image location arrays; -cats, -tea, -diy, -xtra
   imagePositions = fixImagePositions(p5, proportions[0]);
 
   const data = await fetchActivityLog(p5);
-  checkForAdds(p5, data);
+  checkForAdds(p5, data[1], 0);
+  checkForAdds(p5, data[0], 'new');
   showAdded();
   return canvas;
 }
 
 function showAdded() {
-  for (const [index, ac] of addedThings.entries()) {
-    ac.show(index, proportions[1]);
+  for (const ac of addedThings) {
+    ac.show(proportions[1]);
   }
 }
 
@@ -114,6 +118,11 @@ export function draw(p5) {
     p5.image(precipitationCloud, weatherPosition[0], weatherPosition[1]);
     makeWeather(weatherType, weatherPosition, p5);
   }
+
+  for (const [index, na] of newAdds.entries()) {
+    na.show(proportions[1]);
+    na.grow(index);
+  }
 }
 
 async function fetchActivityLog(p5) {
@@ -122,45 +131,80 @@ async function fetchActivityLog(p5) {
     console.log('Could not get activity data');
     return null;
   }
-
   const logEntries = await response.json();
-  checkForNewEntries(logEntries);
+  let entries = checkForNewEntries(logEntries);
 
   // count the number of each activity
-  return logEntries.reduce((result, entry) => {
+  let newerEntries = entries[0].reduce((result, entry) => {
     if (!(entry.activity in result)) {
       result[entry.activity] = 0;
     }
     result[entry.activity] += 1;
     return result;
   }, {});
+
+  let newEntries = entries[1].reduce((result, entry) => {
+    if (!(entry.activity in result)) {
+      result[entry.activity] = 0;
+    }
+    result[entry.activity] += 1;
+    return result;
+  }, {});
+  return [newerEntries, newEntries];
 }
 
 function checkForNewEntries(logEntries) {
-  const todayDate = new Date();
-  let nrNewAdds = 0;
+  const currentDay = currentDate.getDay();
+  const currentHour = currentDate.getHours();
+
   for (let entry of logEntries) {
-    let entryDate = new Date(entry.date);
-    if (isNewDate(entryDate, todayDate)) {
-      nrNewAdds++;
-      console.log(`${entryDate}`);
+    const entryDate = new Date(entry.date);
+    const acceptedEntry = isNewDate(entryDate, currentWeek, currentDay, currentHour);
+
+    if (acceptedEntry[0]) {
+      entry.thisHour = true;
+    } else if (acceptedEntry[1]) {
+      entry.thisWeek = true;
     }
   }
-  if (nrNewAdds) {
-    console.log(nrNewAdds);
-  }
+  let newerEntries = logEntries.filter((el) => {
+    return el.thisHour;
+  });
+  let newEntries = logEntries.filter((el) => {
+    return el.thisWeek;
+  });
+  return [newerEntries, newEntries];
 }
 
-function isNewDate(entryDate, todayDate) {
-  if (
-    entryDate.getDate() === todayDate.getDate() &&
-    entryDate.getMonth() === todayDate.getMonth()
-  ) {
-    return true;
-  }
+function getWeekDate(date) {
+  const startDate = new Date(date.getFullYear(), 0, 1);
+  const days = Math.floor((date - startDate) / (24 * 60 * 60 * 1000));
+  const weekNumber = Math.ceil(days / 7);
+
+  return weekNumber;
 }
 
-function checkForAdds(p5, addedActivs) {
+function isNewDate(entryDate, currentWeek, currentDay, currentHour) {
+  const week = getWeekDate(entryDate);
+  //should change this to getDate actually, so don't risk getting the wrong day if time restriction gets longer than seven days!!!!!!!!!!!!!!!!!!!!!!!!!!
+  const day = entryDate.getDay();
+  const hour = entryDate.getHours();
+
+  let pastHour = false;
+  let earlierThisWeek = false;
+
+  if (week >= currentWeek) {
+    //checks for present day and closest 2 hours
+    if (day === currentDay && currentHour - hour < 2) {
+      pastHour = true;
+    } else {
+      earlierThisWeek = true;
+    }
+  }
+  return [pastHour, earlierThisWeek];
+}
+
+function checkForAdds(p5, addedActivs, newness) {
   console.log(addedActivs);
 
   if (!addedActivs) {
@@ -177,13 +221,20 @@ function checkForAdds(p5, addedActivs) {
       weatherType = 'snow';
     }
     if ('tillverka-aktivitet' in addedActivs) {
-      showThings(p5, addedActivs['tillverka-aktivitet'], diys, 'diys', 1.2, imagePositions[2]);
+      showThings(addedActivs['tillverka-aktivitet'], diys, 'diys', 1.2, imagePositions[2], newness);
     }
     if ('halsa-pa-nasims-katter' in addedActivs) {
-      showThings(p5, addedActivs['halsa-pa-nasims-katter'], cats, 'cats', 1.32, imagePositions[0]);
+      showThings(
+        addedActivs['halsa-pa-nasims-katter'],
+        cats,
+        'cats',
+        1.32,
+        imagePositions[0],
+        newness
+      );
     }
     if ('te-ritual' in addedActivs) {
-      showThings(p5, addedActivs['te-ritual'], teas, 'teas', 0.82, imagePositions[1]);
+      showThings(addedActivs['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness);
     }
     if ('mykomote' in addedActivs) {
       showMoving(p5, addedActivs['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
@@ -197,25 +248,22 @@ function checkForAdds(p5, addedActivs) {
   }
 }
 
-function showThings(p5, nr, type, typeName, varySize, locations) {
+function showThings(nr, type, typeName, varySize, locations, newness) {
   for (let i = 0; i < nr; i++) {
     if (i >= locations.length) {
-      //locations[i] = [xtraCnvs.random(xtraCnvs.width), xtraCnvs.random(xtraCnvs.height)];
       addedThings.push(
-        new Pictures(
-          type,
-          proportions[0] * varySize,
-          typeName,
-          xtraCnvs,
-          p5,
-          imagePositions[3][i % locations.length],
-          i
-        )
+        new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, imagePositions[3], i)
       );
     } else {
-      addedThings.push(
-        new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, p5, locations[i], i)
-      );
+      if (!newness) {
+        addedThings.push(
+          new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, locations, i)
+        );
+      } else {
+        newAdds.push(
+          new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, locations, i, 15)
+        );
+      }
     }
   }
 }

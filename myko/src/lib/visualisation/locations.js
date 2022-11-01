@@ -16,7 +16,7 @@ export function ratio(p5) {
 }
 
 export function proportionsByRatio(xtraCnvs) {
-  flowfieldStrokeWeight = 0.15;
+  flowfieldStrokeWeight = 0.5;
   strokeWeight = 1.2;
 
   if (horizontalView) {

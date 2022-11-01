@@ -71,8 +71,11 @@ export const activityWithNearestEventQuery = `*[
   } [count(events) > 0] | order(events[0].date) [0]
 `;
 
-export const allEventsQuery = (extraActivityFields: string[] = []) => `*[
-    _type == "${sanitySchemaNames.event}" && ${notDraft}
+export const allFutureEventsQuery = (extraActivityFields: string[] = []) => `*[
+    _type == "${sanitySchemaNames.event}" &&
+    visible == true &&
+    ${notDraft} &&
+    dateTime(date) > dateTime(now()) - ${eventGracePeriod}
   ] | order(date asc) {
     _id,
     date,
