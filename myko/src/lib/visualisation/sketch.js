@@ -16,7 +16,7 @@ let canvas, xtraCnvs, xtraCnvs2;
 let addedThings = [],
   addedThingsMove = [];
 let cloud, streetlight, shelf;
-let imagePositions, proportions; //, ideaLocations
+let imagePositions, proportions;
 let teas = [];
 let cats = [];
 let diys = [];
@@ -31,7 +31,6 @@ export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
   streetlight = p5.loadImage('streetlight.png');
   shelf = p5.loadImage('shelves.png');
-  //bucket = p5.loadImage('bucket.png');
 
   for (let i = 1; i < 8; i++) {
     teas.push(p5.loadImage(`tea${i}.png`));
@@ -70,7 +69,7 @@ export async function setup(p5) {
   ratio(p5);
   //returns -foreground image size, -(stroke)weight, -flowfield strokeweight
   proportions = proportionsByRatio(xtraCnvs);
-  fixBgImagePositions(xtraCnvs);
+  fixBgImagePositions(p5);
   drawBackgroundImages(xtraCnvs, cloud, streetlight, shelf);
 
   //lines marking vertical start & end of the canvas
@@ -79,6 +78,8 @@ export async function setup(p5) {
   xtraCnvs.line(0, p5.height, p5.width, p5.height);
   //returns arrays w image locations; -cats, -tea, -diy, -xtra
   imagePositions = fixImagePositions(p5, proportions[0]);
+
+  weatherPosition = imagePositions[0][0];
 
   const data = await fetchActivityLog(p5);
   checkForAdds(p5, data);
@@ -93,7 +94,7 @@ function showAdded() {
 }
 
 export function draw(p5) {
-  p5.background(2, 106, 116, 100);
+  p5.background(2, 106, 116, 180);
   p5.erase();
   p5.rect(p5.width * 0.5, 125, 227, 36);
   p5.noErase();
@@ -109,9 +110,11 @@ export function draw(p5) {
   }
 
   weatherOn = true;
-  weatherPosition = 2;
+  //weatherPosition = 2;
   weatherType = 'snow';
   if (weatherOn && weatherType) {
+    //make use of activity image locations to position the weather! cats - cloud, diy - shelf, discussion - streetlight
+    //weatherPosition = cats[3]; diys[1] = top shelf in the middle
     makeWeather(weatherType, weatherPosition, p5);
   }
 }
@@ -166,17 +169,17 @@ function checkForAdds(p5, addedActivs) {
   if (!addedActivs) {
     console.log('no activities yet');
     weatherOn = true;
-    weatherPosition = 1;
+    weatherPosition = imagePositions[0][0];
     // weatherType = 'rain';
   } else {
     if (!('tillverka-aktivitet' in addedActivs)) {
       weatherOn = true;
-      weatherPosition = 2;
+      weatherPosition = imagePositions[0][0];
       // weatherType = 'rain';
     }
     if (!('halsa-pa-nasims-katter' in addedActivs)) {
       weatherOn = true;
-      weatherPosition = 3;
+      weatherPosition = imagePositions[0][0];
       weatherType = 'snow';
     }
     if ('tillverka-aktivitet' in addedActivs) {
