@@ -5,12 +5,12 @@ let lastTime;
 let timer = 0;
 
 class Drop {
-  constructor(p5) {
+  constructor(weatherPosition, p5) {
     this.p5 = p5;
 
     // Here you set where the drops should begin
-    this.x = this.p5.random(this.p5.width * 0.5, this.p5.width + 50);
-    this.y = this.p5.random(500, 250);
+    this.x = this.p5.random(weatherPosition[0], weatherPosition[1] + 250);
+    this.y = this.p5.random(weatherPosition[0], weatherPosition[1]);
     this.z = this.p5.random(0, 30);
     this.w = this.p5.random(3);
     this.h = this.p5.map(this.z, 0, 20, 10, 20);
@@ -41,7 +41,7 @@ class Drop {
 }
 
 export function makeWeather(weatherType, weatherPosition, p5) {
-  generateDrops(5, 30, p5);
+  generateDrops(5, 30, weatherPosition, p5);
   lastTime = p5.millis();
 
   currentTime = p5.millis();
@@ -65,9 +65,9 @@ export function makeWeather(weatherType, weatherPosition, p5) {
   }
 }
 
-function generateDrops(min, max, p5) {
+function generateDrops(min, max, weatherPosition, p5) {
   for (let i = min; i < max; i++) {
-    let drop = new Drop(p5);
+    let drop = new Drop(weatherPosition, p5);
     rain.push(drop);
   }
 }

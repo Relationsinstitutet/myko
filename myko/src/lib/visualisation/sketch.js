@@ -25,7 +25,7 @@ let cranes = [];
 let thoughts = [];
 let weatherOn = false;
 let weatherType = '';
-let weatherPosition = 0;
+let weatherPosition;
 let precipitationCloud;
 
 export function preload(p5) {
@@ -110,12 +110,8 @@ export function draw(p5) {
     atm.shows(index);
     atm.edge();
   }
-
-  weatherOn = true;
-  weatherPosition = 2;
-  weatherType = 'snow';
   if (weatherOn && weatherType) {
-    p5.image(precipitationCloud, 500, 250);
+    p5.image(precipitationCloud, weatherPosition[0], weatherPosition[1]);
     makeWeather(weatherType, weatherPosition, p5);
   }
 }
@@ -169,18 +165,15 @@ function checkForAdds(p5, addedActivs) {
 
   if (!addedActivs) {
     console.log('no activities yet');
-    weatherOn = true;
-    weatherPosition = 1;
-    // weatherType = 'rain';
   } else {
     if (!('tillverka-aktivitet' in addedActivs)) {
       weatherOn = true;
-      weatherPosition = 2;
-      // weatherType = 'rain';
+      weatherPosition = imagePositions[2][2]; // Rains in absence of tools
+      weatherType = 'rain';
     }
     if (!('halsa-pa-nasims-katter' in addedActivs)) {
       weatherOn = true;
-      weatherPosition = 3;
+      weatherPosition = imagePositions[0][1]; // Snows in absence of cats
       weatherType = 'snow';
     }
     if ('tillverka-aktivitet' in addedActivs) {
