@@ -114,10 +114,12 @@ export function draw(p5) {
     atm.shows(index);
     atm.edge();
   }
-  if (weatherOn && weatherType) {
-    p5.image(precipitationCloud, weatherPosition[0], weatherPosition[1]);
-    makeWeather(weatherType, weatherPosition, p5);
-  }
+
+console.log(weatherOn);
+  // if (weatherOn) {
+  //   p5.image(precipitationCloud, weatherPosition[0], weatherPosition[1]);
+  //   makeWeather(weatherType, weatherPosition, p5);
+  // }
 
   for (const [index, na] of newAdds.entries()) {
     na.show(proportions[1]);
@@ -210,18 +212,12 @@ function checkForAdds(p5, addedActivs, newness) {
   if (!addedActivs) {
     console.log('no activities yet');
   } else {
-    if (!('tillverka-aktivitet' in addedActivs)) {
-      weatherOn = true;
-      weatherPosition = imagePositions[2][2]; // Rains in absence of tools
-      weatherType = 'rain';
-    }
-    if (!('halsa-pa-nasims-katter' in addedActivs)) {
-      weatherOn = true;
-      weatherPosition = imagePositions[0][1]; // Snows in absence of cats
-      weatherType = 'snow';
-    }
     if ('tillverka-aktivitet' in addedActivs) {
       showThings(addedActivs['tillverka-aktivitet'], diys, 'diys', 1.2, imagePositions[2], newness);
+    } else {
+      weatherOn = true;
+      // weatherPosition = imagePositions[2][2]; // Rains in absence of tools
+      // weatherType = 'rain';
     }
     if ('halsa-pa-nasims-katter' in addedActivs) {
       showThings(
@@ -232,6 +228,10 @@ function checkForAdds(p5, addedActivs, newness) {
         imagePositions[0],
         newness
       );
+    } else {
+      // weatherOn = true;
+      // weatherPosition = imagePositions[0][1]; // Snows in absence of cats
+      // weatherType = 'snow';
     }
     if ('te-ritual' in addedActivs) {
       showThings(addedActivs['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness);
