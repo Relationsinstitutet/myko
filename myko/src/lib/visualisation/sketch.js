@@ -1,5 +1,6 @@
 import Pictures from './class';
 import MovingPics from './classMoving';
+import Drop from './weather';
 import {
   ratio,
   proportionsByRatio,
@@ -10,7 +11,7 @@ import {
 import { flowfieldDraw, flowfieldSetup } from './flowfield';
 //import p5Svelte from 'p5-svelte';
 //import { linear } from 'svelte/easing';
-import { makeWeather } from './weather';
+//import { makeWeather } from './weather';
 
 let canvas, xtraCnvs, xtraCnvs2;
 let addedThings = [],
@@ -25,8 +26,11 @@ let cranes = [];
 let thoughts = [];
 let weatherOn = false;
 let weatherType = '';
-let weatherPosition = 0;
+let weatherPosition;
+let weatherSpeed = 1;
+let drops = [];
 
+//----FUNCTIONS BEGIN
 export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
   streetlight = p5.loadImage('streetlight.png');
@@ -67,24 +71,37 @@ export async function setup(p5) {
 
   flowfieldSetup(xtraCnvs2);
   ratio(p5);
-  //returns -foreground image size, -(stroke)weight, -flowfield strokeweight
+  //return -foreground image size, -(stroke)weight, -flowfield strokeweight
   proportions = proportionsByRatio(xtraCnvs);
   fixBgImagePositions(p5);
   drawBackgroundImages(xtraCnvs, cloud, streetlight, shelf);
 
-  //lines marking vertical start & end of the canvas
+  //mark vertical start & end of canvas
   xtraCnvs.strokeWeight(10);
   xtraCnvs.line(0, 0, p5.width, 0);
   xtraCnvs.line(0, p5.height, p5.width, p5.height);
-  //returns arrays w image locations; -cats, -tea, -diy, -xtra
+  //return image location arrays; -cats, -tea, -diy, -xtra
   imagePositions = fixImagePositions(p5, proportions[0]);
-
-  weatherPosition = imagePositions[0][0];
 
   const data = await fetchActivityLog(p5);
   checkForAdds(p5, data);
   showAdded();
+
+  weatherOn = true;
+  weatherPosition = imagePositions[0][0];
+  weatherType = 'snow';
+  if (weatherOn && weatherType) {
+    //make use of activity image locations to position the weather! cats - cloud, diy - shelf, discussion - streetlight
+    //weatherPosition = cats[3]; diys[1] = top shelf in the middle
+    makeWeather(weatherPosition, p5);
+  }
   return canvas;
+}
+
+function makeWeather(weatherPosition, p5) {
+  for (let i = 0; i < 190; i++) {
+    drops.push(new Drop(weatherPosition, p5));
+  }
 }
 
 function showAdded() {
@@ -94,7 +111,7 @@ function showAdded() {
 }
 
 export function draw(p5) {
-  p5.background(2, 106, 116, 180);
+  p5.background(2, 106, 116, 220);
   p5.erase();
   p5.rect(p5.width * 0.5, 125, 227, 36);
   p5.noErase();
@@ -108,14 +125,13 @@ export function draw(p5) {
     atm.shows(index);
     atm.edge();
   }
-
-  weatherOn = true;
-  //weatherPosition = 2;
-  weatherType = 'snow';
-  if (weatherOn && weatherType) {
-    //make use of activity image locations to position the weather! cats - cloud, diy - shelf, discussion - streetlight
-    //weatherPosition = cats[3]; diys[1] = top shelf in the middle
-    makeWeather(weatherType, weatherPosition, p5);
+  if (drops.length) {
+    for (const drop of drops) {
+      console.log(weatherSpeed);
+      drop.show(weatherType);
+      drop.update(weatherSpeed);
+      drop.edge();
+    }
   }
 }
 
