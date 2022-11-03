@@ -17,6 +17,7 @@
   import { goto } from '$app/navigation';
   import { browser } from '$app/env';
   import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
+  import RiBotView from '$lib/components/RiBotView.svelte';
 
   const currentSlug = get(page).params.slug;
   const currentPage = get(page).url.pathname;
@@ -80,6 +81,8 @@
 >
   {#if currentSlug == 'tillverka-aktivitet'}
     <DiyView />
+  {:else if currentSlug == 'bli-medlem'}
+    <RiBotView instructions={startedActivityData.instructions} />
   {:else}
     <StartedActivityView data={startedActivityData} />
   {/if}
