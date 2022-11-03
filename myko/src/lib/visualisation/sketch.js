@@ -15,7 +15,9 @@ let canvas, xtraCnvs, xtraCnvs2;
 let currentDate, currentWeek;
 let addedThings = [],
   addedThingsMove = [],
+
   particles = [],
+
   newAdds = [];
 let cloud, streetlight, shelf;
 let imagePositions, proportions;
@@ -82,7 +84,9 @@ export async function setup(p5) {
   xtraCnvs.strokeWeight(10);
   xtraCnvs.line(0, 0, p5.width, 0);
   xtraCnvs.line(0, p5.height, p5.width, p5.height);
+
   //returns image location arrays; -cats, -tea, -diy, -xtra, -particles
+
   imagePositions = fixImagePositions(p5, proportions[0]);
 
   const data = await fetchActivityLog(p5);
@@ -114,6 +118,7 @@ export function draw(p5) {
     atm.shows(index);
     atm.edge();
   }
+
   if (particleSystem) {
     if (p5.frameCount % p5.floor(20 / particleSystem) == 0) {
       p = new Particles(imagePositions[4][0], imagePositions[4][1], particleSize, p5);
@@ -127,6 +132,7 @@ export function draw(p5) {
       }
     }
   }
+
 
   for (const [index, na] of newAdds.entries()) {
     na.show(proportions[1]);
@@ -145,6 +151,7 @@ async function fetchActivityLog(p5) {
 
   // count the number of each activity
   let newerEntries = entries[0].reduce((result, entry) => {
+
     if (!(entry.activity in result)) {
       result[entry.activity] = 0;
     }
@@ -159,6 +166,7 @@ async function fetchActivityLog(p5) {
     result[entry.activity] += 1;
     return result;
   }, {});
+
   return [newerEntries, newEntries];
 }
 
@@ -168,7 +176,9 @@ function checkForNewEntries(logEntries) {
 
   for (let entry of logEntries) {
     const entryDate = new Date(entry.date);
-    const acceptedEntry = isNewDate(entryDate, currentDay, currentHour);
+
+    const acceptedEntry = isNewDate(entryDate, currentWeek, currentDay, currentHour);
+
     if (acceptedEntry[0]) {
       entry.thisHour = true;
     } else if (acceptedEntry[1]) {
@@ -194,7 +204,10 @@ function getWeekDate(date) {
 
 function isNewDate(entryDate, currentDay, currentHour) {
   const week = getWeekDate(entryDate);
-  const day = entryDate.getDate();
+
+  //should change this to getDate actually, so don't risk getting the wrong day if time restriction gets longer than seven days!!!!!!!!!!!!!!!!!!!!!!!!!!
+  const day = entryDate.getDay();
+
   const hour = entryDate.getHours();
   let pastHour = false;
   let earlierThisWeek = false;
@@ -217,19 +230,12 @@ function checkForAdds(p5, addedActivs, newness) {
     console.log('no activities yet');
   } else {
     if ('tillverka-aktivitet' in addedActivs) {
-      showThings(
-        p5,
-        addedActivs['tillverka-aktivitet'],
-        diys,
-        'diys',
-        1.2,
-        imagePositions[2],
-        newness
-      );
+
+      showThings(addedActivs['tillverka-aktivitet'], diys, 'diys', 1.2, imagePositions[2], newness);
     }
     if ('halsa-pa-nasims-katter' in addedActivs) {
       showThings(
-        p5,
+
         addedActivs['halsa-pa-nasims-katter'],
         cats,
         'cats',
@@ -239,7 +245,9 @@ function checkForAdds(p5, addedActivs, newness) {
       );
     }
     if ('te-ritual' in addedActivs) {
-      showThings(p5, addedActivs['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness);
+
+      showThings(addedActivs['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness);
+
     }
     if ('mykomote' in addedActivs) {
       showMoving(p5, addedActivs['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
@@ -254,10 +262,11 @@ function checkForAdds(p5, addedActivs, newness) {
   }
 }
 
-function showThings(p5, nr, type, typeName, varySize, locations, newness) {
+
+function showThings(nr, type, typeName, varySize, locations, newness) {
+
   for (let i = 0; i < nr; i++) {
     if (i >= locations.length) {
-      //locations[i] = [xtraCnvs.random(xtraCnvs.width), xtraCnvs.random(xtraCnvs.height)];
       addedThings.push(
         new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, imagePositions[3], i)
       );
@@ -267,7 +276,11 @@ function showThings(p5, nr, type, typeName, varySize, locations, newness) {
           new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, locations, i)
         );
       } else {
-        newAdds.push(new Pictures(type, proportions[0] * varySize, typeName, p5, locations, i, 15));
+
+        newAdds.push(
+          new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, locations, i, 15)
+        );
+
       }
     }
   }
