@@ -32,6 +32,7 @@ export function flowfieldDraw(xtraCnvs2, flowWeight) {
   for (let i = 0; i < points.length; i += inc) {
     let h = xtraCnvs2.map(points[i].x, 0, xtraCnvs2.width, randomH1, randomH2);
     let l = xtraCnvs2.map(points[i].y, 0, xtraCnvs2.height, 18, 95);
+
     let a = xtraCnvs2.map(
       xtraCnvs2.dist(xtraCnvs2.width / 2, xtraCnvs2.height / 2, points[i].x, points[i].y),
       0,
@@ -40,7 +41,7 @@ export function flowfieldDraw(xtraCnvs2, flowWeight) {
       0
     );
 
-    xtraCnvs2.stroke(h, 95, l, a);
+    xtraCnvs2.stroke(h, 85, l, a);
 
     let angle = xtraCnvs2.map(
       xtraCnvs2.noise(points[i].x * mult, points[i].y * mult),
