@@ -245,8 +245,8 @@ function checkForAdds(p5, addedActivs, newness) {
       showMoving(p5, addedActivs['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
     //prata-om-tema
-    if ('halsa-pa-nasims-katter' in addedActivs) {
-      showParticleSystem(addedActivs['halsa-pa-nasims-katter'], 0.15);
+    if ('prata-om-tema' in addedActivs) {
+      showParticleSystem(addedActivs['prata-om-tema'], 0.07);
     }
     if ('gor-ri-byrakrati' in addedActivs) {
       showMoving(p5, addedActivs['gor-ri-byrakrati'], cranes, 'cranes', 0.85, 0.4, 0.6, 3.4, 150);

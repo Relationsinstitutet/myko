@@ -71,7 +71,7 @@ export class Particles {
   update() {
     this.pos.add(this.vel);
     this.alpha -= 0.005;
-    this.size += 0.05;
+    this.size += 0.1;
   }
 
   show(nr, hue) {
