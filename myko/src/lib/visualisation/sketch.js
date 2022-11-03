@@ -15,9 +15,7 @@ let canvas, xtraCnvs, xtraCnvs2;
 let currentDate, currentWeek;
 let addedThings = [],
   addedThingsMove = [],
-
   particles = [],
-
   newAdds = [];
 let cloud, streetlight, shelf;
 let imagePositions, proportions;
@@ -133,7 +131,6 @@ export function draw(p5) {
     }
   }
 
-
   for (const [index, na] of newAdds.entries()) {
     na.show(proportions[1]);
     na.grow(index);
@@ -151,7 +148,6 @@ async function fetchActivityLog(p5) {
 
   // count the number of each activity
   let newerEntries = entries[0].reduce((result, entry) => {
-
     if (!(entry.activity in result)) {
       result[entry.activity] = 0;
     }
@@ -230,12 +226,10 @@ function checkForAdds(p5, addedActivs, newness) {
     console.log('no activities yet');
   } else {
     if ('tillverka-aktivitet' in addedActivs) {
-
       showThings(addedActivs['tillverka-aktivitet'], diys, 'diys', 1.2, imagePositions[2], newness);
     }
     if ('halsa-pa-nasims-katter' in addedActivs) {
       showThings(
-
         addedActivs['halsa-pa-nasims-katter'],
         cats,
         'cats',
@@ -245,9 +239,7 @@ function checkForAdds(p5, addedActivs, newness) {
       );
     }
     if ('te-ritual' in addedActivs) {
-
       showThings(addedActivs['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness);
-
     }
     if ('mykomote' in addedActivs) {
       showMoving(p5, addedActivs['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
@@ -262,9 +254,7 @@ function checkForAdds(p5, addedActivs, newness) {
   }
 }
 
-
 function showThings(nr, type, typeName, varySize, locations, newness) {
-
   for (let i = 0; i < nr; i++) {
     if (i >= locations.length) {
       addedThings.push(
@@ -276,11 +266,9 @@ function showThings(nr, type, typeName, varySize, locations, newness) {
           new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, locations, i)
         );
       } else {
-
         newAdds.push(
           new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, locations, i, 15)
         );
-
       }
     }
   }

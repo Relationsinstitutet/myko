@@ -8,7 +8,6 @@ export default class Pictures {
     location.push(location.shift());
     this.typeNr = number;
     this.randomNr = this.layer.floor(this.layer.random(0, 12));
-
     this.incr = 1.75;
     this.startSize = startSize;
     this.finalSize = size;
@@ -52,7 +51,6 @@ export default class Pictures {
     this.startSize += this.incr * (1 / (nr + 1));
 
     if (this.startSize > this.finalSize * 1.05) {
-
       this.incr = 0;
     }
     /*try and fix up to size * 1.2 and back down to size * 1, maybe a do while? inside an if block?*/

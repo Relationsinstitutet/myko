@@ -28,7 +28,6 @@ export function flowfieldDraw(xtraCnvs2, flowWeight) {
     inc = 5;
   } else {
     inc = 1;
-
   }
   for (let i = 0; i < points.length; i += inc) {
     let h = xtraCnvs2.map(points[i].x, 0, xtraCnvs2.width, randomH1, randomH2);
