@@ -1,5 +1,5 @@
 import Pictures from './class';
-import MovingPics from './classMoving';
+import { MovingPics, Particles } from './classMoving';
 import {
   ratio,
   proportionsByRatio,
@@ -14,6 +14,7 @@ let canvas, xtraCnvs, xtraCnvs2;
 let currentDate, currentWeek;
 let addedThings = [],
   addedThingsMove = [],
+  particles = [],
   newAdds = [];
 let cloud, streetlight, shelf;
 let imagePositions, proportions;
@@ -22,7 +23,7 @@ let cats = [];
 let diys = [];
 let planes = [];
 let cranes = [];
-let thoughts = [];
+let particleSystem, particleSize, p;
 let snow = false;
 let rain = false;
 let weatherType = '';
@@ -43,9 +44,9 @@ export function preload(p5) {
     cats.push(p5.loadImage(`cat${i}.png`));
   }
   planes.push(p5.loadImage('paperplane.png'));
-  for (let i = 1; i < 5; i++) {
+  /*for (let i = 1; i < 5; i++) {
     cranes.push(p5.loadImage(`crane${i}.png`));
-  }
+  }*/
 }
 
 export function windowResized(p5) {
@@ -57,6 +58,8 @@ export async function setup(p5) {
   p5.frameRate(20);
   p5.imageMode(p5.CENTER);
   p5.rectMode(p5.CENTER);
+  p5.colorMode(p5.HSL, 360, 100, 100, 1.0);
+  p5.stroke(185, 94, 8, 1);
   p5.pixelDensity(1);
 
   xtraCnvs = p5.createGraphics(p5.windowWidth, p5.windowHeight - 50);
@@ -71,6 +74,7 @@ export async function setup(p5) {
   currentDate = new Date();
   currentWeek = getWeekDate(currentDate);
   xtraCnvs.randomSeed(currentWeek);
+  p5.randomSeed(currentWeek);
 
   flowfieldSetup(xtraCnvs2);
   ratio(p5);
@@ -102,7 +106,8 @@ function showAdded() {
 }
 
 export function draw(p5) {
-  p5.background(2, 106, 116, 100);
+  //cutout to show samtid menu behind canvas
+  p5.background(185, 97, 23, 0.8);
   p5.erase();
   p5.rect(p5.width * 0.5, 125, 227, 36);
   p5.noErase();
@@ -131,6 +136,20 @@ export function draw(p5) {
       weatherType = 'rain';
       p5.image(precipitationCloud, weatherPosition[0], weatherPosition[1]);
       makeWeather(weatherType, weatherPosition, p5);
+    }
+  }
+
+  if (particleSystem) {
+    if (p5.frameCount % p5.floor(20 / particleSystem) == 0) {
+      p = new Particles(imagePositions[4][0], imagePositions[4][1], particleSize, p5);
+      particles.push(p);
+    }
+    for (let i = particles.length - 1; i >= 0; i--) {
+      particles[i].show(particleSystem, 40 + 10 * particleSystem);
+      particles[i].update();
+      if (particles[i].finished()) {
+        particles.splice(i, 1);
+      }
     }
   }
 
@@ -165,15 +184,17 @@ async function fetchActivityLog(p5) {
     result[entry.activity] += 1;
     return result;
   }, {});
+
   return [newerEntries, newEntries];
 }
 
 function checkForNewEntries(logEntries) {
-  const currentDay = currentDate.getDay();
+  const currentDay = currentDate.getDate();
   const currentHour = currentDate.getHours();
 
   for (let entry of logEntries) {
     const entryDate = new Date(entry.date);
+
     const acceptedEntry = isNewDate(entryDate, currentWeek, currentDay, currentHour);
 
     if (acceptedEntry[0]) {
@@ -199,11 +220,11 @@ function getWeekDate(date) {
   return weekNumber;
 }
 
-function isNewDate(entryDate, currentWeek, currentDay, currentHour) {
+function isNewDate(entryDate, currentDay, currentHour) {
   const week = getWeekDate(entryDate);
   const day = entryDate.getDay();
-  const hour = entryDate.getHours();
 
+  const hour = entryDate.getHours();
   let pastHour = false;
   let earlierThisWeek = false;
 
@@ -249,8 +270,9 @@ function checkForAdds(p5, addedActivs, newness) {
     if ('mykomote' in addedActivs) {
       showMoving(p5, addedActivs['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
+    //prata-om-tema
     if ('prata-om-tema' in addedActivs) {
-      showMoving(p5, addedActivs['prata-om-tema'], thoughts, 'thoughts', 0.5, 0.25, 0.75, 0, 1);
+      showParticleSystem(addedActivs['prata-om-tema'], 0.07);
     }
     if ('gor-ri-byrakrati' in addedActivs) {
       showMoving(p5, addedActivs['gor-ri-byrakrati'], cranes, 'cranes', 0.85, 0.4, 0.6, 3.4, 150);
@@ -295,4 +317,10 @@ function showMoving(p5, nr, type, typeName, varySize, location1, location2, rota
       )
     );
   }
+}
+
+function showParticleSystem(nr, varySize) {
+  particleSystem = nr;
+  console.log(particleSystem);
+  particleSize = proportions[0] * varySize;
 }
