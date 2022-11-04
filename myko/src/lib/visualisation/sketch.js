@@ -106,7 +106,7 @@ function showAdded() {
 }
 
 export function draw(p5) {
-  //cutout to show samtid menu behind canvas
+  // Cutout to show samtid menu behind canvas
   p5.background(185, 97, 23, 0.8);
   p5.erase();
   p5.rect(p5.width * 0.5, 125, 227, 36);
@@ -194,7 +194,6 @@ function checkForNewEntries(logEntries) {
 
   for (let entry of logEntries) {
     const entryDate = new Date(entry.date);
-
     const acceptedEntry = isNewDate(entryDate, currentWeek, currentDay, currentHour);
 
     if (acceptedEntry[0]) {
@@ -270,7 +269,6 @@ function checkForAdds(p5, addedActivs, newness) {
     if ('mykomote' in addedActivs) {
       showMoving(p5, addedActivs['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
-    //prata-om-tema
     if ('prata-om-tema' in addedActivs) {
       showParticleSystem(addedActivs['prata-om-tema'], 0.07);
     }
