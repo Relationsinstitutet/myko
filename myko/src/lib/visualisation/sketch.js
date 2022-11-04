@@ -25,7 +25,8 @@ let diys = [];
 let planes = [];
 let cranes = [];
 let thoughts = [];
-let weatherOn = false;
+let snow = false;
+let rain = false;
 let weatherType = '';
 let weatherPosition;
 let precipitationCloud;
@@ -87,8 +88,8 @@ export async function setup(p5) {
   imagePositions = fixImagePositions(p5, proportions[0]);
 
   const data = await fetchActivityLog(p5);
-  checkForAdds(p5, data[1], 0);
   checkForAdds(p5, data[0], 'new');
+  checkForAdds(p5, data[1], 0);
   showAdded();
   return canvas;
 }
@@ -115,11 +116,20 @@ export function draw(p5) {
     atm.edge();
   }
 
-console.log(weatherOn);
-  // if (weatherOn) {
-  //   p5.image(precipitationCloud, weatherPosition[0], weatherPosition[1]);
-  //   makeWeather(weatherType, weatherPosition, p5);
-  // }
+  if (snow || rain) {
+    if (snow) {
+      weatherPosition = imagePositions[0][1]; // Snows in absence of cats
+      weatherType = 'snow';
+      //p5.image(precipitationCloud, weatherPosition[0], weatherPosition[1]);
+      makeWeather(weatherType, weatherPosition, p5);
+    }
+    if (rain) {
+      weatherPosition = imagePositions[2][2]; // Rains in absence of tools
+      weatherType = 'rain';
+      //p5.image(precipitationCloud, weatherPosition[0], weatherPosition[1]);
+      makeWeather(weatherType, weatherPosition, p5);
+    }
+  }
 
   for (const [index, na] of newAdds.entries()) {
     na.show(proportions[1]);
@@ -213,13 +223,13 @@ function checkForAdds(p5, addedActivs, newness) {
     console.log('no activities yet');
   } else {
     if ('tillverka-aktivitet' in addedActivs) {
+      rain = false;
       showThings(addedActivs['tillverka-aktivitet'], diys, 'diys', 1.2, imagePositions[2], newness);
     } else {
-      weatherOn = true;
-      // weatherPosition = imagePositions[2][2]; // Rains in absence of tools
-      // weatherType = 'rain';
+      rain = true;
     }
     if ('halsa-pa-nasims-katter' in addedActivs) {
+      snow = false;
       showThings(
         addedActivs['halsa-pa-nasims-katter'],
         cats,
@@ -229,9 +239,7 @@ function checkForAdds(p5, addedActivs, newness) {
         newness
       );
     } else {
-      // weatherOn = true;
-      // weatherPosition = imagePositions[0][1]; // Snows in absence of cats
-      // weatherType = 'snow';
+      snow = true;
     }
     if ('te-ritual' in addedActivs) {
       showThings(addedActivs['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness);
