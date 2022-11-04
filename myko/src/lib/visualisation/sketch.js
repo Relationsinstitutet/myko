@@ -8,8 +8,7 @@ import {
   fixImagePositions,
 } from './locations';
 import { flowfieldDraw, flowfieldSetup } from './flowfield';
-//import p5Svelte from 'p5-svelte';
-//import { linear } from 'svelte/easing';
+import { makeWeather } from './weather';
 
 let canvas, xtraCnvs, xtraCnvs2;
 let currentDate, currentWeek;
@@ -25,11 +24,17 @@ let diys = [];
 let planes = [];
 let cranes = [];
 let particleSystem, particleSize, p;
+let snow = false;
+let rain = false;
+let weatherType = '';
+let weatherPosition;
+let precipitationCloud;
 
 export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
   streetlight = p5.loadImage('streetlight.png');
   shelf = p5.loadImage('shelves.png');
+  precipitationCloud = p5.loadImage('precipitationcloud.png');
 
   for (let i = 1; i < 8; i++) {
     teas.push(p5.loadImage(`tea${i}.png`));
@@ -73,23 +78,23 @@ export async function setup(p5) {
 
   flowfieldSetup(xtraCnvs2);
   ratio(p5);
-  //returns -foreground image size, -(stroke)weight, -flowfield strokeweight
+
+  // Returns -foreground image size, -(stroke)weight, -flowfield strokeweight
   proportions = proportionsByRatio(xtraCnvs);
   fixBgImagePositions(xtraCnvs);
   drawBackgroundImages(xtraCnvs, cloud, streetlight, shelf);
 
-  //lines marking vertical start & end of the canvas
+  // Lines marking vertical start & end of the canvas
   xtraCnvs.strokeWeight(10);
   xtraCnvs.line(0, 0, p5.width, 0);
   xtraCnvs.line(0, p5.height, p5.width, p5.height);
 
-  //returns image location arrays; -cats, -tea, -diy, -xtra, -particles
-
+  // Returns image location arrays; -cats, -tea, -diy, -xtra
   imagePositions = fixImagePositions(p5, proportions[0]);
 
   const data = await fetchActivityLog(p5);
-  checkForAdds(p5, data[1], 0);
   checkForAdds(p5, data[0], 'new');
+  checkForAdds(p5, data[1], 0);
   showAdded();
   return canvas;
 }
@@ -101,7 +106,7 @@ function showAdded() {
 }
 
 export function draw(p5) {
-  //cutout to show samtid menu behind canvas
+  // Cutout to show samtid menu behind canvas
   p5.background(185, 97, 23, 0.8);
   p5.erase();
   p5.rect(p5.width * 0.5, 125, 227, 36);
@@ -115,6 +120,23 @@ export function draw(p5) {
     atm.update();
     atm.shows(index);
     atm.edge();
+  }
+
+  if (snow || rain) {
+    // Snows in absence of cats
+    if (snow) {
+      weatherPosition = imagePositions[0][1];
+      weatherType = 'snow';
+      p5.image(precipitationCloud, weatherPosition[0], weatherPosition[1]);
+      makeWeather(weatherType, weatherPosition, p5);
+    }
+    // Rains in absence of tools
+    if (rain) {
+      weatherPosition = imagePositions[2][8];
+      weatherType = 'rain';
+      p5.image(precipitationCloud, weatherPosition[0], weatherPosition[1]);
+      makeWeather(weatherType, weatherPosition, p5);
+    }
   }
 
   if (particleSystem) {
@@ -146,7 +168,7 @@ async function fetchActivityLog(p5) {
   const logEntries = await response.json();
   let entries = checkForNewEntries(logEntries);
 
-  // count the number of each activity
+  // Counts the number of each activity
   let newerEntries = entries[0].reduce((result, entry) => {
     if (!(entry.activity in result)) {
       result[entry.activity] = 0;
@@ -172,7 +194,6 @@ function checkForNewEntries(logEntries) {
 
   for (let entry of logEntries) {
     const entryDate = new Date(entry.date);
-
     const acceptedEntry = isNewDate(entryDate, currentWeek, currentDay, currentHour);
 
     if (acceptedEntry[0]) {
@@ -200,8 +221,6 @@ function getWeekDate(date) {
 
 function isNewDate(entryDate, currentDay, currentHour) {
   const week = getWeekDate(entryDate);
-
-  //should change this to getDate actually, so don't risk getting the wrong day if time restriction gets longer than seven days!!!!!!!!!!!!!!!!!!!!!!!!!!
   const day = entryDate.getDay();
 
   const hour = entryDate.getHours();
@@ -209,7 +228,7 @@ function isNewDate(entryDate, currentDay, currentHour) {
   let earlierThisWeek = false;
 
   if (week >= currentWeek) {
-    //checks for present day and closest 2 hours
+    // Checks for present day and closest 2 hours
     if (day === currentDay && currentHour - hour < 2) {
       pastHour = true;
     } else {
@@ -226,9 +245,13 @@ function checkForAdds(p5, addedActivs, newness) {
     console.log('no activities yet');
   } else {
     if ('tillverka-aktivitet' in addedActivs) {
+      rain = false;
       showThings(addedActivs['tillverka-aktivitet'], diys, 'diys', 1.2, imagePositions[2], newness);
+    } else {
+      rain = true;
     }
     if ('halsa-pa-nasims-katter' in addedActivs) {
+      snow = false;
       showThings(
         addedActivs['halsa-pa-nasims-katter'],
         cats,
@@ -237,6 +260,8 @@ function checkForAdds(p5, addedActivs, newness) {
         imagePositions[0],
         newness
       );
+    } else {
+      snow = true;
     }
     if ('te-ritual' in addedActivs) {
       showThings(addedActivs['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness);
@@ -244,7 +269,6 @@ function checkForAdds(p5, addedActivs, newness) {
     if ('mykomote' in addedActivs) {
       showMoving(p5, addedActivs['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
-    //prata-om-tema
     if ('prata-om-tema' in addedActivs) {
       showParticleSystem(addedActivs['prata-om-tema'], 0.07);
     }
