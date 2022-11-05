@@ -1,7 +1,14 @@
 <script lang="ts">
   import PortableText from '@portabletext/svelte';
   import type { PortableTextBlocks } from '@portabletext/svelte/ptTypes';
-  import { onDestroy } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
+
+  onMount(() => {
+    const scriptTag = document.createElement('script');
+    scriptTag.async = true;
+    scriptTag.src = '//code.tidio.co/vbj0zee1lpdkildtba49hrvoe0fpeg2r.js';
+    mainElement.appendChild(scriptTag);
+  });
 
   onDestroy(() => {
     document.getElementById('tidio-chat-code')?.remove();
@@ -9,14 +16,13 @@
   });
 
   export let instructions: PortableTextBlocks;
+  let mainElement: HTMLElement;
 </script>
 
-<main>
+<main bind:this={mainElement}>
   <h1>Bli medlem</h1>
 
   <PortableText blocks={instructions} />
-
-  <script src="//code.tidio.co/vbj0zee1lpdkildtba49hrvoe0fpeg2r.js" async></script>
 </main>
 
 <style>
