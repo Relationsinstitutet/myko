@@ -26,17 +26,18 @@ let particleSystem, particleSize, p;
 let snow = false;
 let rain = false;
 let weatherType = '';
-let weatherPosition;
+let weatherPosition, weatherSize, precipitationSize;
 let weatherSpeed = 1;
 let drops = [];
-let precipitationCloud;
+let snowCloud, rainCloud;
 
 /* -------FUNCTIONS BEGIN------- */
 export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
   streetlight = p5.loadImage('streetlight.png');
   shelf = p5.loadImage('shelves.png');
-  precipitationCloud = p5.loadImage('cloud1.png');
+  rainCloud = p5.loadImage('cloud1.png');
+  snowCloud = p5.loadImage('cloud2.png');
 
   for (let i = 1; i < 8; i++) {
     teas.push(p5.loadImage(`tea${i}.png`));
@@ -80,7 +81,7 @@ export async function setup(p5) {
 
   // Return foreground image size, strokeweight, flowfield strokeweight
   proportions = proportionsByRatio(xtraCnvs);
-  fixBgImagePositions(p5);
+  fixBgImagePositions(xtraCnvs);
   drawBackgroundImages(xtraCnvs, cloud, streetlight, shelf);
 
   // Mark vertical start & end of canvas
@@ -88,7 +89,7 @@ export async function setup(p5) {
   xtraCnvs.line(0, 0, p5.width, 0);
   xtraCnvs.line(0, p5.height, p5.width, p5.height);
 
-  // Return image location arrays; cats, tea, diy, xtra
+  // Return image location arrays; cats, tea, diy, xtra, particles, weathercloud size
   imagePositions = fixImagePositions(p5, proportions[0]);
 
   const data = await fetchActivityLog(p5);
@@ -97,25 +98,47 @@ export async function setup(p5) {
   showAdded();
 
   if (snow || rain) {
-    // Snows in absence of cats
-    if (snow) {
-      weatherPosition = imagePositions[0][1];
-      weatherType = 'snow';
-      makeWeather(weatherType, weatherPosition, p5);
-    }
-    // Rains in absence of tools
-    if (rain) {
-      weatherPosition = imagePositions[2][4];
-      weatherType = 'rain';
-      makeWeather(weatherType, weatherPosition, p5);
-    }
+    prepareWeather(p5);
   }
   return canvas;
 }
 
-function makeWeather(weatherType, weatherPos, p5) {
+function prepareWeather(p5) {
+  weatherSize = imagePositions[5][2];
+
+  // Snows in absence of cats
+  if (snow) {
+    weatherPosition = imagePositions[5][1];
+    weatherType = 'snow';
+    xtraCnvs.image(
+      snowCloud,
+      weatherPosition[0],
+      weatherPosition[1],
+      weatherSize[0],
+      weatherSize[1]
+    );
+    makeWeather(weatherType, weatherPosition, weatherSize, p5);
+  }
+  // Rains in absence of tools
+  if (rain) {
+    weatherPosition = imagePositions[5][0];
+    weatherType = 'rain';
+    xtraCnvs.image(
+      rainCloud,
+      weatherPosition[0],
+      weatherPosition[1],
+      weatherSize[0],
+      weatherSize[1]
+    );
+    makeWeather(weatherType, weatherPosition, weatherSize, p5);
+  }
+}
+
+function makeWeather(weatherType, weatherPos, weatherSize, p5) {
+  precipitationSize = proportions[0] * 0.03;
+  console.log(precipitationSize);
   for (let i = 0; i < 220; i++) {
-    drops.push(new Drop(weatherType, weatherPos, p5));
+    drops.push(new Drop(weatherType, weatherPos, weatherSize[0], precipitationSize, p5));
   }
 }
 
@@ -158,8 +181,8 @@ export function draw(p5) {
 
   if (drops.length) {
     for (const drop of drops) {
-      console.log(weatherSpeed);
-      drop.show(precipitationCloud);
+      //console.log(weatherSpeed);
+      drop.show();
       drop.update(weatherSpeed);
       drop.edge();
     }
