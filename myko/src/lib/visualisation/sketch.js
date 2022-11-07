@@ -34,7 +34,7 @@ export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
   streetlight = p5.loadImage('streetlight.png');
   shelf = p5.loadImage('shelves.png');
-  precipitationCloud = p5.loadImage('precipitationcloud.png');
+  precipitationCloud = p5.loadImage('cloud1.png');
 
   for (let i = 1; i < 8; i++) {
     teas.push(p5.loadImage(`tea${i}.png`));
@@ -127,15 +127,15 @@ export function draw(p5) {
     if (snow) {
       weatherPosition = imagePositions[0][1];
       weatherType = 'snow';
-      p5.image(precipitationCloud, weatherPosition[0], weatherPosition[1]);
-      makeWeather(weatherType, weatherPosition, p5);
+      //p5.image(, weatherPosition[0], weatherPosition[1]);
+      makeWeather(weatherType, weatherPosition, precipitationCloud, p5);
     }
     // Rains in absence of tools
     if (rain) {
-      weatherPosition = imagePositions[2][8];
+      weatherPosition = imagePositions[2][4];
       weatherType = 'rain';
-      p5.image(precipitationCloud, weatherPosition[0], weatherPosition[1]);
-      makeWeather(weatherType, weatherPosition, p5);
+      //p5.image(, weatherPosition[0], weatherPosition[1]);
+      makeWeather(weatherType, weatherPosition, precipitationCloud, p5);
     }
   }
 

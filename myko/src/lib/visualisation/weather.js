@@ -11,6 +11,7 @@ class Drop {
     // Here you set where the drops should begin
     this.x = this.p5.random(weatherPosition[0], weatherPosition[1] + 250);
     this.y = this.p5.random(weatherPosition[0], weatherPosition[1]);
+    this.cloudPos = this.p5.createVector(weatherPosition[0], weatherPosition[1]);
     this.z = this.p5.random(0, 30);
     this.w = this.p5.random(3);
     this.h = this.p5.map(this.z, 0, 20, 10, 20);
@@ -24,10 +25,11 @@ class Drop {
     this.x -= this.wind;
   }
 
-  draw(weatherType) {
+  draw(weatherType, cloud) {
     this.p5.noStroke();
     this.p5.rotate(this.p5.PI / this.wind);
     let c;
+    this.p5.image(cloud, this.cloudPos.x, this.cloudPos.y);
     if (weatherType == 'rain') {
       c = this.p5.color(180, 11, 86, 50);
       this.p5.rect(this.x, this.y, this.w, this.h);
@@ -40,7 +42,7 @@ class Drop {
   }
 }
 
-export function makeWeather(weatherType, weatherPosition, p5) {
+export function makeWeather(weatherType, weatherPosition, cloud, p5) {
   generateDrops(5, 30, weatherPosition, p5);
   lastTime = p5.millis();
 
@@ -60,7 +62,7 @@ export function makeWeather(weatherType, weatherPosition, p5) {
       rain.splice(i, 1);
     } else {
       rain[i].update(1);
-      rain[i].draw(weatherType);
+      rain[i].draw(weatherType, cloud);
     }
   }
 }
