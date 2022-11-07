@@ -1,5 +1,6 @@
 import Pictures from './class';
 import { MovingPics, Particles } from './classMoving';
+import Drop from './weather';
 import {
   ratio,
   proportionsByRatio,
@@ -8,7 +9,6 @@ import {
   fixImagePositions,
 } from './locations';
 import { flowfieldDraw, flowfieldSetup } from './flowfield';
-import { makeWeather } from './weather';
 
 let canvas, xtraCnvs, xtraCnvs2;
 let currentDate, currentWeek;
@@ -22,14 +22,16 @@ let teas = [];
 let cats = [];
 let diys = [];
 let planes = [];
-let cranes = [];
 let particleSystem, particleSize, p;
 let snow = false;
 let rain = false;
 let weatherType = '';
 let weatherPosition;
+let weatherSpeed = 1;
+let drops = [];
 let precipitationCloud;
 
+/* -------FUNCTIONS BEGIN------- */
 export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
   streetlight = p5.loadImage('streetlight.png');
@@ -44,9 +46,6 @@ export function preload(p5) {
     cats.push(p5.loadImage(`cat${i}.png`));
   }
   planes.push(p5.loadImage('paperplane.png'));
-  /*for (let i = 1; i < 5; i++) {
-    cranes.push(p5.loadImage(`crane${i}.png`));
-  }*/
 }
 
 export function windowResized(p5) {
@@ -79,24 +78,45 @@ export async function setup(p5) {
   flowfieldSetup(xtraCnvs2);
   ratio(p5);
 
-  // Returns -foreground image size, -(stroke)weight, -flowfield strokeweight
+  // Return foreground image size, strokeweight, flowfield strokeweight
   proportions = proportionsByRatio(xtraCnvs);
-  fixBgImagePositions(xtraCnvs);
+  fixBgImagePositions(p5);
   drawBackgroundImages(xtraCnvs, cloud, streetlight, shelf);
 
-  // Lines marking vertical start & end of the canvas
+  // Mark vertical start & end of canvas
   xtraCnvs.strokeWeight(10);
   xtraCnvs.line(0, 0, p5.width, 0);
   xtraCnvs.line(0, p5.height, p5.width, p5.height);
 
-  // Returns image location arrays; -cats, -tea, -diy, -xtra
+  // Return image location arrays; cats, tea, diy, xtra
   imagePositions = fixImagePositions(p5, proportions[0]);
 
   const data = await fetchActivityLog(p5);
   checkForAdds(p5, data[0], 'new');
   checkForAdds(p5, data[1], 0);
   showAdded();
+
+  if (snow || rain) {
+    // Snows in absence of cats
+    if (snow) {
+      weatherPosition = imagePositions[0][1];
+      weatherType = 'snow';
+      makeWeather(weatherType, weatherPosition, p5);
+    }
+    // Rains in absence of tools
+    if (rain) {
+      weatherPosition = imagePositions[2][4];
+      weatherType = 'rain';
+      makeWeather(weatherType, weatherPosition, p5);
+    }
+  }
   return canvas;
+}
+
+function makeWeather(weatherType, weatherPos, p5) {
+  for (let i = 0; i < 220; i++) {
+    drops.push(new Drop(weatherType, weatherPos, p5));
+  }
 }
 
 function showAdded() {
@@ -107,7 +127,7 @@ function showAdded() {
 
 export function draw(p5) {
   // Cutout to show samtid menu behind canvas
-  p5.background(185, 97, 23, 0.8);
+  p5.background(185, 97, 23, 0.85);
   p5.erase();
   p5.rect(p5.width * 0.5, 125, 227, 36);
   p5.noErase();
@@ -122,23 +142,6 @@ export function draw(p5) {
     atm.edge();
   }
 
-  if (snow || rain) {
-    // Snows in absence of cats
-    if (snow) {
-      weatherPosition = imagePositions[0][1];
-      weatherType = 'snow';
-      //p5.image(, weatherPosition[0], weatherPosition[1]);
-      makeWeather(weatherType, weatherPosition, precipitationCloud, p5);
-    }
-    // Rains in absence of tools
-    if (rain) {
-      weatherPosition = imagePositions[2][4];
-      weatherType = 'rain';
-      //p5.image(, weatherPosition[0], weatherPosition[1]);
-      makeWeather(weatherType, weatherPosition, precipitationCloud, p5);
-    }
-  }
-
   if (particleSystem) {
     if (p5.frameCount % p5.floor(20 / particleSystem) == 0) {
       p = new Particles(imagePositions[4][0], imagePositions[4][1], particleSize, p5);
@@ -150,6 +153,15 @@ export function draw(p5) {
       if (particles[i].finished()) {
         particles.splice(i, 1);
       }
+    }
+  }
+
+  if (drops.length) {
+    for (const drop of drops) {
+      console.log(weatherSpeed);
+      drop.show(precipitationCloud);
+      drop.update(weatherSpeed);
+      drop.edge();
     }
   }
 
