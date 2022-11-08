@@ -1,8 +1,3 @@
-//let heavy;
-//let currentTime;
-//let lastTime;
-//let timer = 0;
-
 export default class Drop {
   constructor(weatherType, weatherPos, cloudSize, dropSize, p5) {
     this.p5 = p5;
@@ -54,36 +49,3 @@ export default class Drop {
     }
   }
 }
-
-/*
-function makeWeather(weatherType, weatherPos, cloud, p5) {
-  generateDrops(5, 30, weatherPos, p5);
-  lastTime = p5.millis();
-
-  currentTime = p5.millis();
-  timer += currentTime - lastTime;
-  lastTime = currentTime;
-
-  if (timer > 300) {
-    heavy = p5.random(0, 40);
-    generateDrops(heavy / 2, heavy * 2, p5);
-
-    timer = 0;
-  }
-
-  for (let i = rain.length - 1; i >= 0; i--) {
-    if (rain[i].y > p5.height) {
-      rain.splice(i, 1);
-    } else {
-      rain[i].update(1);
-      rain[i].show(weatherType, cloud);
-    }
-  }
-}
-
-function generateDrops(min, max, weatherPos, p5) {
-  for (let i = min; i < max; i++) {
-    let drop = new Drop(weatherPos, p5);
-    rain.push(drop);
-  }
-}*/

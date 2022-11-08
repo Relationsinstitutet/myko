@@ -192,7 +192,7 @@ export function draw(p5) {
   }
 }
 
-async function fetchActivityLog(p5) {
+async function fetchActivityLog() {
   const response = await fetch('/api/aktiviteter/logg');
   if (!response.ok) {
     console.log('Could not get activity data');
@@ -306,7 +306,7 @@ function checkForAdds(p5, addedActivs, newness) {
       showParticleSystem(addedActivs['prata-om-tema'], 0.07);
     }
     if ('gor-ri-byrakrati' in addedActivs) {
-      showMoving(p5, addedActivs['gor-ri-byrakrati'], cranes, 'cranes', 0.85, 0.4, 0.6, 3.4, 150);
+      showMoving(p5, addedActivs['gor-ri-byrakrati'], planes, 'planes', 0.85, 0.4, 0.6, 3.4, 150);
     }
   }
 }
