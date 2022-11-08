@@ -105,7 +105,6 @@ export async function setup(p5) {
 
 function prepareWeather(p5) {
   weatherSize = imagePositions[5][2];
-
   // Snows in absence of cats
   if (snow) {
     weatherPosition = imagePositions[5][1];
@@ -181,7 +180,6 @@ export function draw(p5) {
 
   if (drops.length) {
     for (const drop of drops) {
-      //console.log(weatherSpeed);
       drop.show();
       drop.update(weatherSpeed);
       drop.edge();
