@@ -1,6 +1,7 @@
 let shelfPosX, shelfPosY, shelfSizeX, shelfSizeY;
 let streetPosX, streetPosY, streetSizeX, streetSizeY;
 let cloudPosX, cloudPosY, cloudSizeX, cloudSizeY;
+let rainCloudSizeX, rainCloudSizeY;
 let startPos, xInc, yLevel;
 let imageSize, strokeWeight, flowfieldStrokeWeight;
 let horizontalView = true,
@@ -57,14 +58,20 @@ export function fixBgImagePositions(xtraCnvs) {
     shelfSizeY = xtraCnvs.height * 0.75;
     shelfPosX = xtraCnvs.width * -0.05;
     shelfPosY = xtraCnvs.height * 0.3;
+    rainCloudSizeX = xtraCnvs.width * 0.3;
+    rainCloudSizeY = xtraCnvs.height * 0.45;
   } else if (!portrait2x) {
     cloudSizeX = xtraCnvs.width * 0.85;
     cloudSizeY = xtraCnvs.width * 0.9;
     cloudPosX = xtraCnvs.width * 0.4;
+    rainCloudSizeX = xtraCnvs.width * 0.47;
+    rainCloudSizeY = xtraCnvs.width * 0.4;
   } else {
     cloudSizeX = xtraCnvs.width * 1;
     cloudSizeY = xtraCnvs.width * 1.2;
     cloudPosX = xtraCnvs.width * 0.38;
+    rainCloudSizeX = xtraCnvs.width * 0.55;
+    rainCloudSizeY = xtraCnvs.width * 0.6;
   }
 }
 
@@ -151,9 +158,14 @@ export function fixImagePositions(xtraCnvs, size) {
     [xtraCnvs.width * 0.3, yLevel * 0.25],
   ];
 
-  //let particleLoc = [xtraCnvs.width * 0.5, xtraCnvs.height * 0.5];
   let particleLoc = [streetPosX + streetSizeX * 0.5, streetPosY - streetSizeY * 0.02];
 
-  let result = [catLoc, teaLoc, diyLoc, xtraLoc, particleLoc];
+  let weatherLoc = [
+    [shelfPosX + shelfSizeX * 0.15, shelfPosY - shelfSizeY * 0.023],
+    [cloudLeft, cloudTop],
+    [rainCloudSizeX, rainCloudSizeY],
+  ];
+
+  let result = [catLoc, teaLoc, diyLoc, xtraLoc, particleLoc, weatherLoc];
   return result;
 }

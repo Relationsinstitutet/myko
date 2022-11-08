@@ -1,5 +1,6 @@
 import Pictures from './class';
 import { MovingPics, Particles } from './classMoving';
+import Drop from './weather';
 import {
   ratio,
   proportionsByRatio,
@@ -8,7 +9,6 @@ import {
   fixImagePositions,
 } from './locations';
 import { flowfieldDraw, flowfieldSetup } from './flowfield';
-import { makeWeather } from './weather';
 
 let canvas, xtraCnvs, xtraCnvs2;
 let currentDate, currentWeek;
@@ -22,19 +22,22 @@ let teas = [];
 let cats = [];
 let diys = [];
 let planes = [];
-let cranes = [];
 let particleSystem, particleSize, p;
 let snow = false;
 let rain = false;
 let weatherType = '';
-let weatherPosition;
-let precipitationCloud;
+let weatherPosition, weatherSize, precipitationSize;
+let weatherSpeed = 1;
+let drops = [];
+let snowCloud, rainCloud;
 
+/* -------FUNCTIONS BEGIN------- */
 export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
   streetlight = p5.loadImage('streetlight.png');
   shelf = p5.loadImage('shelves.png');
-  precipitationCloud = p5.loadImage('precipitationcloud.png');
+  rainCloud = p5.loadImage('cloud1.png');
+  snowCloud = p5.loadImage('cloud2.png');
 
   for (let i = 1; i < 8; i++) {
     teas.push(p5.loadImage(`tea${i}.png`));
@@ -44,9 +47,6 @@ export function preload(p5) {
     cats.push(p5.loadImage(`cat${i}.png`));
   }
   planes.push(p5.loadImage('paperplane.png'));
-  /*for (let i = 1; i < 5; i++) {
-    cranes.push(p5.loadImage(`crane${i}.png`));
-  }*/
 }
 
 export function windowResized(p5) {
@@ -79,24 +79,66 @@ export async function setup(p5) {
   flowfieldSetup(xtraCnvs2);
   ratio(p5);
 
-  // Returns -foreground image size, -(stroke)weight, -flowfield strokeweight
+  // Return foreground image size, strokeweight, flowfield strokeweight
   proportions = proportionsByRatio(xtraCnvs);
   fixBgImagePositions(xtraCnvs);
   drawBackgroundImages(xtraCnvs, cloud, streetlight, shelf);
 
-  // Lines marking vertical start & end of the canvas
+  // Mark vertical start & end of canvas
   xtraCnvs.strokeWeight(10);
   xtraCnvs.line(0, 0, p5.width, 0);
   xtraCnvs.line(0, p5.height, p5.width, p5.height);
 
-  // Returns image location arrays; -cats, -tea, -diy, -xtra
+  // Return image location arrays; cats, tea, diy, xtra, particles, weathercloud size
   imagePositions = fixImagePositions(p5, proportions[0]);
 
   const data = await fetchActivityLog(p5);
   checkForAdds(p5, data[0], 'new');
   checkForAdds(p5, data[1], 0);
   showAdded();
+
+  if (snow || rain) {
+    prepareWeather(p5);
+  }
   return canvas;
+}
+
+function prepareWeather(p5) {
+  weatherSize = imagePositions[5][2];
+  // Snows in absence of cats
+  if (snow) {
+    weatherPosition = imagePositions[5][1];
+    weatherType = 'snow';
+    xtraCnvs.image(
+      snowCloud,
+      weatherPosition[0],
+      weatherPosition[1],
+      weatherSize[0],
+      weatherSize[1]
+    );
+    makeWeather(weatherType, weatherPosition, weatherSize, p5);
+  }
+  // Rains in absence of tools
+  if (rain) {
+    weatherPosition = imagePositions[5][0];
+    weatherType = 'rain';
+    xtraCnvs.image(
+      rainCloud,
+      weatherPosition[0],
+      weatherPosition[1],
+      weatherSize[0],
+      weatherSize[1]
+    );
+    makeWeather(weatherType, weatherPosition, weatherSize, p5);
+  }
+}
+
+function makeWeather(weatherType, weatherPos, weatherSize, p5) {
+  precipitationSize = proportions[0] * 0.03;
+  console.log(precipitationSize);
+  for (let i = 0; i < 220; i++) {
+    drops.push(new Drop(weatherType, weatherPos, weatherSize[0], precipitationSize, p5));
+  }
 }
 
 function showAdded() {
@@ -107,7 +149,7 @@ function showAdded() {
 
 export function draw(p5) {
   // Cutout to show samtid menu behind canvas
-  p5.background(185, 97, 23, 0.8);
+  p5.background(185, 97, 23, 0.85);
   p5.erase();
   p5.rect(p5.width * 0.5, 125, 227, 36);
   p5.noErase();
@@ -120,23 +162,6 @@ export function draw(p5) {
     atm.update();
     atm.shows(index);
     atm.edge();
-  }
-
-  if (snow || rain) {
-    // Snows in absence of cats
-    if (snow) {
-      weatherPosition = imagePositions[0][1];
-      weatherType = 'snow';
-      p5.image(precipitationCloud, weatherPosition[0], weatherPosition[1]);
-      makeWeather(weatherType, weatherPosition, p5);
-    }
-    // Rains in absence of tools
-    if (rain) {
-      weatherPosition = imagePositions[2][8];
-      weatherType = 'rain';
-      p5.image(precipitationCloud, weatherPosition[0], weatherPosition[1]);
-      makeWeather(weatherType, weatherPosition, p5);
-    }
   }
 
   if (particleSystem) {
@@ -153,13 +178,21 @@ export function draw(p5) {
     }
   }
 
+  if (drops.length) {
+    for (const drop of drops) {
+      drop.show();
+      drop.update(weatherSpeed);
+      drop.edge();
+    }
+  }
+
   for (const [index, na] of newAdds.entries()) {
     na.show(proportions[1]);
     na.grow(index);
   }
 }
 
-async function fetchActivityLog(p5) {
+async function fetchActivityLog() {
   const response = await fetch('/api/aktiviteter/logg');
   if (!response.ok) {
     console.log('Could not get activity data');
@@ -273,7 +306,7 @@ function checkForAdds(p5, addedActivs, newness) {
       showParticleSystem(addedActivs['prata-om-tema'], 0.07);
     }
     if ('gor-ri-byrakrati' in addedActivs) {
-      showMoving(p5, addedActivs['gor-ri-byrakrati'], cranes, 'cranes', 0.85, 0.4, 0.6, 3.4, 150);
+      showMoving(p5, addedActivs['gor-ri-byrakrati'], planes, 'planes', 0.85, 0.4, 0.6, 3.4, 150);
     }
   }
 }
