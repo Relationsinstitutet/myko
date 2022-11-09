@@ -5,7 +5,6 @@
 
   onMount(() => {
     const scriptTag = document.createElement('script');
-    scriptTag.async = true;
     scriptTag.src = '//code.tidio.co/vbj0zee1lpdkildtba49hrvoe0fpeg2r.js';
     mainElement.appendChild(scriptTag);
   });
