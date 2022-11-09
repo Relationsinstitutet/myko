@@ -102,10 +102,6 @@
     font-weight: 700;
   }
 
-  p {
-    display: block;
-  }
-
   @media (min-width: 45rem) {
     li {
       max-width: 23rem;
