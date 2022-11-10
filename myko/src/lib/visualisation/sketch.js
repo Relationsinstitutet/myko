@@ -279,7 +279,14 @@ function checkForAdds(p5, addedActivities, newness) {
   } else {
     if ('tillverka-aktivitet' in addedActivities) {
       rain = false;
-      showThings(addedActivities['tillverka-aktivitet'], diys, 'diys', 1.2, imagePositions[2], newness);
+      showThings(
+        addedActivities['tillverka-aktivitet'],
+        diys,
+        'diys',
+        1.2,
+        imagePositions[2],
+        newness
+      );
     } else {
       rain = true;
     }
@@ -306,7 +313,17 @@ function checkForAdds(p5, addedActivities, newness) {
       showParticleSystem(addedActivities['prata-om-tema'], 0.07);
     }
     if ('gor-ri-byrakrati' in addedActivities) {
-      showMoving(p5, addedActivities['gor-ri-byrakrati'], planes, 'planes', 0.85, 0.4, 0.6, 3.4, 150);
+      showMoving(
+        p5,
+        addedActivities['gor-ri-byrakrati'],
+        planes,
+        'planes',
+        0.85,
+        0.4,
+        0.6,
+        3.4,
+        150
+      );
     }
   }
 }
