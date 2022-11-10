@@ -1,5 +1,5 @@
-import Pictures from './class';
-import { MovingPics, Particles } from './classMoving';
+import Pictures from './pictures';
+import { MovingPics, Particles } from './moving';
 import Drop from './weather';
 import {
   ratio,
