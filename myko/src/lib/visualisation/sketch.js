@@ -271,22 +271,22 @@ function isNewDate(entryDate, currentDay, currentHour) {
   return [pastHour, earlierThisWeek];
 }
 
-function checkForAdds(p5, addedActivs, newness) {
-  console.log(addedActivs);
+function checkForAdds(p5, addedActivities, newness) {
+  console.log(addedActivities);
 
-  if (!addedActivs) {
+  if (!addedActivities) {
     console.log('no activities yet');
   } else {
-    if ('tillverka-aktivitet' in addedActivs) {
+    if ('tillverka-aktivitet' in addedActivities) {
       rain = false;
-      showThings(addedActivs['tillverka-aktivitet'], diys, 'diys', 1.2, imagePositions[2], newness);
+      showThings(addedActivities['tillverka-aktivitet'], diys, 'diys', 1.2, imagePositions[2], newness);
     } else {
       rain = true;
     }
-    if ('halsa-pa-nasims-katter' in addedActivs) {
+    if ('halsa-pa-nasims-katter' in addedActivities) {
       snow = false;
       showThings(
-        addedActivs['halsa-pa-nasims-katter'],
+        addedActivities['halsa-pa-nasims-katter'],
         cats,
         'cats',
         1.32,
@@ -296,17 +296,17 @@ function checkForAdds(p5, addedActivs, newness) {
     } else {
       snow = true;
     }
-    if ('te-ritual' in addedActivs) {
-      showThings(addedActivs['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness);
+    if ('te-ritual' in addedActivities) {
+      showThings(addedActivities['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness);
     }
-    if ('mykomote' in addedActivs) {
-      showMoving(p5, addedActivs['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
+    if ('mykomote' in addedActivities) {
+      showMoving(p5, addedActivities['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
-    if ('prata-om-tema' in addedActivs) {
-      showParticleSystem(addedActivs['prata-om-tema'], 0.07);
+    if ('prata-om-tema' in addedActivities) {
+      showParticleSystem(addedActivities['prata-om-tema'], 0.07);
     }
-    if ('gor-ri-byrakrati' in addedActivs) {
-      showMoving(p5, addedActivs['gor-ri-byrakrati'], planes, 'planes', 0.85, 0.4, 0.6, 3.4, 150);
+    if ('gor-ri-byrakrati' in addedActivities) {
+      showMoving(p5, addedActivities['gor-ri-byrakrati'], planes, 'planes', 0.85, 0.4, 0.6, 3.4, 150);
     }
   }
 }
