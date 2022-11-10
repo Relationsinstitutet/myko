@@ -95,7 +95,9 @@
     <P5 {sketch} on:instance={storeInstance} />
 
     {#if showSnapshotButton}
-      <button on:click={takeSnapshot}>Snaphot!</button>
+      <div class="wrapper">
+        <button on:click={takeSnapshot}>Snaphot!</button>
+      </div>
     {/if}
   {/if}
 </main>
@@ -115,9 +117,18 @@
     color: var(--grey-050);
   }
 
-  @media (min-width: 45rem) {
-    /*h1 {
-      text-align: center;
-    }*/
+  button {
+    height: fit-content;
+  }
+
+  .wrapper {
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 72px;
+    display: flex;
+    justify-content: right;
+    width: 100%;
+    left: 0;
+    padding: 8px;
   }
 </style>
