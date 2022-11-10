@@ -308,6 +308,12 @@ function checkForAdds(p5, addedActivs, newness) {
     if ('gor-ri-byrakrati' in addedActivs) {
       showMoving(p5, addedActivs['gor-ri-byrakrati'], planes, 'planes', 0.85, 0.4, 0.6, 3.4, 150);
     }
+    if ('bli-medlem' in addedActivs) {
+      showMoving(p5, addedActivs['bli-medlem'], planes, 'planes', 0.85, 0.4, 0.6, 3.4, 150);
+    }
+    if ('gor-ekonomi' in addedActivs) {
+      showMoving(p5, addedActivs['bli-medlem'], planes, 'planes', 0.85, 0.4, 0.6, 3.4, 150);
+    }
   }
 }
 
