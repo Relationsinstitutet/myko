@@ -254,7 +254,7 @@ function getWeekDate(date) {
 
 function isNewDate(entryDate, currentDay, currentHour) {
   const week = getWeekDate(entryDate);
-  const day = entryDate.getDay();
+  const day = entryDate.getDate();
 
   const hour = entryDate.getHours();
   let pastHour = false;
