@@ -25,7 +25,7 @@ let planes = [];
 let particleSystem, particleSize, p;
 let snow = false;
 let rain = false;
-let weatherType = '';
+//let weatherType = '';
 let weatherPosition, weatherSize, precipitationSize, accelerationDiff;
 let weatherSpeed = 1;
 let drops = [];
@@ -302,7 +302,17 @@ function checkForAdds(p5, addedActivities, newness) {
       showMoving(p5, addedActivities['ekonomi'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
     if ('gor-ri-byrakrati' in addedActivities) {
-      showMoving(p5, addedActivs['gor-ri-byrakrati'], planes, 'planes', 0.85, 0.4, 0.6, 3.4, 150);
+      showMoving(
+        p5,
+        addedActivities['gor-ri-byrakrati'],
+        planes,
+        'planes',
+        0.85,
+        0.4,
+        0.6,
+        3.4,
+        150
+      );
     }
   }
 }
