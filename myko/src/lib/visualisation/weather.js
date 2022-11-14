@@ -4,8 +4,8 @@ export default class Drop {
     this.weather = weatherType;
     this.size = cloudSize;
     this.startPos = this.p5.createVector(
-      this.p5.random(weatherPos[0] + this.size * 0.1, weatherPos[0] + this.size * 0.85),
-      this.p5.random(weatherPos[1] + this.p5.height * 0.17, weatherPos[1] + this.p5.height * 0.22),
+      this.p5.random(weatherPos[0] - this.size * 0.4, weatherPos[0] + this.size * 0.4),
+      this.p5.random(weatherPos[1] + this.p5.height * 0.05, weatherPos[1] + this.p5.height * 0.1),
       this.p5.random(0, 30)
     );
     this.pos = this.startPos.copy();

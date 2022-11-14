@@ -100,42 +100,45 @@ export async function setup(p5) {
   if (snow || rain) {
     prepareWeather(p5);
   }
+  /*vad händer om anropar dem var och en för sig istället?   if(rain) {
+    prepareWeather(p5,rain);
+  }*/
   return canvas;
 }
 
-function prepareWeather(p5) {
+function prepareWeather(p5, weatherType) {
   weatherSize = imagePositions[5][2];
   // Snows in absence of cats
   if (snow) {
     weatherPosition = imagePositions[5][1];
     weatherType = 'snow';
-    xtraCnvs.image(
+    /*xtraCnvs.image(
       snowCloud,
       weatherPosition[0],
       weatherPosition[1],
       weatherSize[0],
       weatherSize[1]
-    );
-    makeWeather(weatherType, weatherPosition, weatherSize, p5);
+    );*/
+    makeWeather(weatherType, weatherPosition, weatherSize, snowCloud, p5);
   }
   // Rains in absence of tools
   if (rain) {
     weatherPosition = imagePositions[5][0];
     weatherType = 'rain';
-    xtraCnvs.image(
+    /*xtraCnvs.image(
       rainCloud,
       weatherPosition[0],
       weatherPosition[1],
       weatherSize[0],
       weatherSize[1]
-    );
-    makeWeather(weatherType, weatherPosition, weatherSize, p5);
+    );*/
+    makeWeather(weatherType, weatherPosition, weatherSize, rainCloud, p5);
   }
 }
 
-function makeWeather(weatherType, weatherPos, weatherSize, p5) {
+function makeWeather(weatherType, weatherPos, weatherSize, cloud, p5) {
   precipitationSize = proportions[0] * 0.03;
-  console.log(precipitationSize);
+  xtraCnvs.image(cloud, weatherPosition[0], weatherPosition[1], weatherSize[0], weatherSize[1]);
   for (let i = 0; i < 220; i++) {
     drops.push(new Drop(weatherType, weatherPos, weatherSize[0], precipitationSize, p5));
   }
@@ -163,7 +166,6 @@ export function draw(p5) {
     atm.shows(index);
     atm.edge();
   }
-
   if (particleSystem) {
     if (p5.frameCount % p5.floor(20 / particleSystem) == 0) {
       p = new Particles(imagePositions[4][0], imagePositions[4][1], particleSize, p5);
@@ -177,7 +179,6 @@ export function draw(p5) {
       }
     }
   }
-
   if (drops.length) {
     for (const drop of drops) {
       drop.show();
@@ -185,7 +186,6 @@ export function draw(p5) {
       drop.edge();
     }
   }
-
   for (const [index, na] of newAdds.entries()) {
     na.show(proportions[1]);
     na.grow(index);
@@ -304,6 +304,9 @@ function checkForAdds(p5, addedActivs, newness) {
     }
     if ('prata-om-tema' in addedActivs) {
       showParticleSystem(addedActivs['prata-om-tema'], 0.07);
+    }
+    if ('ekonomi' in addedActivs) {
+      showMoving(p5, addedActivs['ekonomi'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
     if ('gor-ri-byrakrati' in addedActivs) {
       showMoving(p5, addedActivs['gor-ri-byrakrati'], planes, 'planes', 0.85, 0.4, 0.6, 3.4, 150);
