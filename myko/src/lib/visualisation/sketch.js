@@ -298,12 +298,11 @@ function checkForAdds(p5, addedActivities, newness) {
       showParticleSystem(addedActivities['prata-om-tema'], 0.07);
     }
 
-    if ('ekonomi' in addedActivs) {
-      showMoving(p5, addedActivs['ekonomi'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
+    if ('ekonomi' in addedActivities) {
+      showMoving(p5, addedActivities['ekonomi'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
-    if ('gor-ri-byrakrati' in addedActivs) {
+    if ('gor-ri-byrakrati' in addedActivities) {
       showMoving(p5, addedActivs['gor-ri-byrakrati'], planes, 'planes', 0.85, 0.4, 0.6, 3.4, 150);
-
     }
   }
 }
