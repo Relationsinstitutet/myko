@@ -309,6 +309,12 @@ function checkForAdds(p5, addedActivities, newness) {
     if ('mykomote' in addedActivities) {
       showMoving(p5, addedActivities['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
+    if ('ekonomi' in addedActivities) {
+      showMoving(p5, addedActivities['ekonomi'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
+    }
+    if ('bli-medlem' in addedActivities) {
+      showMoving(p5, addedActivities['bli-medlem'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
+    }
     if ('prata-om-tema' in addedActivities) {
       showParticleSystem(addedActivities['prata-om-tema'], 0.07);
     }
