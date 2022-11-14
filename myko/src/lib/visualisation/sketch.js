@@ -26,7 +26,7 @@ let particleSystem, particleSize, p;
 let snow = false;
 let rain = false;
 let weatherType = '';
-let weatherPosition, weatherSize, precipitationSize;
+let weatherPosition, weatherSize, precipitationSize, accelerationDiff;
 let weatherSpeed = 1;
 let drops = [];
 let snowCloud, rainCloud;
@@ -100,47 +100,32 @@ export async function setup(p5) {
   if (snow || rain) {
     prepareWeather(p5);
   }
-  /*vad händer om anropar dem var och en för sig istället?   if(rain) {
-    prepareWeather(p5,rain);
-  }*/
   return canvas;
 }
 
 function prepareWeather(p5, weatherType) {
-  weatherSize = imagePositions[5][2];
   // Snows in absence of cats
   if (snow) {
     weatherPosition = imagePositions[5][1];
     weatherType = 'snow';
-    /*xtraCnvs.image(
-      snowCloud,
-      weatherPosition[0],
-      weatherPosition[1],
-      weatherSize[0],
-      weatherSize[1]
-    );*/
-    makeWeather(weatherType, weatherPosition, weatherSize, snowCloud, p5);
+    accelerationDiff = 2.5;
+    makeWeather(weatherType, weatherPosition, snowCloud, accelerationDiff, p5);
   }
   // Rains in absence of tools
   if (rain) {
     weatherPosition = imagePositions[5][0];
     weatherType = 'rain';
-    /*xtraCnvs.image(
-      rainCloud,
-      weatherPosition[0],
-      weatherPosition[1],
-      weatherSize[0],
-      weatherSize[1]
-    );*/
-    makeWeather(weatherType, weatherPosition, weatherSize, rainCloud, p5);
+    accelerationDiff = 5;
+    makeWeather(weatherType, weatherPosition, rainCloud, accelerationDiff, p5);
   }
 }
 
-function makeWeather(weatherType, weatherPos, weatherSize, cloud, p5) {
-  precipitationSize = proportions[0] * 0.03;
+function makeWeather(weatherType, weatherPos, cloud, accDiff, p5) {
+  weatherSize = imagePositions[5][2];
+  precipitationSize = proportions[0] * 0.0375;
   xtraCnvs.image(cloud, weatherPosition[0], weatherPosition[1], weatherSize[0], weatherSize[1]);
   for (let i = 0; i < 220; i++) {
-    drops.push(new Drop(weatherType, weatherPos, weatherSize[0], precipitationSize, p5));
+    drops.push(new Drop(weatherType, weatherPos, weatherSize[0], precipitationSize, accDiff, p5));
   }
 }
 

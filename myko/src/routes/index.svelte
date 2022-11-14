@@ -96,7 +96,7 @@
 
     {#if showSnapshotButton}
       <div class="wrapper">
-        <button on:click={takeSnapshot}>Snaphot!</button>
+        <button on:click={takeSnapshot}>Snapshot!</button>
       </div>
     {/if}
   {/if}
