@@ -25,8 +25,8 @@ let planes = [];
 let particleSystem, particleSize, p;
 let snow = false;
 let rain = false;
-let weatherType = '';
-let weatherPosition, weatherSize, precipitationSize;
+//let weatherType = '';
+let weatherPosition, weatherSize, precipitationSize, accelerationDiff;
 let weatherSpeed = 1;
 let drops = [];
 let snowCloud, rainCloud;
@@ -103,41 +103,29 @@ export async function setup(p5) {
   return canvas;
 }
 
-function prepareWeather(p5) {
-  weatherSize = imagePositions[5][2];
+function prepareWeather(p5, weatherType) {
   // Snows in absence of cats
   if (snow) {
     weatherPosition = imagePositions[5][1];
     weatherType = 'snow';
-    xtraCnvs.image(
-      snowCloud,
-      weatherPosition[0],
-      weatherPosition[1],
-      weatherSize[0],
-      weatherSize[1]
-    );
-    makeWeather(weatherType, weatherPosition, weatherSize, p5);
+    accelerationDiff = 2.5;
+    makeWeather(weatherType, weatherPosition, snowCloud, accelerationDiff, p5);
   }
   // Rains in absence of tools
   if (rain) {
     weatherPosition = imagePositions[5][0];
     weatherType = 'rain';
-    xtraCnvs.image(
-      rainCloud,
-      weatherPosition[0],
-      weatherPosition[1],
-      weatherSize[0],
-      weatherSize[1]
-    );
-    makeWeather(weatherType, weatherPosition, weatherSize, p5);
+    accelerationDiff = 5;
+    makeWeather(weatherType, weatherPosition, rainCloud, accelerationDiff, p5);
   }
 }
 
-function makeWeather(weatherType, weatherPos, weatherSize, p5) {
-  precipitationSize = proportions[0] * 0.03;
-  console.log(precipitationSize);
+function makeWeather(weatherType, weatherPos, cloud, accDiff, p5) {
+  weatherSize = imagePositions[5][2];
+  precipitationSize = proportions[0] * 0.0375;
+  xtraCnvs.image(cloud, weatherPosition[0], weatherPosition[1], weatherSize[0], weatherSize[1]);
   for (let i = 0; i < 220; i++) {
-    drops.push(new Drop(weatherType, weatherPos, weatherSize[0], precipitationSize, p5));
+    drops.push(new Drop(weatherType, weatherPos, weatherSize[0], precipitationSize, accDiff, p5));
   }
 }
 
@@ -163,7 +151,6 @@ export function draw(p5) {
     atm.shows(index);
     atm.edge();
   }
-
   if (particleSystem) {
     if (p5.frameCount % p5.floor(20 / particleSystem) == 0) {
       p = new Particles(imagePositions[4][0], imagePositions[4][1], particleSize, p5);
@@ -177,7 +164,6 @@ export function draw(p5) {
       }
     }
   }
-
   if (drops.length) {
     for (const drop of drops) {
       drop.show();
@@ -185,7 +171,6 @@ export function draw(p5) {
       drop.edge();
     }
   }
-
   for (const [index, na] of newAdds.entries()) {
     na.show(proportions[1]);
     na.grow(index);
@@ -317,6 +302,10 @@ function checkForAdds(p5, addedActivities, newness) {
     }
     if ('prata-om-tema' in addedActivities) {
       showParticleSystem(addedActivities['prata-om-tema'], 0.07);
+    }
+
+    if ('ekonomi' in addedActivities) {
+      showMoving(p5, addedActivities['ekonomi'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
     if ('gor-ri-byrakrati' in addedActivities) {
       showMoving(
