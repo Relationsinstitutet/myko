@@ -4,14 +4,12 @@
   import { onDestroy, onMount } from 'svelte';
 
   onMount(() => {
-    const scriptTag = document.createElement('script');
-    scriptTag.src = '//code.tidio.co/vbj0zee1lpdkildtba49hrvoe0fpeg2r.js';
-    mainElement.appendChild(scriptTag);
+    window.tidioChatApi.show();
+    window.tidioChatApi.open();
   });
 
   onDestroy(() => {
-    document.getElementById('tidio-chat-code')?.remove();
-    document.getElementById('tidio-chat')?.remove();
+    window.tidioChatApi.hide();
   });
 
   export let instructions: PortableTextBlocks;

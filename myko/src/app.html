@@ -9,6 +9,20 @@
   </head>
   <body>
     <div>%svelte.body%</div>
+    <script src="//code.tidio.co/vbj0zee1lpdkildtba49hrvoe0fpeg2r.js" async></script>
+    <script>
+      (function () {
+        function onTidioChatApiReady() {
+          window.tidioChatApi.hide();
+        }
+
+        if (window.tidioChatApi) {
+          window.tidioChatApi.on('ready', onTidioChatApiReady);
+        } else {
+          document.addEventListener('tidioChat-ready', onTidioChatApiReady);
+        }
+      })();
+    </script>
   </body>
 </html>
 
