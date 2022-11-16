@@ -3,9 +3,24 @@
   import type { PortableTextBlocks } from '@portabletext/svelte/ptTypes';
   import { onDestroy, onMount } from 'svelte';
 
-  onMount(() => {
-    window.tidioChatApi.show();
+  function onTidioChatApiReady() {
     window.tidioChatApi.open();
+  }
+
+  function loadTidio() {
+    const tidioScript = document.createElement('script');
+    tidioScript.src = '//code.tidio.co/vbj0zee1lpdkildtba49hrvoe0fpeg2r.js';
+    mainElement.appendChild(tidioScript);
+
+    if (window.tidioChatApi) {
+      window.tidioChatApi.on('ready', onTidioChatApiReady);
+    } else {
+      document.addEventListener('tidioChat-ready', onTidioChatApiReady);
+    }
+  }
+
+  onMount(() => {
+    loadTidio();
   });
 
   onDestroy(() => {
