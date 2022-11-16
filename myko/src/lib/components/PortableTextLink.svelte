@@ -9,7 +9,6 @@
   // Remember to make your variables reactive so that they can reflect prop changes
   $: mark = portableText.mark;
   $: target = mark.href?.startsWith('/') ? '_self' : 'external'; // treat relative link as "internal" link, letting Svelte handle it properly
-
 </script>
 
 {#if mark.href}
