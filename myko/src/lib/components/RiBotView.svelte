@@ -4,6 +4,7 @@
   import { onDestroy, onMount } from 'svelte';
 
   function onTidioChatApiReady() {
+    window.tidioChatApi.track('member_activity_triggered');
     window.tidioChatApi.open();
   }
 
