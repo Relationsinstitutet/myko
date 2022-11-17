@@ -3,15 +3,29 @@
   import type { PortableTextBlocks } from '@portabletext/svelte/ptTypes';
   import { onDestroy, onMount } from 'svelte';
 
+  function onTidioChatApiReady() {
+    window.tidioChatApi.track('member_activity_triggered');
+    window.tidioChatApi.open();
+  }
+
+  function loadTidio() {
+    const tidioScript = document.createElement('script');
+    tidioScript.src = '//code.tidio.co/vbj0zee1lpdkildtba49hrvoe0fpeg2r.js';
+    mainElement.appendChild(tidioScript);
+
+    if (window.tidioChatApi) {
+      window.tidioChatApi.on('ready', onTidioChatApiReady);
+    } else {
+      document.addEventListener('tidioChat-ready', onTidioChatApiReady);
+    }
+  }
+
   onMount(() => {
-    const scriptTag = document.createElement('script');
-    scriptTag.src = '//code.tidio.co/vbj0zee1lpdkildtba49hrvoe0fpeg2r.js';
-    mainElement.appendChild(scriptTag);
+    loadTidio();
   });
 
   onDestroy(() => {
-    document.getElementById('tidio-chat-code')?.remove();
-    document.getElementById('tidio-chat')?.remove();
+    window.tidioChatApi.hide();
   });
 
   export let instructions: PortableTextBlocks;
