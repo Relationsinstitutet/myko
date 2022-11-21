@@ -63,12 +63,10 @@ export async function setup(p5) {
   p5.pixelDensity(1);
 
   xtraCnvs = p5.createGraphics(p5.windowWidth, p5.windowHeight - 50);
-  xtraCnvs.imageMode[xtraCnvs.CENTER];
   xtraCnvs.stroke(3, 58, 65);
 
   xtraCnvs2 = p5.createGraphics(p5.windowWidth, p5.windowHeight - 50);
   xtraCnvs2.frameRate(20);
-  xtraCnvs2.imageMode[xtraCnvs2.CENTER];
   xtraCnvs2.colorMode(xtraCnvs.HSL, 360, 100, 100, 1.0);
 
   currentDate = new Date();
@@ -123,6 +121,7 @@ function prepareWeather(p5, weatherType) {
 function makeWeather(weatherType, weatherPos, cloud, accDiff, p5) {
   weatherSize = imagePositions[5][2];
   precipitationSize = proportions[0] * 0.0375;
+  xtraCnvs.imageMode(xtraCnvs.CENTER);
   xtraCnvs.image(cloud, weatherPosition[0], weatherPosition[1], weatherSize[0], weatherSize[1]);
   for (let i = 0; i < 220; i++) {
     drops.push(new Drop(weatherType, weatherPos, weatherSize[0], precipitationSize, accDiff, p5));
@@ -302,10 +301,6 @@ function checkForAdds(p5, addedActivities, newness) {
     }
     if ('prata-om-tema' in addedActivities) {
       showParticleSystem(addedActivities['prata-om-tema'], 0.07);
-    }
-
-    if ('ekonomi' in addedActivities) {
-      showMoving(p5, addedActivities['ekonomi'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
     if ('gor-ri-byrakrati' in addedActivities) {
       showMoving(
