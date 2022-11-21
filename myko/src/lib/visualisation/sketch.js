@@ -290,6 +290,18 @@ function checkForAdds(p5, addedActivities, newness) {
     if ('te-ritual' in addedActivities) {
       showThings(addedActivities['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness);
     }
+    //EXPLAINER: arguments passed to showMoving()
+    /*
+    - canvas layer, 
+    - nr of activities,
+    - image array name,
+    - image name string format (not in use atm how to use: look up pictures.js line 28),
+    - image size
+    - minvalue variation for initial location (less than 0 = outside canvas)
+    - maxvalue variation for initial location (more than 1 = outside canvas)
+    - rotation, usage: moving.js, show()
+    - noise scale, usage: moving.js, update()
+    */
     if ('mykomote' in addedActivities) {
       showMoving(p5, addedActivities['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
