@@ -1,6 +1,6 @@
 import Pictures from './pictures';
 import { MovingPics, Particles } from './moving';
-import Drop from './weather';
+import { Drop, GrassPatch } from './weather';
 import {
   ratio,
   proportionsByRatio,
@@ -23,12 +23,14 @@ let cats = [];
 let diys = [];
 let planes = [];
 let particleSystem, particleSize, p;
-let snow = false;
-let rain = false;
+let snow = false,
+  rain = false,
+  wind = false;
 //let weatherType = '';
 let weatherPosition, weatherSize, precipitationSize, accelerationDiff;
 let weatherSpeed = 1;
-let drops = [];
+let drops = [],
+  grass = [];
 let snowCloud, rainCloud;
 
 /* -------FUNCTIONS BEGIN------- */
@@ -95,7 +97,7 @@ export async function setup(p5) {
   checkForAdds(p5, data[1], 0);
   showAdded();
 
-  if (snow || rain) {
+  if (snow || rain || wind) {
     prepareWeather(p5);
   }
   return canvas;
@@ -116,6 +118,12 @@ function prepareWeather(p5, weatherType) {
     accelerationDiff = 5;
     makeWeather(weatherType, weatherPosition, rainCloud, accelerationDiff, p5);
   }
+  // Grass blowing when no tea
+  if (wind) {
+    weatherPosition = imagePositions[5][0];
+    weatherType = 'wind';
+    makeWind(p5);
+  }
 }
 
 function makeWeather(weatherType, weatherPos, cloud, accDiff, p5) {
@@ -126,6 +134,10 @@ function makeWeather(weatherType, weatherPos, cloud, accDiff, p5) {
   for (let i = 0; i < 220; i++) {
     drops.push(new Drop(weatherType, weatherPos, weatherSize[0], precipitationSize, accDiff, p5));
   }
+}
+
+function makeWind(p5) {
+  grass.push(new GrassPatch(p5.width * 0.1, p5.width * 0.1, p5));
 }
 
 function showAdded() {
@@ -163,6 +175,10 @@ export function draw(p5) {
       }
     }
   }
+
+  if (wind) {
+    grass[0].update();
+  }
   if (drops.length) {
     for (const drop of drops) {
       drop.show();
@@ -170,6 +186,7 @@ export function draw(p5) {
       drop.edge();
     }
   }
+
   for (const [index, na] of newAdds.entries()) {
     na.show(proportions[1]);
     na.grow(index);
@@ -262,7 +279,7 @@ function checkForAdds(p5, addedActivities, newness) {
     console.log('no activities yet');
   } else {
     if ('tillverka-aktivitet' in addedActivities) {
-      rain = false;
+      wind = false;
       showThings(
         addedActivities['tillverka-aktivitet'],
         diys,
@@ -272,7 +289,7 @@ function checkForAdds(p5, addedActivities, newness) {
         newness
       );
     } else {
-      rain = true;
+      wind = true;
     }
     if ('halsa-pa-nasims-katter' in addedActivities) {
       snow = false;
@@ -288,7 +305,10 @@ function checkForAdds(p5, addedActivities, newness) {
       snow = true;
     }
     if ('te-ritual' in addedActivities) {
+      rain = false;
       showThings(addedActivities['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness);
+    } else {
+      rain = true;
     }
     //EXPLAINER: arguments passed to showMoving()
     /*
