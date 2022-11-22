@@ -29,7 +29,8 @@
   });
 
   // To be able to test with more or less attendees than booked right now
-  let testNumberAttendees = 5;
+  let testNumberAttendees = 7;
+
   let randomDotPositions = [
     "dotTotalEventsAttendeesPosition1", 
     "dotTotalEventsAttendeesPosition2", 
@@ -65,7 +66,7 @@
           <span class="dot" />
         {/if}
         <a href="/aktiviteter/{activity.slug}">{activity.name}</a>
-        <span>
+        <span class="wrapperTotalEventsDots">
           {#if activity.eventSummaries.length > 0}
           {#each Array(testNumberAttendees) as _, row}
           <span class="dotTotalEventsAttendees {getRandomPosition()}" />
@@ -174,14 +175,18 @@
     background-position: left bottom;
   }
 
+  .wrapperTotalEventsDots {
+    max-width: 40px;
+  }
   .dotTotalEventsAttendees {
     content: '';
     display: inline-block;
     position: relative;
-    height: 0.5em;
-    width: 0.5em;
+    height: 0.4em;
+    width: 0.4em;
     background-color: var(--ocean-600);
     border-radius: 50%;
+    overflow: hidden;
   }
 
   .dotTotalEventsAttendeesPosition1 {
