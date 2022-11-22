@@ -191,27 +191,27 @@
 
   .dotTotalEventsAttendeesPosition2 {
     top: 1em;
-    left: 0;
+    /* left: 0; */
   }
   .dotTotalEventsAttendeesPosition3 {
-    top: 1.2em;
-    left: 0.2em;
+    top: -0.1em;
+    /* left: 0.2em; */
   }
   .dotTotalEventsAttendeesPosition4 {
-    top: 1.2em;
-    left: 0.2em;
+    top: -0.2em;
+    /* left: 0.2em; */
   }
   .dotTotalEventsAttendeesPosition5 {
-    top: 1.2em;
-    left: 0.2em;
+    top: 0.2em;
+    /* left: 0.2em; */
   }
   .dotTotalEventsAttendeesPosition6{
-    top: 1.2em;
-    left: 0.2em;
+    top: 1em;
+    /* left: 0.2em; */
   }
   .dotTotalEventsAttendeesPosition7 {
-    top: 1.2em;
-    left: 0.2em;
+    top: -0.3em;
+    /* left: 0.2em; */
   }
 
   ::marker {
