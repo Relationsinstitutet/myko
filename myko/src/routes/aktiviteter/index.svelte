@@ -28,6 +28,7 @@
     }
   });
 
+  let testNumberAttendees = 5;
 
   // populated with data from the endpoint
   export let activities: IActivitySummary[];
@@ -51,18 +52,22 @@
         <a href="/aktiviteter/{activity.slug}">{activity.name}</a>
         <span>
           {#if activity.eventSummaries.length > 0}
-          {#each Array(activity.eventSummaries.reduce(
+          {#each Array(testNumberAttendees) as _, row}
+          <span class="totalEventAttendeesDot" />
+          <!-- {row } -->
+            {/each}
+
+          <!-- {#each Array(activity.eventSummaries.reduce(
             (totalEventAttendees, event) => totalEventAttendees + event.numAttendees,
             0
           )) as _, row}
           <span class="totalEventAttendeesDot" />
-          {row }
-            {/each}
+            {/each} -->
 
-            ({activity.eventSummaries.reduce(
+            <!-- ({activity.eventSummaries.reduce(
               (totalEventAttendees, event) => totalEventAttendees + event.numAttendees,
               0
-            )})
+            )}) -->
 
           {/if}
         </span>
