@@ -29,20 +29,6 @@
   });
 
 
-  async function drawCircle() {
-    const canvas = document.getElementById('canvas1') as HTMLCanvasElement | null;;
-    const context = canvas?.getContext('2d');
-    context.fillStyle = 'red';
-    context.strokeStyle = 'red';
-    context.lineWidth = 20;
-
-    context.beginPath();
-    context.arc(100, 75, 50, 0, Math.PI * 2);
-    // context.fill();
-    context.stroke(); 
-  }
-
-
   // populated with data from the endpoint
   export let activities: IActivitySummary[];
   export let nextUpcomingCotime: Cotime | undefined = undefined;
@@ -52,10 +38,6 @@
   <title>Aktiviteter</title>
 </svelte:head>
 <main>
-  <canvas id="canvas1" >
-    {drawCircle} 
-  </canvas>
-
   {#if nextUpcomingCotime}
     <CotimeInfo cotime={nextUpcomingCotime} />
   {/if}
@@ -69,15 +51,19 @@
         <a href="/aktiviteter/{activity.slug}">{activity.name}</a>
         <span>
           {#if activity.eventSummaries.length > 0}
+          {#each Array(activity.eventSummaries.reduce(
+            (totalEventAttendees, event) => totalEventAttendees + event.numAttendees,
+            0
+          )) as _, row}
+          <span class="totalEventAttendeesDot" />
+          {row }
+            {/each}
+
             ({activity.eventSummaries.reduce(
               (totalEventAttendees, event) => totalEventAttendees + event.numAttendees,
               0
             )})
-              <!-- {drawCircle} -->
-            <!-- <div on:mousemove={handleMousemove}>
-              The mouse position is {m.x} x {m.y}
-            </div> -->
- 
+
           {/if}
         </span>
       </li>
@@ -89,15 +75,6 @@
   main {
     background-color: var(--peach-300);
     align-items: center;
-  }
-
-  #canvas1 {
-    position: absolute;
-    background: black;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
   }
 
   ul {
@@ -176,6 +153,17 @@
   :focus {
     color: var(--grey-900);
     background-position: left bottom;
+  }
+
+  .totalEventAttendeesDot {
+    content: '';
+    display: inline-block;
+    top: 1.2em;
+    /* left: -3.2em; */
+    height: 0.5em;
+    width: 0.5em;
+    background-color: var(--ocean-600);
+    border-radius: 50%;
   }
 
   ::marker {
