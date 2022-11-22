@@ -32,17 +32,18 @@
   let testNumberAttendees = 7;
 
   let randomDotPositions = [
-    "dotTotalEventsAttendeesPosition1", 
-    "dotTotalEventsAttendeesPosition2", 
-    "dotTotalEventsAttendeesPosition3", 
-    "dotTotalEventsAttendeesPosition4", 
-    "dotTotalEventsAttendeesPosition5", 
-    "dotTotalEventsAttendeesPosition6", 
-    "dotTotalEventsAttendeesPosition7"
+    'dotTotalEventsAttendeesPosition1',
+    'dotTotalEventsAttendeesPosition2',
+    'dotTotalEventsAttendeesPosition3',
+    'dotTotalEventsAttendeesPosition4',
+    'dotTotalEventsAttendeesPosition5',
+    'dotTotalEventsAttendeesPosition6',
+    'dotTotalEventsAttendeesPosition7',
   ];
-  
+
   function getRandomPosition() {
-    const randomPosition = randomDotPositions[Math.floor(Math.random() * randomDotPositions.length)];
+    const randomPosition =
+      randomDotPositions[Math.floor(Math.random() * randomDotPositions.length)];
     return randomPosition;
   }
 
@@ -68,11 +69,11 @@
         <a href="/aktiviteter/{activity.slug}">{activity.name}</a>
         <span class="wrapperTotalEventsDots">
           {#if activity.eventSummaries.length > 0}
-          {#each Array(testNumberAttendees) as _, row}
-          <span class="dotTotalEventsAttendees {getRandomPosition()}" />
+            {#each Array(testNumberAttendees) as _, row}
+              <span class="dotTotalEventsAttendees {getRandomPosition()}" />
             {/each}
 
-          <!-- {#each Array(activity.eventSummaries.reduce(
+            <!-- {#each Array(activity.eventSummaries.reduce(
             (totalEventAttendees, event) => totalEventAttendees + event.numAttendees,
             0
           )) as _, row}
@@ -83,7 +84,6 @@
               (totalEventAttendees, event) => totalEventAttendees + event.numAttendees,
               0
             )}) -->
-
           {/if}
         </span>
       </li>
@@ -210,7 +210,7 @@
     top: 0.2em;
     /* left: 0.2em; */
   }
-  .dotTotalEventsAttendeesPosition6{
+  .dotTotalEventsAttendeesPosition6 {
     top: 1em;
     /* left: 0.2em; */
   }
