@@ -28,7 +28,22 @@
     }
   });
 
+  // To be able to test with more or less attendees than booked right now
   let testNumberAttendees = 5;
+  let randomDotPositions = [
+    "dotTotalEventsAttendeesPosition1", 
+    "dotTotalEventsAttendeesPosition2", 
+    "dotTotalEventsAttendeesPosition3", 
+    "dotTotalEventsAttendeesPosition4", 
+    "dotTotalEventsAttendeesPosition5", 
+    "dotTotalEventsAttendeesPosition6", 
+    "dotTotalEventsAttendeesPosition7"
+  ];
+  
+  function getRandomPosition() {
+    const randomPosition = randomDotPositions[Math.floor(Math.random() * randomDotPositions.length)];
+    return randomPosition;
+  }
 
   // populated with data from the endpoint
   export let activities: IActivitySummary[];
@@ -53,15 +68,14 @@
         <span>
           {#if activity.eventSummaries.length > 0}
           {#each Array(testNumberAttendees) as _, row}
-          <span class="totalEventAttendeesDot" />
-          <!-- {row } -->
+          <span class="dotTotalEventsAttendees {getRandomPosition()}" />
             {/each}
 
           <!-- {#each Array(activity.eventSummaries.reduce(
             (totalEventAttendees, event) => totalEventAttendees + event.numAttendees,
             0
           )) as _, row}
-          <span class="totalEventAttendeesDot" />
+          <span class="dotTotalEventsAttendees" />
             {/each} -->
 
             <!-- ({activity.eventSummaries.reduce(
@@ -160,15 +174,44 @@
     background-position: left bottom;
   }
 
-  .totalEventAttendeesDot {
+  .dotTotalEventsAttendees {
     content: '';
     display: inline-block;
-    top: 1.2em;
-    /* left: -3.2em; */
+    position: relative;
     height: 0.5em;
     width: 0.5em;
     background-color: var(--ocean-600);
     border-radius: 50%;
+  }
+
+  .dotTotalEventsAttendeesPosition1 {
+    top: 0;
+    left: 0;
+  }
+
+  .dotTotalEventsAttendeesPosition2 {
+    top: 1em;
+    left: 0;
+  }
+  .dotTotalEventsAttendeesPosition3 {
+    top: 1.2em;
+    left: 0.2em;
+  }
+  .dotTotalEventsAttendeesPosition4 {
+    top: 1.2em;
+    left: 0.2em;
+  }
+  .dotTotalEventsAttendeesPosition5 {
+    top: 1.2em;
+    left: 0.2em;
+  }
+  .dotTotalEventsAttendeesPosition6{
+    top: 1.2em;
+    left: 0.2em;
+  }
+  .dotTotalEventsAttendeesPosition7 {
+    top: 1.2em;
+    left: 0.2em;
   }
 
   ::marker {
