@@ -58,8 +58,6 @@ export class Drop {
   }
 }
 
-let rot;
-
 export class GrassPatch {
   constructor(position, width, p5) {
     this.p5 = p5;
@@ -69,15 +67,15 @@ export class GrassPatch {
     this.size = [];
     this.seg = [];
     this.index = 0;
-    this.population = 150;
+    this.population = 85;
 
     for (let i = 0; i < this.population; i++) {
       this.index += 1;
       this.xPos.push(position + p5.randomGaussian(position, width));
-      this.rotationOff.push(this.xPos[i] * 0.01 + 0.0175);
+      this.rotationOff.push(this.xPos[i] * 0.025 + 0.0175);
       //this.rotationVals.push(0);
-      this.size.push(p5.randomGaussian(15, 3.5));
-      this.seg.push(0.9);
+      this.size.push(p5.randomGaussian(20, 4));
+      this.seg.push(0.875);
     }
   }
 
@@ -93,20 +91,20 @@ export class GrassPatch {
 
   blade(len, index) {
     this.rotationOff[index] += 0.005;
-    this.p5.stroke(220 - len * 5 - index * 0.5, 80 - len * 2, 37 - len * 2.7, 0.85);
-    rot = this.p5.map(
+    this.p5.stroke(220 - len * 5 - index * 0.5, 90 - len * 2, 40 - len * 2.55);
+    let rot = this.p5.map(
       this.p5.noise(this.rotationOff[index]),
       0,
       1,
-      -this.p5.QUARTER_PI * 0.25,
-      this.p5.QUARTER_PI * 0.5
+      -this.p5.QUARTER_PI * 0.65,
+      this.p5.QUARTER_PI
     );
 
-    this.p5.strokeWeight(len * 0.35);
+    this.p5.strokeWeight(len * 0.28);
     this.p5.rotate(rot);
     this.p5.line(0, 0, 0, -len);
     this.p5.translate(0, -len);
-    if (len > 7) {
+    if (len > 9) {
       this.blade(len * this.seg[index], index);
     }
   }

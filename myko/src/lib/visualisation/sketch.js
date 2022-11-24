@@ -111,14 +111,14 @@ function prepareWeather(p5, weatherType) {
     accelerationDiff = 2.5;
     makeWeather(weatherType, weatherPosition, snowCloud, accelerationDiff, p5);
   }
-  // Rains in absence of tools
+  // Rains in absence of tea
   if (rain) {
     weatherPosition = imagePositions[5][0];
     weatherType = 'rain';
     accelerationDiff = 5;
     makeWeather(weatherType, weatherPosition, rainCloud, accelerationDiff, p5);
   }
-  // Grass blowing when no tea
+  // Grass blowing when no tools
   if (wind) {
     weatherPosition = imagePositions[5][0];
     weatherType = 'wind';
@@ -137,7 +137,7 @@ function makeWeather(weatherType, weatherPos, cloud, accDiff, p5) {
 }
 
 function makeWind(p5) {
-  grass.push(new GrassPatch(p5.width * 0.1, p5.width * 0.1, p5));
+  grass.push(new GrassPatch(p5.width * 0.11, p5.width * 0.09, p5));
 }
 
 function showAdded() {
