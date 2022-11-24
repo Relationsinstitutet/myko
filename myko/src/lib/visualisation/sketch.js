@@ -9,6 +9,7 @@ import {
   fixImagePositions,
 } from './locations';
 import { flowfieldDraw, flowfieldSetup } from './flowfield';
+import { fetchActivityLog, getWeekDate } from './processData';
 
 let canvas, xtraCnvs, xtraCnvs2;
 let currentDate, currentWeek;
@@ -23,9 +24,8 @@ let cats = [];
 let diys = [];
 let planes = [];
 let particleSystem, particleSize, p;
-let snow = false;
-let rain = false;
-//let weatherType = '';
+let snow = false,
+  rain = false;
 let weatherPosition, weatherSize, precipitationSize, accelerationDiff;
 let weatherSpeed = 1;
 let drops = [];
@@ -90,7 +90,7 @@ export async function setup(p5) {
   // Return image location arrays; cats, tea, diy, xtra, particles, weathercloud size
   imagePositions = fixImagePositions(p5, proportions[0]);
 
-  const data = await fetchActivityLog(p5);
+  const data = await fetchActivityLog(currentDate);
   checkForAdds(p5, data[0], 'new');
   checkForAdds(p5, data[1], 0);
   showAdded();
@@ -99,33 +99,6 @@ export async function setup(p5) {
     prepareWeather(p5);
   }
   return canvas;
-}
-
-function prepareWeather(p5, weatherType) {
-  // Snows in absence of cats
-  if (snow) {
-    weatherPosition = imagePositions[5][1];
-    weatherType = 'snow';
-    accelerationDiff = 2.5;
-    makeWeather(weatherType, weatherPosition, snowCloud, accelerationDiff, p5);
-  }
-  // Rains in absence of tools
-  if (rain) {
-    weatherPosition = imagePositions[5][0];
-    weatherType = 'rain';
-    accelerationDiff = 5;
-    makeWeather(weatherType, weatherPosition, rainCloud, accelerationDiff, p5);
-  }
-}
-
-function makeWeather(weatherType, weatherPos, cloud, accDiff, p5) {
-  weatherSize = imagePositions[5][2];
-  precipitationSize = proportions[0] * 0.0375;
-  xtraCnvs.imageMode(xtraCnvs.CENTER);
-  xtraCnvs.image(cloud, weatherPosition[0], weatherPosition[1], weatherSize[0], weatherSize[1]);
-  for (let i = 0; i < 220; i++) {
-    drops.push(new Drop(weatherType, weatherPos, weatherSize[0], precipitationSize, accDiff, p5));
-  }
 }
 
 function showAdded() {
@@ -174,85 +147,6 @@ export function draw(p5) {
     na.show(proportions[1]);
     na.grow(index);
   }
-}
-
-async function fetchActivityLog() {
-  const response = await fetch('/api/aktiviteter/logg');
-  if (!response.ok) {
-    console.log('Could not get activity data');
-    return null;
-  }
-  const logEntries = await response.json();
-  let entries = checkForNewEntries(logEntries);
-
-  // Counts the number of each activity
-  let newerEntries = entries[0].reduce((result, entry) => {
-    if (!(entry.activity in result)) {
-      result[entry.activity] = 0;
-    }
-    result[entry.activity] += 1;
-    return result;
-  }, {});
-
-  let newEntries = entries[1].reduce((result, entry) => {
-    if (!(entry.activity in result)) {
-      result[entry.activity] = 0;
-    }
-    result[entry.activity] += 1;
-    return result;
-  }, {});
-
-  return [newerEntries, newEntries];
-}
-
-function checkForNewEntries(logEntries) {
-  const currentDay = currentDate.getDate();
-  const currentHour = currentDate.getHours();
-
-  for (let entry of logEntries) {
-    const entryDate = new Date(entry.date);
-    const acceptedEntry = isNewDate(entryDate, currentWeek, currentDay, currentHour);
-
-    if (acceptedEntry[0]) {
-      entry.thisHour = true;
-    } else if (acceptedEntry[1]) {
-      entry.thisWeek = true;
-    }
-  }
-  let newerEntries = logEntries.filter((el) => {
-    return el.thisHour;
-  });
-  let newEntries = logEntries.filter((el) => {
-    return el.thisWeek;
-  });
-  return [newerEntries, newEntries];
-}
-
-function getWeekDate(date) {
-  const startDate = new Date(date.getFullYear(), 0, 1);
-  const days = Math.floor((date - startDate) / (24 * 60 * 60 * 1000));
-  const weekNumber = Math.ceil(days / 7);
-
-  return weekNumber;
-}
-
-function isNewDate(entryDate, currentDay, currentHour) {
-  const week = getWeekDate(entryDate);
-  const day = entryDate.getDate();
-
-  const hour = entryDate.getHours();
-  let pastHour = false;
-  let earlierThisWeek = false;
-
-  if (week >= currentWeek) {
-    // Checks for present day and closest 2 hours
-    if (day === currentDay && currentHour - hour < 2) {
-      pastHour = true;
-    } else {
-      earlierThisWeek = true;
-    }
-  }
-  return [pastHour, earlierThisWeek];
 }
 
 function checkForAdds(p5, addedActivities, newness) {
@@ -373,4 +267,31 @@ function showParticleSystem(nr, varySize) {
   particleSystem = nr;
   console.log(particleSystem);
   particleSize = proportions[0] * varySize;
+}
+
+function prepareWeather(p5, weatherType) {
+  // Snows in absence of cats
+  if (snow) {
+    weatherPosition = imagePositions[5][1];
+    weatherType = 'snow';
+    accelerationDiff = 2.5;
+    makeWeather(weatherType, weatherPosition, snowCloud, accelerationDiff, p5);
+  }
+  // Rains in absence of tools
+  if (rain) {
+    weatherPosition = imagePositions[5][0];
+    weatherType = 'rain';
+    accelerationDiff = 5;
+    makeWeather(weatherType, weatherPosition, rainCloud, accelerationDiff, p5);
+  }
+}
+
+function makeWeather(weatherType, weatherPos, cloud, accDiff, p5) {
+  weatherSize = imagePositions[5][2];
+  precipitationSize = proportions[0] * 0.0375;
+  xtraCnvs.imageMode(xtraCnvs.CENTER);
+  xtraCnvs.image(cloud, weatherPosition[0], weatherPosition[1], weatherSize[0], weatherSize[1]);
+  for (let i = 0; i < 220; i++) {
+    drops.push(new Drop(weatherType, weatherPos, weatherSize[0], precipitationSize, accDiff, p5));
+  }
 }
