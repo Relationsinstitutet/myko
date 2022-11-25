@@ -51,6 +51,7 @@ export function preload(p5) {
 
 export function windowResized(p5) {
   p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
+  redrawData(p5);
 }
 
 export async function setup(p5) {
@@ -92,6 +93,12 @@ export async function setup(p5) {
   // Return image location arrays; cats, tea, diy, xtra, particles, weathercloud size
   imagePositions = fixImagePositions(p5, proportions[0]);
 
+  return canvas;
+}
+
+export async function redrawData(p5) {
+  p5.clear();
+
   const data = await fetchActivityLog(p5);
   checkForAdds(p5, data[0], 'new');
   checkForAdds(p5, data[1], 0);
@@ -100,7 +107,6 @@ export async function setup(p5) {
   if (snow || rain) {
     prepareWeather(p5);
   }
-  return canvas;
 }
 
 function prepareWeather(p5, weatherType) {

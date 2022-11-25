@@ -7,7 +7,8 @@
   import P5 from 'p5-svelte';
   import type { Sketch, p5 } from 'p5-svelte';
   import type { Element } from 'p5';
-  import { preload, setup, draw, windowResized } from '$lib/visualisation/sketch'; //
+  import { preload, setup, draw, windowResized, redrawData } from '$lib/visualisation/sketch';
+  import { afterUpdate } from 'svelte';
 
   const sketch: Sketch = (p5: p5) => {
     /**/ p5.preload = () => {
@@ -24,6 +25,12 @@
       windowResized(p5);
     };
   };
+
+  afterUpdate(() => {
+    if (p5Ref) {
+      redrawData(p5Ref);
+    }
+  });
 
   const takeSnapshot = () => {
     const buffer = p5Ref.createGraphics(p5Ref.width, p5Ref.height);
