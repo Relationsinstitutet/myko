@@ -1,13 +1,13 @@
 <script lang="ts">
   import type StartedActivityData from '$lib/models/startedActivity';
-  import PortableText from '@portabletext/svelte';
+  import PortableTextWithLinks from '$lib/components/portabletext/PortableTextWithLinks.svelte';
 
   export let data: StartedActivityData;
 </script>
 
 <div class="wrapper">
   <h1>Välkommen</h1>
-  <PortableText blocks={data.instructions} />
+  <PortableTextWithLinks blocks={data.instructions} />
 
   {#if data.videoConferencingLink}
     <div class="wrap">
