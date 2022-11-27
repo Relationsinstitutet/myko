@@ -1,6 +1,6 @@
 import Pictures from './pictures';
 import { MovingPics, Particles } from './moving';
-import Drop from './weather';
+import { prepareWeather } from './weather';
 import {
   ratio,
   proportionsByRatio,
@@ -26,19 +26,19 @@ let planes = [];
 let particleSystem, particleSize, p;
 let snow = false,
   rain = false;
-let weatherPosition, weatherSize, precipitationSize, accelerationDiff;
-let weatherSpeed = 1;
 let drops = [];
-let snowCloud, rainCloud;
+let weatherSpeed = 1;
+let weatherClouds = [];
 
 /* -------FUNCTIONS BEGIN------- */
 export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
   streetlight = p5.loadImage('streetlight.png');
   shelf = p5.loadImage('shelves.png');
-  rainCloud = p5.loadImage('cloud1.png');
-  snowCloud = p5.loadImage('cloud2.png');
 
+  for (let i = 1; i < 3; i++) {
+    weatherClouds.push(p5.loadImage(`cloud${i}.png`));
+  }
   for (let i = 1; i < 8; i++) {
     teas.push(p5.loadImage(`tea${i}.png`));
   }
@@ -96,8 +96,17 @@ export async function setup(p5) {
   showAdded();
 
   if (snow || rain) {
-    prepareWeather(p5);
+    drops = prepareWeather(
+      snow,
+      rain,
+      imagePositions[5],
+      weatherClouds,
+      proportions[0],
+      p5,
+      xtraCnvs
+    );
   }
+
   return canvas;
 }
 
@@ -136,13 +145,14 @@ export function draw(p5) {
       }
     }
   }
-  if (drops.length) {
+  if (drops) {
     for (const drop of drops) {
       drop.show();
       drop.update(weatherSpeed);
       drop.edge();
     }
   }
+
   for (const [index, na] of newAdds.entries()) {
     na.show(proportions[1]);
     na.grow(index);
@@ -155,7 +165,7 @@ function checkForAdds(p5, addedActivities, newness) {
   if (!addedActivities) {
     console.log('no activities yet');
   } else {
-    if ('tillverka-aktivitet' in addedActivities) {
+    if ('diy' in addedActivities) {
       rain = false;
       showThings(
         addedActivities['tillverka-aktivitet'],
@@ -267,31 +277,4 @@ function showParticleSystem(nr, varySize) {
   particleSystem = nr;
   console.log(particleSystem);
   particleSize = proportions[0] * varySize;
-}
-
-function prepareWeather(p5, weatherType) {
-  // Snows in absence of cats
-  if (snow) {
-    weatherPosition = imagePositions[5][1];
-    weatherType = 'snow';
-    accelerationDiff = 2.5;
-    makeWeather(weatherType, weatherPosition, snowCloud, accelerationDiff, p5);
-  }
-  // Rains in absence of tools
-  if (rain) {
-    weatherPosition = imagePositions[5][0];
-    weatherType = 'rain';
-    accelerationDiff = 5;
-    makeWeather(weatherType, weatherPosition, rainCloud, accelerationDiff, p5);
-  }
-}
-
-function makeWeather(weatherType, weatherPos, cloud, accDiff, p5) {
-  weatherSize = imagePositions[5][2];
-  precipitationSize = proportions[0] * 0.0375;
-  xtraCnvs.imageMode(xtraCnvs.CENTER);
-  xtraCnvs.image(cloud, weatherPosition[0], weatherPosition[1], weatherSize[0], weatherSize[1]);
-  for (let i = 0; i < 220; i++) {
-    drops.push(new Drop(weatherType, weatherPos, weatherSize[0], precipitationSize, accDiff, p5));
-  }
 }
