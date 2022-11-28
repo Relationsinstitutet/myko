@@ -77,17 +77,17 @@ export async function setup(p5) {
   flowfieldSetup(xtraCnvs2);
   ratio(p5);
 
-  // Return foreground image size, strokeweight, flowfield strokeweight
+  //----Return foreground image size, strokeweight, flowfield strokeweight
   proportions = proportionsByRatio(xtraCnvs);
   fixBgImagePositions(xtraCnvs);
   drawBackgroundImages(xtraCnvs, cloud, streetlight, shelf);
 
-  // Mark vertical start & end of canvas
+  //----Mark vertical start & end of canvas
   xtraCnvs.strokeWeight(10);
   xtraCnvs.line(0, 0, p5.width, 0);
   xtraCnvs.line(0, p5.height, p5.width, p5.height);
 
-  // Return image location arrays; cats, tea, diy, xtra, particles, weathercloud size
+  //----Return image location arrays; cats, tea, diy, xtra, particles, weathercloud size
   imagePositions = fixImagePositions(p5, proportions[0]);
 
   const data = await fetchActivityLog(currentDate);
@@ -117,21 +117,25 @@ function showAdded() {
 }
 
 export function draw(p5) {
-  // Cutout to show samtid menu behind canvas
+  //----Cutout reveals samtid menu behind canvas----
   p5.background(185, 97, 23, 0.85);
   p5.erase();
   p5.rect(p5.width * 0.5, 125, 227, 36);
   p5.noErase();
-
+  //----Background flowfield animation----
   flowfieldDraw(xtraCnvs2, proportions[2]);
 
+  //----Run additional canvas layers----
   p5.image(xtraCnvs2, p5.width * 0.5, p5.height * 0.5);
   p5.image(xtraCnvs, p5.width * 0.5, p5.height * 0.5);
+
+  //----Moving activity things = planes----
   for (const [index, atm] of addedThingsMove.entries()) {
     atm.update();
     atm.shows(index);
     atm.edge();
   }
+  //----Lamp puffs for 'prata-om-tema'----
   if (particleSystem) {
     if (p5.frameCount % p5.floor(20 / particleSystem) == 0) {
       p = new Particles(imagePositions[4][0], imagePositions[4][1], particleSize, p5);
@@ -145,6 +149,7 @@ export function draw(p5) {
       }
     }
   }
+  //----Weather----
   if (drops) {
     for (const drop of drops) {
       drop.show();
@@ -152,7 +157,7 @@ export function draw(p5) {
       drop.edge();
     }
   }
-
+  //----New Entries----
   for (const [index, na] of newAdds.entries()) {
     na.show(proportions[1]);
     na.grow(index);
@@ -165,7 +170,7 @@ function checkForAdds(p5, addedActivities, newness) {
   if (!addedActivities) {
     console.log('no activities yet');
   } else {
-    if ('diy' in addedActivities) {
+    if ('tillverka-aktivitet' in addedActivities) {
       rain = false;
       showThings(
         addedActivities['tillverka-aktivitet'],
