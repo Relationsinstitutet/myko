@@ -109,14 +109,18 @@
 <style>
   main {
     background: var(--ocean-800);
-    background-image: url('/flowfield(4).png');
-    background-repeat: repeat-y;
-    background-size: cover;
     align-items: center;
     padding: 70px 0 192px;
   }
 
   p {
+    background: var(--ocean-800);
+    background-image: url('/flowfield.png');
+    background-repeat: repeat-y;
+    min-width: 85%;
+    min-height: 54vh;
+    padding: 50px 4%;
+    background-size: cover;
     font-size: var(--20px);
     color: var(--grey-050);
   }
@@ -134,5 +138,11 @@
     width: 100%;
     left: 0;
     padding: 8px;
+  }
+
+  @media (min-width: 45rem) {
+    p {
+      padding: 50px 20%;
+    }
   }
 </style>
