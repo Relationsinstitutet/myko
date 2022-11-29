@@ -67,7 +67,7 @@
           <span class="dot" />
         {/if}
         <a href="/aktiviteter/{activity.slug}">{activity.name}</a>
-        <span class="wrapperTotalEventsDots">
+        <div class="wrapperTotalEventsDots">
           {#if activity.eventSummaries.length > 0}
             {#each Array(testNumberAttendees) as _, row}
               <span class="dotTotalEventsAttendees {getRandomPosition()}" />
@@ -85,7 +85,7 @@
               0
             )}) -->
           {/if}
-        </span>
+        </div>
       </li>
     {/each}
   </ul>
@@ -176,7 +176,10 @@
   }
 
   .wrapperTotalEventsDots {
+    display: inline-block;
     max-width: 40px;
+    white-space: nowrap;
+    overflow: hidden;
   }
   .dotTotalEventsAttendees {
     content: '';
