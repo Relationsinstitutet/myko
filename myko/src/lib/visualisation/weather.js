@@ -1,3 +1,5 @@
+import { add_render_callback } from 'svelte/internal';
+
 export default class Drop {
   constructor(weatherType, weatherPos, cloudSize, dropSize, accelerationDiff, p5) {
     this.p5 = p5;
@@ -43,33 +45,71 @@ export default class Drop {
     if (this.weather === 'snow') {
       c = this.p5.color(this.hue, this.sat, this.light, this.alpha);
       this.p5.circle(this.pos.x, this.pos.y, this.w * this.varySize);
-
-      let mouseDistance = this.p5.dist(this.p5.mouseX, this.p5.mouseY, this.pos.x, this.pos.y);
-      if (mouseDistance < 10) {
-        this.onHover();
-      }
     }
     this.p5.fill(c);
   }
 
-  onHover() {
-    this.varySize = 3;
-    this.light = 80;
-    this.sat = 95;
-    this.hue += 5;
+  hover() {
+    let mouseDistance = this.p5.dist(this.p5.mouseX, this.p5.mouseY, this.pos.x, this.pos.y);
+    if (this.weather === 'snow' && mouseDistance < 10) {
+      this.varySize = 3;
+      this.light = 80;
+      this.sat = 95;
+      this.hue = this.p5.floor(this.p5.random(360));
+    }
+    if (this.weather === 'rain' && mouseDistance < this.size * 0.2) {
+      //1. need to check the whole area for mouse position so it doesn't get so flimmery as now
+      //2.within the area, check the mouseDistance, so first umbrella, then if(mouseDistance < this.size * 0.12) {this.newStartPos}
+      //3.replace umbrella with umbrella picture, pass in with hover? and do this.p5.cursor(umbrellapic);
+      this.p5.push();
+      this.p5.noFill();
+      this.p5.stroke(30, 40, 45);
+      this.p5.strokeWeight(7);
+      this.p5.line(
+        this.p5.mouseX,
+        this.p5.mouseY,
+        this.p5.mouseX,
+        this.p5.mouseY + this.size * 0.18
+      );
+      this.p5.noStroke();
+      this.p5.fill(170, 90, 10);
+      this.p5.arc(
+        this.p5.mouseX,
+        this.p5.mouseY,
+        this.size * 0.27,
+        this.size * 0.2,
+        this.p5.PI,
+        0,
+        this.p5.CHORD
+      );
+
+      this.p5.pop();
+      this.newStartPos();
+    }
+  }
+
+  heavyRain() {
+    this.acc = 3;
+    while (this.acc > 1.5) {
+      this.acc -= 0.03;
+    }
   }
 
   edge() {
     if (this.pos.y > this.p5.height) {
-      this.startPos.x = this.p5.random(
-        this.weatherPos[0] - this.size * 0.35,
-        this.weatherPos[0] + this.size * 0.35
-      );
-      this.startPos.y = this.p5.random(
-        this.weatherPos[1],
-        this.weatherPos[1] + this.p5.height * 0.15
-      );
-      this.pos.set(this.startPos);
+      this.newStartPos();
     }
+  }
+
+  newStartPos() {
+    this.startPos.x = this.p5.random(
+      this.weatherPos[0] - this.size * 0.35,
+      this.weatherPos[0] + this.size * 0.35
+    );
+    this.startPos.y = this.p5.random(
+      this.weatherPos[1],
+      this.weatherPos[1] + this.p5.height * 0.15
+    );
+    this.pos.set(this.startPos);
   }
 }

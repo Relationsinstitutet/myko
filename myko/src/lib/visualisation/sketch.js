@@ -9,6 +9,8 @@ import {
   fixImagePositions,
 } from './locations';
 import { flowfieldDraw, flowfieldSetup } from './flowfield';
+import p5Svelte from 'p5-svelte';
+import P5 from 'p5-svelte/P5.svelte';
 
 let canvas, xtraCnvs, xtraCnvs2;
 let currentDate, currentWeek;
@@ -30,6 +32,7 @@ let weatherPosition, weatherSize, precipitationSize, accelerationDiff;
 let weatherSpeed = 1;
 let drops = [];
 let snowCloud, rainCloud;
+let heavy = false;
 
 /* -------FUNCTIONS BEGIN------- */
 export function preload(p5) {
@@ -167,12 +170,27 @@ export function draw(p5) {
     for (const drop of drops) {
       drop.show();
       drop.update(weatherSpeed);
+      drop.hover();
       drop.edge();
+      if (heavy) {
+        drop.heavyRain();
+      }
     }
   }
   for (const [index, na] of newAdds.entries()) {
     na.show(proportions[1]);
     na.grow(index);
+  }
+}
+
+function mousePressed() {
+  if (
+    p5.mouseX >= imagePositions[5][0][0] - imagePositions[5][2][0] * 0.35 &&
+    p5.mouseX <= imagePositions[5][0][0] + imagePositions[5][2][0] * 0.35
+  ) {
+    if (p5.mouseY >= imagePositions[5][0][1] && p5.mouseY <= p5.height) {
+      heavy = true;
+    }
   }
 }
 
@@ -261,7 +279,7 @@ function checkForAdds(p5, addedActivities, newness) {
   if (!addedActivities) {
     console.log('no activities yet');
   } else {
-    if ('tillverka-aktivitet' in addedActivities) {
+    if ('diy' in addedActivities) {
       rain = false;
       showThings(
         addedActivities['tillverka-aktivitet'],
