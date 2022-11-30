@@ -13,11 +13,15 @@ export default class Drop {
     this.cloudPos = this.p5.createVector(weatherPos[0], weatherPos[1]);
     this.w = this.p5.map(this.startPos.z, 0, 30, 0.4 * dropSize, 1.3 * dropSize);
     this.h = this.p5.map(this.startPos.z, 0, 30, 14 * dropSize, 7 * dropSize);
+    this.varySize = 1.75;
     this.acc = 1.5;
     this.accDiff = accelerationDiff;
     this.vel = this.p5.createVector(0, 0);
     this.wind = 2;
-    this.alpha = this.p5.map(this.startPos.z, 0, 40, 0.2, 1);
+    this.hue = 200;
+    this.sat = 0;
+    this.light = 100;
+    this.alpha = this.p5.map(this.startPos.z, 0, 40, 0.3, 1);
   }
 
   update(windForce) {
@@ -37,10 +41,22 @@ export default class Drop {
       this.acc = 8;
     }
     if (this.weather === 'snow') {
-      c = this.p5.color(200, 0, 100, this.alpha);
-      this.p5.circle(this.pos.x, this.pos.y, this.w * 1.75);
+      c = this.p5.color(this.hue, this.sat, this.light, this.alpha);
+      this.p5.circle(this.pos.x, this.pos.y, this.w * this.varySize);
+
+      let mouseDistance = this.p5.dist(this.p5.mouseX, this.p5.mouseY, this.pos.x, this.pos.y);
+      if (mouseDistance < 10) {
+        this.onHover();
+      }
     }
     this.p5.fill(c);
+  }
+
+  onHover() {
+    this.varySize = 3;
+    this.light = 80;
+    this.sat = 95;
+    this.hue += 5;
   }
 
   edge() {
