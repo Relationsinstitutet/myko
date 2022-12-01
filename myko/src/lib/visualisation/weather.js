@@ -1,4 +1,3 @@
-
 let drops = [];
 let grass = [];
 let accelerationDiff;
@@ -154,6 +153,6 @@ function makeWeather(weatherType, p5, staticLayer) {
 }
 
 export function makeWind(p5) {
-  grass.push(new GrassPatch(p5.width * 0.11, p5.width * 0.11, p5)); //
+  grass.push(new GrassPatch(p5.width * 0.11, p5.width * 0.11, p5));
   return grass;
 }
