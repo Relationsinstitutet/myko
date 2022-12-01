@@ -33,7 +33,6 @@ let drops = [],
 let weatherSpeed = 1;
 let weatherClouds = [];
 
-
 /* -------FUNCTIONS BEGIN------- */
 export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
@@ -113,12 +112,7 @@ export async function setup(p5) {
   if (wind) {
     grass = makeWind(p5);
   }
-
   return canvas;
-}
-
-function makeWind(p5) {
-  grass.push(new GrassPatch(p5.width * 0.11, p5.width * 0.09, p5));
 }
 
 function showAdded() {

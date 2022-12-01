@@ -162,7 +162,7 @@ export function fixImagePositions(staticLayer, size) {
 
   let weatherLoc = [
     [shelfPosX + shelfSizeX * 0.45, shelfPosY + shelfSizeY * -0.325],
-    [xtraCnvs.width * 0.75, cloud3Top],
+    [staticLayer.width * 0.75, cloud3Top],
     [rainCloudSizeX, rainCloudSizeY],
   ];
 
