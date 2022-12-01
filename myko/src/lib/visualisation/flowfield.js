@@ -3,26 +3,26 @@ let mult = 0.004,
   randomH2;
 let points = [];
 
-export function flowfieldSetup(xtraCnvs2) {
-  xtraCnvs2.angleMode(xtraCnvs2.DEGREES);
-  xtraCnvs2.noiseDetail(1);
+export function flowfieldSetup(trailLayer) {
+  trailLayer.angleMode(trailLayer.DEGREES);
+  trailLayer.noiseDetail(1);
   let density = 20;
-  let space = xtraCnvs2.width / density;
-  for (let x = 0; x < xtraCnvs2.width; x += space) {
-    for (let y = 0; y < xtraCnvs2.height; y += space) {
-      let pointPlace = xtraCnvs2.createVector(
-        x + xtraCnvs2.random(-10, 10),
-        y + xtraCnvs2.random(-10, 10)
+  let space = trailLayer.width / density;
+  for (let x = 0; x < trailLayer.width; x += space) {
+    for (let y = 0; y < trailLayer.height; y += space) {
+      let pointPlace = trailLayer.createVector(
+        x + trailLayer.random(-10, 10),
+        y + trailLayer.random(-10, 10)
       );
       points.push(pointPlace);
     }
   }
-  randomH1 = xtraCnvs2.random(0, 360);
-  randomH2 = (randomH1 + xtraCnvs2.random(45, 110)) % 360;
+  randomH1 = trailLayer.random(0, 360);
+  randomH2 = (randomH1 + trailLayer.random(45, 110)) % 360;
 }
 
-export function flowfieldDraw(xtraCnvs2, flowWeight) {
-  xtraCnvs2.strokeWeight(flowWeight);
+export function flowfieldDraw(trailLayer, flowWeight) {
+  trailLayer.strokeWeight(flowWeight);
   let inc;
   if (flowWeight < 1) {
     inc = 5;
@@ -30,30 +30,32 @@ export function flowfieldDraw(xtraCnvs2, flowWeight) {
     inc = 1;
   }
   for (let i = 0; i < points.length; i += inc) {
-    let h = xtraCnvs2.map(points[i].x, 0, xtraCnvs2.width, randomH1, randomH2);
-    let l = xtraCnvs2.map(points[i].y, 0, xtraCnvs2.height, 18, 95);
+    let h = trailLayer.map(points[i].x, 0, trailLayer.width, randomH1, randomH2);
+    let l = trailLayer.map(points[i].y, 0, trailLayer.height, 18, 95);
 
-    let a = xtraCnvs2.map(
-      xtraCnvs2.dist(xtraCnvs2.width / 2, xtraCnvs2.height / 2, points[i].x, points[i].y),
+    let a = trailLayer.map(
+      trailLayer.dist(trailLayer.width / 2, trailLayer.height / 2, points[i].x, points[i].y),
       0,
       450,
       1,
       0
     );
 
-    xtraCnvs2.stroke(h, 85, l, a);
+    trailLayer.stroke(h, 85, l, a);
 
-    let angle = xtraCnvs2.map(
-      xtraCnvs2.noise(points[i].x * mult, points[i].y * mult),
+    let angle = trailLayer.map(
+      trailLayer.noise(points[i].x * mult, points[i].y * mult),
       0,
       1,
       0,
       720
     );
-    points[i].add(xtraCnvs2.createVector(xtraCnvs2.cos(angle), xtraCnvs2.sin(angle)));
+    points[i].add(trailLayer.createVector(trailLayer.cos(angle), trailLayer.sin(angle)));
 
-    if (xtraCnvs2.dist(xtraCnvs2.width / 2, xtraCnvs2.height / 2, points[i].x, points[i].y) < 450) {
-      xtraCnvs2.point(points[i].x, points[i].y);
+    if (
+      trailLayer.dist(trailLayer.width / 2, trailLayer.height / 2, points[i].x, points[i].y) < 450
+    ) {
+      trailLayer.point(points[i].x, points[i].y);
     }
   }
 }

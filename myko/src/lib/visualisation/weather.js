@@ -122,7 +122,7 @@ export class GrassPatch {
 
 //-------------END OF CLASSES-------------
 //----------------------------------------
-export function prepareDrops(snow, rain, imgPos, p5, cloud, dropS, xtraCnvs) {
+export function prepareDrops(snow, rain, imgPos, p5, cloud, dropS, staticLayer) {
   dropSize = dropS;
   weatherSize = imgPos[2];
   // Snows in absence of cats
@@ -130,22 +130,22 @@ export function prepareDrops(snow, rain, imgPos, p5, cloud, dropS, xtraCnvs) {
     weatherPos = imgPos[1];
     accelerationDiff = 3;
     weatherCloud = cloud[1];
-    makeWeather('snow', p5, xtraCnvs);
+    makeWeather('snow', p5, staticLayer);
   }
   // Rains in absence of tools
   if (rain) {
     weatherPos = imgPos[0];
     accelerationDiff = 8.5;
     weatherCloud = cloud[0];
-    makeWeather('rain', p5, xtraCnvs);
+    makeWeather('rain', p5, staticLayer);
   }
   return drops;
 }
 
-function makeWeather(weatherType, p5, xtraCnvs) {
+function makeWeather(weatherType, p5, staticLayer) {
   precipitationSize = dropSize * 0.0375;
-  xtraCnvs.imageMode(xtraCnvs.CENTER);
-  xtraCnvs.image(weatherCloud, weatherPos[0], weatherPos[1], weatherSize[0], weatherSize[1]);
+  staticLayer.imageMode(staticLayer.CENTER);
+  staticLayer.image(weatherCloud, weatherPos[0], weatherPos[1], weatherSize[0], weatherSize[1]);
   for (let i = 0; i < 220; i++) {
     drops.push(
       new Drop(weatherType, weatherPos, weatherSize[0], precipitationSize, accelerationDiff, p5)

@@ -11,7 +11,7 @@ import {
 import { flowfieldDraw, flowfieldSetup } from './flowfield';
 import { fetchActivityLog, getWeekDate } from './processData';
 
-let canvas, xtraCnvs, xtraCnvs2;
+let canvas, staticLayer, trailLayer;
 let currentDate, currentWeek;
 let addedThings = [],
   addedThingsMove = [],
@@ -64,30 +64,30 @@ export async function setup(p5) {
   p5.stroke(185, 94, 8, 1);
   p5.pixelDensity(1);
 
-  xtraCnvs = p5.createGraphics(p5.windowWidth, p5.windowHeight - 50);
-  xtraCnvs.stroke(3, 58, 65);
+  staticLayer = p5.createGraphics(p5.windowWidth, p5.windowHeight - 50);
+  staticLayer.stroke(3, 58, 65);
 
-  xtraCnvs2 = p5.createGraphics(p5.windowWidth, p5.windowHeight - 50);
-  xtraCnvs2.frameRate(20);
-  xtraCnvs2.colorMode(xtraCnvs.HSL, 360, 100, 100, 1.0);
+  trailLayer = p5.createGraphics(p5.windowWidth, p5.windowHeight - 50);
+  trailLayer.frameRate(20);
+  trailLayer.colorMode(trailLayer.HSL, 360, 100, 100, 1.0);
 
   currentDate = new Date();
   currentWeek = getWeekDate(currentDate);
-  xtraCnvs.randomSeed(currentWeek);
+  staticLayer.randomSeed(currentWeek);
   p5.randomSeed(currentWeek);
 
-  flowfieldSetup(xtraCnvs2);
+  flowfieldSetup(trailLayer);
   ratio(p5);
 
   //----Return foreground image size, strokeweight, flowfield strokeweight
-  proportions = proportionsByRatio(xtraCnvs);
-  fixBgImagePositions(xtraCnvs);
-  drawBackgroundImages(xtraCnvs, cloud, streetlight, shelf);
+  proportions = proportionsByRatio(staticLayer);
+  fixBgImagePositions(staticLayer);
+  drawBackgroundImages(staticLayer, cloud, streetlight, shelf);
 
   //----Mark vertical start & end of canvas
-  xtraCnvs.strokeWeight(10);
-  xtraCnvs.line(0, 0, p5.width, 0);
-  xtraCnvs.line(0, p5.height, p5.width, p5.height);
+  staticLayer.strokeWeight(10);
+  staticLayer.line(0, 0, p5.width, 0);
+  staticLayer.line(0, p5.height, p5.width, p5.height);
 
   //----Return image location arrays; cats, tea, diy, xtra, particles, weathercloud size
   imagePositions = fixImagePositions(p5, proportions[0]);
@@ -105,12 +105,11 @@ export async function setup(p5) {
       p5,
       weatherClouds,
       proportions[0],
-      xtraCnvs
+      staticLayer
     );
   }
   if (wind) {
     grass = makeWind(p5);
-    console.log(grass);
   }
 
   return canvas;
@@ -129,11 +128,11 @@ export function draw(p5) {
   p5.rect(p5.width * 0.5, 125, 227, 36);
   p5.noErase();
   //----Background flowfield animation----
-  flowfieldDraw(xtraCnvs2, proportions[2]);
+  flowfieldDraw(trailLayer, proportions[2]);
 
   //----Run additional canvas layers----
-  p5.image(xtraCnvs2, p5.width * 0.5, p5.height * 0.5);
-  p5.image(xtraCnvs, p5.width * 0.5, p5.height * 0.5);
+  p5.image(trailLayer, p5.width * 0.5, p5.height * 0.5);
+  p5.image(staticLayer, p5.width * 0.5, p5.height * 0.5);
 
   //----Moving activity things = planes----
   for (const [index, atm] of addedThingsMove.entries()) {
@@ -179,7 +178,7 @@ function checkForAdds(p5, addedActivities, newness) {
   if (!addedActivities) {
     console.log('no activities yet');
   } else {
-    if ('diy' in addedActivities) {
+    if ('tillverka-aktivitet' in addedActivities) {
       wind = false;
       showThings(
         addedActivities['tillverka-aktivitet'],
@@ -192,7 +191,7 @@ function checkForAdds(p5, addedActivities, newness) {
     } else {
       wind = true;
     }
-    if ('cats' in addedActivities) {
+    if ('halsa-pa-nasims-katter' in addedActivities) {
       snow = false;
       showThings(
         addedActivities['halsa-pa-nasims-katter'],
@@ -205,7 +204,7 @@ function checkForAdds(p5, addedActivities, newness) {
     } else {
       snow = true;
     }
-    if ('tea' in addedActivities) {
+    if ('te-ritual' in addedActivities) {
       rain = false;
       showThings(addedActivities['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness);
     } else {
@@ -255,16 +254,16 @@ function showThings(nr, type, typeName, varySize, locations, newness) {
   for (let i = 0; i < nr; i++) {
     if (i >= locations.length) {
       addedThings.push(
-        new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, imagePositions[3], i)
+        new Pictures(type, proportions[0] * varySize, typeName, staticLayer, imagePositions[3], i)
       );
     } else {
       if (!newness) {
         addedThings.push(
-          new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, locations, i)
+          new Pictures(type, proportions[0] * varySize, typeName, staticLayer, locations, i)
         );
       } else {
         newAdds.push(
-          new Pictures(type, proportions[0] * varySize, typeName, xtraCnvs, locations, i, 15)
+          new Pictures(type, proportions[0] * varySize, typeName, staticLayer, locations, i, 15)
         );
       }
     }
