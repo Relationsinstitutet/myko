@@ -1,8 +1,11 @@
 let drops = [];
+let grass = [];
 let accelerationDiff;
 let precipitationSize, weatherPos, dropSize, weatherSize;
 let weatherCloud;
 
+//----------------------------------------
+//--------------PRECIPITATION-------------
 export class Drop {
   constructor(weatherType, weatherPos, cloudSize, dropSize, accDiff, p5) {
     this.p5 = p5;
@@ -16,9 +19,9 @@ export class Drop {
     );
     this.pos = this.startPos.copy();
     this.cloudPos = this.p5.createVector(weatherPos[0], weatherPos[1]);
-    this.w = this.p5.map(this.startPos.z, 0, 30, 0.4 * dropSize, 1.3 * dropSize);
+    this.w = this.p5.map(this.startPos.z, 0, 30, 0.5 * dropSize, 1.5 * dropSize);
     this.h = this.p5.map(this.startPos.z, 0, 30, 14 * dropSize, 7 * dropSize);
-    this.acc = 1;
+    this.acc = 0.7;
     this.accDiff = accDiff;
     this.vel = this.p5.createVector(0, 0);
     this.wind = 2;
@@ -38,12 +41,12 @@ export class Drop {
     let c;
     if (this.weather === 'rain') {
       c = this.p5.color(200, 30, 65, this.alpha * 0.75);
-      this.p5.rect(this.pos.x, this.pos.y, this.w, this.h, this.w * 0.5);
+      this.p5.rect(this.pos.x, this.pos.y, this.w, this.h, this.w * 1.25);
       this.acc = 8;
     }
     if (this.weather === 'snow') {
       c = this.p5.color(200, 0, 100, this.alpha);
-      this.p5.circle(this.pos.x, this.pos.y, this.w * 1.75);
+      this.p5.circle(this.pos.x, this.pos.y, this.w * 2.05);
     }
     this.p5.fill(c);
   }
@@ -63,13 +66,69 @@ export class Drop {
   }
 }
 
-export function prepareWeather(snow, rain, imgPos, cloud, dropS, p5, xtraCnvs) {
+//----------------------------------------
+//----------------WINDY GRASS-------------
+export class GrassPatch {
+  constructor(position, width, p5) {
+    this.p5 = p5;
+    this.xPos = [];
+    this.rotationOff = [];
+    //this.rotationVals = [];
+    this.size = [];
+    this.seg = [];
+    this.index = 0;
+    this.population = 85;
+
+    for (let i = 0; i < this.population; i++) {
+      this.index += 1;
+      this.xPos.push(position + p5.randomGaussian(position, width));
+      this.rotationOff.push(this.xPos[i] * 0.025 + 0.0175);
+      //this.rotationVals.push(0);
+      this.size.push(p5.randomGaussian(20, 4));
+      this.seg.push(0.875);
+    }
+  }
+
+  update() {
+    for (let i = 0; i < this.index; i++) {
+      let len = this.size[i];
+      this.p5.push();
+      this.p5.translate(this.xPos[i], this.p5.height);
+      this.blade(len, i);
+      this.p5.pop();
+    }
+  }
+
+  blade(len, index) {
+    this.rotationOff[index] += 0.005;
+    this.p5.stroke(220 - len * 5 - index * 0.5, 90 - len * 2, 42 - len * 2.2);
+    let rot = this.p5.map(
+      this.p5.noise(this.rotationOff[index]),
+      0,
+      1,
+      -this.p5.QUARTER_PI * 0.5,
+      this.p5.QUARTER_PI * 0.5
+    );
+
+    this.p5.strokeWeight(len * 0.25);
+    this.p5.rotate(rot);
+    this.p5.line(0, 0, 0, -len);
+    this.p5.translate(0, -len);
+    if (len > 9) {
+      this.blade(len * this.seg[index], index);
+    }
+  }
+}
+
+//-------------END OF CLASSES-------------
+//----------------------------------------
+export function prepareDrops(snow, rain, imgPos, p5, cloud, dropS, xtraCnvs) {
   dropSize = dropS;
   weatherSize = imgPos[2];
   // Snows in absence of cats
   if (snow) {
     weatherPos = imgPos[1];
-    accelerationDiff = 2;
+    accelerationDiff = 3;
     weatherCloud = cloud[1];
     makeWeather('snow', p5, xtraCnvs);
   }
@@ -93,4 +152,9 @@ function makeWeather(weatherType, p5, xtraCnvs) {
     );
   }
   return drops;
+}
+
+export function makeWind(p5) {
+  grass.push(new GrassPatch(p5.width * 0.11, p5.width * 0.11, p5)); //
+  return grass;
 }

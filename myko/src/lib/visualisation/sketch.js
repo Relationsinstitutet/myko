@@ -1,6 +1,6 @@
 import Pictures from './pictures';
 import { MovingPics, Particles } from './moving';
-import { prepareWeather } from './weather';
+import { prepareDrops, makeWind } from './weather';
 import {
   ratio,
   proportionsByRatio,
@@ -25,8 +25,10 @@ let diys = [];
 let planes = [];
 let particleSystem, particleSize, p;
 let snow = false,
-  rain = false;
-let drops = [];
+  rain = false,
+  wind = false;
+let drops = [],
+  grass = [];
 let weatherSpeed = 1;
 let weatherClouds = [];
 
@@ -96,15 +98,19 @@ export async function setup(p5) {
   showAdded();
 
   if (snow || rain) {
-    drops = prepareWeather(
+    drops = prepareDrops(
       snow,
       rain,
       imagePositions[5],
+      p5,
       weatherClouds,
       proportions[0],
-      p5,
       xtraCnvs
     );
+  }
+  if (wind) {
+    grass = makeWind(p5);
+    console.log(grass);
   }
 
   return canvas;
@@ -150,12 +156,15 @@ export function draw(p5) {
     }
   }
   //----Weather----
-  if (drops) {
+  if (drops.length) {
     for (const drop of drops) {
       drop.show();
       drop.update(weatherSpeed);
       drop.edge();
     }
+  }
+  if (grass.length) {
+    grass[0].update();
   }
   //----New Entries----
   for (const [index, na] of newAdds.entries()) {
@@ -170,8 +179,8 @@ function checkForAdds(p5, addedActivities, newness) {
   if (!addedActivities) {
     console.log('no activities yet');
   } else {
-    if ('tillverka-aktivitet' in addedActivities) {
-      rain = false;
+    if ('diy' in addedActivities) {
+      wind = false;
       showThings(
         addedActivities['tillverka-aktivitet'],
         diys,
@@ -181,9 +190,9 @@ function checkForAdds(p5, addedActivities, newness) {
         newness
       );
     } else {
-      rain = true;
+      wind = true;
     }
-    if ('halsa-pa-nasims-katter' in addedActivities) {
+    if ('cats' in addedActivities) {
       snow = false;
       showThings(
         addedActivities['halsa-pa-nasims-katter'],
@@ -196,8 +205,11 @@ function checkForAdds(p5, addedActivities, newness) {
     } else {
       snow = true;
     }
-    if ('te-ritual' in addedActivities) {
+    if ('tea' in addedActivities) {
+      rain = false;
       showThings(addedActivities['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness);
+    } else {
+      rain = true;
     }
     //EXPLAINER: arguments passed to showMoving()
     /*
@@ -280,6 +292,5 @@ function showMoving(p5, nr, type, typeName, varySize, location1, location2, rota
 
 function showParticleSystem(nr, varySize) {
   particleSystem = nr;
-  console.log(particleSystem);
   particleSize = proportions[0] * varySize;
 }

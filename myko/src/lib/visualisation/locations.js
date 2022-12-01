@@ -161,8 +161,7 @@ export function fixImagePositions(xtraCnvs, size) {
   let particleLoc = [streetPosX + streetSizeX * 0.5, streetPosY - streetSizeY * 0.02];
 
   let weatherLoc = [
-    //[shelfPosX + shelfSizeX * 0.15, shelfPosY - shelfSizeY * 0.023],
-    [shelfPosX + shelfSizeX * 0.45, shelfPosY + shelfSizeY * 0.01],
+    [shelfPosX + shelfSizeX * 0.45, shelfPosY + shelfSizeY * -0.0325],
     [xtraCnvs.width * 0.75, cloud3Top],
     [rainCloudSizeX, rainCloudSizeY],
   ];
