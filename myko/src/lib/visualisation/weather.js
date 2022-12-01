@@ -57,34 +57,42 @@ export default class Drop {
       this.sat = 95;
       this.hue = this.p5.floor(this.p5.random(360));
     }
-    if (this.weather === 'rain' && mouseDistance < this.size * 0.2) {
+    if (
+      this.weather === 'rain' &&
+      this.p5.mouseX >= this.cloudPos.x - this.size * 0.37 &&
+      this.p5.mouseX <= this.cloudPos.x + this.size * 0.37
+    ) {
+      if (this.p5.mouseY >= this.cloudPos.y && this.p5.mouseY <= this.p5.height) {
+        this.p5.push();
+        this.p5.noFill();
+        this.p5.stroke(30, 40, 45);
+        this.p5.strokeWeight(7);
+        this.p5.line(
+          this.p5.mouseX,
+          this.p5.mouseY,
+          this.p5.mouseX,
+          this.p5.mouseY + this.size * 0.18
+        );
+        this.p5.noStroke();
+        this.p5.fill(170, 90, 10);
+        this.p5.arc(
+          this.p5.mouseX,
+          this.p5.mouseY,
+          this.size * 0.27,
+          this.size * 0.2,
+          this.p5.PI,
+          0,
+          this.p5.CHORD
+        );
+        this.p5.pop();
+
+        if (mouseDistance < this.size * 0.2) {
+          this.newStartPos();
+        }
+      }
       //1. need to check the whole area for mouse position so it doesn't get so flimmery as now
       //2.within the area, check the mouseDistance, so first umbrella, then if(mouseDistance < this.size * 0.12) {this.newStartPos}
       //3.replace umbrella with umbrella picture, pass in with hover? and do this.p5.cursor(umbrellapic);
-      this.p5.push();
-      this.p5.noFill();
-      this.p5.stroke(30, 40, 45);
-      this.p5.strokeWeight(7);
-      this.p5.line(
-        this.p5.mouseX,
-        this.p5.mouseY,
-        this.p5.mouseX,
-        this.p5.mouseY + this.size * 0.18
-      );
-      this.p5.noStroke();
-      this.p5.fill(170, 90, 10);
-      this.p5.arc(
-        this.p5.mouseX,
-        this.p5.mouseY,
-        this.size * 0.27,
-        this.size * 0.2,
-        this.p5.PI,
-        0,
-        this.p5.CHORD
-      );
-
-      this.p5.pop();
-      this.newStartPos();
     }
   }
 
