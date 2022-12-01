@@ -1,6 +1,7 @@
 import Pictures from './pictures';
 import { MovingPics, Particles } from './moving';
 import { prepareDrops, makeWind } from './weather';
+
 import {
   ratio,
   proportionsByRatio,
@@ -31,6 +32,7 @@ let drops = [],
   grass = [];
 let weatherSpeed = 1;
 let weatherClouds = [];
+
 
 /* -------FUNCTIONS BEGIN------- */
 export function preload(p5) {
@@ -113,6 +115,10 @@ export async function setup(p5) {
   }
 
   return canvas;
+}
+
+function makeWind(p5) {
+  grass.push(new GrassPatch(p5.width * 0.11, p5.width * 0.09, p5));
 }
 
 function showAdded() {

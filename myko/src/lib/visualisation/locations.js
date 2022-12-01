@@ -161,8 +161,8 @@ export function fixImagePositions(staticLayer, size) {
   let particleLoc = [streetPosX + streetSizeX * 0.5, streetPosY - streetSizeY * 0.02];
 
   let weatherLoc = [
-    [shelfPosX + shelfSizeX * 0.45, shelfPosY + shelfSizeY * -0.0325],
-    [staticLayer.width * 0.75, cloud3Top],
+    [shelfPosX + shelfSizeX * 0.45, shelfPosY + shelfSizeY * -0.325],
+    [xtraCnvs.width * 0.75, cloud3Top],
     [rainCloudSizeX, rainCloudSizeY],
   ];
 

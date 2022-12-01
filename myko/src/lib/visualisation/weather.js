@@ -1,3 +1,4 @@
+
 let drops = [];
 let grass = [];
 let accelerationDiff;
@@ -65,7 +66,6 @@ export class Drop {
     }
   }
 }
-
 //----------------------------------------
 //----------------WINDY GRASS-------------
 export class GrassPatch {
@@ -119,7 +119,6 @@ export class GrassPatch {
     }
   }
 }
-
 //-------------END OF CLASSES-------------
 //----------------------------------------
 export function prepareDrops(snow, rain, imgPos, p5, cloud, dropS, staticLayer) {

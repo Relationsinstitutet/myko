@@ -11,6 +11,9 @@
 
 <script lang="ts">
   export let status: number;
+  export let message: string;
+
+  console.log(message);
 </script>
 
 <main>
