@@ -9,6 +9,7 @@ import {
   fixImagePositions,
 } from './locations';
 import { flowfieldDraw, flowfieldSetup } from './flowfield';
+import { isEqual } from 'lodash-es';
 
 let canvas, xtraCnvs, xtraCnvs2;
 let currentDate, currentWeek;
@@ -30,6 +31,7 @@ let weatherPosition, weatherSize, precipitationSize, accelerationDiff;
 let weatherSpeed = 1;
 let drops = [];
 let snowCloud, rainCloud;
+let currentEntries = [];
 
 /* -------FUNCTIONS BEGIN------- */
 export function preload(p5) {
@@ -95,16 +97,24 @@ export async function setup(p5) {
   return canvas;
 }
 
-export async function redrawData(p5) {
-  p5.clear();
+export async function redrawData(p5, forceRedraw) {
+  const entries = await fetchActivityLog(p5);
+  if (!entries) {
+    return;
+  }
 
-  const data = await fetchActivityLog(p5);
-  checkForAdds(p5, data[0], 'new');
-  checkForAdds(p5, data[1], 0);
-  showAdded();
+  const hasNewData = !isEqual(entries, currentEntries);
+  if (forceRedraw || hasNewData) {
+    p5.clear();
+    checkForAdds(p5, entries[0], 'new');
+    checkForAdds(p5, entries[1], 0);
+    showAdded();
 
-  if (snow || rain) {
-    prepareWeather(p5);
+    if (snow || rain) {
+      prepareWeather(p5);
+    }
+
+    currentEntries = entries;
   }
 }
 

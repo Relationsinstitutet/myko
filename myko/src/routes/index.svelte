@@ -8,7 +8,19 @@
   import type { Sketch, p5 } from 'p5-svelte';
   import type { Element } from 'p5';
   import { preload, setup, draw, windowResized, redrawData } from '$lib/visualisation/sketch';
-  import { afterUpdate } from 'svelte';
+  import { afterUpdate, onDestroy } from 'svelte';
+
+  const intervalTime = 5000;
+  // check for new activity data to update visualisation
+  const redrawInterval = setInterval(() => {
+    if (p5Ref) {
+      redrawData(p5Ref);
+    }
+  }, intervalTime);
+
+  onDestroy(() => {
+    clearInterval(redrawInterval);
+  });
 
   const sketch: Sketch = (p5: p5) => {
     /**/ p5.preload = () => {
@@ -28,7 +40,7 @@
 
   afterUpdate(() => {
     if (p5Ref) {
-      redrawData(p5Ref);
+      redrawData(p5Ref, true);
     }
   });
 
