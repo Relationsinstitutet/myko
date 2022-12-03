@@ -1,7 +1,6 @@
 <script lang="ts">
-  import PortableText from '@portabletext/svelte';
   import type IActivity from '$lib/models/activity';
-  import PortableTextLink from './PortableTextLink.svelte';
+  import PortableTextWithLinks from '$lib/components/portabletext/PortableTextWithLinks.svelte';
 
   export let activity: IActivity;
 </script>
@@ -21,14 +20,7 @@
 {/if}
 
 {#if activity.description}
-  <PortableText
-    blocks={activity.description}
-    serializers={{
-      marks: {
-        link: PortableTextLink,
-      },
-    }}
-  />
+  <PortableTextWithLinks blocks={activity.description} />
 {/if}
 
 {#if activity.image}

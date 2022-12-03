@@ -1,8 +1,6 @@
 <script lang="ts">
-  import PortableTextLink from '$lib/components/PortableTextLink.svelte';
-
+  import PortableTextWithLinks from '$lib/components/portabletext/PortableTextWithLinks.svelte';
   import type { Faq } from '$lib/models/faq';
-  import PortableText from '@portabletext/svelte';
 
   // populated with data from the endpoint
   export let faq: Faq;
@@ -11,41 +9,20 @@
 <main>
   <h1>{faq.title}</h1>
   <div class="wrap">
-    <PortableText
-      blocks={faq.intro}
-      serializers={{
-        marks: {
-          link: PortableTextLink,
-        },
-      }}
-    />
+    <PortableTextWithLinks blocks={faq.intro} />
   </div>
 
   {#each faq.questions as question}
     <details>
       <summary>{question.question}</summary>
-      <PortableText
-        blocks={question.answer}
-        serializers={{
-          marks: {
-            link: PortableTextLink,
-          },
-        }}
-      />
+      <PortableTextWithLinks blocks={question.answer} />
     </details>
   {/each}
 
   <h2>{faq.descriptionTitle}</h2>
 
   <div class="wrap">
-    <PortableText
-      blocks={faq.description}
-      serializers={{
-        marks: {
-          link: PortableTextLink,
-        },
-      }}
-    />
+    <PortableTextWithLinks blocks={faq.description} />
 
     <div class="logos">
       <img src="/Logo(Portrait4)-Relationsinstitutet.png" alt="Relationsinstitutet Logo" id="ri" />

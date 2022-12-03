@@ -1,4 +1,4 @@
-export default class Drop {
+export class Drop {
   constructor(weatherType, weatherPos, cloudSize, dropSize, accelerationDiff, p5) {
     this.p5 = p5;
     this.weather = weatherType;
@@ -54,6 +54,58 @@ export default class Drop {
         this.weatherPos[1] + this.p5.height * 0.15
       );
       this.pos.set(this.startPos);
+    }
+  }
+}
+
+export class GrassPatch {
+  constructor(position, width, p5) {
+    this.p5 = p5;
+    this.xPos = [];
+    this.rotationOff = [];
+    //this.rotationVals = [];
+    this.size = [];
+    this.seg = [];
+    this.index = 0;
+    this.population = 85;
+
+    for (let i = 0; i < this.population; i++) {
+      this.index += 1;
+      this.xPos.push(position + p5.randomGaussian(position, width));
+      this.rotationOff.push(this.xPos[i] * 0.025 + 0.0175);
+      //this.rotationVals.push(0);
+      this.size.push(p5.randomGaussian(20, 4));
+      this.seg.push(0.875);
+    }
+  }
+
+  update() {
+    for (let i = 0; i < this.index; i++) {
+      let len = this.size[i];
+      this.p5.push();
+      this.p5.translate(this.xPos[i], this.p5.height);
+      this.blade(len, i);
+      this.p5.pop();
+    }
+  }
+
+  blade(len, index) {
+    this.rotationOff[index] += 0.005;
+    this.p5.stroke(220 - len * 5 - index * 0.5, 90 - len * 2, 40 - len * 2.55);
+    let rot = this.p5.map(
+      this.p5.noise(this.rotationOff[index]),
+      0,
+      1,
+      -this.p5.QUARTER_PI * 0.65,
+      this.p5.QUARTER_PI
+    );
+
+    this.p5.strokeWeight(len * 0.28);
+    this.p5.rotate(rot);
+    this.p5.line(0, 0, 0, -len);
+    this.p5.translate(0, -len);
+    if (len > 9) {
+      this.blade(len * this.seg[index], index);
     }
   }
 }

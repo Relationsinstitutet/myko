@@ -1,6 +1,6 @@
 import Pictures from './pictures';
 import { MovingPics, Particles } from './moving';
-import Drop from './weather';
+import { Drop, GrassPatch } from './weather';
 import {
   ratio,
   proportionsByRatio,
@@ -24,12 +24,14 @@ let cats = [];
 let diys = [];
 let planes = [];
 let particleSystem, particleSize, p;
-let snow = false;
-let rain = false;
+let snow = false,
+  rain = false,
+  wind = false;
 //let weatherType = '';
 let weatherPosition, weatherSize, precipitationSize, accelerationDiff;
 let weatherSpeed = 1;
-let drops = [];
+let drops = [],
+  grass = [];
 let snowCloud, rainCloud;
 let currentEntries = [];
 
@@ -65,12 +67,10 @@ export async function setup(p5) {
   p5.pixelDensity(1);
 
   xtraCnvs = p5.createGraphics(p5.windowWidth, p5.windowHeight - 50);
-  xtraCnvs.imageMode[xtraCnvs.CENTER];
   xtraCnvs.stroke(3, 58, 65);
 
   xtraCnvs2 = p5.createGraphics(p5.windowWidth, p5.windowHeight - 50);
   xtraCnvs2.frameRate(20);
-  xtraCnvs2.imageMode[xtraCnvs2.CENTER];
   xtraCnvs2.colorMode(xtraCnvs.HSL, 360, 100, 100, 1.0);
 
   currentDate = new Date();
@@ -110,7 +110,7 @@ export async function redrawData(p5, forceRedraw) {
     checkForAdds(p5, entries[1], 0);
     showAdded();
 
-    if (snow || rain) {
+    if (snow || rain || wind) {
       prepareWeather(p5);
     }
 
@@ -126,22 +126,33 @@ function prepareWeather(p5, weatherType) {
     accelerationDiff = 2.5;
     makeWeather(weatherType, weatherPosition, snowCloud, accelerationDiff, p5);
   }
-  // Rains in absence of tools
+  // Rains in absence of tea
   if (rain) {
     weatherPosition = imagePositions[5][0];
     weatherType = 'rain';
     accelerationDiff = 5;
     makeWeather(weatherType, weatherPosition, rainCloud, accelerationDiff, p5);
   }
+  // Grass blowing when no tools
+  if (wind) {
+    weatherPosition = imagePositions[5][0];
+    weatherType = 'wind';
+    makeWind(p5);
+  }
 }
 
 function makeWeather(weatherType, weatherPos, cloud, accDiff, p5) {
   weatherSize = imagePositions[5][2];
   precipitationSize = proportions[0] * 0.0375;
+  xtraCnvs.imageMode(xtraCnvs.CENTER);
   xtraCnvs.image(cloud, weatherPosition[0], weatherPosition[1], weatherSize[0], weatherSize[1]);
   for (let i = 0; i < 220; i++) {
     drops.push(new Drop(weatherType, weatherPos, weatherSize[0], precipitationSize, accDiff, p5));
   }
+}
+
+function makeWind(p5) {
+  grass.push(new GrassPatch(p5.width * 0.11, p5.width * 0.09, p5));
 }
 
 function showAdded() {
@@ -179,6 +190,10 @@ export function draw(p5) {
       }
     }
   }
+
+  if (wind) {
+    grass[0].update();
+  }
   if (drops.length) {
     for (const drop of drops) {
       drop.show();
@@ -186,6 +201,7 @@ export function draw(p5) {
       drop.edge();
     }
   }
+
   for (const [index, na] of newAdds.entries()) {
     na.show(proportions[1]);
     na.grow(index);
@@ -278,7 +294,7 @@ function checkForAdds(p5, addedActivities, newness) {
     console.log('no activities yet');
   } else {
     if ('tillverka-aktivitet' in addedActivities) {
-      rain = false;
+      wind = false;
       showThings(
         addedActivities['tillverka-aktivitet'],
         diys,
@@ -288,7 +304,7 @@ function checkForAdds(p5, addedActivities, newness) {
         newness
       );
     } else {
-      rain = true;
+      wind = true;
     }
     if ('halsa-pa-nasims-katter' in addedActivities) {
       snow = false;
@@ -304,8 +320,23 @@ function checkForAdds(p5, addedActivities, newness) {
       snow = true;
     }
     if ('te-ritual' in addedActivities) {
+      rain = false;
       showThings(addedActivities['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness);
+    } else {
+      rain = true;
     }
+    //EXPLAINER: arguments passed to showMoving()
+    /*
+    - canvas layer,
+    - nr of activities,
+    - image array name,
+    - image name string format (not in use atm how to use: look up pictures.js line 28),
+    - image size
+    - minvalue variation for initial location (less than 0 = outside canvas)
+    - maxvalue variation for initial location (more than 1 = outside canvas)
+    - rotation, usage: moving.js, show()
+    - noise scale, usage: moving.js, update()
+    */
     if ('mykomote' in addedActivities) {
       showMoving(p5, addedActivities['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
@@ -317,10 +348,6 @@ function checkForAdds(p5, addedActivities, newness) {
     }
     if ('prata-om-tema' in addedActivities) {
       showParticleSystem(addedActivities['prata-om-tema'], 0.07);
-    }
-
-    if ('ekonomi' in addedActivities) {
-      showMoving(p5, addedActivities['ekonomi'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
     if ('gor-ri-byrakrati' in addedActivities) {
       showMoving(

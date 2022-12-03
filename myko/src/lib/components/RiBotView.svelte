@@ -1,7 +1,7 @@
 <script lang="ts">
-  import PortableText from '@portabletext/svelte';
   import type { PortableTextBlocks } from '@portabletext/svelte/ptTypes';
   import { onDestroy, onMount } from 'svelte';
+  import PortableTextWithLinks from '$lib/components/portabletext/PortableTextWithLinks.svelte';
 
   function onTidioChatApiReady() {
     window.tidioChatApi.track('member_activity_triggered');
@@ -35,7 +35,7 @@
 <main bind:this={mainElement}>
   <h1>Bli medlem</h1>
 
-  <PortableText blocks={instructions} />
+  <PortableTextWithLinks blocks={instructions} />
 </main>
 
 <style>
