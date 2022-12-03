@@ -51,7 +51,6 @@ export function preload(p5) {
 
 export function windowResized(p5) {
   p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
-  redrawData(p5);
 }
 
 export async function setup(p5) {
