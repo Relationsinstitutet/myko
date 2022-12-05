@@ -186,7 +186,8 @@ function checkForAdds(p5, addedActivities, newness) {
         'diys',
         1.2,
         imagePositions[2],
-        newness
+        newness,
+        p5
       );
     } else {
       wind = true;
@@ -199,14 +200,15 @@ function checkForAdds(p5, addedActivities, newness) {
         'cats',
         1.32,
         imagePositions[0],
-        newness
+        newness,
+        p5
       );
     } else {
       snow = true;
     }
     if ('te-ritual' in addedActivities) {
       rain = false;
-      showThings(addedActivities['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness);
+      showThings(addedActivities['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness, p5);
     } else {
       rain = true;
     }
@@ -250,7 +252,7 @@ function checkForAdds(p5, addedActivities, newness) {
   }
 }
 
-function showThings(nr, type, typeName, varySize, locations, newness) {
+function showThings(nr, type, typeName, varySize, locations, newness, p5) {
   for (let i = 0; i < nr; i++) {
     if (i >= locations.length) {
       addedThings.push(
@@ -262,9 +264,7 @@ function showThings(nr, type, typeName, varySize, locations, newness) {
           new Pictures(type, proportions[0] * varySize, typeName, staticLayer, locations, i)
         );
       } else {
-        newAdds.push(
-          new Pictures(type, proportions[0] * varySize, typeName, staticLayer, locations, i, 15)
-        );
+        newAdds.push(new Pictures(type, proportions[0] * varySize, typeName, p5, locations, i, 50));
       }
     }
   }
