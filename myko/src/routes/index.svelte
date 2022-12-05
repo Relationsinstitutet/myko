@@ -8,9 +8,10 @@
   import type { Sketch, p5 } from 'p5-svelte';
   import type { Element } from 'p5';
   import { preload, setup, draw, windowResized } from '$lib/visualisation/sketch'; //
+  import { onDestroy } from 'svelte';
 
   const sketch: Sketch = (p5: p5) => {
-    /**/ p5.preload = () => {
+    p5.preload = () => {
       preload(p5);
     };
     p5.setup = async () => {
@@ -24,6 +25,12 @@
       windowResized(p5);
     };
   };
+
+  onDestroy(() => {
+    if (p5Ref) {
+      p5Ref.remove();
+    }
+  });
 
   const takeSnapshot = () => {
     const buffer = p5Ref.createGraphics(p5Ref.width, p5Ref.height);
