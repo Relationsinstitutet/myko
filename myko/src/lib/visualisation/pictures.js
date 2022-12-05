@@ -55,10 +55,4 @@ export default class Pictures {
     }
     /*try and fix up to size * 1.2 and back down to size * 1, maybe a do while? inside an if block?*/
   }
-
-  shadow() {
-    this.layer.drawingContext.shadowBlur = 30;
-    this.layer.drawingContext.shadowColor = 'blue';
-    //this.xtraCnvs.line(this.pos.x, this.pos.y - this.size / 2.1, this.pos.x, this.pos.y - 70);
-  }
 }
