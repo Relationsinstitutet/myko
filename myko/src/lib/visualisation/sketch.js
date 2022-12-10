@@ -106,8 +106,10 @@ export async function redrawData(p5, forceRedraw) {
   const hasNewData = !isEqual(entries, currentEntries);
   if (forceRedraw || hasNewData) {
     p5.clear();
-    checkForAdds(p5, entries[0], 'new');
-    checkForAdds(p5, entries[1], 0);
+    // only add activity entries which have been completed since the last redraw
+    const addedEntries = getAddedEntries(entries, currentEntries);
+    checkForAdds(p5, addedEntries[0], 'new');
+    checkForAdds(p5, addedEntries[1], 0);
     showAdded();
 
     if (snow || rain || wind) {
@@ -116,6 +118,27 @@ export async function redrawData(p5, forceRedraw) {
 
     currentEntries = entries;
   }
+}
+
+function getAddedEntries(entries, currentEntries) {
+  if (currentEntries.length == 0) {
+    return entries;
+  }
+
+  const result = [{}, {}];
+
+  for (let i = 0; i < result.length; i++) {
+    for (let [name, number] of Object.entries(entries[i])) {
+      const previousNumber = currentEntries[i][name] ?? 0;
+      if (number > previousNumber) {
+        // if more events of an activity have been completed,
+        // compute the additional number of event completions
+        result[i][name] = number - previousNumber;
+      }
+    }
+  }
+
+  return result;
 }
 
 function prepareWeather(p5, weatherType) {
