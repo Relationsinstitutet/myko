@@ -29,7 +29,7 @@
   });
 
   // To be able to test with more or less attendees than booked right now
-  let testNumberAttendees = 7;
+  // let testNumberAttendees = 10;
 
   let randomDotPositions = [
     'dotTotalEventsAttendeesPosition1',
@@ -69,15 +69,18 @@
         <a href="/aktiviteter/{activity.slug}">{activity.name}</a>
         <div class="wrapperTotalEventsDots">
           {#if activity.eventSummaries.length > 0}
-            {#each Array(testNumberAttendees) as _, row}
-              <span class="dotTotalEventsAttendees {getRandomPosition()}" />
+            {#each Array(activity.eventSummaries.reduce(
+              (totalEventAttendees, event) => totalEventAttendees + event.numAttendees,
+              0
+            )) as _, row}
+              <div class="dotTotalEventsAttendees {getRandomPosition()}" />
             {/each}
 
             <!-- {#each Array(activity.eventSummaries.reduce(
             (totalEventAttendees, event) => totalEventAttendees + event.numAttendees,
             0
           )) as _, row}
-          <span class="dotTotalEventsAttendees" />
+          <div class="dotTotalEventsAttendees" />
             {/each} -->
 
             <!-- ({activity.eventSummaries.reduce(
