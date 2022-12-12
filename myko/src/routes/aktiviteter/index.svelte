@@ -177,7 +177,7 @@
 
   .wrapperTotalEventsDots {
     display: inline-block;
-    max-width: 40px;
+    max-width: 38px;
     white-space: nowrap;
     overflow: hidden;
   }
