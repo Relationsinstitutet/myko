@@ -153,6 +153,7 @@ function makeWeather(weatherType, p5, staticLayer) {
 }
 
 export function makeWind(p5) {
+  console.log('windier');
   grass.push(new GrassPatch(p5.width * 0.11, p5.width * 0.11, p5));
   return grass;
 }
