@@ -98,7 +98,6 @@ export async function setup(p5) {
   checkForAdds(p5, data[1], 0);
   showAdded();
 
-  //if (snow || rain || wind) {}
   if (wind) {
     grass = makeWind(p5);
     console.log(grass.length);
@@ -166,7 +165,9 @@ export function draw(p5) {
     }
   }
   if (grass.length) {
-    grass[0].update();
+    for (const blade of grass) {
+      blade.update();
+    }
   }
   //----New Entries----
   for (const [index, na] of newAdds.entries()) {
@@ -269,12 +270,12 @@ function showThings(nr, type, typeName, varySize, locations, newness, p5) {
       );
     } else {
       if (!newness) {
-        console.log('old', i);
+        //console.log('old', i);
         addedThings.push(
           new Pictures(type, proportions[0] * compNr[i], typeName, staticLayer, locations, i)
         );
       } else {
-        console.log('new', i);
+        //console.log('new', i);
         newAdds.push(
           new Pictures(type, proportions[0] * compNr[i], typeName, p5, locations, i, 50)
         );
