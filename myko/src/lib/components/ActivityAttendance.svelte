@@ -7,9 +7,9 @@
 
 <div class="wrapper">
   {#if userIsAttending}
-    <span aria-label="Jag ska vara med på detta!" class="dot"></span>
+    <span aria-label="Jag ska vara med på detta!" class="dot" />
   {/if}
-  <div class="connector"></div>
+  <div class="connector" />
   <slot />
   <span class="attendee-dots">
     <EventAttendeesDots {numAttendees} />

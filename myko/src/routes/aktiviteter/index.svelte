@@ -53,8 +53,10 @@
   <ul>
     {#each activities as activity}
       <li>
-        <ActivityAttendance userIsAttending={!!activity.eventSummaries.find((event) => event.userIsAttending)}
-          numAttendees={getTotalAttendeesForActivity(activity.eventSummaries)}>
+        <ActivityAttendance
+          userIsAttending={!!activity.eventSummaries.find((event) => event.userIsAttending)}
+          numAttendees={getTotalAttendeesForActivity(activity.eventSummaries)}
+        >
           <a href="/aktiviteter/{activity.slug}">{activity.name}</a>
         </ActivityAttendance>
       </li>
