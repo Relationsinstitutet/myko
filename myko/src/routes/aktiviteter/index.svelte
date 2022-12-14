@@ -2,8 +2,9 @@
   import createClient from '$lib/auth/client';
   import { isAuthenticated } from '$lib/auth/store';
   import CotimeInfo from '$lib/components/cotime/CotimeInfo.svelte';
+  import EventAttendeesDots from '$lib/components/EventAttendeesDots.svelte';
 
-  import type { Cotime, IActivitySummary } from '$lib/models/activity';
+  import type { Cotime, IActivitySummary, IEventSummary } from '$lib/models/activity';
   import { onMount } from 'svelte';
   import { get } from 'svelte/store';
 
@@ -28,6 +29,13 @@
     }
   });
 
+  function getTotalAttendeesForActivity(eventSummaries: IEventSummary[]) {
+    return eventSummaries.reduce(
+      (totalEventAttendees, event) => totalEventAttendees + event.numAttendees,
+      0
+    );
+  }
+
   // populated with data from the endpoint
   export let activities: IActivitySummary[];
   export let nextUpcomingCotime: Cotime | undefined = undefined;
@@ -48,14 +56,7 @@
           <span class="dot" />
         {/if}
         <a href="/aktiviteter/{activity.slug}">{activity.name}</a>
-        <span>
-          {#if activity.eventSummaries.length > 0}
-            ({activity.eventSummaries.reduce(
-              (totalEventAttendees, event) => totalEventAttendees + event.numAttendees,
-              0
-            )})
-          {/if}
-        </span>
+        <EventAttendeesDots numAttendees={getTotalAttendeesForActivity(activity.eventSummaries)} />
       </li>
     {/each}
   </ul>
