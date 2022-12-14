@@ -40,7 +40,7 @@
     color: var(--grey-800);
     background-color: rgba(0, 0, 0, 0.4);
     position: fixed;
-    z-index: 1;
+    z-index: 10;
     left: 0;
     top: 0;
     width: 100%;

@@ -145,6 +145,7 @@
     width: 100%;
     left: 0;
     padding: 8px;
+    z-index: 1;
   }
 
   @media (min-width: 45rem) {
