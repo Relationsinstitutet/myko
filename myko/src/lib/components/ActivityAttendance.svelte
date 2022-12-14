@@ -7,7 +7,7 @@
 
 <div class="wrapper">
   {#if userIsAttending}
-    <span class="dot"></span>
+    <span aria-label="Jag ska vara med på detta!" class="dot"></span>
   {/if}
   <div class="connector"></div>
   <slot />
