@@ -97,19 +97,24 @@ export async function setup(p5) {
   return canvas;
 }
 
-export async function redrawData(p5, forceRedraw) {
+export async function redrawData(p5, forceFullRedraw) {
   const entries = await fetchActivityLog(p5);
   if (!entries) {
     return;
   }
 
   const hasNewData = !isEqual(entries, currentEntries);
-  if (forceRedraw || hasNewData) {
+  if (forceFullRedraw || hasNewData) {
     p5.clear();
-    // only add activity entries which have been completed since the last redraw
-    const addedEntries = getAddedEntries(entries, currentEntries);
-    checkForAdds(p5, addedEntries[0], 'new');
-    checkForAdds(p5, addedEntries[1], 0);
+
+    let changedEntries = entries;
+    if (!forceFullRedraw) {
+      // only add activity entries which have been completed since the last redraw
+      changedEntries = getAddedEntries(entries, currentEntries);
+    }
+
+    checkForAdds(p5, changedEntries[0], 'new');
+    checkForAdds(p5, changedEntries[1], 0);
     showAdded();
 
     if (snow || rain || wind) {
