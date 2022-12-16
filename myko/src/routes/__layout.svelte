@@ -22,6 +22,10 @@
   }
 </script>
 
+<div class="content">
+  <slot />
+</div>
+
 <nav>
   <div class="bottom-gradient {gradientColor($page.url.pathname)}">
     <div class="nav-bottom">
@@ -37,8 +41,6 @@
     </div>
   </div>
 </nav>
-
-<slot />
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Roboto+Mono:wght@300;400;500;700&display=swap');
@@ -162,6 +164,10 @@
       #ec9e9e 2.28%,
       rgba(252, 228, 223, 0) 94.66%
     );
+  }
+
+  .content {
+    position: relative;
   }
 
   .nav-bottom {
