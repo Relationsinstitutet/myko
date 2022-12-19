@@ -139,6 +139,7 @@
     width: 100%;
     left: 0;
     padding: 8px;
+    z-index: 1;
   }
 
   .wrapper > .instant-btn,

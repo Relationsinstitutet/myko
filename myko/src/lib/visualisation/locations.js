@@ -16,100 +16,100 @@ export function ratio(p5) {
   }
 }
 
-export function proportionsByRatio(xtraCnvs) {
+export function proportionsByRatio(staticLayer) {
   flowfieldStrokeWeight = 0.5;
   strokeWeight = 1.2;
 
   if (horizontalView) {
     flowfieldStrokeWeight = 1;
     strokeWeight = 2.5;
-    imageSize = xtraCnvs.width * 0.073;
+    imageSize = staticLayer.width * 0.073;
   } else if (!portrait2x) {
-    imageSize = xtraCnvs.width * 0.14;
+    imageSize = staticLayer.width * 0.14;
   } else {
-    imageSize = xtraCnvs.width * 0.18;
+    imageSize = staticLayer.width * 0.18;
   }
 
   let result = [imageSize, strokeWeight, flowfieldStrokeWeight];
   return result;
 }
 
-export function fixBgImagePositions(xtraCnvs) {
-  shelfPosX = xtraCnvs.width * -0.1;
-  shelfPosY = xtraCnvs.height * 0.5;
-  shelfSizeX = xtraCnvs.width * 0.67;
-  shelfSizeY = xtraCnvs.height * 0.46;
-  streetPosX = xtraCnvs.width * 0.7;
-  streetPosY = xtraCnvs.windowHeight * 0.3;
-  streetSizeX = xtraCnvs.width * 0.4;
-  streetSizeY = xtraCnvs.height * 0.85;
-  cloudPosY = xtraCnvs.height * 0.32;
+export function fixBgImagePositions(staticLayer) {
+  shelfPosX = staticLayer.width * -0.1;
+  shelfPosY = staticLayer.height * 0.5;
+  shelfSizeX = staticLayer.width * 0.67;
+  shelfSizeY = staticLayer.height * 0.46;
+  streetPosX = staticLayer.width * 0.7;
+  streetPosY = staticLayer.windowHeight * 0.3;
+  streetSizeX = staticLayer.width * 0.4;
+  streetSizeY = staticLayer.height * 0.85;
+  cloudPosY = staticLayer.height * 0.32;
 
   if (horizontalView) {
-    streetSizeX = xtraCnvs.width * 0.15;
-    streetSizeY = xtraCnvs.height * 1.1;
-    streetPosX = xtraCnvs.width * 0.6;
-    streetPosY = xtraCnvs.height * 0.25;
-    cloudSizeX = xtraCnvs.width * 0.48;
-    cloudSizeY = xtraCnvs.height * 0.9;
-    cloudPosX = xtraCnvs.width * 0.53;
-    cloudPosY = xtraCnvs.height * 0.15;
-    shelfSizeX = xtraCnvs.width * 0.5;
-    shelfSizeY = xtraCnvs.height * 0.75;
-    shelfPosX = xtraCnvs.width * -0.05;
-    shelfPosY = xtraCnvs.height * 0.3;
-    rainCloudSizeX = xtraCnvs.width * 0.3;
-    rainCloudSizeY = xtraCnvs.height * 0.45;
+    streetSizeX = staticLayer.width * 0.15;
+    streetSizeY = staticLayer.height * 1.1;
+    streetPosX = staticLayer.width * 0.6;
+    streetPosY = staticLayer.height * 0.25;
+    cloudSizeX = staticLayer.width * 0.48;
+    cloudSizeY = staticLayer.height * 0.9;
+    cloudPosX = staticLayer.width * 0.53;
+    cloudPosY = staticLayer.height * 0.15;
+    shelfSizeX = staticLayer.width * 0.5;
+    shelfSizeY = staticLayer.height * 0.75;
+    shelfPosX = staticLayer.width * -0.05;
+    shelfPosY = staticLayer.height * 0.3;
+    rainCloudSizeX = staticLayer.width * 0.3;
+    rainCloudSizeY = staticLayer.height * 0.45;
   } else if (!portrait2x) {
-    cloudSizeX = xtraCnvs.width * 0.85;
-    cloudSizeY = xtraCnvs.width * 0.9;
-    cloudPosX = xtraCnvs.width * 0.4;
-    rainCloudSizeX = xtraCnvs.width * 0.47;
-    rainCloudSizeY = xtraCnvs.width * 0.4;
+    cloudSizeX = staticLayer.width * 0.85;
+    cloudSizeY = staticLayer.width * 0.9;
+    cloudPosX = staticLayer.width * 0.4;
+    rainCloudSizeX = staticLayer.width * 0.47;
+    rainCloudSizeY = staticLayer.width * 0.4;
   } else {
-    cloudSizeX = xtraCnvs.width * 1;
-    cloudSizeY = xtraCnvs.width * 1.2;
-    cloudPosX = xtraCnvs.width * 0.38;
-    rainCloudSizeX = xtraCnvs.width * 0.55;
-    rainCloudSizeY = xtraCnvs.width * 0.6;
+    cloudSizeX = staticLayer.width * 1;
+    cloudSizeY = staticLayer.width * 1.2;
+    cloudPosX = staticLayer.width * 0.38;
+    rainCloudSizeX = staticLayer.width * 0.55;
+    rainCloudSizeY = staticLayer.width * 0.6;
   }
 }
 
-export function drawBackgroundImages(xtraCnvs, cloud, streetlight, shelf) {
+export function drawBackgroundImages(staticLayer, cloud, streetlight, shelf) {
   //streetlight
-  xtraCnvs.image(streetlight, streetPosX, streetPosY, streetSizeX, streetSizeY);
+  staticLayer.image(streetlight, streetPosX, streetPosY, streetSizeX, streetSizeY);
   //cloud
-  xtraCnvs.image(cloud, cloudPosX, cloudPosY, cloudSizeX, cloudSizeY);
+  staticLayer.image(cloud, cloudPosX, cloudPosY, cloudSizeX, cloudSizeY);
   //shelf
-  xtraCnvs.image(shelf, shelfPosX, shelfPosY, shelfSizeX, shelfSizeY);
+  staticLayer.image(shelf, shelfPosX, shelfPosY, shelfSizeX, shelfSizeY);
 }
 
-export function fixImagePositions(xtraCnvs, size) {
+export function fixImagePositions(staticLayer, size) {
   let cloudTop = cloudPosY + cloudSizeY * 0.29;
   let cloud2Top = cloudPosY + cloudSizeY * 0.41;
   let cloud3Top = cloudPosY + cloudSizeY * 0.57;
   let cloudLeft = cloudPosX + cloudSizeX * 0.17;
   let cloudRight = cloudPosX + cloudSizeX * 0.62;
   let catLoc = [
-    [xtraCnvs.width * 0.75, cloudTop],
+    [staticLayer.width * 0.75, cloudTop],
     [cloudLeft, cloud2Top],
     [cloudRight, cloud2Top],
     [cloudLeft, cloud3Top],
     [cloudRight, cloud3Top],
-    [xtraCnvs.width * 0.725, cloud3Top],
-    [xtraCnvs.width * 0.13, xtraCnvs.height - size * 0.46],
-    [xtraCnvs.width * 0.34, xtraCnvs.height - size * 0.46],
-    [xtraCnvs.width * 0.51, xtraCnvs.height - size * 0.46],
-    [xtraCnvs.width * 0.66, xtraCnvs.height - size * 0.46],
-    [xtraCnvs.width * 0.8, xtraCnvs.height - size * 0.46],
-    [xtraCnvs.width * 0.92, xtraCnvs.height - size * 0.46],
+    [staticLayer.width * 0.725, cloud3Top],
+    [staticLayer.width * 0.13, staticLayer.height - size * 0.46],
+    [staticLayer.width * 0.34, staticLayer.height - size * 0.46],
+    [staticLayer.width * 0.51, staticLayer.height - size * 0.46],
+    [staticLayer.width * 0.66, staticLayer.height - size * 0.46],
+    [staticLayer.width * 0.8, staticLayer.height - size * 0.46],
+    [staticLayer.width * 0.92, staticLayer.height - size * 0.46],
   ];
 
-  startPos = xtraCnvs.width * 0.015;
-  xInc = xtraCnvs.width * 0.045;
-  yLevel = xtraCnvs.height;
+  startPos = staticLayer.width * 0.015;
+  xInc = staticLayer.width * 0.045;
+  yLevel = staticLayer.height;
   let teaLoc = [
-    [startPos, xtraCnvs.height * 0.18],
+    [startPos, staticLayer.height * 0.18],
     [xInc, yLevel * 0.06],
     [xInc * 2, yLevel * 0.12],
     [xInc * 3, yLevel * 0.22],
@@ -147,23 +147,22 @@ export function fixImagePositions(xtraCnvs, size) {
   let overShelfY = shelfPosY - shelfSizeY * 0.019;
   let xtraLoc = [
     [shelfPosX + shelfSizeX * 0.28, overShelfY],
-    [xtraCnvs.width * 0.25, yLevel * 0.17],
+    [staticLayer.width * 0.25, yLevel * 0.17],
     [shelfPosX + shelfSizeX * 0.52, overShelfY],
-    [xtraCnvs.width * 0.57, xtraCnvs.height * 0.62],
+    [staticLayer.width * 0.57, staticLayer.height * 0.62],
     [shelfPosX + shelfSizeX * 0.6, cloudPosY + cloudSizeY * 0.3],
-    [xtraCnvs.width * 0.8, yLevel * 0.13],
-    [xtraCnvs.width * 0.58, yLevel * 0.08],
+    [staticLayer.width * 0.8, yLevel * 0.13],
+    [staticLayer.width * 0.58, yLevel * 0.08],
     [leftShelf, overShelfY],
     [leftShelf, overShelfY],
-    [xtraCnvs.width * 0.3, yLevel * 0.25],
+    [staticLayer.width * 0.3, yLevel * 0.25],
   ];
 
   let particleLoc = [streetPosX + streetSizeX * 0.5, streetPosY - streetSizeY * 0.02];
 
   let weatherLoc = [
-    //[shelfPosX + shelfSizeX * 0.15, shelfPosY - shelfSizeY * 0.023],
-    [shelfPosX + shelfSizeX * 0.45, shelfPosY + shelfSizeY * 0.01],
-    [xtraCnvs.width * 0.75, cloud3Top],
+    [shelfPosX + shelfSizeX * 0.45, shelfPosY + shelfSizeY * -0.325],
+    [staticLayer.width * 0.75, cloud3Top],
     [rainCloudSizeX, rainCloudSizeY],
   ];
 

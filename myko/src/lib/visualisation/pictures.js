@@ -11,6 +11,7 @@ export default class Pictures {
     this.incr = 1.75;
     this.startSize = startSize;
     this.finalSize = size;
+    this.bounceBack = false;
   }
 
   show(weight) {
@@ -48,17 +49,14 @@ export default class Pictures {
   }
 
   grow(nr) {
-    this.startSize += this.incr * (1 / (nr + 1));
-
-    if (this.startSize > this.finalSize * 1.05) {
-      this.incr = 0;
+    if (this.startSize < this.finalSize * 1.12 && !this.bounceBack) {
+      this.startSize += this.incr * (1 / (nr + 1)); //
     }
-    /*try and fix up to size * 1.2 and back down to size * 1, maybe a do while? inside an if block?*/
-  }
-
-  shadow() {
-    this.layer.drawingContext.shadowBlur = 30;
-    this.layer.drawingContext.shadowColor = 'blue';
-    //this.xtraCnvs.line(this.pos.x, this.pos.y - this.size / 2.1, this.pos.x, this.pos.y - 70);
+    if (this.startSize >= this.finalSize * 1.12 && !this.bounceBack) {
+      this.bounceBack = true;
+    }
+    if (this.startSize >= this.finalSize * 1 && this.bounceBack) {
+      this.startSize -= this.incr;
+    }
   }
 }

@@ -8,9 +8,10 @@
   import type { Sketch, p5 } from 'p5-svelte';
   import type { Element } from 'p5';
   import { preload, setup, draw, windowResized } from '$lib/visualisation/sketch'; //
+  import { onDestroy } from 'svelte';
 
   const sketch: Sketch = (p5: p5) => {
-    /**/ p5.preload = () => {
+    p5.preload = () => {
       preload(p5);
     };
     p5.setup = async () => {
@@ -24,6 +25,12 @@
       windowResized(p5);
     };
   };
+
+  onDestroy(() => {
+    if (p5Ref) {
+      p5Ref.remove();
+    }
+  });
 
   const takeSnapshot = () => {
     const buffer = p5Ref.createGraphics(p5Ref.width, p5Ref.height);
@@ -45,7 +52,7 @@
     buffer.rectMode(p5Ref.CENTER);
     const cutOutCenterX = buffer.width * 0.5;
     const cutOutCenterY = 125;
-    const cutOutWidth = 229;
+    const cutOutWidth = 250;
     const cutOutheight = 38;
 
     buffer.fill(229, 245, 238);
@@ -59,6 +66,10 @@
     buffer.textSize(18);
     buffer.textAlign(p5Ref.CENTER, p5Ref.CENTER);
     buffer.text(dateText, cutOutCenterX, cutOutCenterY, cutOutWidth, cutOutheight);
+    const title = 'M Y K O';
+    buffer.fill(255, 255, 255);
+    buffer.textSize(30);
+    buffer.text(title, cutOutCenterX, cutOutCenterY - 40, cutOutWidth, cutOutheight);
 
     const shortDate = now.toLocaleString('sv-SE', {
       year: '2-digit',
@@ -104,15 +115,19 @@
 
 <style>
   main {
-    /*background-image: url('/flowfield(4).png');
-    background-repeat: repeat-y;
-    background-size: cover;*/
     background: var(--ocean-800);
     align-items: center;
     padding: 70px 0 192px;
   }
 
   p {
+    background: var(--ocean-800);
+    background-image: url('/flowfield.png');
+    background-repeat: repeat-y;
+    min-width: 85%;
+    min-height: 54vh;
+    padding: 50px 4%;
+    background-size: cover;
     font-size: var(--20px);
     color: var(--grey-050);
   }
@@ -130,5 +145,12 @@
     width: 100%;
     left: 0;
     padding: 8px;
+    z-index: 1;
+  }
+
+  @media (min-width: 45rem) {
+    p {
+      padding: 50px 20%;
+    }
   }
 </style>
