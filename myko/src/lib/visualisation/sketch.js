@@ -31,7 +31,7 @@ let rain = false;
 let weatherPosition, weatherSize, precipitationSize, accelerationDiff;
 let weatherSpeed = 1;
 let drops = [];
-let snowCloud, rainCloud;
+let snowCloud, rainCloud, umbrella;
 let heavy = false;
 
 /* -------FUNCTIONS BEGIN------- */
@@ -41,6 +41,7 @@ export function preload(p5) {
   shelf = p5.loadImage('shelves.png');
   rainCloud = p5.loadImage('cloud1.png');
   snowCloud = p5.loadImage('cloud2.png');
+  umbrella = p5.loadImage('umbrella.png');
 
   for (let i = 1; i < 8; i++) {
     teas.push(p5.loadImage(`tea${i}.png`));
@@ -170,7 +171,7 @@ export function draw(p5) {
     for (const drop of drops) {
       drop.show();
       drop.update(weatherSpeed);
-      drop.hover();
+      drop.hover(umbrella);
       drop.edge();
       if (heavy) {
         drop.heavyRain();

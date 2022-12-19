@@ -13,6 +13,7 @@ export default class Drop {
     );
     this.pos = this.startPos.copy();
     this.cloudPos = this.p5.createVector(weatherPos[0], weatherPos[1]);
+    this.dropSize = dropSize;
     this.w = this.p5.map(this.startPos.z, 0, 30, 0.4 * dropSize, 1.3 * dropSize);
     this.h = this.p5.map(this.startPos.z, 0, 30, 14 * dropSize, 7 * dropSize);
     this.varySize = 1.75;
@@ -49,7 +50,7 @@ export default class Drop {
     this.p5.fill(c);
   }
 
-  hover() {
+  hover(umbrella) {
     let mouseDistance = this.p5.dist(this.p5.mouseX, this.p5.mouseY, this.pos.x, this.pos.y);
     if (this.weather === 'snow' && mouseDistance < 10) {
       this.varySize = 3;
@@ -59,11 +60,11 @@ export default class Drop {
     }
     if (
       this.weather === 'rain' &&
-      this.p5.mouseX >= this.cloudPos.x - this.size * 0.37 &&
-      this.p5.mouseX <= this.cloudPos.x + this.size * 0.37
+      this.p5.mouseX >= this.cloudPos.x - this.size * 0.3 &&
+      this.p5.mouseX <= this.cloudPos.x + this.size * 0.3
     ) {
       if (this.p5.mouseY >= this.cloudPos.y && this.p5.mouseY <= this.p5.height) {
-        this.p5.push();
+        /*this.p5.push();
         this.p5.noFill();
         this.p5.stroke(30, 40, 45);
         this.p5.strokeWeight(7);
@@ -84,15 +85,20 @@ export default class Drop {
           0,
           this.p5.CHORD
         );
-        this.p5.pop();
+        this.p5.pop();*/
+        //this.p5.cursor(umbrella);
+        this.p5.image(
+          umbrella,
+          this.p5.mouseX,
+          this.p5.mouseY,
+          this.dropSize * 25,
+          this.dropSize * 25
+        );
 
-        if (mouseDistance < this.size * 0.2) {
+        if (mouseDistance < this.size * 0.12) {
           this.newStartPos();
         }
       }
-      //1. need to check the whole area for mouse position so it doesn't get so flimmery as now
-      //2.within the area, check the mouseDistance, so first umbrella, then if(mouseDistance < this.size * 0.12) {this.newStartPos}
-      //3.replace umbrella with umbrella picture, pass in with hover? and do this.p5.cursor(umbrellapic);
     }
   }
 
