@@ -24,8 +24,8 @@ let cats = [];
 let diys = [];
 let planes = [];
 let particleSystem, particleSize, p;
-let snow = false,
-  rain = false,
+let snow = true,
+  rain = true,
   wind = false;
 //let weatherType = '';
 let weatherPosition, weatherSize, precipitationSize, accelerationDiff;
@@ -331,8 +331,6 @@ function checkForAdds(p5, addedActivities, newness) {
         imagePositions[2],
         newness
       );
-    } else {
-      wind = true;
     }
     if ('halsa-pa-nasims-katter' in addedActivities) {
       snow = false;
@@ -344,14 +342,10 @@ function checkForAdds(p5, addedActivities, newness) {
         imagePositions[0],
         newness
       );
-    } else {
-      snow = true;
     }
     if ('te-ritual' in addedActivities) {
       rain = false;
       showThings(addedActivities['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness);
-    } else {
-      rain = true;
     }
     //EXPLAINER: arguments passed to showMoving()
     /*
