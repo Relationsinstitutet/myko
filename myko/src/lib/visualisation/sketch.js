@@ -1,7 +1,6 @@
 import Pictures from './pictures';
 import { MovingPics, Particles } from './moving';
 import { prepareDrops, makeWind } from './weather';
-
 import {
   ratio,
   proportionsByRatio,
@@ -11,6 +10,8 @@ import {
 } from './locations';
 import { flowfieldDraw, flowfieldSetup } from './flowfield';
 import { fetchActivityLog, getWeekDate } from './processData';
+//import p5Svelte from 'p5-svelte';
+//import P5 from 'p5-svelte/P5.svelte';
 
 let canvas, staticLayer, trailLayer;
 let currentDate, currentWeek;
@@ -31,7 +32,6 @@ let snow = false,
 let drops = [],
   grass = [];
 let weatherSpeed = 1;
-
 let umbrella;
 let heavy = false;
 let weatherClouds = [];
@@ -165,9 +165,6 @@ export function draw(p5) {
       drop.update(weatherSpeed);
       drop.hover(umbrella);
       drop.edge();
-      if (heavy) {
-        drop.heavyRain();
-      }
     }
   }
   if (grass.length) {

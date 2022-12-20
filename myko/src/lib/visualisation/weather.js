@@ -1,3 +1,4 @@
+//import { add_render_callback } from 'svelte/internal';
 
 let drops = [];
 let grass = [];
@@ -9,7 +10,6 @@ let weatherCloud;
 //--------------PRECIPITATION-------------
 export class Drop {
   constructor(weatherType, weatherPos, cloudSize, dropSize, accDiff, p5) {
-
     this.p5 = p5;
     this.weather = weatherType;
     this.size = cloudSize;
@@ -21,8 +21,6 @@ export class Drop {
     );
     this.pos = this.startPos.copy();
     this.cloudPos = this.p5.createVector(weatherPos[0], weatherPos[1]);
-
-    this.dropSize = dropSize;
     this.w = this.p5.map(this.startPos.z, 0, 30, 0.45 * dropSize, 1.4 * dropSize);
     this.h = this.p5.map(this.startPos.z, 0, 30, 14 * dropSize, 7 * dropSize);
     this.acc = 0.7;
@@ -53,16 +51,16 @@ export class Drop {
     }
     if (this.weather === 'snow') {
       c = this.p5.color(this.hue, this.sat, this.light, this.alpha);
-      this.p5.circle(this.pos.x, this.pos.y, this.w * this.varySize);//this.w*2.05
-
+      this.p5.circle(this.pos.x, this.pos.y, this.w * 2.05);
     }
     this.p5.fill(c);
   }
 
   hover(umbrella) {
     let mouseDistance = this.p5.dist(this.p5.mouseX, this.p5.mouseY, this.pos.x, this.pos.y);
+
     if (this.weather === 'snow' && mouseDistance < 10) {
-      this.varySize = 3;
+      this.w *= 1.05;
       this.light = 80;
       this.sat = 95;
       this.hue = this.p5.floor(this.p5.random(360));
@@ -96,13 +94,7 @@ export class Drop {
         );
         this.p5.pop();*/
         //this.p5.cursor(umbrella);
-        this.p5.image(
-          umbrella,
-          this.p5.mouseX,
-          this.p5.mouseY,
-          this.dropSize * 25,
-          this.dropSize * 25
-        );
+        this.p5.image(umbrella, this.p5.mouseX, this.p5.mouseY, dropSize * 0.9, dropSize * 0.9);
 
         if (mouseDistance < this.size * 0.12) {
           this.newStartPos();
@@ -120,9 +112,7 @@ export class Drop {
 
   edge() {
     if (this.pos.y > this.p5.height) {
-
       this.newStartPos();
-
     }
   }
 
