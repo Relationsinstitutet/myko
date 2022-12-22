@@ -61,8 +61,7 @@
   #__next {
     isolation: isolate;
   }
-  ul,
-  li {
+  ul > li {
     list-style-type: none;
     list-style-position: inside;
     margin: 0;
@@ -147,7 +146,7 @@
   ul {
     margin-bottom: 2rem;
   }
-  li::marker {
+  ul > li::marker {
     color: var(--ocean-800);
     font-size: 1.1em;
     font-weight: bold;
