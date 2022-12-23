@@ -1,3 +1,7 @@
+//import { add_render_callback } from 'svelte/internal';
+
+import { InMemoryCache } from '@auth0/auth0-spa-js';
+
 let drops = [];
 let grass = [];
 let accelerationDiff;
@@ -19,13 +23,16 @@ export class Drop {
     );
     this.pos = this.startPos.copy();
     this.cloudPos = this.p5.createVector(weatherPos[0], weatherPos[1]);
-    this.w = this.p5.map(this.startPos.z, 0, 30, 0.5 * dropSize, 1.5 * dropSize);
+    this.w = this.p5.map(this.startPos.z, 0, 30, 0.45 * dropSize, 1.4 * dropSize);
     this.h = this.p5.map(this.startPos.z, 0, 30, 14 * dropSize, 7 * dropSize);
     this.acc = 0.7;
     this.accDiff = accDiff;
     this.vel = this.p5.createVector(0, 0);
     this.wind = 2;
-    this.alpha = this.p5.map(this.startPos.z, 0, 40, 0.2, 1);
+    this.hue = 200;
+    this.sat = 0;
+    this.light = 100;
+    this.alpha = this.p5.map(this.startPos.z, 0, 40, 0.3, 1);
   }
 
   update(windForce) {
@@ -45,24 +52,83 @@ export class Drop {
       this.acc = 8;
     }
     if (this.weather === 'snow') {
-      c = this.p5.color(200, 0, 100, this.alpha);
+      c = this.p5.color(this.hue, this.sat, this.light, this.alpha);
       this.p5.circle(this.pos.x, this.pos.y, this.w * 2.05);
     }
     this.p5.fill(c);
   }
 
+  hover(umbrella) {
+    let mouseDistance = this.p5.dist(this.p5.mouseX, this.p5.mouseY, this.pos.x, this.pos.y);
+    if (this.weather === 'snow' && mouseDistance < 10) {
+      if (this.w < dropSize * 0.55) {
+        this.w *= 1.05;
+      }
+      this.light = 80;
+      this.sat = 95;
+      this.hue = this.p5.floor(this.p5.random(360));
+    }
+    if (
+      this.weather === 'rain' &&
+      this.p5.mouseX >= this.cloudPos.x - this.size * 0.3 &&
+      this.p5.mouseX <= this.cloudPos.x + this.size * 0.3
+    ) {
+      if (this.p5.mouseY >= this.cloudPos.y && this.p5.mouseY <= this.p5.height) {
+        /*this.p5.push();
+        this.p5.noFill();
+        this.p5.stroke(30, 40, 45);
+        this.p5.strokeWeight(7);
+        this.p5.line(
+          this.p5.mouseX,
+          this.p5.mouseY,
+          this.p5.mouseX,
+          this.p5.mouseY + this.size * 0.18
+        );
+        this.p5.noStroke();
+        this.p5.fill(170, 90, 10);
+        this.p5.arc(
+          this.p5.mouseX,
+          this.p5.mouseY,
+          this.size * 0.27,
+          this.size * 0.2,
+          this.p5.PI,
+          0,
+          this.p5.CHORD
+        );
+        this.p5.pop();*/
+        //this.p5.cursor(umbrella);
+        this.p5.image(umbrella, this.p5.mouseX, this.p5.mouseY, dropSize * 0.9, dropSize * 0.9);
+
+        if (mouseDistance < this.size * 0.12) {
+          this.newStartPos();
+        }
+      }
+    }
+  }
+
+  heavyRain() {
+    this.acc = 3;
+    while (this.acc > 1.5) {
+      this.acc -= 0.03;
+    }
+  }
+
   edge() {
     if (this.pos.y > this.p5.height) {
-      this.startPos.x = this.p5.random(
-        this.weatherPos[0] - this.size * 0.35,
-        this.weatherPos[0] + this.size * 0.35
-      );
-      this.startPos.y = this.p5.random(
-        this.weatherPos[1],
-        this.weatherPos[1] + this.p5.height * 0.18
-      );
-      this.pos.set(this.startPos);
+      this.newStartPos();
     }
+  }
+
+  newStartPos() {
+    this.startPos.x = this.p5.random(
+      this.weatherPos[0] - this.size * 0.35,
+      this.weatherPos[0] + this.size * 0.35
+    );
+    this.startPos.y = this.p5.random(
+      this.weatherPos[1],
+      this.weatherPos[1] + this.p5.height * 0.15
+    );
+    this.pos.set(this.startPos);
   }
 }
 //----------------------------------------

@@ -1,7 +1,6 @@
 import Pictures from './pictures';
 import { MovingPics, Particles } from './moving';
 import { prepareDrops, makeWind } from './weather';
-
 import {
   ratio,
   proportionsByRatio,
@@ -31,6 +30,8 @@ let snow = false,
 let drops = [],
   grass = [];
 let weatherSpeed = 1;
+let umbrella;
+let heavy = false;
 let weatherClouds = [];
 
 /* -------FUNCTIONS BEGIN------- */
@@ -38,6 +39,7 @@ export function preload(p5) {
   cloud = p5.loadImage('cloud0.png');
   streetlight = p5.loadImage('streetlight.png');
   shelf = p5.loadImage('shelves.png');
+  umbrella = p5.loadImage('umbrella.png');
 
   for (let i = 1; i < 3; i++) {
     weatherClouds.push(p5.loadImage(`cloud${i}.png`));
@@ -159,6 +161,7 @@ export function draw(p5) {
     for (const drop of drops) {
       drop.show();
       drop.update(weatherSpeed);
+      drop.hover(umbrella);
       drop.edge();
     }
   }
