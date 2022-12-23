@@ -1,5 +1,7 @@
 //import { add_render_callback } from 'svelte/internal';
 
+import { InMemoryCache } from '@auth0/auth0-spa-js';
+
 let drops = [];
 let grass = [];
 let accelerationDiff;
@@ -58,9 +60,10 @@ export class Drop {
 
   hover(umbrella) {
     let mouseDistance = this.p5.dist(this.p5.mouseX, this.p5.mouseY, this.pos.x, this.pos.y);
-
     if (this.weather === 'snow' && mouseDistance < 10) {
-      this.w *= 1.05;
+      if (this.w < dropSize * 0.55) {
+        this.w *= 1.05;
+      }
       this.light = 80;
       this.sat = 95;
       this.hue = this.p5.floor(this.p5.random(360));

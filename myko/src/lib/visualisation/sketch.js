@@ -197,7 +197,7 @@ function checkForAdds(p5, addedActivities, newness) {
     } else {
       wind = true;
     }
-    if ('cats' in addedActivities) {
+    if ('cas' in addedActivities) {
       snow = false;
       showThings(
         addedActivities['halsa-pa-nasims-katter'],
