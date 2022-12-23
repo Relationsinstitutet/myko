@@ -10,8 +10,6 @@ import {
 } from './locations';
 import { flowfieldDraw, flowfieldSetup } from './flowfield';
 import { fetchActivityLog, getWeekDate } from './processData';
-//import p5Svelte from 'p5-svelte';
-//import P5 from 'p5-svelte/P5.svelte';
 
 let canvas, staticLayer, trailLayer;
 let currentDate, currentWeek;
@@ -197,7 +195,7 @@ function checkForAdds(p5, addedActivities, newness) {
     } else {
       wind = true;
     }
-    if ('cas' in addedActivities) {
+    if ('halsa-pa-nasims-katter' in addedActivities) {
       snow = false;
       showThings(
         addedActivities['halsa-pa-nasims-katter'],
