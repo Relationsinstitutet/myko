@@ -8,6 +8,8 @@ export default class Pictures {
     location.push(location.shift());
     this.typeNr = number;
     this.randomNr = this.layer.floor(this.layer.random(0, 12));
+    this.randomPosX = this.layer.random(this.layer.width * -0.04, this.layer.width * 0.04);
+    this.randomPosY = this.layer.random(this.layer.height * -0.015, this.layer.height * 0.015);
     this.incr = 1.75;
     this.startSize = startSize;
     this.finalSize = size;
@@ -20,8 +22,8 @@ export default class Pictures {
     if (this.typeNr > 11) {
       this.layer.image(
         this.type[this.randomNr % this.type.length],
-        this.pos.x + this.layer.random(this.layer.width * -0.04, this.layer.width * 0.04),
-        this.pos.y + this.layer.random(this.layer.height * -0.015, this.layer.height * 0.015),
+        this.pos.x + this.randomPosX,
+        this.pos.y + this.randomPosY,
         this.startSize * 0.65,
         this.startSize * 0.65
       );
@@ -50,7 +52,7 @@ export default class Pictures {
 
   grow(nr) {
     if (this.startSize < this.finalSize * 1.12 && !this.bounceBack) {
-      this.startSize += this.incr * (1 / (nr + 1)); //
+      this.startSize += this.incr * (2 / (nr + 1)); //
     }
     if (this.startSize >= this.finalSize * 1.12 && !this.bounceBack) {
       this.bounceBack = true;
