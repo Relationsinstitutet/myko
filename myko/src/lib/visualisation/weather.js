@@ -133,42 +133,29 @@ export class Drop {
 }
 //----------------------------------------
 //----------------WINDY GRASS-------------
-export class GrassPatch {
-  constructor(position, width, p5) {
+export class GrassBlade {
+  constructor(position, width, index, p5) {
     this.p5 = p5;
-    this.xPos = [];
-    this.rotationOff = [];
-    //this.rotationVals = [];
-    this.size = [];
-    this.seg = [];
-    this.index = 0;
-    this.population = 85;
-
-    for (let i = 0; i < this.population; i++) {
-      this.index += 1;
-      this.xPos.push(position + p5.randomGaussian(position, width));
-      this.rotationOff.push(this.xPos[i] * 0.025 + 0.0175);
-      //this.rotationVals.push(0);
-      this.size.push(p5.randomGaussian(20, 4));
-      this.seg.push(0.875);
-    }
+    this.index = index;
+    this.xPos = position + p5.randomGaussian(position, width);
+    this.rotationOff = this.xPos * 0.025 + 0.0175;
+    this.size = p5.randomGaussian(20, 4);
+    this.seg = 0.875;
   }
 
   update() {
-    for (let i = 0; i < this.index; i++) {
-      let len = this.size[i];
-      this.p5.push();
-      this.p5.translate(this.xPos[i], this.p5.height);
-      this.blade(len, i);
-      this.p5.pop();
-    }
+    let len = this.size;
+    this.p5.push();
+    this.p5.translate(this.xPos, this.p5.height);
+    this.blade(len);
+    this.p5.pop();
   }
 
-  blade(len, index) {
-    this.rotationOff[index] += 0.005;
-    this.p5.stroke(220 - len * 5 - index * 0.5, 90 - len * 2, 42 - len * 2.2);
+  blade(len) {
+    this.rotationOff += 0.005;
+    this.p5.stroke(220 - len * 5 - this.index * 0.5, 90 - len * 2, 42 - len * 2.2);
     let rot = this.p5.map(
-      this.p5.noise(this.rotationOff[index]),
+      this.p5.noise(this.rotationOff),
       0,
       1,
       -this.p5.QUARTER_PI * 0.5,
@@ -180,7 +167,7 @@ export class GrassPatch {
     this.p5.line(0, 0, 0, -len);
     this.p5.translate(0, -len);
     if (len > 9) {
-      this.blade(len * this.seg[index], index);
+      this.blade(len * this.seg);
     }
   }
 }
@@ -219,6 +206,9 @@ function makeWeather(weatherType, p5, staticLayer) {
 }
 
 export function makeWind(p5) {
-  grass.push(new GrassPatch(p5.width * 0.11, p5.width * 0.11, p5));
+  //console.log('windier');
+  for (let i = 0; i < 85; i++) {
+    grass.push(new GrassBlade(p5.width * 0.11, p5.width * 0.11, i, p5));
+  }
   return grass;
 }

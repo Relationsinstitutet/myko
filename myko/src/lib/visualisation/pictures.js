@@ -34,6 +34,7 @@ export default class Pictures {
           this.startSize,
           this.startSize
         );
+        this.layer.stroke(185, 90, 12);
         this.layer.strokeWeight(weight);
         this.layer.line(this.pos.x, this.pos.y - this.startSize / 2.1, this.pos.x, 0);
       } else {

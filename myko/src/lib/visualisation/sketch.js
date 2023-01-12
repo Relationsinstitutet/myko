@@ -100,6 +100,10 @@ export async function setup(p5) {
   checkForAdds(p5, data[1], 0);
   showAdded();
 
+  if (wind) {
+    grass = makeWind(p5);
+    console.log(grass.length);
+  }
   if (snow || rain) {
     drops = prepareDrops(
       snow,
@@ -111,9 +115,7 @@ export async function setup(p5) {
       staticLayer
     );
   }
-  if (wind) {
-    grass = makeWind(p5);
-  }
+
   return canvas;
 }
 
@@ -166,7 +168,9 @@ export function draw(p5) {
     }
   }
   if (grass.length) {
-    grass[0].update();
+    for (const blade of grass) {
+      blade.update();
+    }
   }
   //----New Entries----
   for (const [index, na] of newAdds.entries()) {
@@ -256,29 +260,45 @@ function checkForAdds(p5, addedActivities, newness) {
 }
 
 function showThings(nr, type, typeName, varySize, locations, newness, p5) {
-  for (let i = 0; i < nr; i++) {
+  let bigNr = p5.floor(nr / 10);
+  let smallNr = nr % 10;
+  let compNr = Array(bigNr + smallNr);
+  compNr.fill(varySize, 0, smallNr + 1);
+  compNr.fill(varySize * 1.75, smallNr, smallNr + bigNr);
+  console.log(compNr);
+  for (let i = compNr.length - 1; i >= 0; i--) {
     if (i >= locations.length) {
       addedThings.push(
         new Pictures(type, proportions[0] * varySize, typeName, staticLayer, imagePositions[3], i)
       );
     } else {
       if (!newness) {
+        //console.log('old', i);
         addedThings.push(
-          new Pictures(type, proportions[0] * varySize, typeName, staticLayer, locations, i)
+          new Pictures(type, proportions[0] * compNr[i], typeName, staticLayer, locations, i)
         );
       } else {
-        newAdds.push(new Pictures(type, proportions[0] * varySize, typeName, p5, locations, i, 50));
+        //console.log('new', i);
+        newAdds.push(
+          new Pictures(type, proportions[0] * compNr[i], typeName, p5, locations, i, 50)
+        );
       }
     }
   }
 }
 
 function showMoving(p5, nr, type, typeName, varySize, location1, location2, rotation, noiseScl) {
-  for (let i = 0; i < nr; i++) {
+  let bigNr = p5.floor(nr / 10);
+  let smallNr = nr % 10;
+  let compNr = Array(bigNr + smallNr);
+  compNr.fill(varySize, 0, smallNr + 1);
+  compNr.fill(varySize * 1.75, smallNr, smallNr + bigNr);
+  console.log(compNr);
+  for (let i = 0; i < compNr.length; i++) {
     addedThingsMove.push(
       new MovingPics(
         type,
-        proportions[0] * varySize,
+        proportions[0] * compNr[i],
         typeName,
         p5,
         [
