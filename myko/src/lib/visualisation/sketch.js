@@ -23,6 +23,8 @@ let teas = [];
 let cats = [];
 let diys = [];
 let planes = [];
+let greenTurtles = [];
+let yellowTurtles = [];
 let particleSystem, particleSize, p;
 let snow = false,
   rain = false,
@@ -51,6 +53,8 @@ export function preload(p5) {
     cats.push(p5.loadImage(`cat${i}.png`));
   }
   planes.push(p5.loadImage('paperplane.png'));
+  greenTurtles.push(p5.loadImage('turtlegreen.png'));
+  yellowTurtles.push(p5.loadImage('turtleyellow.png'));
 }
 
 export function windowResized(p5) {
@@ -99,6 +103,10 @@ export async function setup(p5) {
   checkForAdds(p5, data);
   showAdded();
 
+  if (wind) {
+    grass = makeWind(p5);
+    console.log(grass.length);
+  }
   if (snow || rain) {
     drops = prepareDrops(
       snow,
@@ -110,9 +118,7 @@ export async function setup(p5) {
       staticLayer
     );
   }
-  if (wind) {
-    grass = makeWind(p5);
-  }
+
   return canvas;
 }
 
@@ -166,7 +172,9 @@ export function draw(p5) {
     }
   }
   if (grass.length) {
-    grass[0].update();
+    for (const blade of grass) {
+      blade.update();
+    }
   }
 
   //----New Entries----
@@ -240,10 +248,30 @@ function checkForAdds(p5, addedActivities) {
       showMoving(p5, addedActivities['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
     if ('ekonomi' in addedActivities) {
-      showMoving(p5, addedActivities['ekonomi'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
+      showMoving(
+        p5,
+        addedActivities['ekonomi'],
+        yellowTurtles,
+        'yellowTurtles',
+        0.6,
+        0.1,
+        0.95,
+        1.55,
+        65
+      );
     }
     if ('bli-medlem' in addedActivities) {
-      showMoving(p5, addedActivities['bli-medlem'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
+      showMoving(
+        p5,
+        addedActivities['bli-medlem'],
+        greenTurtles,
+        'greenTurtles',
+        0.6,
+        0.1,
+        0.95,
+        1.55,
+        65
+      );
     }
     if ('prata-om-tema' in addedActivities) {
       showParticleSystem(addedActivities['prata-om-tema'], 0.07);
@@ -265,8 +293,14 @@ function checkForAdds(p5, addedActivities) {
 }
 
 function showThings(nr, type, typeName, varySize, locations, newness, p5) {
-  console.log(newness);
-  for (let i = 0; i < nr; i++) {
+  //for (let i = 0; i < nr; i++) {
+  let bigNr = p5.floor(nr / 10);
+  let smallNr = nr % 10;
+  let compNr = Array(bigNr + smallNr);
+  compNr.fill(varySize, 0, smallNr + 1);
+  compNr.fill(varySize * 1.75, smallNr, smallNr + bigNr);
+  console.log(compNr);
+  for (let i = compNr.length - 1; i >= 0; i--) {
     if (i >= locations.length) {
       /*addedThings.push(
         new Pictures(type, proportions[0] * varySize, typeName, staticLayer, imagePositions[3], i)
@@ -282,22 +316,32 @@ function showThings(nr, type, typeName, varySize, locations, newness, p5) {
       }
     } else {
       if (!newness || i < nr - newness) {
+
         addedThings.push(
-          new Pictures(type, proportions[0] * varySize, typeName, staticLayer, locations, i)
+          new Pictures(type, proportions[0] * compNr[i], typeName, staticLayer, locations, i)
         );
       } else {
-        newAdds.push(new Pictures(type, proportions[0] * varySize, typeName, p5, locations, i, 50));
+        //console.log('new', i);
+        newAdds.push(
+          new Pictures(type, proportions[0] * compNr[i], typeName, p5, locations, i, 50)
+        );
       }
     }
   }
 }
 
 function showMoving(p5, nr, type, typeName, varySize, location1, location2, rotation, noiseScl) {
-  for (let i = 0; i < nr; i++) {
+  let bigNr = p5.floor(nr / 10);
+  let smallNr = nr % 10;
+  let compNr = Array(bigNr + smallNr);
+  compNr.fill(varySize, 0, smallNr + 1);
+  compNr.fill(varySize * 1.75, smallNr, smallNr + bigNr);
+  console.log(compNr);
+  for (let i = 0; i < compNr.length; i++) {
     addedThingsMove.push(
       new MovingPics(
         type,
-        proportions[0] * varySize,
+        proportions[0] * compNr[i],
         typeName,
         p5,
         [
