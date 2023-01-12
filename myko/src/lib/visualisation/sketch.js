@@ -105,7 +105,6 @@ export async function setup(p5) {
 
   if (wind) {
     grass = makeWind(p5);
-    console.log(grass.length);
   }
   if (snow || rain) {
     drops = prepareDrops(
@@ -299,29 +298,36 @@ function showThings(nr, type, typeName, varySize, locations, newness, p5) {
   let compNr = Array(bigNr + smallNr);
   compNr.fill(varySize, 0, smallNr + 1);
   compNr.fill(varySize * 1.75, smallNr, smallNr + bigNr);
-  console.log(compNr);
   for (let i = compNr.length - 1; i >= 0; i--) {
+    //for (let i = 0; i < compNr.length; i++) {
     if (i >= locations.length) {
       /*addedThings.push(
         new Pictures(type, proportions[0] * varySize, typeName, staticLayer, imagePositions[3], i)
       );*/
-      if (!newness || i < nr - newness) {
+      if (!newness || i >= newness) {
         addedThings.push(
-          new Pictures(type, proportions[0] * varySize, typeName, staticLayer, imagePositions[3], i)
+          new Pictures(
+            type,
+            proportions[0] * compNr[i],
+            typeName,
+            staticLayer,
+            imagePositions[3],
+            i
+          )
         );
       } else {
+        console.log('new');
         newAdds.push(
-          new Pictures(type, proportions[0] * varySize, typeName, p5, imagePositions[3], i, 50)
+          new Pictures(type, proportions[0] * compNr[i], typeName, p5, imagePositions[3], i, 50)
         );
       }
     } else {
-      if (!newness || i < nr - newness) {
-
+      if (!newness || i >= newness) {
         addedThings.push(
           new Pictures(type, proportions[0] * compNr[i], typeName, staticLayer, locations, i)
         );
       } else {
-        //console.log('new', i);
+        console.log('new', i);
         newAdds.push(
           new Pictures(type, proportions[0] * compNr[i], typeName, p5, locations, i, 50)
         );
@@ -336,7 +342,6 @@ function showMoving(p5, nr, type, typeName, varySize, location1, location2, rota
   let compNr = Array(bigNr + smallNr);
   compNr.fill(varySize, 0, smallNr + 1);
   compNr.fill(varySize * 1.75, smallNr, smallNr + bigNr);
-  console.log(compNr);
   for (let i = 0; i < compNr.length; i++) {
     addedThingsMove.push(
       new MovingPics(
