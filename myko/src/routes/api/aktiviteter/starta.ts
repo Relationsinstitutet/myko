@@ -75,7 +75,7 @@ async function startEvent(writeClient: SanityClient, userId: string, eventId: st
   const body: StartedActivityData = {
     instructions: event.activity.startedInstructions,
     ...(event.activity.audioFile && { audioFile: event.activity.audioFile }),
-    ...(event.activity.videoFile && { audioFile: event.activity.videoFile }),
+    ...(event.activity.videoFile && { videoFile: event.activity.videoFile }),
     ...(event.videoconferencing && { videoConferencingLink: event.videoconferencing }),
   };
 
