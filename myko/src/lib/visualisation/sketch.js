@@ -33,7 +33,6 @@ let drops = [],
   grass = [];
 let weatherSpeed = 1;
 let umbrella;
-let heavy = false;
 let weatherClouds = [];
 
 /* -------FUNCTIONS BEGIN------- */
@@ -64,24 +63,25 @@ export function windowResized(p5) {
 
 export async function setup(p5) {
   canvas = p5.createCanvas(p5.windowWidth, p5.windowHeight - 50);
-  p5.frameRate(20);
-  p5.imageMode(p5.CENTER);
-  p5.rectMode(p5.CENTER);
-  p5.colorMode(p5.HSL, 360, 100, 100, 1.0);
-  p5.stroke(185, 94, 8, 1);
-  p5.pixelDensity(1);
-
-  staticLayer = p5.createGraphics(p5.windowWidth, p5.windowHeight - 50);
-  staticLayer.stroke(3, 58, 65);
-
-  trailLayer = p5.createGraphics(p5.windowWidth, p5.windowHeight - 50);
-  trailLayer.frameRate(20);
-  trailLayer.colorMode(trailLayer.HSL, 360, 100, 100, 1.0);
 
   currentDate = new Date();
   currentWeek = getWeekDate(currentDate);
-  staticLayer.randomSeed(currentWeek);
+
+  p5.pixelDensity(1);
+  p5.frameRate(20);
   p5.randomSeed(currentWeek);
+  p5.imageMode(p5.CENTER);
+  p5.rectMode(p5.CENTER);
+  p5.colorMode(p5.HSL, 360, 100, 100, 1.0);
+  p5.stroke(185, 94, 10, 1);
+
+  staticLayer = p5.createGraphics(p5.windowWidth, p5.windowHeight - 50);
+  staticLayer.randomSeed(currentWeek);
+  staticLayer.colorMode(p5.HSL, 360, 100, 100, 1.0);
+  staticLayer.stroke(185, 94, 10, 1);
+
+  trailLayer = p5.createGraphics(p5.windowWidth, p5.windowHeight - 50);
+  trailLayer.colorMode(trailLayer.HSL, 360, 100, 100, 1.0);
 
   flowfieldSetup(trailLayer);
   ratio(p5);
@@ -100,13 +100,11 @@ export async function setup(p5) {
   imagePositions = fixImagePositions(p5, proportions[0]);
 
   const data = await fetchActivityLog(currentDate);
-  checkForAdds(p5, data[0], 'new');
-  checkForAdds(p5, data[1], 0);
+  checkForAdds(p5, data);
   showAdded();
 
   if (wind) {
     grass = makeWind(p5);
-    console.log(grass.length);
   }
   if (snow || rain) {
     drops = prepareDrops(
@@ -143,6 +141,7 @@ export function draw(p5) {
   p5.image(staticLayer, p5.width * 0.5, p5.height * 0.5);
 
   //----Moving activity things = planes----
+
   for (const [index, atm] of addedThingsMove.entries()) {
     atm.update();
     atm.shows(index);
@@ -176,6 +175,7 @@ export function draw(p5) {
       blade.update();
     }
   }
+
   //----New Entries----
   for (const [index, na] of newAdds.entries()) {
     na.show(proportions[1]);
@@ -183,7 +183,7 @@ export function draw(p5) {
   }
 }
 
-function checkForAdds(p5, addedActivities, newness) {
+function checkForAdds(p5, addedActivities) {
   console.log(addedActivities);
 
   if (!addedActivities) {
@@ -197,7 +197,7 @@ function checkForAdds(p5, addedActivities, newness) {
         'diys',
         1.2,
         imagePositions[2],
-        newness,
+        addedActivities['tillverka-aktivitet-new'],
         p5
       );
     } else {
@@ -211,7 +211,7 @@ function checkForAdds(p5, addedActivities, newness) {
         'cats',
         1.32,
         imagePositions[0],
-        newness,
+        addedActivities['halsa-pa-nasims-katter-new'],
         p5
       );
     } else {
@@ -219,7 +219,15 @@ function checkForAdds(p5, addedActivities, newness) {
     }
     if ('te-ritual' in addedActivities) {
       rain = false;
-      showThings(addedActivities['te-ritual'], teas, 'teas', 0.82, imagePositions[1], newness, p5);
+      showThings(
+        addedActivities['te-ritual'],
+        teas,
+        'teas',
+        0.82,
+        imagePositions[1],
+        addedActivities['te-ritual-new'],
+        p5
+      );
     } else {
       rain = true;
     }
@@ -284,25 +292,42 @@ function checkForAdds(p5, addedActivities, newness) {
 }
 
 function showThings(nr, type, typeName, varySize, locations, newness, p5) {
+  //for (let i = 0; i < nr; i++) {
   let bigNr = p5.floor(nr / 10);
   let smallNr = nr % 10;
   let compNr = Array(bigNr + smallNr);
   compNr.fill(varySize, 0, smallNr + 1);
   compNr.fill(varySize * 1.75, smallNr, smallNr + bigNr);
-  console.log(compNr);
   for (let i = compNr.length - 1; i >= 0; i--) {
+    //for (let i = 0; i < compNr.length; i++) {
     if (i >= locations.length) {
-      addedThings.push(
+      /*addedThings.push(
         new Pictures(type, proportions[0] * varySize, typeName, staticLayer, imagePositions[3], i)
-      );
+      );*/
+      if (!newness || i >= newness) {
+        addedThings.push(
+          new Pictures(
+            type,
+            proportions[0] * compNr[i],
+            typeName,
+            staticLayer,
+            imagePositions[3],
+            i
+          )
+        );
+      } else {
+        console.log('new');
+        newAdds.push(
+          new Pictures(type, proportions[0] * compNr[i], typeName, p5, imagePositions[3], i, 50)
+        );
+      }
     } else {
-      if (!newness) {
-        //console.log('old', i);
+      if (!newness || i >= newness) {
         addedThings.push(
           new Pictures(type, proportions[0] * compNr[i], typeName, staticLayer, locations, i)
         );
       } else {
-        //console.log('new', i);
+        console.log('new', i);
         newAdds.push(
           new Pictures(type, proportions[0] * compNr[i], typeName, p5, locations, i, 50)
         );
@@ -317,7 +342,6 @@ function showMoving(p5, nr, type, typeName, varySize, location1, location2, rota
   let compNr = Array(bigNr + smallNr);
   compNr.fill(varySize, 0, smallNr + 1);
   compNr.fill(varySize * 1.75, smallNr, smallNr + bigNr);
-  console.log(compNr);
   for (let i = 0; i < compNr.length; i++) {
     addedThingsMove.push(
       new MovingPics(

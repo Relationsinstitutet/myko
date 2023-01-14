@@ -1,6 +1,6 @@
 //import { add_render_callback } from 'svelte/internal';
 
-import { InMemoryCache } from '@auth0/auth0-spa-js';
+//import { InMemoryCache } from '@auth0/auth0-spa-js';
 
 let drops = [];
 let grass = [];
@@ -74,29 +74,6 @@ export class Drop {
       this.p5.mouseX <= this.cloudPos.x + this.size * 0.3
     ) {
       if (this.p5.mouseY >= this.cloudPos.y && this.p5.mouseY <= this.p5.height) {
-        /*this.p5.push();
-        this.p5.noFill();
-        this.p5.stroke(30, 40, 45);
-        this.p5.strokeWeight(7);
-        this.p5.line(
-          this.p5.mouseX,
-          this.p5.mouseY,
-          this.p5.mouseX,
-          this.p5.mouseY + this.size * 0.18
-        );
-        this.p5.noStroke();
-        this.p5.fill(170, 90, 10);
-        this.p5.arc(
-          this.p5.mouseX,
-          this.p5.mouseY,
-          this.size * 0.27,
-          this.size * 0.2,
-          this.p5.PI,
-          0,
-          this.p5.CHORD
-        );
-        this.p5.pop();*/
-        //this.p5.cursor(umbrella);
         this.p5.image(umbrella, this.p5.mouseX, this.p5.mouseY, dropSize * 0.9, dropSize * 0.9);
 
         if (mouseDistance < this.size * 0.12) {
