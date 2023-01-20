@@ -6,12 +6,12 @@ import type { SanityClient } from '@sanity/client';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
 type ActivityBaseInfo = {
-    _id: string;
-    startedInstructions: PortableTextBlocks;
-    allowsAnonymous: boolean;
-    audioFile: string;
-    videoFile: string;
-}
+  _id: string;
+  startedInstructions: PortableTextBlocks;
+  allowsAnonymous: boolean;
+  audioFile: string;
+  videoFile: string;
+};
 
 type SanityActivityType = ActivityBaseInfo & {
   instant: boolean;
@@ -66,7 +66,7 @@ async function startEvent(writeClient: SanityClient, userId: string | null, even
   if (!event.activity.allowsAnonymous && !userId) {
     // don't allow anonymous user
     return {
-        status: 401,
+      status: 401,
     };
   }
 

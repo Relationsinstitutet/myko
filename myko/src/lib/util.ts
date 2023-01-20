@@ -27,16 +27,20 @@ export function eventIsStartable(startDate: string): boolean {
 }
 
 export function computeNextCotime(
-  activity: { events: SanityEventType[]; name: string; slug: string, allowsAnonymous: boolean },
+  activity: { events: SanityEventType[]; name: string; slug: string; allowsAnonymous: boolean },
   userId: string | undefined
 ): Cotime {
   // group all events on the same day as the next upcoming event
   const nextDate = activity.events[0].date.split('T')[0];
   const upcomingEvents = activity.events.filter((event) => event.date.startsWith(nextDate));
-  const hasRequiredLoggedInUser = !activity.allowsAnonymous ? !!userId : true
+  const hasRequiredLoggedInUser = !activity.allowsAnonymous ? !!userId : true;
 
   return {
-    activity: { name: activity.name, slug: activity.slug, allowsAnonymous: activity.allowsAnonymous },
+    activity: {
+      name: activity.name,
+      slug: activity.slug,
+      allowsAnonymous: activity.allowsAnonymous,
+    },
     date: nextDate,
     events: upcomingEvents.map((event) => {
       return {

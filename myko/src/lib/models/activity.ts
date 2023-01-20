@@ -53,7 +53,7 @@ export type ActivityEvent = SanityEventType & {
 type Activity = {
   readonly name: string;
   readonly events: ActivityEvent[];
-}
+};
 
 export type SanityActivityType = Activity & {
   readonly slug: string;
