@@ -5,27 +5,27 @@ import type { PortableTextBlocks } from '@portabletext/svelte/ptTypes';
 import type { SanityClient } from '@sanity/client';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
-type SanityActivityType = {
-  _id: string;
+type ActivityBaseInfo = {
+    _id: string;
+    startedInstructions: PortableTextBlocks;
+    allowsAnonymous: boolean;
+    audioFile: string;
+    videoFile: string;
+}
+
+type SanityActivityType = ActivityBaseInfo & {
   instant: boolean;
-  startedInstructions: PortableTextBlocks;
-  audioFile: string;
-  videoFile: string;
 };
 
 type SanityEventType = {
   date: string;
   videoconferencing: string;
-  activity: {
-    _id: string;
-    startedInstructions: PortableTextBlocks;
-    audioFile: string;
-    videoFile: string;
-  };
+  activity: ActivityBaseInfo;
 };
 const startedActivityProjection = `
   _id,
   startedInstructions,
+  allowsAnonymous,
   "audioFile": audioFile.asset->url,
   "videoFile": videoFile.asset->url
 `;
@@ -46,7 +46,7 @@ async function createActivityLogEntry(
   await writeClient.create(document);
 }
 
-async function startEvent(writeClient: SanityClient, userId: string, eventId: string) {
+async function startEvent(writeClient: SanityClient, userId: string | null, eventId: string) {
   const eventQuery = `*[
     _type == "${sanitySchemaNames.event}" && _id == "${eventId}"
   ][0] {
@@ -63,7 +63,14 @@ async function startEvent(writeClient: SanityClient, userId: string, eventId: st
     };
   }
 
-  if (!eventIsStartable(userId, event.date)) {
+  if (!event.activity.allowsAnonymous && !userId) {
+    // don't allow anonymous user
+    return {
+        status: 401,
+    };
+  }
+
+  if (!eventIsStartable(event.date)) {
     return {
       status: 400,
       body: { message: "Event can't be started yet." },
@@ -128,18 +135,10 @@ export const post: RequestHandler<Record<string, string>, ResponseBody> = async 
   const body = await request.json();
   const client = await createWriteClient();
 
+  const userId = locals.user?.userId ?? null;
   if ('eventId' in body) {
-    if (!locals.user) {
-      // don't allow anonymous users for events
-      return {
-        status: 401,
-      };
-    }
-
-    const userId = locals.user.userId;
     return await startEvent(client, userId, body.eventId);
   } else if ('activityId' in body) {
-    const userId = locals.user?.userId ?? null;
     return await startActivity(client, userId, body.activityId);
   }
 

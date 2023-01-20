@@ -66,7 +66,6 @@
     return `<li>${date} ${time}: ${activity.activityName}</li>`;
   }
 
-  // export let activity: IActivity;
   export let nextUpcomingCotime: Cotime | undefined = undefined;
 </script>
 

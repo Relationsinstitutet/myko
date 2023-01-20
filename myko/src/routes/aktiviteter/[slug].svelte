@@ -47,10 +47,6 @@
     }
   });
 
-  function login() {
-    authClient.login(currentPage);
-  }
-
   function activityStarted(e: CustomEvent<StartedActivityData>) {
     startedActivityData = e.detail;
     showStartedActivityModal = true;

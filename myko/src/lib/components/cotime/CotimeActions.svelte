@@ -14,7 +14,7 @@
 <div class="innerWrapper">
   {#each cotime.events as event}
     <div>
-      {#if $isAuthenticated && event.userIsAttending && event.isStartable}
+      {#if (cotime.activity.allowsAnonymous || ($isAuthenticated && event.userIsAttending)) && event.isStartable}
         <StartActivityButton
           on:activityStarted={onActivityStarted}
           data={{ eventId: event.id }}

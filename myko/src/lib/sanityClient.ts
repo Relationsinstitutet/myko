@@ -67,7 +67,8 @@ export const activityWithNearestEventQuery = `*[
 ] {
     name,
     "events": ${eventsQuery},
-    "slug": slug.current
+    "slug": slug.current,
+    "allowsAnonymous": coalesce(allowsAnonymous, false)
   } [count(events) > 0] | order(events[0].date) [0]
 `;
 
