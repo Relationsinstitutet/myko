@@ -3,6 +3,8 @@
   import type { ActivityStarted } from '$lib/models/startedActivity';
   import { createEventDispatcher, onMount } from 'svelte';
   import LoadingSpinner from './LoadingSpinner.svelte';
+  import { isAuthenticated } from '$lib/auth/store';
+  import { get } from 'svelte/store';
 
   const dispatch = createEventDispatcher<ActivityStarted>();
 
@@ -14,12 +16,12 @@
 
   async function startActivity() {
     loading = true;
-    const accessToken = await authClient.getUserAccessToken();
+    const accessToken = get(isAuthenticated) ? await authClient.getUserAccessToken() : null;
     const response = await fetch('/api/aktiviteter/starta', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
         'Content-Type': 'application/json',
       },
     });

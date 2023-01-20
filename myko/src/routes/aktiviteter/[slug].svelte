@@ -108,17 +108,13 @@
       </div>
       <div class="instant-btn">
         {#if activity.instant}
-          {#if $isAuthenticated}
-            <StartActivityButton
-              on:activityStarted={activityStarted}
-              data={{ activityId: activity.id }}
-              enabled
-            >
-              Gör nu
-            </StartActivityButton>
-          {:else}
-            <button on:click={login}> Gör nu </button>
-          {/if}
+          <StartActivityButton
+            on:activityStarted={activityStarted}
+            data={{ activityId: activity.id }}
+            enabled
+          >
+            Gör nu
+          </StartActivityButton>
         {/if}
       </div>
     </div>
@@ -153,9 +149,6 @@
 
   .instant-btn {
     max-width: 23%;
-  }
-  button {
-    height: fit-content;
   }
 
   .activity-completed-wrapper {

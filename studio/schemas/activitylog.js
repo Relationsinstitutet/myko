@@ -27,6 +27,12 @@ export default {
     select: {
         title: 'user.email',
         subtitle: '_createdAt'
+    },
+    prepare({ title, subtitle }) {
+      return {
+        title: title ?? 'Anonymous',
+        subtitle,
+      }
     }
   }
 }

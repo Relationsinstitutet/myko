@@ -32,13 +32,13 @@ const startedActivityProjection = `
 
 async function createActivityLogEntry(
   writeClient: SanityClient,
-  userId: string,
+  userId: string | null,
   activityId: string,
   eventId?: string
 ) {
   const document = {
     _type: sanitySchemaNames.activitylog,
-    user: { _type: sanitySchemaNames.reference, _ref: userId },
+    ...(userId && { user: { _type: sanitySchemaNames.reference, _ref: userId } }),
     activity: { _type: sanitySchemaNames.reference, _ref: activityId },
     ...(eventId && { event: { _type: sanitySchemaNames.reference, _ref: eventId } }),
   };
@@ -85,7 +85,7 @@ async function startEvent(writeClient: SanityClient, userId: string, eventId: st
   };
 }
 
-async function startActivity(writeClient: SanityClient, userId: string, activityId: string) {
+async function startActivity(writeClient: SanityClient, userId: string | null, activityId: string) {
   const activityQuery = `*[
     _type == "${sanitySchemaNames.activity}" && _id == "${activityId}"
   ][0] {
@@ -125,19 +125,21 @@ export const post: RequestHandler<Record<string, string>, ResponseBody> = async 
   request,
   locals,
 }) => {
-  if (!locals.user) {
-    return {
-      status: 401,
-    };
-  }
-
-  const userId = locals.user.userId;
   const body = await request.json();
   const client = await createWriteClient();
 
   if ('eventId' in body) {
+    if (!locals.user) {
+      // don't allow anonymous users for events
+      return {
+        status: 401,
+      };
+    }
+
+    const userId = locals.user.userId;
     return await startEvent(client, userId, body.eventId);
   } else if ('activityId' in body) {
+    const userId = locals.user?.userId ?? null;
     return await startActivity(client, userId, body.activityId);
   }
 
