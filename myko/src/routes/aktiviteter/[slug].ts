@@ -19,6 +19,7 @@ type SanityResultType = {
   events: SanityEventType[];
   image?: SanityImageSource & { alt: string };
   instant: boolean;
+  allowsAnonymous: boolean;
   name: string;
   prerequisites: string[];
   slug: string;
@@ -44,6 +45,7 @@ function getActivity(slug: string): string {
     "events": ${eventsQuery},
     image,
     instant,
+    "allowsAnonymous": coalesce(allowsAnonymous, false),
     name,
     prerequisites,
     "slug": slug.current

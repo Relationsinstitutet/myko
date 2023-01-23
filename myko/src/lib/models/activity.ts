@@ -29,6 +29,7 @@ export type Cotime = {
   readonly activity: {
     readonly name: string;
     readonly slug: string;
+    readonly allowsAnonymous: boolean;
   };
   readonly date: string;
   readonly events: Event[];
@@ -49,12 +50,13 @@ export type ActivityEvent = SanityEventType & {
   readonly numAttendees: number;
 };
 
-export type SanityActivityType = {
+type Activity = {
   readonly name: string;
   readonly events: ActivityEvent[];
+};
+
+export type SanityActivityType = Activity & {
   readonly slug: string;
-  readonly subactivities?: {
-    readonly name: string;
-    readonly events: ActivityEvent[];
-  }[];
+  readonly allowsAnonymous: boolean;
+  readonly subactivities?: Activity[];
 };

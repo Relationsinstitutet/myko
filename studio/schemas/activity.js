@@ -33,6 +33,12 @@ export default {
       title: 'Instant' // "Gör direkt"
     },
     {
+      name: 'allowsAnonymous',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Whether anonymous (non logged-in) users should be allowed to do the activity'
+    },
+    {
       name: 'prerequisites',
       type: 'array',
       title: 'Prerequisites',

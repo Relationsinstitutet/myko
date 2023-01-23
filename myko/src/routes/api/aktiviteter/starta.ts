@@ -5,40 +5,40 @@ import type { PortableTextBlocks } from '@portabletext/svelte/ptTypes';
 import type { SanityClient } from '@sanity/client';
 import type { RequestHandler, ResponseBody } from '@sveltejs/kit';
 
-type SanityActivityType = {
+type ActivityBaseInfo = {
   _id: string;
-  instant: boolean;
   startedInstructions: PortableTextBlocks;
+  allowsAnonymous: boolean;
   audioFile: string;
   videoFile: string;
+};
+
+type SanityActivityType = ActivityBaseInfo & {
+  instant: boolean;
 };
 
 type SanityEventType = {
   date: string;
   videoconferencing: string;
-  activity: {
-    _id: string;
-    startedInstructions: PortableTextBlocks;
-    audioFile: string;
-    videoFile: string;
-  };
+  activity: ActivityBaseInfo;
 };
 const startedActivityProjection = `
   _id,
   startedInstructions,
+  allowsAnonymous,
   "audioFile": audioFile.asset->url,
   "videoFile": videoFile.asset->url
 `;
 
 async function createActivityLogEntry(
   writeClient: SanityClient,
-  userId: string,
+  userId: string | null,
   activityId: string,
   eventId?: string
 ) {
   const document = {
     _type: sanitySchemaNames.activitylog,
-    user: { _type: sanitySchemaNames.reference, _ref: userId },
+    ...(userId && { user: { _type: sanitySchemaNames.reference, _ref: userId } }),
     activity: { _type: sanitySchemaNames.reference, _ref: activityId },
     ...(eventId && { event: { _type: sanitySchemaNames.reference, _ref: eventId } }),
   };
@@ -46,7 +46,7 @@ async function createActivityLogEntry(
   await writeClient.create(document);
 }
 
-async function startEvent(writeClient: SanityClient, userId: string, eventId: string) {
+async function startEvent(writeClient: SanityClient, userId: string | null, eventId: string) {
   const eventQuery = `*[
     _type == "${sanitySchemaNames.event}" && _id == "${eventId}"
   ][0] {
@@ -63,7 +63,14 @@ async function startEvent(writeClient: SanityClient, userId: string, eventId: st
     };
   }
 
-  if (!eventIsStartable(userId, event.date)) {
+  if (!event.activity.allowsAnonymous && !userId) {
+    // don't allow anonymous user
+    return {
+      status: 401,
+    };
+  }
+
+  if (!eventIsStartable(event.date)) {
     return {
       status: 400,
       body: { message: "Event can't be started yet." },
@@ -85,7 +92,7 @@ async function startEvent(writeClient: SanityClient, userId: string, eventId: st
   };
 }
 
-async function startActivity(writeClient: SanityClient, userId: string, activityId: string) {
+async function startActivity(writeClient: SanityClient, userId: string | null, activityId: string) {
   const activityQuery = `*[
     _type == "${sanitySchemaNames.activity}" && _id == "${activityId}"
   ][0] {
@@ -125,16 +132,10 @@ export const post: RequestHandler<Record<string, string>, ResponseBody> = async 
   request,
   locals,
 }) => {
-  if (!locals.user) {
-    return {
-      status: 401,
-    };
-  }
-
-  const userId = locals.user.userId;
   const body = await request.json();
   const client = await createWriteClient();
 
+  const userId = locals.user?.userId ?? null;
   if ('eventId' in body) {
     return await startEvent(client, userId, body.eventId);
   } else if ('activityId' in body) {
