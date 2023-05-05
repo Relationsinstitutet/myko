@@ -250,7 +250,7 @@ function checkForAdds(p5, addedActivities) {
     if ('mykomote' in addedActivities) {
       showMoving(p5, addedActivities['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
-    /*if ('ekonomi' in addedActivities) {
+    if ('ekonomi' in addedActivities) {
       showMoving(
         p5,
         addedActivities['ekonomi'],
@@ -262,7 +262,7 @@ function checkForAdds(p5, addedActivities) {
         1.55,
         65
       );
-    }*/
+    }
     if ('bli-medlem' in addedActivities) {
       showMoving(
         p5,
