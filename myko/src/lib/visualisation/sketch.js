@@ -23,6 +23,7 @@ let teas = [];
 let cats = [];
 let diys = [];
 let planes = [];
+let leaves = [];
 let greenTurtles = [];
 let yellowTurtles = [];
 let particleSystem, particleSize, p;
@@ -51,6 +52,9 @@ export function preload(p5) {
   for (let i = 1; i < 12; i++) {
     diys.push(p5.loadImage(`diy${i}.png`));
     cats.push(p5.loadImage(`cat${i}.png`));
+  }
+  for (let i = 1; i < 4; i++) {
+    leaves.push(p5.loadImage(`leaf${i}.png`));
   }
   planes.push(p5.loadImage('paperplane.png'));
   greenTurtles.push(p5.loadImage('turtlegreen.png'));
@@ -246,7 +250,7 @@ function checkForAdds(p5, addedActivities) {
     if ('mykomote' in addedActivities) {
       showMoving(p5, addedActivities['mykomote'], planes, 'planes', 0.6, 0.1, 0.95, 1.55, 65);
     }
-    if ('ekonomi' in addedActivities) {
+    /*if ('ekonomi' in addedActivities) {
       showMoving(
         p5,
         addedActivities['ekonomi'],
@@ -258,7 +262,7 @@ function checkForAdds(p5, addedActivities) {
         1.55,
         65
       );
-    }
+    }*/
     if ('bli-medlem' in addedActivities) {
       showMoving(
         p5,
@@ -287,6 +291,9 @@ function checkForAdds(p5, addedActivities) {
         3.4,
         150
       );
+    }
+    if ('arsmote' in addedActivities) {
+      showMoving(p5, addedActivities['arsmote'], leaves, 'leaves', 0.72, 0.15, 0.65, 1.5, 600);
     }
   }
 }
